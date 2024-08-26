@@ -9,10 +9,10 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/order")
 public class OrderController {
 	
-	@RequestMapping("/orderDetail")	
+	@RequestMapping("/order-Detail")	
 	public String getorderDetail() {
 		log.info("실행");
-			return "order/orderDetail";
+			return "order/order-Detail";
 		}
 	
 	@RequestMapping("/orderCart-static")	
