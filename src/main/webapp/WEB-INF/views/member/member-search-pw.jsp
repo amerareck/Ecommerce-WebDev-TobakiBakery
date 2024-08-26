@@ -1,0 +1,243 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>토박이 베이커리 - 비밀번호 찾기</title>
+    <link rel="stylesheet" href="https://bootswatch.com/4/sandstone/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../resources/css/common.css">
+    <link rel="stylesheet" href="../resources/css/search-style.css">
+</head>
+<body>
+    <header>
+				<!-- 헤더의 상단 프레임 -->
+				<div class="header-wrapper">
+					<!--헤더 탑 영역-->
+					<div class="header-top">
+						<!--왼쪽 상단 프레임-->
+						<div class="left-top"></div>
+						<!--오른쪽 상단 nav-->
+						<div class="right-top-nav">
+							<nav class="navbar navbar-expand-lg navbar-light bg-light header-font">
+								<!--
+								<a class="navbar-brand" href="#">Navbar</a>
+								<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+									<span class="navbar-toggler-icon"></span>
+								</button>
+								-->
+								<div class="collapse navbar-collapse" id="navbarColor03">
+									<ul class="navbar-nav mr-auto">
+										<li class="nav-item active">
+											<a class="nav-link" href="../">메인
+												<span class="sr-only">(current)</span>
+											</a>
+										</li>
+										<li class="nav-item">
+											<a class="nav-link" href="../member/login">로그인</a>
+										</li>
+										<li class="nav-item">
+											<a class="nav-link" href="../member/member-info">회원가입</a>
+										</li>
+										<li class="nav-item">
+											<a class="nav-link" href="../mypage/mypage-main">마이페이지</a>
+										</li>
+										<li class="nav-item dropdown">
+											<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="../center/center-board-list" role="button" aria-haspopup="true" aria-expanded="false">고객센터</a>
+											<div class="dropdown-menu">
+												<a class="dropdown-item" href="../center/center-board-list">공지사항</a>
+												<a class="dropdown-item" href="../center/center-board-list">상품문의</a>
+												<a class="dropdown-item" href="../center/center-board-list">상품후기</a>
+												<div class="dropdown-divider"></div>
+												<a class="dropdown-item" href="../admin/admin-main">관리자 사이트</a>
+											</div>
+										</li>
+									</ul>
+								</div>
+							</nav>
+						</div>
+					</div>
+					<!--중앙 메인 로고 프레임-->
+					<div class="main-logo">
+						<a href="../"><img src="../resources/image/main-logo.png" width="150px"></a>
+					</div>
+		
+					<div class="d-flex" style="margin-left: 30px;">
+						<!-- 헤더의 하단 프레임-->
+						<div class="header-bottom container-fluid">
+							<nav class="top-nav navbar navbar-expand-lg navbar-light bg-light header-font w-100 pl-0">
+								<!--전체 카테고리 버튼-->
+								<div class="top-ctg-list">
+									<div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+										<button id="btnGroupDrop1" type="button" class="btn btn-danger dropdown-toggle header-font" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+											<i class="fa fa-bars"></i>&emsp;카테고리&emsp;
+										</button>
+										<div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+											<a class="dropdown-item py-2" href="../product/itemList-static"><i class="fa fa-bread-slice"></i> :: 빵</a>
+											<a class="dropdown-item py-2" href="../product/itemList-static"><i class="fa fa-birthday-cake"></i> :: 케이크</a>
+											<a class="dropdown-item py-2" href="../product/itemList-static"><i class="fa fa-cookie"></i> :: 디저트</a>
+										</div>
+									</div><!--
+									<a href="#">"카테고리버튼"</a>
+									<div class="top-ctg">
+										<div class="left-category clear">
+											ul 태그를 통한 하단 리스트들~
+										</div>
+										-->
+								</div>
+								<!--추가 상단 네비게이션 리스트-->
+								<div class="top-menu collapse navbar-collapse" id="navbarColor03">
+									<ul class="navbar-nav mr-auto header-font-size ">
+										<li class="nav-item">
+											<a class="nav-link" href="../product/itemList-best">베스트</a>
+										</li>
+										<li class="nav-item">
+											<a class="nav-link" href="../product/itemList-best">신상품</a>
+										</li>
+										<li class="nav-item">
+											<a class="nav-link" href="../product/itemList-best">추천상품</a>
+										</li>
+										<li class="nav-item">
+											<a class="nav-link" href="../center/center-board-list">공지사항</a>
+										</li>
+									</ul>
+								</div>
+								<!--상단네비 검색 및 장바구니-->
+								<form action="#" id="headerSearch">
+									<div class="top-menu-finder-cart align-self-end">
+										<div class="top-finder">
+											<div class="input-group">
+												<input class="form-control headerSearchInput" type="text" placeholder="상품 검색">
+												<div class="input-group-append">
+													<button class="btn btn-secondary" type="submit"><i class="fa fa-search"></i></button>
+												</div>
+											</div>
+										</div>
+										<div class="top-cart">
+											<a href="../order/orderCart-static"><i class="fas fa-shopping-cart icon-size"></i></a>									
+											<span class="cart-count">3</span>
+										</div>
+									</div>
+								</form>
+							</nav>
+						</div>
+					</div>
+				</div>
+	</header>
+
+    <div class="container">
+        <!-- 네비게이션 시작 -->
+        <nav class="breadcrumb">
+            <a class="breadcrumb-item" href="../"><i class="fas fa-home"></i></a>
+            <a class="breadcrumb-item" href="../member/member-search-pw">비밀번호 찾기</a>
+        </nav>
+        <!-- 네비게이션 끝 -->
+
+        <br>
+
+        <!-- 컨텐츠 래퍼 시작 -->
+        <div class="content-wrapper">
+            <h1><b>아이디 찾기 / 비밀번호 찾기</b></h1>
+            <br>
+
+            <!-- 탭 메뉴 시작 -->
+            <div class="tabs">
+                <button class="tab-button" onclick="location.href='../member/member-search-id'">아이디찾기</button> <!-- 아이디 찾기 탭 -->
+                <button class="tab-button active" onclick="location.href='../member/member-search-pw'">비밀번호 찾기</button> <!-- 비밀번호 찾기 탭 -->
+            </div>
+            <!-- 탭 메뉴 끝 -->
+
+            <br>
+
+            <!-- 안내 문구 시작 -->
+            <p class="info">아이디, 이름, 질문에 대한 답변을 통해<br>비밀번호를 확인하실 수 있습니다.</p>
+            <!-- 안내 문구 끝 -->
+
+            <br>
+
+            <!-- 비밀번호 찾기 폼 컨테이너 시작 -->
+            <div class="form-container">
+                <form>
+                    <!-- 비밀번호 찾기 입력 테이블 시작 -->
+                    <table class="table" style="width: 500px;">
+                        <tbody>
+                            <!-- 아이디 입력 필드 시작 -->
+                            <tr>
+                                <td>아이디</td>
+                                <td><input type="text" class="form-control input-small" name="username" required></td>
+                            </tr>
+                            <!-- 아이디 입력 필드 끝 -->
+
+                            <!-- 이름 입력 필드 시작 -->
+                            <tr>
+                                <td>이름</td>
+                                <td><input type="text" class="form-control input-small" name="name" required></td>
+                            </tr>
+                            <!-- 이름 입력 필드 끝 -->
+
+                            <!-- 질문 선택 필드 시작 -->
+                            <tr>
+                                <td>질문</td>
+                                <td>
+                                    <select class="form-control input-small" name="question" required>
+                                        <option>가장 좋아하는 색깔은?</option>
+                                        <option>가장 좋아하는 동물은?</option>
+                                        <option>내가 다녔던 초등학교는?</option>
+                                        <option>어렸을때의 별명은?</option>
+                                        <option>현재 거주하고 있는 주소는?</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <!-- 질문 선택 필드 끝 -->
+
+                            <!-- 답변 입력 필드 시작 -->
+                            <tr>
+                                <td>답변</td>
+                                <td><input type="text" class="form-control input-small" name="answer" required></td>
+                            </tr>
+                            <!-- 답변 입력 필드 끝 -->
+                        </tbody>
+                    </table>
+                    <!-- 비밀번호 찾기 입력 테이블 끝 -->
+
+                    <!-- 확인 버튼 시작 -->
+					<button type="button" class="btn btn-dark" onclick="location.href='../member/member-search-pw-complete'">확인</button>
+                    <!-- 확인 버튼 끝 -->
+
+                    <br>
+                </form>
+            </div>
+            <!-- 비밀번호 찾기 폼 컨테이너 끝 -->
+
+            <!-- 추가 안내 문구 시작 -->
+            <p class="info">입력하신 정보는 본인확인을 위한 정보로만 사용되며, 본인확인 용도 외에는 사용되거나 저장되지 않습니다.
+            <br>위 방법으로 정보를 찾으실 수 없는 고객님께서는 고객센터로 문의해주시기 바랍니다.</p>
+            <!-- 추가 안내 문구 끝 -->
+
+        </div>
+        <!-- 컨텐츠 래퍼 끝 -->
+    </div>
+
+    <footer>
+    	<br>
+        <div class="footer-container d-flex justify-content-center align-items-center">
+            <img src="https://i.ibb.co/PZPP7Br/logo.png" width="150px" style="margin-right:50px"; >
+            <div>
+                <p>(주)토박이</p>
+                <p>호스팅제공자: KOSA | 이메일 <a href="tobaki@test.com" class="text-danger">tobaki@test.com</a></p>
+                <p>조장 양정윤 | 사업자등록번호 xxx-xx-xxxxx[사업자정보확인] | 통신판매업신고번호 2024-서울종로-0402호</p>
+                <p>주소: 서울시 종로구 창경궁로 254 동원빌딩</p>
+                <p>토박이특산물은 KOSA의 위탁으로 오티아이3기 4명의 학생들이 운영하는 쇼핑몰입니다.</p>
+                <p>copyright (c) 2024 by TOBAKI. all rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 스크립트 파일 포함 시작 -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script> <!-- jQuery 라이브러리 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script> <!-- Popper.js 라이브러리 -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script> <!-- Bootstrap JavaScript -->
+    <!-- 스크립트 파일 포함 끝 -->
+</body>
+</html>

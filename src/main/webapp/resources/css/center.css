@@ -1,0 +1,200 @@
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+body {
+	background-color:#fff;
+    font-family: 'Pretendard-Regular';
+}
+
+label {
+    margin-bottom: auto;
+}
+
+section {
+    max-width: 1200px;
+    display: flex;
+    margin: 0 auto;
+    flex-direction: column
+}
+
+.breadcrumb {
+	background-color:#fff;
+    width: 18%;
+    padding: 12px 14px;
+    font-size: 9pt;
+    border-style: none;
+}
+.breadcrumb .breadcrumb-item a {
+    color: gray;
+}
+.breadcrumb .breadcrumb-item.active {
+    color: black;
+    font-weight: bold;
+}
+
+.table th, .table td {
+    vertical-align: middle;
+}
+
+.table tbody td a {
+    font-size: 12pt;
+    color: black;
+    display: block;     /* a 태그를 블록 요소로 변환 */
+    width: 100%;        /* 부모 요소(td)의 전체 너비를 차지하도록 설정 */
+}
+.table tbody td a:hover {
+    text-decoration: none;
+}
+
+.badge {
+    font-size: 0.6em;
+}
+
+.nav-tabs {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.nav-tabs .nav-item {
+    flex: 1;
+    text-align: center;
+}
+
+.nav-tabs .nav-link {
+    width: 100%;
+    color: #555;
+    font-size: 11pt;
+}
+
+.nav-tabs .nav-link.active {
+    color: #fff;
+    background-color: #6e6e6e;
+}
+
+.list-group-item {
+    border: 1px solid #ddd;
+    margin-bottom: 5px;
+}
+
+.list-group-item p {
+    margin-bottom: 5px;
+}
+
+.form-inline .form-control {
+    width: auto;
+}
+
+.btn-block {
+    display: block;
+    width: 100%;
+}
+
+.form-inline .btn-primary {
+    background-color: #6e6e6e;
+    border-color: black;
+}
+
+.float-right {
+    float: right;
+}
+
+h2.text-center {
+    margin-bottom: 20px;
+}
+
+.pagination {
+	justify-content: center;
+    margin-top: 1rem;
+}
+
+.btn-bottom {
+    font-size: 10pt;
+}
+
+.form-checkbox {
+    display: flex;
+}
+.form-checkbox .form-check {
+    margin-right: 10px;
+}
+
+.list-container {
+    margin: 0 6%;
+}
+
+h2.border-bottom {
+    border-bottom: 1px solid #444 !important;
+}
+
+.form-container {
+    display: flex;
+    justify-content: start;
+    width: auto;
+    border-radius: 3px;
+}
+
+.form-container form {
+    width: 1200px;
+}
+
+.form-input-wrapper input {
+    flex: 1;
+    margin-right: 20px;
+}
+
+.card-text {
+    font-size: 11pt;
+}
+
+.form-title {
+    margin-left: 140px;
+}
+.block-right .form-title {
+    margin-left: 40px;
+}
+.form-content {
+    margin-left: 50px;
+}
+.form-content.max-width {
+    flex:1;
+}
+
+.form-content > div {
+    flex: 1;
+}
+
+.form-content label {
+    width: 25%;
+    margin-bottom: 0;
+}
+
+.form-content select {
+    width: 50%;
+}
+.btn-light.disabled {
+    background-color: #fff;
+    border-color: #fff;
+}
+.btn-submit {
+    width: 75px;
+    height: 75px;
+}
+.square-img {
+    width: 50px; /* 원하는 정사각형 크기 */
+    height: 50px; /* 너비와 높이를 같게 설정 */
+    overflow: hidden;
+    display: inline-block;
+    flex:0 0 auto !important;
+}
+.square-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.breadcrumb-container {
+    margin-left: 35px;
+}

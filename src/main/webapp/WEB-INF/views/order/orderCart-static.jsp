@@ -1,0 +1,261 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/sandstone/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/orderCart.css">
+    <meta charset="UTF-8">
+    <title>장바구니</title>
+    <style>
+    </style>
+</head>
+<body>
+    <!-- 장바구니 -->
+    <div id="contentWrapper">
+  
+    <!-- 헤더자리 -->
+	<header>
+			<!-- 헤더의 상단 프레임 -->
+			<div class="header-wrapper">
+				<!--헤더 탑 영역-->
+				<div class="header-top">
+					<!--왼쪽 상단 프레임-->
+					<div class="left-top"></div>
+					<!--오른쪽 상단 nav-->
+					<div class="right-top-nav">
+						<nav class="navbar navbar-expand-lg navbar-light bg-light header-font">
+							<!--
+							<a class="navbar-brand" href="#">Navbar</a>
+							<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+								<span class="navbar-toggler-icon"></span>
+							</button>
+							-->
+							<div class="collapse navbar-collapse" id="navbarColor03">
+								<ul class="navbar-nav mr-auto">
+									<li class="nav-item active">
+										<a class="nav-link" href="../index.html">메인
+											<span class="sr-only">(current)</span>
+										</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" href="../member/login.html">로그인</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" href="../member/member-info.html">회원가입</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" href="../mypage/mypage-main.html">마이페이지</a>
+									</li>
+									<li class="nav-item dropdown">
+										<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="../center/center-board-list.html" role="button" aria-haspopup="true" aria-expanded="false">고객센터</a>
+										<div class="dropdown-menu">
+											<a class="dropdown-item" href="../center/center-board-list.html">공지사항</a>
+											<a class="dropdown-item" href="../center/center-board-list.html">상품문의</a>
+											<a class="dropdown-item" href="../center/center-board-list.html">상품후기</a>
+											<div class="dropdown-divider"></div>
+											<a class="dropdown-item" href="../admin/admin-main.html">관리자 사이트</a>
+										</div>
+									</li>
+								</ul>
+							</div>
+						</nav>
+					</div>
+				</div>
+				<!--중앙 메인 로고 프레임-->
+				<div class="main-logo">
+					<a href="../index.html"><img src="../img/main-logo.png" width="150px"></a>
+				</div>
+	
+				<div class="d-flex" style="margin-left: 30px;">
+					<!-- 헤더의 하단 프레임-->
+					<div class="header-bottom container-fluid">
+						<nav class="top-nav navbar navbar-expand-lg navbar-light bg-light header-font w-100 pl-0">
+							<!--전체 카테고리 버튼-->
+							<div class="top-ctg-list">
+								<div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+									<button id="btnGroupDrop1" type="button" class="btn btn-danger dropdown-toggle header-font" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										<i class="fa fa-bars"></i>&emsp;카테고리&emsp;
+									</button>
+									<div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+										<a class="dropdown-item py-2" href="../product/itemList-static.html"><i class="fa fa-bread-slice"></i> :: 빵</a>
+										<a class="dropdown-item py-2" href="../product/itemList-static.html"><i class="fa fa-birthday-cake"></i> :: 케이크</a>
+										<a class="dropdown-item py-2" href="../product/itemList-static.html"><i class="fa fa-cookie"></i> :: 디저트</a>
+									</div>
+								</div><!--
+								<a href="#">"카테고리버튼"</a>
+								<div class="top-ctg">
+									<div class="left-category clear">
+										ul 태그를 통한 하단 리스트들~
+									</div>
+									-->
+							</div>
+							<!--추가 상단 네비게이션 리스트-->
+							<div class="top-menu collapse navbar-collapse" id="navbarColor03">
+								<ul class="navbar-nav mr-auto header-font-size ">
+									<li class="nav-item">
+										<a class="nav-link" href="../product/itemList-best.html">베스트</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" href="../product/itemList-best.html">신상품</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" href="../product/itemList-best.html">추천상품</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" href="../center/center-board-list.html">공지사항</a>
+									</li>
+								</ul>
+							</div>
+							<!--상단네비 검색 및 장바구니-->
+							<form action="#" id="headerSearch">
+								<div class="top-menu-finder-cart align-self-end">
+									<div class="top-finder">
+										<div class="input-group">
+											<input class="form-control headerSearchInput" type="text" placeholder="상품 검색">
+											<div class="input-group-append">
+												<button class="btn btn-secondary" type="submit"><i class="fa fa-search"></i></button>
+											</div>
+										</div>
+									</div>
+									<div class="top-cart">
+										<a href="../order/orderCart-static.html"><i class="fas fa-shopping-cart icon-size"></i></a>									
+										<span class="cart-count">3</span>
+									</div>
+								</div>
+							</form>
+						</nav>
+					</div>
+				</div>
+			</div>
+	</header>
+
+    <!-- 콘텐츠 시작 -->
+        <div id="contentWrap" style="border-top: 1px solid #e7e8e9 !important;">
+			<nav class="breadcrumb-container">
+	            <ol class="breadcrumb">
+	                <li class="breadcrumb-item"><a href="../index.html" style="color: black !important;"><i class="fas fa-home"></i></a></li>
+	                <li class="breadcrumb-item"><a href="../order/orderCart-static.html" style="color: black !important;">장바구니</a></li>            
+	            </ol>
+        	</nav>  
+            <div id="content">
+                <!-- 장바구니 타이틀 -->
+                <h1 id="page_top">장바구니</h1>
+                
+                <!-- 장바구니 카드 -->
+                <div id="cartWrap">
+                    <!-- 장바구니 테이블 -->
+                    <div id="cartTable">
+                        <table>
+                            <colgroup>
+                                <col width="5%">
+                                <col width="25%">
+                                <col width="30%">
+                                <col width="15%">
+                                <col width="15%">
+                                <col width="10%">
+                            </colgroup>
+                            <thead>
+                                <tr class="table-warning">
+                                    <th scope="row"><div class="tb_check">선택</div></th>
+                                    <th scope="row"><div class="tb_img">사진</div></th>
+                                    <th scope="row"><div class="tb_title">상품명</div></th>
+                                    <th scope="row"><div class="tb_quantity">수량</div></th>
+                                    <th scope="row"><div class="tb_price">결제예정가</div></th>
+                                    <th scope="row"><div class="tb_delete">선택</div></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- 테이블 정적 내용물 -->
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td><a href="../product/itemDetail-static.html"><img src="../img/bread/자연효모빵.jpg" width="100px"></a></td>
+                                    <td><a href="../product/itemDetail-static.html" style="color: black !important;">자연효모빵</a></td>
+                                    <td>
+	                                    <div class="quantity-control">
+					                        <button>-</button>
+					                        <input type="text" value="2" min="1" max="10">
+					                        <button>+</button>
+				   						</div>
+                                    </td>                                    
+                                    <td class="currentPrice" data-unit-price="4600">9,200원</td>
+                                    <td><button class="btn btn-danger btn-sm">삭제</button></td>
+                                </tr>
+
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td><a href="../product/itemDetail-static.html"><img src="../img/bread/오렌지케익.jpg" width="100px"></a></td>
+                                    <td><a href="../product/itemDetail-static.html" style="color: black !important;">오렌지케익</a></td>
+                                    <td>
+	                                    <div class="quantity-control">
+					                        <button onclick="minus();">-</button>
+					                        <input type="text" value="1" min="1" max="10">
+					                        <button onclick="plus();">+</button>
+				   						</div>
+                                    </td>
+                                    <td class="currentPrice" data-unit-price="22000">22,000원</td>
+                                    <td><button class="btn btn-danger btn-sm">삭제</button></td>
+                                </tr>
+
+                                <!-- 총 금액 -->
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="6">
+                                        <div class="basket_totalprice">
+                                            총 구매 금액: <strong>85,800원</strong>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <div class="cartNotice">
+                        <div class="flt">
+                            <ul class="dot_list">
+                                <li>장바구니의 상품별 할인가는 "미리 계산된 가격" 입니다</li>
+                                <li>주문서의 쿠폰변경시 실제 가격은 달라질 수 있습니다</li>
+                                <li>상품 한개당 최대 구매가능 개수는 10개입니다</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- 주문버튼 -->
+                    <div class="btns_order">
+                        <button type="button" class="btn btn-outline-secondary">선택삭제</button>
+                        <button type="button" class="btn btn-outline-secondary">계속 쇼핑하기</button>
+                        <button type="button" class="btn btn-outline-secondary">장바구니 비우기</button>
+                        <button type="button" class="btn btn-outline-danger">선택상품 주문하기</button>
+                    </div>                        
+                </div>
+                <!-- cartWrap -->
+            </div>
+            <!-- page_body -->
+        </div>
+        <!-- contentWrap -->
+    </div>
+    <!-- 콘텐츠 끝 -->
+    
+    <!-- 푸터자리 -->
+    <footer>
+    	<br>
+        <div class="footer-container d-flex justify-content-center align-items-center">
+            <img src="https://i.ibb.co/PZPP7Br/logo.png" width="150px" style="margin-right:50px"; >
+            <div>
+                <p>(주)토박이</p>
+                <p>호스팅제공자: KOSA | 이메일 <a href="tobaki@test.com" class="text-danger">tobaki@test.com</a></p>
+                <p>조장 양정윤 | 사업자등록번호 xxx-xx-xxxxx[사업자정보확인] | 통신판매업신고번호 2024-서울종로-0402호</p>
+                <p>주소: 서울시 종로구 창경궁로 254 동원빌딩</p>
+                <p>토박이베이커리는 KOSA의 위탁으로 오티아이3기 4명의 학생들이 운영하는 쇼핑몰입니다.</p>
+                <p>copyright (c) 2024 by TOBAKI. all rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>    
+    <script src="../js/cart.js"></script>
+</body>
+</html>
