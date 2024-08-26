@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"%>
-
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -8,8 +8,8 @@
     <title>관리자 - 메인</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/sandstone/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="../css/common.css">
-    <link rel="stylesheet" href="../css/admin.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/common.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/admin.css">
 </head>
 <body>
 	<header>
@@ -61,7 +61,7 @@
     </div>
     <!--중앙 메인 로고 프레임-->
     <div class="main-logo">
-        <a href="../index.html"><img src="../img/main-logo.png" width="150px"></a>
+        <a href="../index.html"><img src="../resources/image/main-logo.png" width="150px"></a>
     </div>
 
     <div class="d-flex" style="margin-left: 30px;">
@@ -226,7 +226,7 @@
                                         <td class="align-middle">DS</td>
                                         <!-- 상품이미지 -->
                                         <td class="align-middle">
-                                            <img src="../img/왕슈크림도넛.jpg" alt="이미지 깨짐" class="rounded-circle" width="50px">
+                                            <img src="../resources/image/왕슈크림도넛.jpg" alt="이미지 깨짐" class="rounded-circle" width="50px">
                                         </td>
                                         <!-- 상품명 -->
                                         <td class="align-middle"><a href="#" data-toggle="modal" data-target="#productDetailsModal">왕슈크림도넛</a></td>
@@ -263,7 +263,7 @@
                                         <td class="align-middle">DS</td>
                                         <!-- 상품이미지 -->
                                         <td class="align-middle">
-                                            <img src="../img/왕슈크림도넛.jpg" alt="이미지 깨짐" class="rounded-circle" width="50px">
+                                            <img src="../resources/image/왕슈크림도넛.jpg" alt="이미지 깨짐" class="rounded-circle" width="50px">
                                         </td>
                                         <!-- 상품명 -->
                                         <td class="align-middle"><a href="#" data-toggle="modal" data-target="#productDetailsModal">왕슈크림도넛</a></td>
@@ -300,7 +300,7 @@
                                         <td class="align-middle">DS</td>
                                         <!-- 상품이미지 -->
                                         <td class="align-middle">
-                                            <img src="../img/왕슈크림도넛.jpg" alt="이미지 깨짐" class="rounded-circle" width="50px">
+                                            <img src="../resources/image/왕슈크림도넛.jpg" alt="이미지 깨짐" class="rounded-circle" width="50px">
                                         </td>
                                         <!-- 상품명 -->
                                         <td class="align-middle"><a href="#" data-toggle="modal" data-target="#productDetailsModal">왕슈크림도넛</a></td>
@@ -337,7 +337,7 @@
                                         <td class="align-middle">DS</td>
                                         <!-- 상품이미지 -->
                                         <td class="align-middle">
-                                            <img src="../img/왕슈크림도넛.jpg" alt="이미지 깨짐" class="rounded-circle" width="50px">
+                                            <img src="../resources/image/왕슈크림도넛.jpg" alt="이미지 깨짐" class="rounded-circle" width="50px">
                                         </td>
                                         <!-- 상품명 -->
                                         <td class="align-middle"><a href="#" data-toggle="modal" data-target="#productDetailsModal">왕슈크림도넛</a></td>
@@ -374,7 +374,7 @@
                                         <td class="align-middle">DS</td>
                                         <!-- 상품이미지 -->
                                         <td class="align-middle">
-                                            <img src="../img/왕슈크림도넛.jpg" alt="이미지 깨짐" class="rounded-circle" width="50px">
+                                            <img src="../resources/image/왕슈크림도넛.jpg" alt="이미지 깨짐" class="rounded-circle" width="50px">
                                         </td>
                                         <!-- 상품명 -->
                                         <td class="align-middle"><a href="#" data-toggle="modal" data-target="#productDetailsModal">왕슈크림도넛</a></td>
@@ -411,7 +411,7 @@
                                         <td class="align-middle">DS</td>
                                         <!-- 상품이미지 -->
                                         <td class="align-middle">
-                                            <img src="../img/왕슈크림도넛.jpg" alt="이미지 깨짐" class="rounded-circle" width="50px">
+                                            <img src="../resources/image/왕슈크림도넛.jpg" alt="이미지 깨짐" class="rounded-circle" width="50px">
                                         </td>
                                         <!-- 상품명 -->
                                         <td class="align-middle"><a href="#" data-toggle="modal" data-target="#productDetailsModal">왕슈크림도넛</a></td>
@@ -448,7 +448,7 @@
                                         <td class="align-middle">DS</td>
                                         <!-- 상품이미지 -->
                                         <td class="align-middle">
-                                            <img src="../img/왕슈크림도넛.jpg" alt="이미지 깨짐" class="rounded-circle" width="50px">
+                                            <img src="../resources/image/왕슈크림도넛.jpg" alt="이미지 깨짐" class="rounded-circle" width="50px">
                                         </td>
                                         <!-- 상품명 -->
                                         <td class="align-middle"><a href="#" data-toggle="modal" data-target="#productDetailsModal">왕슈크림도넛</a></td>
@@ -485,7 +485,7 @@
                                         <td class="align-middle">DS</td>
                                         <!-- 상품이미지 -->
                                         <td class="align-middle">
-                                            <img src="../img/왕슈크림도넛.jpg" alt="이미지 깨짐" class="rounded-circle" width="50px">
+                                            <img src="../resources/image/왕슈크림도넛.jpg" alt="이미지 깨짐" class="rounded-circle" width="50px">
                                         </td>
                                         <!-- 상품명 -->
                                         <td class="align-middle"><a href="#" data-toggle="modal" data-target="#productDetailsModal">왕슈크림도넛</a></td>
@@ -522,7 +522,7 @@
                                         <td class="align-middle">DS</td>
                                         <!-- 상품이미지 -->
                                         <td class="align-middle">
-                                            <img src="../img/왕슈크림도넛.jpg" alt="이미지 깨짐" class="rounded-circle" width="50px">
+                                            <img src="../resources/image/왕슈크림도넛.jpg" alt="이미지 깨짐" class="rounded-circle" width="50px">
                                         </td>
                                         <!-- 상품명 -->
                                         <td class="align-middle"><a href="#" data-toggle="modal" data-target="#productDetailsModal">왕슈크림도넛</a></td>
@@ -559,7 +559,7 @@
                                         <td class="align-middle">DS</td>
                                         <!-- 상품이미지 -->
                                         <td class="align-middle">
-                                            <img src="../img/왕슈크림도넛.jpg" alt="이미지 깨짐" class="rounded-circle" width="50px">
+                                            <img src="../resources/image/왕슈크림도넛.jpg" alt="이미지 깨짐" class="rounded-circle" width="50px">
                                         </td>
                                         <!-- 상품명 -->
                                         <td class="align-middle"><a href="#" data-toggle="modal" data-target="#productDetailsModal">왕슈크림도넛</a></td>
@@ -850,7 +850,7 @@
                                 <div class="block-right flex-grow-1">
                                     <div class="form-group d-flex flex-column">
                                         <label for="productImagefile"><b>상품 썸네일</b></label>
-                                        <img src="../img/왕슈크림도넛.jpg" class="rounded" id="productImagefile" width="300px" height="275px"/>
+                                        <img src="../resources/image/왕슈크림도넛.jpg" class="rounded" id="productImagefile" width="300px" height="275px"/>
                                     </div>
 
                                     <div class="d-flex justify-content-between" style="width: 95%;">
@@ -941,7 +941,7 @@
                                             <div class="text-left">
                                               <label for="updateProductImagefile"><b>상품 썸네일</b></label>
                                             </div>
-                                            <img src="../img/왕슈크림도넛.jpg" class="rounded" id="updateProductImagefile" width="300px" height="275px"/>
+                                            <img src="../resources/image/왕슈크림도넛.jpg" class="rounded" id="updateProductImagefile" width="300px" height="275px"/>
                                             <input type="file" class="form-control-file mt-1" id="updateImagefileUpload">
                                         </div>
     
@@ -1119,7 +1119,7 @@
                                     <tbody>
                                         <tr class="text-center">
                                             <td>
-                                                <div class="tb-center"><img src="../img/bread/자연효모빵.jpg" style="width: 100px; height: 100px"></div>
+                                                <div class="tb-center"><img src="../resources/image/bread/자연효모빵.jpg" style="width: 100px; height: 100px"></div>
                                             </td>
                                             <td>
                                                 <div class="tb-left">자연효모빵</div>
@@ -1136,7 +1136,7 @@
                                         </tr>
                                         <tr class="text-center">
                                             <td>
-                                                <div class="tb-center"><img src="../img/bread/오렌지케익.jpg" style="width: 100px; height: 100px"></div>
+                                                <div class="tb-center"><img src="../resources/image/bread/오렌지케익.jpg" style="width: 100px; height: 100px"></div>
                                             </td>
                                             <td>
                                                 <div class="tb-left">오렌지케잌</div>
@@ -1325,7 +1325,7 @@
                                         <tbody id="orderProductData">
                                             <tr class="text-center">
                                                 <td>
-                                                    <div class="tb-center"><img src="../img/bread/자연효모빵.jpg" style="width: 100px; height: 100px"></div>
+                                                    <div class="tb-center"><img src="../resources/image/bread/자연효모빵.jpg" style="width: 100px; height: 100px"></div>
                                                 </td>
                                                 <td>
                                                     <div class="product-name">자연효모빵</div>
@@ -1349,7 +1349,7 @@
                                             </tr>
                                             <tr class="text-center">
                                                 <td>
-                                                    <div class="tb-center"><img src="../img/bread/오렌지케익.jpg" style="width: 100px; height: 100px"></div>
+                                                    <div class="tb-center"><img src="../resources/image/bread/오렌지케익.jpg" style="width: 100px; height: 100px"></div>
                                                 </td>
                                                 <td>
                                                     <div class="product-name">오렌지케잌</div>
@@ -1416,7 +1416,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-    <script src="../js/admin.js"></script>
+    <script src="../resources/js/admin.js"></script>
 </body>
 </html>
 

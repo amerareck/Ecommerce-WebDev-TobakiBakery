@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"%>
-
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -8,8 +8,8 @@
     <title>고객센터</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/sandstone/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="../css/common.css">
-    <link rel="stylesheet" href="../css/center.css">
+    <link rel="stylesheet" href="../resources/css/common.css">
+    <link rel="stylesheet" href="../resources/css/center.css">
 </head>
 <body>
     <header>
@@ -61,7 +61,7 @@
             </div>
             <!--중앙 메인 로고 프레임-->
             <div class="main-logo">
-                <a href="../index.html"><img src="../img/main-logo.png" width="150px"></a>
+                <a href="../index.html"><img src="../resources/image/main-logo.png" width="150px"></a>
             </div>
 
             <div class="d-flex" style="margin-left: 30px;">

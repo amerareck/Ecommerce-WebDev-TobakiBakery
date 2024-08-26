@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"%>
-
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -8,8 +8,8 @@
     <title>관리자 - 상품등록</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/sandstone/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="../css/common.css">
-    <link rel="stylesheet" href="../css/admin.css">
+    <link rel="stylesheet" href="../resources/css/common.css">
+    <link rel="stylesheet" href="../resources/css/admin.css">
 </head>
 <body>
 
@@ -62,7 +62,7 @@
             </div>
             <!--중앙 메인 로고 프레임-->
             <div class="main-logo">
-                <a href="../index.html"><img src="../img/main-logo.png" width="150px"></a>
+                <a href="../index.html"><img src="../resources/image/main-logo.png" width="150px"></a>
             </div>
 
             <div class="d-flex" style="margin-left: 30px;">
@@ -190,43 +190,10 @@
                                         <input type="number" class="form-control" id="product-amount" placeholder="수량 설정" required>
                                     </div>
                                 </div>
-                                <!-- 배송업체 / 배송비용 -->
-                                <div class="d-flex justify-content-between" style="width: 95%;">
-                                    <div class="form-group flex-sort">
-                                        <label for="delivery-company"><b>배송업체</b></label>
-                                        <select class="form-control form-select" id="delivery-company" required>
-                                          <option disabled selected>배송업체 선택</option>
-                                          <option value="1">대한통운</option>
-                                          <option value="2">한진택배</option>
-                                          <option value="3">롯데택배</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group flex-sort">
-                                        <label for="delivery-price"><b>배송가격</b></label>
-                                        <input type="number" class="form-control" id="delivery-price" placeholder="배송 가격">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- 우측 영역 -->
-                            <div class="block-right flex-grow-1">
-                                <!-- 상품 이미지 -->
-                                <div class="form-group text-center">
-                                    <div class="text-left ml-5">
-                                      <label for="productMainImage"><b>상품 썸네일</b></label>
-                                    </div>
-                                    <img src="../img/왕슈크림도넛.jpg" class="rounded" id="productMainImage" width="300px" height="275px"/>
-                                    <div class="input-group input-center text-left mt-2 mb-3">
-                                        <div class="custom-file">
-                                          <input type="file" class="custom-file-input" id="productMainImagefile">
-                                          <label class="custom-file-label" for="productMainImagefile">상품 이미지 업로드</label>
-                                        </div>
-                                    </div>
-                                </div>
                                 <!-- 상품 상태 및 추천 설정 -->
                                 <label for="productState"><b>상품상태 설정</b></label>
                                 <div class="form-group d-flex justify-content-between" style="width: 95%;">
-                                    <div class="flex-sort">
+                                    <div class="w-50">
                                         <select class="form-control form-select" id="productState" required>
                                           <option disabled selected>상품상태</option>
                                           <option value="1">판매중</option>
@@ -238,6 +205,26 @@
                                         <div class="custom-control custom-switch">
                                             <input type="checkbox" class="custom-control-input" id="recommendedProduct" value="recommendedProd">
                                             <label class="custom-control-label" for="recommendedProduct"><b>추천상품 설정</b></label>
+                                        </div>
+                                    </div>
+                                    <div style="margin-left: 13px;">
+                                    	 
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 우측 영역 -->
+                            <div class="block-right flex-grow-1">
+                                <!-- 상품 이미지 -->
+                                <div class="form-group text-center">
+                                    <div class="text-left ml-2">
+                                      <label for="productMainImage"><b>상품 썸네일</b></label>
+                                    </div>
+                                    <img src="../resources/image/왕슈크림도넛.jpg" class="rounded" id="productMainImage" width="300px" height="275px"/>
+                                    <div class="input-group input-center text-left mt-2 mb-3">
+                                        <div class="custom-file">
+                                          <input type="file" class="custom-file-input" id="productMainImagefile">
+                                          <label class="custom-file-label" for="productMainImagefile">상품 이미지 업로드</label>
                                         </div>
                                     </div>
                                 </div>
@@ -275,7 +262,7 @@
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <script src="../js/admin.js"></script>
+    <script src="../resources/js/admin.js"></script>
 </body>
 </html>
 
