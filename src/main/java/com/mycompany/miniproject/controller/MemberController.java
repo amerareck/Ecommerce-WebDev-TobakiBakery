@@ -30,9 +30,20 @@ public class MemberController {
 	
 	@RequestMapping("/member-search-pw")
 	public String getMemberPassword() {
-		log.info("회원가입 실행");
+		log.info("비밀번호 찾기");
 		return "/member/member-search-pw";
 	}
 	
+	@RequestMapping("/member-search-id-complete")
+	public String getMemberIdComplete() {
+		log.info("아이디 찾기 완료");
+		return "/member/member-search-id-complete";
+	}
+	
+	@RequestMapping("/member-search-pw-complete")
+	public String getMemberPasswordComplete() {
+		log.info("비밀번호 찾기 완료");
+		return "/member/member-search-pw-complete";
+	}
 }
 
