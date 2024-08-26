@@ -120,6 +120,7 @@ $('#commentForm').submit(function(event){
             </div>
         </li>
     `);
+    $('#commentCentent').val('');
 });
 
 $('#commentList').on('click', 'button.commentDelete', function(event){

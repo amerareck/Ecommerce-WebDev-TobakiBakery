@@ -2,13 +2,12 @@
 
 <!DOCTYPE html>
 <html>
-<head>
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/sandstone/bootstrap.min.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="css/common.css">
-
-<meta charset="UTF-8"> 
-<title>header page</title>
+	<head>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/sandstone/bootstrap.min.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+	    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/common.css">
+	<meta charset="UTF-8"> 
+	<title>header page</title>
 </head>
 <body>
 	<header>
@@ -60,7 +59,7 @@
 			</div>
 			<!--중앙 메인 로고 프레임-->
 			<div class="main-logo">
-				<a href="../index.html"><img src="../img/main-logo.png" width="150px"></a>
+				<a href="../index.html"><img src="${pageContext.request.contextPath}/resources/image/main-logo.png" width="150px"></a>
 			</div>
 
 			<div class="d-flex" style="margin-left: 30px;">
@@ -125,13 +124,3 @@
 			</div>
 		</div>
 	</header>
-	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-	<script src="../js/common.js"></script>
-	<script>
-		
-
-	</script>
-</body>
-</html>

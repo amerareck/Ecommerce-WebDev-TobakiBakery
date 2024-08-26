@@ -30,3 +30,13 @@ margin-bottom: 100px;
 .carousel-control-prev .carousel-control-next{
 	border: none;
 }
+
+.display_best {
+ 	display: flex;
+	justify-content: center;
+}
+ 
+.display_new {
+ 	display: flex;
+	justify-content: center;
+}
