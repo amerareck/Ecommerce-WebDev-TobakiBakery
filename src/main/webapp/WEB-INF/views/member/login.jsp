@@ -1,131 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <title>토박이 베이커리 - 로그인</title>
-    <link rel="stylesheet" href="https://bootswatch.com/4/sandstone/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-	<link rel="stylesheet" href="../resources/css/common.css">
-    <link rel="stylesheet" href="../resources/css/login-style.css">
-</head>
-<body>
-    <header>
-			<!-- 헤더의 상단 프레임 -->
-			<div class="header-wrapper">
-				<!--헤더 탑 영역-->
-				<div class="header-top">
-					<!--왼쪽 상단 프레임-->
-					<div class="left-top"></div>
-					<!--오른쪽 상단 nav-->
-					<div class="right-top-nav">
-						<nav class="navbar navbar-expand-lg navbar-light bg-light header-font">
-							<!--
-							<a class="navbar-brand" href="#">Navbar</a>
-							<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-								<span class="navbar-toggler-icon"></span>
-							</button>
-							-->
-							<div class="collapse navbar-collapse" id="navbarColor03">
-								<ul class="navbar-nav mr-auto">
-									<li class="nav-item active">
-										<a class="nav-link" href="../">메인
-											<span class="sr-only">(current)</span>
-										</a>
-									</li>
-									<li class="nav-item">
-										<a class="nav-link" href="../member/login">로그인</a>
-									</li>
-									<li class="nav-item">
-										<a class="nav-link" href="../member/member-info">회원가입</a>
-									</li>
-									<li class="nav-item">
-										<a class="nav-link" href="../mypage/mypage-main">마이페이지</a>
-									</li>
-									<li class="nav-item dropdown">
-										<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="../center/center-board-list" role="button" aria-haspopup="true" aria-expanded="false">고객센터</a>
-										<div class="dropdown-menu">
-											<a class="dropdown-item" href="../center/center-board-list">공지사항</a>
-											<a class="dropdown-item" href="../center/center-board-list">상품문의</a>
-											<a class="dropdown-item" href="../center/center-board-list">상품후기</a>
-											<div class="dropdown-divider"></div>
-											<a class="dropdown-item" href="../admin/admin-main">관리자 사이트</a>
-										</div>
-									</li>
-								</ul>
-							</div>
-						</nav>
-					</div>
-				</div>
-				<!--중앙 메인 로고 프레임-->
-				<div class="main-logo">
-					<a href="../"><img src="../resources/image/main-logo.png" width="150px"></a>
-				</div>
-	
-				<div class="d-flex" style="margin-left: 30px;">
-					<!-- 헤더의 하단 프레임-->
-					<div class="header-bottom container-fluid">
-						<nav class="top-nav navbar navbar-expand-lg navbar-light bg-light header-font w-100 pl-0">
-							<!--전체 카테고리 버튼-->
-							<div class="top-ctg-list">
-								<div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-									<button id="btnGroupDrop1" type="button" class="btn btn-danger dropdown-toggle header-font" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-										<i class="fa fa-bars"></i>&emsp;카테고리&emsp;
-									</button>
-									<div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-										<a class="dropdown-item py-2" href="../product/itemList-static"><i class="fa fa-bread-slice"></i> :: 빵</a>
-										<a class="dropdown-item py-2" href="../product/itemList-static"><i class="fa fa-birthday-cake"></i> :: 케이크</a>
-										<a class="dropdown-item py-2" href="../product/itemList-static"><i class="fa fa-cookie"></i> :: 디저트</a>
-									</div>
-								</div><!--
-								<a href="#">"카테고리버튼"</a>
-								<div class="top-ctg">
-									<div class="left-category clear">
-										ul 태그를 통한 하단 리스트들~
-									</div>
-									-->
-							</div>
-							<!--추가 상단 네비게이션 리스트-->
-							<div class="top-menu collapse navbar-collapse" id="navbarColor03">
-								<ul class="navbar-nav mr-auto header-font-size ">
-									<li class="nav-item">
-										<a class="nav-link" href="../product/itemList-best">베스트</a>
-									</li>
-									<li class="nav-item">
-										<a class="nav-link" href="../product/itemList-best">신상품</a>
-									</li>
-									<li class="nav-item">
-										<a class="nav-link" href="../product/itemList-best">추천상품</a>
-									</li>
-									<li class="nav-item">
-										<a class="nav-link" href="../center/center-board-list">공지사항</a>
-									</li>
-								</ul>
-							</div>
-							<!--상단네비 검색 및 장바구니-->
-							<form action="#" id="headerSearch">
-								<div class="top-menu-finder-cart align-self-end">
-									<div class="top-finder">
-										<div class="input-group">
-											<input class="form-control headerSearchInput" type="text" placeholder="상품 검색">
-											<div class="input-group-append">
-												<button class="btn btn-secondary" type="submit"><i class="fa fa-search"></i></button>
-											</div>
-										</div>
-									</div>
-									<div class="top-cart">
-										<a href="../order/orderCart-static"><i class="fas fa-shopping-cart icon-size"></i></a>									
-										<span class="cart-count">3</span>
-									</div>
-								</div>
-							</form>
-						</nav>
-					</div>
-				</div>
-			</div>
-	</header>
-    
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ include file="/WEB-INF/views/common/header.jsp" %>
+<link rel="stylesheet" href="../resources/css/login-style.css">
     <div class="container">
         <!-- 네비게이션 시작 -->
         <nav class="breadcrumb">
@@ -144,7 +19,7 @@
             <h3><b>회원 로그인</b></h3>
             
             <!-- 로그인 폼 시작 -->
-            <form action="#" method="post" class="mt-4">
+            <form action="../index" method="post" class="mt-4">
                 <div class="form-group">
                     <input type="text" class="form-control" name="username" placeholder=" 아이디" required>
                 </div>
@@ -180,14 +55,5 @@
         <!-- 회원가입 섹션 끝 -->
     </div>
 
-	<footer>
-    </footer>
-
-    <!-- 스크립트 파일 포함 시작 -->
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
     <script src="../js/login.js"></script>
-    <!-- 스크립트 파일 포함 끝 -->
-</body>
-</html>
