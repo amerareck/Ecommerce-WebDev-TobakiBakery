@@ -6,8 +6,8 @@
         <!-- Breadcrumbs 영역 시작-->
         <nav class="breadcrumb-container">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="../index.html"><i class="fas fa-home"></i></a></li>
-                <li class="breadcrumb-item"><a href="../center/center-board-list.html">고객센터</a></li>
+                <li class="breadcrumb-item"><a href="../"><i class="fas fa-home"></i></a></li>
+                <li class="breadcrumb-item"><a href="getBoardList">고객센터</a></li>
                 <li class="breadcrumb-item active" aria-current="page">기타문의</li>
             </ol>
         </nav>
@@ -15,22 +15,7 @@
 
         <!-- 메인 컨테이너 -->
         <div class="list-container">
-            <!-- 서브 네비게이터 시작 -->
-            <div class="d-flex justify-content-center">
-                <h2 class="h2 mb-5 border-bottom" style="width: 100px;">기타문의</h2>
-            </div>
-            <ul class="nav nav-tabs justify-content-center mb-3">
-                <li class="nav-item">
-                    <a class="nav-link" href="../center/center-board-list.html">공지사항</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="../center/center-board-list.html">상품문의</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="../center/center-board-list.html">기타문의</a>
-                </li>
-            </ul>
-            <!-- 서브 네비게이터 종료 -->
+		<%@include file="/WEB-INF/views/center/centerSubNavigor.jsp" %>
 
             <!-- 게시글 섹션 시작-->
             <div class="card mb-4 mt-4">
@@ -60,9 +45,9 @@
                         </p>
                     </div>
                     
-                    <a href="../center/center-board-list.html" class="btn btn-outline-secondary float-right mr-1">목록으로</a>
-                    <a href="#" class="btn btn-outline-secondary float-right mr-1">삭제</a>
-                    <a href="../center/center-board-add.html" class="btn btn-outline-secondary float-right mr-1">수정</a>
+                    <a href="getBoardList" class="btn btn-outline-secondary float-right mr-1">목록으로</a>
+                    <button type="button" id="removeBoardBotton" class="btn btn-outline-secondary float-right mr-1">삭제</button>
+                    <a href="getBoardDetail" class="btn btn-outline-secondary float-right mr-1">수정</a>
                 </div>
             </div>
             <!-- 게시글 섹션 종료-->
@@ -133,21 +118,21 @@
                 <tbody>
                     <tr>
                         <td><b>3</b></td>
-                        <td><a href="#">취소문의요&ensp;<span class="badge badge-info">NEW</span></a></td>
+                        <td><a href="getBoardDetail">취소문의요&ensp;<span class="badge badge-info">NEW</span></a></td>
                         <td>라*임</td>
                         <td>2024-08-04</td>
                         <td>1141</td>
                     </tr>
                     <tr>
                         <td><b>2</b></td>
-                        <td><a href="#">결제하기 클릭이 안되요. ㅠㅠ&ensp;<span class="badge badge-primary">답변완료</span></a></td>
+                        <td><a href="getBoardDetail">결제하기 클릭이 안되요. ㅠㅠ&ensp;<span class="badge badge-primary">답변완료</span></a></td>
                         <td>홍*동</td>
                         <td>2024-08-03</td>
                         <td>1232</td>
                     </tr>
                     <tr>
                         <td><b>1</b></td>
-                        <td><a href="#"><i class="fas fa-lock fa-xs"></i> 택배가 젖어 왔어요&ensp;<span class="badge badge-primary">답변완료</span></a></td>
+                        <td><a href="getBoardDetail"><i class="fas fa-lock fa-xs"></i> 택배가 젖어 왔어요&ensp;<span class="badge badge-primary">답변완료</span></a></td>
                         <td>민*종</td>
                         <td>2024-08-03</td>
                         <td>1037</td>

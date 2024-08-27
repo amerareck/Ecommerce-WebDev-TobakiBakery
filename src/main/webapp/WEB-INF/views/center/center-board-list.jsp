@@ -7,8 +7,8 @@
         <!-- Breadcrumbs 영역 시작-->
         <nav class="breadcrumb-container">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="../index.html"><i class="fas fa-home"></i></a></li>
-                <li class="breadcrumb-item"><a href="../center/center-board-list.html">고객센터</a></li>
+                <li class="breadcrumb-item"><a href="../"><i class="fas fa-home"></i></a></li>
+                <li class="breadcrumb-item"><a href="getBoardList">고객센터</a></li>
                 <li class="breadcrumb-item active" aria-current="page">기타문의</li>
             </ol>
         </nav>
@@ -16,22 +16,7 @@
         
         <!-- 메인 컨테이너 -->
         <div class="list-container mb-5">
-            <!-- 서브 네비게이터 시작 -->
-            <div class="d-flex justify-content-center">
-                <h2 class="h2 mb-5 border-bottom" style="width: 100px;">기타문의</h2>
-            </div>
-            <ul class="nav nav-tabs justify-content-center mb-3">
-                <li class="nav-item">
-                    <a class="nav-link" href="../center/center-board-list.html">공지사항</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="../center/center-board-list.html">상품문의</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="../center/center-board-list.html">기타문의</a>
-                </li>
-            </ul>
-            <!-- 서브 네비게이터 종료 -->
+		<%@include file="/WEB-INF/views/center/centerSubNavigor.jsp" %>
 
             <!-- 게시글 검색 컴포넌트 시작 -->
             <div class="d-flex justify-content-between align-items-center mb-3">
@@ -70,21 +55,21 @@
                 <tbody>
                     <tr>
                         <th scope="row">3</th>
-                        <td><a href="../center/center-board-details.html">취소문의요&ensp; <span class="badge badge-info">NEW</span></a></td>
+                        <td><a href="getBoardDetail">취소문의요&ensp; <span class="badge badge-info">NEW</span></a></td>
                         <td>라*임</td>
                         <td>2024/08/04</td>
                         <td>0</td>
                     </tr>
                     <tr>
                         <th scope="row">2</th>
-                        <td><a href="../center/center-board-details.html">결제하기 클릭이 안되요. ㅠㅠ&ensp; <span class="badge badge-primary">답변완료</span></a></td>
+                        <td><a href="getBoardDetail">결제하기 클릭이 안되요. ㅠㅠ&ensp; <span class="badge badge-primary">답변완료</span></a></td>
                         <td>ka******</td>
                         <td>2024/08/03</td>
                         <td>0</td>
                     </tr>
                     <tr>
                         <th scope="row">1</th>
-                        <td><a href="../center/center-board-details.html"><i class="fas fa-lock fa-xs"></i> 택배가 젖어 왔어요&ensp;<span class="badge badge-primary">답변완료</span></a></td>
+                        <td><a href="getBoardDetail"><i class="fas fa-lock fa-xs"></i> 택배가 젖어 왔어요&ensp;<span class="badge badge-primary">답변완료</span></a></td>
                         <td>min******</td>
                         <td>2024/08/02</td>
                         <td>3</td>
@@ -122,7 +107,7 @@
             </div>
               <!-- 게시판 묶음 네비게이터 바 종료 -->
     
-            <a class="btn btn-secondary float-right btn-bottom" href="../center/center-board-add.html">글쓰기</a>
+            <a class="btn btn-secondary float-right btn-bottom" href="addBoard">글쓰기</a>
         </div>
     </section>
 	<%@include file="/WEB-INF/views/common/footer.jsp" %>

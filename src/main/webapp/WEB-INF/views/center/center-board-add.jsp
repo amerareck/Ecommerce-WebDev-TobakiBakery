@@ -6,8 +6,8 @@
         <!-- Breadcrumbs 영역 시작-->
         <nav class="breadcrumb-container">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="../index.html"><i class="fas fa-home"></i></a></li>
-                <li class="breadcrumb-item"><a href="../center/center-board-list.html">고객센터</a></li>
+                <li class="breadcrumb-item"><a href="../"><i class="fas fa-home"></i></a></li>
+                <li class="breadcrumb-item"><a href="getBoardList">고객센터</a></li>
                 <li class="breadcrumb-item active" aria-current="page">기타문의</li>
             </ol>
         </nav>
@@ -15,22 +15,7 @@
 
         <!-- 메인 컨테이너 -->
         <div class="list-container">
-            <!-- 서브 네비게이터 시작 -->
-            <div class="d-flex justify-content-center">
-                <h2 class="h2 mb-5 border-bottom" style="width: 100px;">기타문의</h2>
-            </div>
-            <ul class="nav nav-tabs justify-content-center mb-3">
-                <li class="nav-item">
-                    <a class="nav-link" href="../center/center-board-list.html">공지사항</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="../center/center-board-list.html">상품문의</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="../center/center-board-list.html">기타문의</a>
-                </li>
-            </ul>
-            <!-- 서브 네비게이터 종료 -->
+		<%@include file="/WEB-INF/views/center/centerSubNavigor.jsp" %>
 
             <!-- 게시글 작성 컴포넌트 시작 -->
             <div class="card my-4">
@@ -38,10 +23,10 @@
                     <form action="#" id="boardWriteForm">
                         <div class="form-group d-flex align-items-center">
                             <div class="form-title">
-                                <label class="control-label" for="memberName"><b>이름</b></label>
+                                <label class="control-label" for="memberName"><b>아이디</b></label>
                             </div>
-                            <div class="form-content">
-                                <input class="form-control" id="memberName" type="text" value="엄상식" readonly>
+                            <div class="form-content" style="margin-left: 40px;">
+                                <input class="form-control" id="memberName" type="text" value="엄상식" disabled />
                             </div>
                         </div>
                         <hr class="hr"/>
@@ -135,7 +120,7 @@
                         <hr class="hr"/>
                         <div class="form-group d-flex justify-content-end">
                             <button type="submit" class="btn btn-secondary mr-1" id="boardSubmitButton">등록하기</button>
-                            <a class="btn btn-secondary buttonAnchor" href="../center/center-board-list.html">목록보기</a>
+                            <a class="btn btn-secondary buttonAnchor" href="getBoardList">목록보기</a>
                         </div>
                     </form>
                 </div>
