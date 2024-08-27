@@ -9,7 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/order")
 public class OrderController {
 	
-	@RequestMapping("/order-Detail")	
+	@RequestMapping("/orderDetail")	
 	public String getorderDetail() {
 		log.info("실행");
 			return "order/order-Detail";
