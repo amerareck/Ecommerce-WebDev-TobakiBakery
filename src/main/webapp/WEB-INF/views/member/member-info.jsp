@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
-<link rel="stylesheet" href="../resources/css/member-style.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/member-style.css">
     <div class="container">
         <!-- 네비게이션 시작 -->
         <nav class="breadcrumb">
@@ -16,7 +16,7 @@
             <h1><b>회원가입</b></h1>
             <br>
             <br>
-            <form id="signupForm" action="../" method="post" onsubmit="return validateForm()">
+            <form id="signupForm" method="post">
 
                 <!-- 회원정보 입력 헤더 시작 -->
                 <div class="signup-header">
@@ -33,7 +33,7 @@
                         <!-- 이름 입력 필드 시작 -->
                         <tr>
                             <td>* 이름</td>
-                            <td><input type="text" class="form-control input-small" name="name" id="name" required></td>
+                            <td><input type="text" class="form-control input-small" name="member_name" id="name" required></td>
                         </tr>
                         <!-- 이름 입력 필드 끝 -->
 
@@ -42,7 +42,7 @@
                             <td>* 아이디</td>
                             <td>
                                 <div class="input-group-append">
-                                    <input type="text" class="form-control input-small" name="username" id="username" required>
+                                    <input type="text" class="form-control input-small" name="member_id" id="username" required>
                                     &nbsp;
                                     <button class="btn btn-secondary" type="button" onclick="checkUsername()">중복확인</button>
                                 </div>
@@ -54,7 +54,7 @@
                         <tr>
                             <td>* 비밀번호</td>
                             <td>
-                                <input type="password" class="form-control input-small" name="password" id="password" required>
+                                <input type="password" class="form-control input-small" name="member_password" id="password" required>
                                 <small class="form-text text-muted">영문 대소문자/숫자/특수문자를 혼용하여 3종류 10-16자</small>
                             </td>
                         </tr>
@@ -72,16 +72,16 @@
                             <td>* 생일/성별</td>
                             <td>
                                 <div class="d-flex align-items-center birthday-gender-row">
-                                    <select class="form-control input-tiny" name="birth_year" required>
+                                    <select class="form-control input-tiny" name="member_birthday" id="birth_year" required>
                                         <option>선택</option>
                                         <script>
                                             for (let i = new Date().getFullYear(); i >= 1900; i--) {
-                                                document.write('<option value="'+i+'">'+i+'</option>');
+                                                document.write('<option value="'+i+'" >'+i+'</option>');
                                             }
                                         </script>
                                     </select>
                                     <h6> 년 </h6>
-                                    <select class="form-control input-tiny" name="birth_month" required>
+                                    <select class="form-control input-tiny" id="birth_month" name="member_birthday" required>
                                         <option>선택</option>
                                         <script>
                                             for (let i = 1; i <= 12; i++) {
@@ -90,7 +90,7 @@
                                         </script>
                                     </select>
                                     <h6> 월 </h6>
-                                    <select class="form-control input-tiny" name="birth_day" required>
+                                    <select class="form-control input-tiny" name="member_birthday" id="birth_day" required>
                                         <option>선택</option>
                                         <script>
                                             for (let i = 1; i <= 31; i++) {
@@ -100,14 +100,6 @@
                                     </select>
                                     <h6> 일 </h6>
                                     &nbsp;&nbsp;&nbsp;&nbsp;
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="gender" value="M" required>
-                                        <label class="form-check-label">남</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="gender" value="F" required>
-                                        <label class="form-check-label">여</label>
-                                    </div>
                                 </div>
                             </td>
                         </tr>
@@ -134,7 +126,7 @@
                             <td>
                                 <div class="form-row">
                                     <div class="col">
-                                        <select class="form-control" name="phone_prefix" required>
+                                        <select class="form-control" id="phone_prefix" name="phone_num" required>
                                             <option>선택</option>
                                             <option>010</option>
                                             <option>011</option>
@@ -143,10 +135,10 @@
                                         </select>
                                     </div>
                                     <div class="col">
-                                        <input type="text" class="form-control" name="phone_middle_number" required>
+                                        <input type="text" class="form-control" id="phone_middel_number" name="phone_num" required>
                                     </div>
                                     <div class="col">
-                                        <input type="text" class="form-control" name="phone_last_number" required>
+                                        <input type="text" class="form-control" id="phone_last_number" name="phone_num" required>
                                     </div>
                                 </div>
                             </td>
@@ -158,11 +150,11 @@
                             <td>* 이메일</td>
                             <td>
                                 <div class="input-group-append">
-                                    <input type="text" class="form-control" name="email_local" style="width: 150px;" required>
+                                    <input type="text" class="form-control" name="member_email" style="width: 150px;" required>
                                     <span class="input-group-text">@</span>
-                                    <input type="text" class="form-control" name="email_domain" id="email_domain" style="width: 150px;" required>
+                                    <input type="text" class="form-control" name="member_email" id="email_domain" style="width: 150px;" required>
                                     <div class="input-group-append">
-                                        <select class="form-control" name="email_select" id="email_select" required onchange="setEmailDomain()">
+                                        <select class="form-control" name="member_email" id="email_select" required onchange="setEmailDomain()">
                                             <option value="">직접입력</option>
                                             <option value="naver.com">naver.com</option>
                                             <option value="daum.net">daum.net</option>
@@ -181,7 +173,7 @@
                             <td>* 본인확인 질문</td>
                             <td>
                                 <div>
-                                    <select class="form-control input-small" name="question" required>
+                                    <select class="form-control input-small" name="member_q" id="member_q" required>
                                         <option>가장 좋아하는 색깔은?</option>
                                         <option>가장 좋아하는 동물은?</option>
                                         <option>내가 다녔던 초등학교는?</option>
@@ -193,7 +185,7 @@
                         </tr>
                         <tr>
                             <td>* 본인확인 답변</td>
-                            <td><input type="text" class="form-control input-small" name="answer" required></td>
+                            <td><input type="text" class="form-control input-small" name="member_a" id="member_a" required></td>
                         </tr>
                         <!-- 본인확인 질문 및 답변 필드 끝 -->
 
