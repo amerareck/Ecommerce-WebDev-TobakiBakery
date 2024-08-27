@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
-<link rel="stylesheet" href="../resources/css/itemList.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/itemList.css">
 	<div id="wrap">
 		<!-- content 부분입니다. -->
 		<div id="contentWrapper">
@@ -29,7 +29,7 @@
 						<div class="badge">BEST</div>
 						<dt class="thumb">
 							<img class="prd_img"
-								src="../resources/image/bread/걀렛뜨 데로와 푀유떼.jpg"
+								src="${pageContext.request.contextPath}/resources/image/bread/걀렛뜨 데로와 푀유떼.jpg"
 								onclick="location.href='../product/itemDetail-static'">
 							<div class="cart-overlay"
 								onclick="location.href='../order/orderCart-static'">
@@ -51,7 +51,7 @@
 					<dl class="item_elem">
 						<div class="badge">BEST</div>
 						<dt class="thumb">
-							<img class="prd_img" src="../resources/image/bread/로데브.jpg"
+							<img class="prd_img" src="${pageContext.request.contextPath}/resources/image/bread/로데브.jpg"
 								onclick="location.href='../product/itemDetail-static'">
 							<div class="cart-overlay"
 								onclick="location.href='../order/orderCart-static'">
@@ -73,7 +73,7 @@
 					<dl class="item_elem">
 						<div class="badge">BEST</div>
 						<dt class="thumb">
-							<img class="prd_img" src="../resources/image/bread/바따르.jpg"
+							<img class="prd_img" src="${pageContext.request.contextPath}/resources/image/bread/바따르.jpg"
 								onclick="location.href='../product/itemDetail-static'">
 							<div class="cart-overlay"
 								onclick="location.href='../order/orderCart-static'">
@@ -95,7 +95,7 @@
 					<dl class="item_elem">
 						<div class="badge">BEST</div>
 						<dt class="thumb">
-							<img class="prd_img" src="../resources/image/bread/자연효모빵.jpg"
+							<img class="prd_img" src="${pageContext.request.contextPath}/resources/image/bread/자연효모빵.jpg"
 								onclick="location.href='../product/itemDetail-static'">
 							<div class="cart-overlay"
 								onclick="location.href='../order/orderCart-static'">
@@ -118,7 +118,7 @@
 					<dl class="item_elem">
 						<div class="badge">BEST</div>
 						<dt class="thumb">
-							<img class="prd_img" src="../resources/image/bread/카스텔라.jpg"
+							<img class="prd_img" src="${pageContext.request.contextPath}/resources/image/bread/카스텔라.jpg"
 								onclick="location.href='../product/itemDetail-static'">
 							<div class="cart-overlay"
 								onclick="location.href='../order/orderCart-static'">
@@ -140,7 +140,7 @@
 					<dl class="item_elem">
 						<div class="badge">BEST</div>
 						<dt class="thumb">
-							<img class="prd_img" src="../resources/image/bread/오렌지케익.jpg"
+							<img class="prd_img" src="${pageContext.request.contextPath}/resources/image/bread/오렌지케익.jpg"
 								onclick="location.href='../product/itemDetail-static'">
 							<div class="cart-overlay"
 								onclick="location.href='../order/orderCart-static'">
@@ -162,7 +162,7 @@
 					<dl class="item_elem">
 						<div class="badge">BEST</div>
 						<dt class="thumb">
-							<img class="prd_img" src="../resources/image/bread/마블케익.jpg"
+							<img class="prd_img" src="${pageContext.request.contextPath}/resources/image/bread/마블케익.jpg"
 								onclick="location.href='../product/itemDetail-static'">
 							<div class="cart-overlay"
 								onclick="location.href='../order/orderCart-static'">
@@ -184,7 +184,7 @@
 					<dl class="item_elem">
 						<div class="badge">BEST</div>
 						<dt class="thumb">
-							<img class="prd_img" src="../resources/image/bread/뺑드미.jpg"
+							<img class="prd_img" src="${pageContext.request.contextPath}/resources/image/bread/뺑드미.jpg"
 								onclick="location.href='../product/itemDetail-static'">
 							<div class="cart-overlay"
 								onclick="location.href='../order/orderCart-static'">
