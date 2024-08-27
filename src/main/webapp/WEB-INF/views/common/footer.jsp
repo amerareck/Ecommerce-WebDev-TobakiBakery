@@ -18,9 +18,10 @@
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 	<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
-	<script src="/resources/js/common.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/common.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/admin.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/center.js"></script>
-    <script src="../js/center.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/center.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/member.js"></script>
 </body>
 </html>

@@ -217,5 +217,5 @@
     </div>
 
     <%@ include file="/WEB-INF/views/common/footer.jsp" %>
-    <script src="../js/member.js"></script>
+ 
     <!-- 스크립트 파일 포함 끝 -->
