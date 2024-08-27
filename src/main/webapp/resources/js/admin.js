@@ -204,26 +204,48 @@ $('#orderUpdateSubmit').submit(function(event){
 
 $('#productUpdateForm').submit(function(event){
     event.preventDefault();
-
+/*
     let str = '수정을 하려고 하는 내역은 다음과 같습니다.\n';
     str += '상품명 : '+$('#updateName').val().trim()+'\n';
     str += '상품상세 : '+$('#updateDetails').val()+'\n';
     str += '카테고리 : '+$('#updateCategory option:selected').val()+'\n';
     str += '상품가격 : '+$('#updatePrice').val().replace(/[^0-9]/g, '')+'\n';
     str += '상품수량 : '+$('#updateAmount').val().replace(/[^0-9]/g, '')+'\n';
-    str += '배송업체 : '+$('#updateDeliveryCompany option:selected').val()+' - '+$('#updateDeliveryCompany option:selected').text()+'\n';
-    str += '배송가격 : '+$('#updateDeliveryPrice').val().replace(/[^0-9]/g, '')+'\n';
     str += '상품이미지 : '+$('#updateProductImagefile').attr('src')+'\n';
     str += '상품상태 : '+$('#updateProductState option:selected').val()+' - '+$('#updateProductState option:selected').text()+'\n';
     str += '추천상품상태 : '+$('#updateRecommendedProduct').is(':checked')+'\n';
-
-    alert(str);
+*/
+    const product = {
+    		productName : $('#updateName').val().trim(),
+    		productDetail : $('#updateDetails').val(),
+    		categoryName : $('#updateCategory option:selected').val(),
+    		productPrice : $('#updatePrice').val().replace(/[^0-9]/g, ''),
+    		productCount : $('#updateAmount').val().replace(/[^0-9]/g, ''),
+    		productState : $('#updateProductState option:selected').text(),
+    		productRecom : $('#updateRecommendedProduct').is(':checked'),
+    		productDateTime : moment().format('YYYY-MM-DD HH-mm-ss')
+    };
+    
+    $.ajax({
+    	url: "updateProduct",
+    	type: "post",
+    	data: product,
+    	success: function(data){
+    		if(data.status === "ok") {
+    			alert("상품이 수정되었습니다.");
+    			location.href="getAdminMain";
+    		} else {
+    			alert("수정에 실패했습니다.");
+    		}
+    	}
+    });
 });
 
 $('#productTableForm').submit(function(event){
     event.preventDefault();
 
     let str = '선택된 상품 번호 - \n';
+    const removeList = [];
     const tableData = $('#productTableData tr');
     const deleteData = tableData.filter(function(){
         return $(this).find('input.product-select:checked').length > 0;
@@ -231,10 +253,23 @@ $('#productTableForm').submit(function(event){
     
     deleteData.each(function(){
         str += $(this).find('th.prodNum').text().trim()+'\n';
+        removeList.push({productId : $(this).find('th.prodNum').text().trim()});
     });
-    str += '해당 상품들이 삭제되었습니다.';
-    deleteData.remove();
-    alert(str);
+    
+    $.ajax({
+    	url: "removeProductList",
+    	type: "post",
+    	data: {removeList},
+    	success: function(data){
+    		if(data.status === 'ok') {
+    		    str += '해당 상품들이 삭제되었습니다.';
+    		    deleteData.remove();
+    		    alert(str);
+    		} else {
+    			alert("상품 삭제에 실패하였습니다.");
+    		}
+    	}
+    });
 });
 
 $('#productTableData a.product-delete-selector').each(function(){
@@ -242,12 +277,24 @@ $('#productTableData a.product-delete-selector').each(function(){
         event.preventDefault();
 
         const deleteData = $(this).parent().parent();
+        const productId = deleteData.find('th.prodNum').text().trim().replace(/[^0-9]/g, '');
         let str = '선택한 상품NO ['
-        str += deleteData.find('th.prodNum').text().trim()+']';
+        str += productId+']';
         if(confirm(str+'\n정말 삭제하시겠습니까?')) {
-            deleteData.remove();
-            str+= '을 삭제하였습니다.';
-            alert(str);
+        	$.ajax({
+        		url: "removeProduct",
+        		type: "post",
+        		data: {productId},
+        		success: function(data) {
+        			if(data.status === 'ok') {
+        				deleteData.remove();
+        	            str+= '을 삭제하였습니다.';
+        	            alert(str);
+        			} else {
+        				alert("상품 삭제를 실패하였습니다.");
+        			}
+        		}
+        	});
         }
     });
 });

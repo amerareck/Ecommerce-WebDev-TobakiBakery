@@ -1,9 +1,10 @@
-package com.mycompany.miniproject.admin.dto;
+package com.mycompany.miniproject.dto;
 
 import lombok.Data;
 
 @Data
-public class AddProductDTO {
+public class ProductDTO {
+	int productId;
 	String productName;
 	int productPrice;
 	String productDateTime;

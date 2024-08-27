@@ -747,18 +747,18 @@
                                     <div class="block-left flex-grow-1">
                                         <div class="form-group flex-column">
                                             <label for="updateName"><b>상품명</b></label>
-                                            <input type="text" class="form-control" id="updateName" value="왕슈크림도넛" />
+                                            <input type="text" class="form-control" id="updateName" name="productName" value="왕슈크림도넛" />
                                         </div>
     
                                         <div class="form-group">
                                             <label for="updateDetails"><b>상품상세</b></label>
-                                            <textarea class="form-control" id="updateDetails" rows="5">슈크림이 진득하게 들어 있어 맛과 향이 진하게 배어 들어 있는 큼지막한 도넛 슈크림 빵입니다.</textarea>
+                                            <textarea class="form-control" id="updateDetails" name="productDetail" rows="5">슈크림이 진득하게 들어 있어 맛과 향이 진하게 배어 들어 있는 큼지막한 도넛 슈크림 빵입니다.</textarea>
                                             <input type="file" class="form-control-file mt-1" id="updateDetailsImage">
                                         </div>
     
                                         <div class="form-group">
                                             <label for="updateCategory"><b>카테고리</b></label>
-                                            <select class="form-control form-select" id="updateCategory" style="width: 90%">
+                                            <select class="form-control form-select" id="updateCategory" name="categoryName" style="width: 90%">
                                                 <option value="bread">Bread</option>
                                                 <option value="cake">Cake</option>
                                                 <option value="desert" selected>Desert</option>
@@ -768,31 +768,33 @@
                                         <div class="d-flex justify-content-between" style="width: 95%;">
                                             <div class="form-group">
                                                 <label for="updatePrice"><b>상품가격</b></label>
-                                                <input type="number" class="form-control" id="updatePrice" value="3500" />
+                                                <input type="number" class="form-control" id="updatePrice" name="productPrice" value="3500" />
                                             </div>
                                             <div class="form-group">
                                                 <label for="updateAmount"><b>상품수량</b></label>
-                                                <input type="number" class="form-control" id="updateAmount" value="22" />
+                                                <input type="number" class="form-control" id="updateAmount" name="productCount" value="22" />
                                             </div>
                                         </div>
     
-                                        <div class="d-flex justify-content-between" style="width: 95%;">
+                                        <div class="d-flex justify-content-between w-100" style="width: 95%;">
                                             <div class="form-group w-50">
-                                                <label for="updateDeliveryCompany"><b>배송업체</b></label>
-                                                <select class="form-control form-select" id="updateDeliveryCompany" style="width: 90%;">
-                                                    <option value="1" selected>대한통운</option>
-                                                    <option value="2">한진택배</option>
-                                                    <option value="3">롯데택배</option>
+                                                <label for="updateProductState"><b>상품상태</b></label>
+                                                <select class="form-control form-select" id="updateProductState" style="width: 85%;">
+                                                    <option value="1" selected>판매중</option>
+                                                    <option value="2">판매중단</option>
+                                                    <option value="3">매진</option>
                                                 </select>
                                             </div>
-                                            <div class="form-group w-50">
-                                                <label for="updateDeliveryPrice"><b>배송가격</b></label>
-                                                <input type="number" class="form-control" id="updateDeliveryPrice" value="3000">
+                                            <div class="flex-sort d-flex align-items-center w-50">
+                                                <div class="custom-control custom-switch mt-2">
+                                                    <input type="checkbox" class="custom-control-input" id="updateRecommendedProduct" />
+                                                    <label class="custom-control-label" for="updateRecommendedProduct"><b>추천상품 설정</b></label>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
     
-                                    <div class="block-right flex-grow-1">
+                                    <div class="block-right flex-grow-1 h-100">
                                         <div class="form-group">
                                             <div class="text-left">
                                               <label for="updateProductImagefile"><b>상품 썸네일</b></label>
@@ -800,25 +802,8 @@
                                             <img src="../resources/image/왕슈크림도넛.jpg" class="rounded" id="updateProductImagefile" width="300px" height="275px"/>
                                             <input type="file" class="form-control-file mt-1" id="updateImagefileUpload">
                                         </div>
-    
-                                        <div class="d-flex justify-content-between" style="width: 95%;">
-                                            <div class="form-group">
-                                                <label for="updateProductState"><b>상품상태</b></label>
-                                                <select class="form-control form-select" id="updateProductState">
-                                                    <option value="1" selected>판매중</option>
-                                                    <option value="2">판매중단</option>
-                                                    <option value="3">매진</option>
-                                                </select>
-                                            </div>
-                                            <div class="flex-sort d-flex justify-content-center align-items-center">
-                                                <div class="custom-control custom-switch mt-2">
-                                                    <input type="checkbox" class="custom-control-input" id="updateRecommendedProduct" />
-                                                    <label class="custom-control-label" for="updateRecommendedProduct"><b>추천상품 설정</b></label>
-                                                </div>
-                                            </div>
-                                        </div>
 
-                                        <div class="d-flex justify-content-end ml-3 mt-5" style="width: 95%;">
+                                        <div class="d-flex justify-content-end align-items-end ml-3" style="width: 95%; margin-top: 150px;">
                                             <button type="submit" class="btn btn-secondary" id="updateSubmit">수정하기</button>
                                         </div>
     
