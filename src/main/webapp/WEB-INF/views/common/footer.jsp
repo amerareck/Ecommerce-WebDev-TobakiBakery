@@ -21,7 +21,7 @@
 	<script src="${pageContext.request.contextPath}/resources/js/common.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/admin.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/center.js"></script>
-    <script src="${pageContext.request.contextPath}/resources/js/center.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/member.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/mypage.js"></script>
 </body>
 </html>
