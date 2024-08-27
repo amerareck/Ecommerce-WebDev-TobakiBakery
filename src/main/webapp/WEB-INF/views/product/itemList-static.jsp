@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
-<link rel="stylesheet" href="../resources/css/itemList.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/itemList.css">
 	<div id="wrap">
 		<!-- content 부분입니다. -->
 		<div id="contentWrapper">
@@ -28,12 +28,13 @@
 				</div>
 				<div class="item_wrap">
 					<!-- 1행 -->
+
 					<dl class="item_elem">
 						<div class="badge">BEST</div>
 						<dt class="thumb">
-							<img class="prd_img"
-								src="../resources/image/bread/걀렛뜨 데로와 푀유떼.jpg"
-								onclick="location.href='../product/itemDetail-static'">
+							<a href="../product/itemDetail-static"><img class="prd_img"
+								src="${pageContext.request.contextPath}/resources/image/bread/걀렛뜨 데로와 푀유떼.jpg"
+								></a>
 							<div class="cart-overlay"
 								onclick="location.href='../order/orderCart-static'">
 								<img
@@ -50,12 +51,11 @@
 							</ul>
 						</dd>
 					</dl>
-
+					
 					<dl class="item_elem">
 						<div class="badge">BEST</div>
 						<dt class="thumb">
-							<img class="prd_img" src="../resources/image/bread/로데브.jpg"
-								onclick="location.href='../product/itemDetail-static'">
+							<a href="../product/itemDetail-static"><img class="prd_img" src="${pageContext.request.contextPath}/resources/image/bread/로데브.jpg"></a>
 							<div class="cart-overlay"
 								onclick="location.href='../order/orderCart-static'">
 								<img
@@ -76,8 +76,7 @@
 					<dl class="item_elem">
 						<div class="badge">BEST</div>
 						<dt class="thumb">
-							<img class="prd_img" src="../resources/image/bread/바따르.jpg"
-								onclick="location.href='../product/itemDetail-static'">
+							<a href="../product/itemDetail-static"><img class="prd_img" src="${pageContext.request.contextPath}/resources/image/bread/바따르.jpg"></a>
 							<div class="cart-overlay"
 								onclick="location.href='orderCart-static'">
 								<img
@@ -98,8 +97,7 @@
 					<dl class="item_elem">
 						<div class="badge">BEST</div>
 						<dt class="thumb">
-							<img class="prd_img" src="../resources/image/bread/자연효모빵.jpg"
-								onclick="location.href='../product/itemDetail-static'">
+							<a href="../product/itemDetail-static"><img class="prd_img" src="${pageContext.request.contextPath}/resources/image/bread/자연효모빵.jpg"></a>
 							<div class="cart-overlay"
 								onclick="location.href='../product/orderCart-static'">
 								<img
@@ -121,8 +119,7 @@
 					<dl class="item_elem">
 						<div class="badge">BEST</div>
 						<dt class="thumb">
-							<img class="prd_img" src="../resources/image/bread/카스텔라.jpg"
-								onclick="location.href='../product/itemDetail-static'">
+							<a href="../product/itemDetail-static"><img class="prd_img" src="${pageContext.request.contextPath}/resources/image/bread/카스텔라.jpg"></a>
 							<div class="cart-overlay"
 								onclick="location.href='orderCart-static'">
 								<img
@@ -143,8 +140,7 @@
 					<dl class="item_elem">
 						<div class="badge">BEST</div>
 						<dt class="thumb">
-							<img class="prd_img" src="../resources/image/bread/오렌지케익.jpg"
-								onclick="location.href='../product/itemDetail-static'">
+							<a href="../product/itemDetail-static"><img class="prd_img" src="${pageContext.request.contextPath}/resources/image/bread/오렌지케익.jpg"></a>
 							<div class="cart-overlay"
 								onclick="location.href='orderCart-static'">
 								<img
@@ -165,8 +161,7 @@
 					<dl class="item_elem">
 						<div class="badge">BEST</div>
 						<dt class="thumb">
-							<img class="prd_img" src="../resources/image/bread/마블케익.jpg"
-								onclick="location.href='../product/itemDetail-static'">
+							<a href="../product/itemDetail-static"><img class="prd_img" src="${pageContext.request.contextPath}/resources/image/bread/마블케익.jpg"></a>
 							<div class="cart-overlay"
 								onclick="location.href='orderCart-static'">
 								<img
@@ -187,14 +182,14 @@
 					<dl class="item_elem">
 						<div class="badge">BEST</div>
 						<dt class="thumb">
-							<img class="prd_img" src="../resources/image/bread/뺑드미.jpg"
-								onclick="location.href='../product/itemDetail-static'">
-							<div class="cart-overlay"
-								onclick="location.href='../order/orderCart-static'">
+							<a href="../product/itemDetail-static">
+							<img class="prd_img" src="${pageContext.request.contextPath}/resources/image/bread/뺑드미.jpg">
+							</a>
+							<a href="../order/orderCart-static"><div class="cart-overlay">
 								<img
 									src="https://cdn-icons-png.flaticon.com/512/1170/1170678.png"
 									alt="장바구니로 이동">
-							</div>
+							</div></a>
 						</dt>
 						<dd>
 							<ul>
