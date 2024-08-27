@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
-<link rel="stylesheet" href="../resources/css/member-style.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/member-style.css">
     <div class="container">
         <!-- 네비게이션 시작 -->
         <nav class="breadcrumb">
