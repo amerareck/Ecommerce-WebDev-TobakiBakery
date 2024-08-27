@@ -1,7 +1,15 @@
 package com.mycompany.miniproject.controller;
 
+import java.io.PrintWriter;
+
+import javax.servlet.http.HttpServletResponse;
+
+import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.mycompany.miniproject.dto.MemberDto;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,6 +28,11 @@ public class MemberController {
 	public String login() {
 		log.info("로그인 실행");
 		return "/member/login";
+	}
+	@RequestMapping("/member-edit")
+	public String memberEdit() {
+		log.info("회원수정 실행");
+		return "/member/member-edit";
 	}
 	
 	@RequestMapping("/member-search-id")
@@ -45,5 +58,24 @@ public class MemberController {
 		log.info("비밀번호 찾기 완료");
 		return "/member/member-search-pw-complete";
 	}
-}
+	
+	@PostMapping("/member-info")
+	public void requestAjax(MemberDto memDto, HttpServletResponse response) 
+		throws Exception {
+		log.info(memDto.toString());
+		
+		
+		
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("result", "ok");
+		String json = jsonObject.toString();
+		 
+		response.setContentType("application/json; charset=UTF-8");
+		PrintWriter pw = response.getWriter();
+		pw.println(json);
+		pw.flush(); 
+		pw.close();
+		
+	}
 
+}
