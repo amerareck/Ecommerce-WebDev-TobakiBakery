@@ -65,9 +65,54 @@ function validateForm() {
 
     // 모든 조건이 통과되면 폼이 제출됩니다.
     alert("회원가입이 완료되었습니다!");
-    window.location.href = "index.html"
     return true;
 }
+//화원가입 완료시 ajax에  정보 담기
+$(document).ready(function() {
+    $("#signupForm").submit(function(e) {
+        e.preventDefault();
+
+        if (validateForm()) {
+            var member_name = $("#name").val();
+            var member_id = $("#username").val();
+            var member_password = $("#password").val();
+            var member_birthday = $("#birth_year").val() + "-" + $("#birth_month").val() + "-" + $("#birth_day").val();
+            var post_num = $("#postcode").val();
+            var address = $("#address").val();
+            var address_detail = $("#address_detail").val();
+            var phone_num = $("#phone_prefix").val() + $("#phone_middle_number").val() + $("#phone_last_number").val();
+            var member_email = $("#email_local").val() + $(".input-group-text").val() + $("#email_domain").val();
+            
+            var member_q = $("member_q").val();
+            var member_a = $("member_a").val();
+            
+            const memberInfo = {
+            		member_id,
+                    member_name,
+                    member_password,
+                    member_birthday,
+                    post_num,
+                    address,
+                    address_detail,
+                    phone_num,
+                    member_email,
+                    member_q,
+                    member_a,
+                    member_grade: 0
+            };
+            
+            $.ajax({
+                url: "/miniproject/member/member-info",
+                type: "post",
+                data: memberInfo,
+                success: function(response) {
+                	location.href ="../";
+                	}
+            });
+
+        }
+    });
+});
 
 // 회원정보수정
 function editdateForm() {
@@ -96,6 +141,7 @@ function editdateForm() {
 function showEmailAlert() {
     alert("사용 가능한 이메일 입니다!");
 }
+
 
 function showJoinAlert() {
     if (validateForm == true) {
