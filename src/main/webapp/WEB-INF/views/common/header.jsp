@@ -29,27 +29,27 @@
 						<div class="collapse navbar-collapse" id="navbarColor03">
 							<ul class="navbar-nav mr-auto">
 								<li class="nav-item active">
-									<a class="nav-link" href="../index.html">메인
+									<a class="nav-link" href="${pageContext.request.contextPath}">메인
 										<span class="sr-only">(current)</span>
 									</a>
 								</li>
 								<li class="nav-item">
-									<a class="nav-link" href="../member/login.html">로그인</a>
+									<a class="nav-link" href="${pageContext.request.contextPath}/member/login">로그인</a>
 								</li>
 								<li class="nav-item">
-									<a class="nav-link" href="../member/member-info.html">회원가입</a>
+									<a class="nav-link" href="${pageContext.request.contextPath}/member/member-info">회원가입</a>
 								</li>
 								<li class="nav-item">
-									<a class="nav-link" href="../mypage/mypage-main.html">마이페이지</a>
+									<a class="nav-link" href="${pageContext.request.contextPath}/mypage/mypage-main">마이페이지</a>
 								</li>
 								<li class="nav-item dropdown">
-									<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="../center/center-board-list.html" role="button" aria-haspopup="true" aria-expanded="false">고객센터</a>
+									<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="${pageContext.request.contextPath}/center/getBoardList" role="button" aria-haspopup="true" aria-expanded="false">고객센터</a>
 									<div class="dropdown-menu">
-										<a class="dropdown-item" href="../center/center-board-list.html">공지사항</a>
-										<a class="dropdown-item" href="../center/center-board-list.html">상품문의</a>
-										<a class="dropdown-item" href="../center/center-board-list.html">상품후기</a>
+										<a class="dropdown-item" href="${pageContext.request.contextPath}/center/getBoardList">공지사항</a>
+										<a class="dropdown-item" href="${pageContext.request.contextPath}/center/getBoardList">상품문의</a>
+										<a class="dropdown-item" href="${pageContext.request.contextPath}/center/getBoardList">상품후기</a>
 										<div class="dropdown-divider"></div>
-										<a class="dropdown-item" href="../admin/admin-main.html">관리자 사이트</a>
+										<a class="dropdown-item" href="${pageContext.request.contextPath}/admin/getAdminMain">관리자 사이트</a>
 									</div>
 								</li>
 							</ul>
@@ -59,7 +59,7 @@
 			</div>
 			<!--중앙 메인 로고 프레임-->
 			<div class="main-logo">
-				<a href="../index.html"><img src="${pageContext.request.contextPath}/resources/image/main-logo.png" width="150px"></a>
+				<a href="${pageContext.request.contextPath}"><img src="${pageContext.request.contextPath}/resources/image/main-logo.png" width="150px"></a>
 			</div>
 
 			<div class="d-flex" style="margin-left: 30px;">
@@ -73,9 +73,9 @@
 									<i class="fa fa-bars"></i>&emsp;카테고리&emsp;
 								</button>
 								<div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-									<a class="dropdown-item py-2" href="../product/itemList-static.html"><i class="fa fa-bread-slice"></i> :: 빵</a>
-									<a class="dropdown-item py-2" href="../product/itemList-static.html"><i class="fa fa-birthday-cake"></i> :: 케이크</a>
-									<a class="dropdown-item py-2" href="../product/itemList-static.html"><i class="fa fa-cookie"></i> :: 디저트</a>
+									<a class="dropdown-item py-2" href="${pageContext.request.contextPath}/product/itemList-static"><i class="fa fa-bread-slice"></i> :: 빵</a>
+									<a class="dropdown-item py-2" href="${pageContext.request.contextPath}/product/itemList-static"><i class="fa fa-birthday-cake"></i> :: 케이크</a>
+									<a class="dropdown-item py-2" href="${pageContext.request.contextPath}/product/itemList-static"><i class="fa fa-cookie"></i> :: 디저트</a>
 								</div>
 							</div><!--
 							<a href="#">"카테고리버튼"</a>
@@ -89,16 +89,16 @@
 						<div class="top-menu collapse navbar-collapse" id="navbarColor03">
 							<ul class="navbar-nav mr-auto header-font-size ">
 								<li class="nav-item">
-									<a class="nav-link" href="../product/itemList-best.html">베스트</a>
+									<a class="nav-link" href="${pageContext.request.contextPath}/product/itemList-best">베스트</a>
 								</li>
 								<li class="nav-item">
-									<a class="nav-link" href="../product/itemList-best.html">신상품</a>
+									<a class="nav-link" href="${pageContext.request.contextPath}/product/itemList-best">신상품</a>
 								</li>
 								<li class="nav-item">
-									<a class="nav-link" href="../product/itemList-best.html">추천상품</a>
+									<a class="nav-link" href="${pageContext.request.contextPath}/product/itemList-best">추천상품</a>
 								</li>
 								<li class="nav-item">
-									<a class="nav-link" href="../center/center-board-list.html">공지사항</a>
+									<a class="nav-link" href="${pageContext.request.contextPath}/center/center-board-list">공지사항</a>
 								</li>
 							</ul>
 						</div>
@@ -114,7 +114,7 @@
 									</div>
 								</div>
 								<div class="top-cart">
-									<a href="../order/orderCart-static.html"><i class="fas fa-shopping-cart icon-size"></i></a>									
+									<a href="${pageContext.request.contextPath}/order/orderCart-static"><i class="fas fa-shopping-cart icon-size"></i></a>									
 									<span class="cart-count">3</span>
 								</div>
 							</div>
