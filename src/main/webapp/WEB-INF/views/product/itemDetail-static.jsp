@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
-<link rel="stylesheet" href="../resources/css/itemDetail.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/itemDetail.css">
 		<!-- 상세페이지 -->
 		<div id="contentWrapper">
 
@@ -20,7 +20,7 @@
 						<div class="thumb-info">
 							<!-- 상품 왼쪽 이미지 -->
 							<div class="thumb-wrap">
-								<img src="../resources/image/bread/걀렛뜨 데로와 푀유떼.jpg"
+								<img src="${pageContext.request.contextPath}/resources/image/bread/걀렛뜨 데로와 푀유떼.jpg"
 									alt="걀렛뜨 데로와 푀유떼">
 							</div>
 							<!-- thumb-wrap -->
@@ -137,7 +137,7 @@
 								<div class="col-md-3">
 									<div class="card">
 										<a href="../product/itemDetail-static"> <img
-											src="../resources/image/bread/팡도르.jpg" class="card-img-top"
+											src="${pageContext.request.contextPath}/resources/image/bread/팡도르.jpg" class="card-img-top"
 											alt="팡도르">
 										</a>
 										<div class="card-body">
@@ -151,7 +151,7 @@
 								<div class="col-md-3">
 									<div class="card">
 										<a href="../product/itemDetail-static"> <img
-											src="../resources/image/bread/파네토네.jpg" class="card-img-top"
+											src="${pageContext.request.contextPath}/resources/image/bread/파네토네.jpg" class="card-img-top"
 											alt="파네토네">
 										</a>
 										<div class="card-body">
@@ -165,7 +165,7 @@
 								<div class="col-md-3">
 									<div class="card">
 										<a href="../product/itemDetail-static"> <img
-											src="../resources/image/bread/자연효모빵.jpg" class="card-img-top"
+											src="${pageContext.request.contextPath}/resources/image/bread/자연효모빵.jpg" class="card-img-top"
 											alt="자연효모빵">
 										</a>
 										<div class="card-body">
@@ -179,7 +179,7 @@
 								<div class="col-md-3">
 									<div class="card">
 										<a href="../product/itemDetail-static"> <img
-											src="../resources/image/bread/유산균 발효 식빵.jpg"
+											src="${pageContext.request.contextPath}/resources/image/bread/유산균 발효 식빵.jpg"
 											class="card-img-top" alt="유산균 발효 식빵">
 										</a>
 										<div class="card-body">
@@ -214,7 +214,7 @@
 								<div class="tab-pane fade show active" id="detail-info"
 									role="tabpanel">
 									<p>
-										<img src="../resources/image/bread/걀렛뜨 데로와 푀유떼_상세.jpg" class="img-fluid" alt="상품 상세 이미지">
+										<img src="${pageContext.request.contextPath}/resources/image/bread/걀렛뜨 데로와 푀유떼_상세.jpg" class="img-fluid" alt="상품 상세 이미지">
 									</p>
 								</div>
 								<div class="tab-pane fade" id="shipping-info" role="tabpanel">
