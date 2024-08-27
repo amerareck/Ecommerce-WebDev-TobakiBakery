@@ -98,7 +98,7 @@
 									<a class="nav-link" href="${pageContext.request.contextPath}/product/itemList-best">추천상품</a>
 								</li>
 								<li class="nav-item">
-									<a class="nav-link" href="${pageContext.request.contextPath}/center/center-board-list">공지사항</a>
+									<a class="nav-link" href="${pageContext.request.contextPath}/center/getBoardList">공지사항</a>
 								</li>
 							</ul>
 						</div>
