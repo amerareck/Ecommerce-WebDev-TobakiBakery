@@ -252,17 +252,15 @@ $('#productTableData a.product-delete-selector').each(function(){
     });
 });
 
+
+
 $('#productInsertForm').submit(function(event){
     event.preventDefault();
     
     const category = $('#product-category');
-    const delivery = $('#delivery-company');
     const productState = $('#productState');
     if(!category.val()) {
         alert('카테고리를 선택해 주세요.');
-        return;
-    } else if(!delivery.val()) {
-        alert('배송업체를 선택해 주세요.');
         return;
     } else if(!productState.val()) {
         alert('상품상태를 설정해 주세요.');
@@ -274,10 +272,9 @@ $('#productInsertForm').submit(function(event){
     const prodDetailsImage = $('#product-details-imagefile')[0];
     const prodPrice = $('#product-price');
     const prodAmount = $('#product-amount');
-    const deliveryPrice = $('#delivery-price');
     const prodMainImage = $('#productMainImagefile')[0];
     const isRecomenedProd = $('#recommendedProduct');
-
+/*
     let str = '등록하실 상품 정보는 다음과 같습니다.\n';
     str += '상품명: '+prodName.val().trim()+'\n';
     str += '상품상세: '+prodDetails.val()+'\n';
@@ -285,11 +282,32 @@ $('#productInsertForm').submit(function(event){
     str += '카테고리: '+category.find('option:selected').text()+'\n';
     str += '상품가격: '+prodPrice.val()+'\n';
     str += '상품수량: '+prodAmount.val()+'\n';
-    str += '배송업체: '+delivery.find('option:selected').text()+'\n';
-    str += '배송가격: '+deliveryPrice.val()+'\n';
     prodMainImage.files.length > 0 ? (str+= '메인이미지 : '+prodMainImage.files[0].name+'\n') : (str+= '메인이미지 : 이미지 없음\n');
     str += '상품상태: '+productState.find('option:selected').text()+'\n';
     str += '추천상품설정: '+isRecomenedProd.is(':checked')+'\n';
-
-    alert(str);
+*/
+    const product = {
+    		productName : prodName.val().trim(),
+    		productDetail : prodDetails.val(),
+    		categoryName : category.find('option:selected').text(),
+    		productPrice : prodPrice.val(),
+    		productCount : prodAmount.val(),
+    		productState : productState.find('option:selected').text(),
+    		productRecom : isRecomenedProd.is(':checked'),
+    		productDateTime : moment().format('YYYY-MM-DD HH-mm-ss')
+    };
+    
+    $.ajax({
+    	url: "addProduct",
+    	type: "post",
+    	data: product,
+    	success: function(data){
+    		if(data.status === 'ok') {
+    			alert("상품 등록에 성공하였습니다.");
+    			location.href="admin/getAdminMain";
+    		} else {
+    			alert("상품 등록에 실패하였습니다.");
+    		}
+    	}
+    });
 });

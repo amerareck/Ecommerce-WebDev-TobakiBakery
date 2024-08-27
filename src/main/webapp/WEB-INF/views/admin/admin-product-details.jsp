@@ -10,24 +10,24 @@
                 <h2>상품 등록</h2>
                 <hr class="hr">
                 <div class="d-flex form-wrapper my-4">
-                    <form action="#" id="productInsertForm">
+                    <form method="post" action="addProduct" id="productInsertForm">
                         <div class="product-container">
                             <div class="block-left flex-grow-1">
                                 <!-- 상품 이름 -->
                                 <div class="form-group">
                                     <label for="product-name"><b>상품명</b></label>
-                                    <input type="text" class="form-control" id="product-name" aria-describedby="productName" placeholder="상품 이름 입력" required>
+                                    <input type="text" class="form-control" id="product-name" name="productName" aria-describedby="productName" placeholder="상품 이름 입력" required>
                                 </div>
                                 <!-- 상품 상세 -->
                                 <div class="form-group">
                                     <label for="product-details"><b>상품상세</b></label>
-                                    <textarea class="form-control" id="product-details" rows="5" required></textarea>
+                                    <textarea class="form-control" id="product-details" name="productDetail" rows="5" required></textarea>
                                     <input type="file" class="form-control-file mt-1" id="product-details-imagefile" aria-describedby="details-imagefile">
                                 </div>
                                 <!-- 카테고리 선택 -->
                                 <div class="form-group">
                                     <label for="product-category"><b>카테고리</b></label>
-                                    <select class="form-control form-select" id="product-category" required>
+                                    <select class="form-control form-select" id="product-category" name="categoryName" required>
                                       <option disabled selected>카테고리 선택</option>
                                       <option value="bread">Bread</option>
                                       <option value="cake">Cake</option>
@@ -38,18 +38,18 @@
                                 <div class="d-flex justify-content-between" style="width: 95%;">
                                     <div class="form-group">
                                         <label for="product-price"><b>상품가격</b></label>
-                                        <input type="number" class="form-control" id="product-price" placeholder="상품 가격" required>
+                                        <input type="number" class="form-control" id="product-price" name="productPrice" placeholder="상품 가격" required>
                                     </div>
                                     <div class="form-group">
                                         <label for="product-amount"><b>상품수량</b></label>
-                                        <input type="number" class="form-control" id="product-amount" placeholder="수량 설정" required>
+                                        <input type="number" class="form-control" id="product-amount" name="productCount" placeholder="수량 설정" required>
                                     </div>
                                 </div>
                                 <!-- 상품 상태 및 추천 설정 -->
                                 <label for="productState"><b>상품상태 설정</b></label>
                                 <div class="form-group d-flex justify-content-between" style="width: 95%;">
                                     <div class="w-50">
-                                        <select class="form-control form-select" id="productState" required>
+                                        <select class="form-control form-select" id="productState" name="productState" required>
                                           <option disabled selected>상품상태</option>
                                           <option value="1">판매중</option>
                                           <option value="2">상품품절</option>
@@ -58,7 +58,7 @@
                                     </div>
                                     <div class="flex-sort d-flex justify-content-center align-items-center checkbox-area">
                                         <div class="custom-control custom-switch">
-                                            <input type="checkbox" class="custom-control-input" id="recommendedProduct" value="recommendedProd">
+                                            <input type="checkbox" class="custom-control-input" id="recommendedProduct" name="productRecom" value="recommendedProd">
                                             <label class="custom-control-label" for="recommendedProduct"><b>추천상품 설정</b></label>
                                         </div>
                                     </div>
@@ -83,6 +83,8 @@
                                         </div>
                                     </div>
                                 </div>
+                                <!-- 타임스탬프 -->
+                                <input type="hidden" name="productDateTime" id="productDateTime">
                             </div>
                         </div>
 
