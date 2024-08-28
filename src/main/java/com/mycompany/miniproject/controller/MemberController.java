@@ -3,13 +3,18 @@ package com.mycompany.miniproject.controller;
 import java.io.PrintWriter;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.mycompany.miniproject.dto.MemberDto;
+import com.mycompany.miniproject.dto.MemberDTO;
+import com.mycompany.miniproject.validator.LoginFormValidator;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,6 +27,24 @@ public class MemberController {
 	public String addMember() {
 		log.info("회원가입 실행");
 		return "/member/member-info";
+	}
+	
+	@InitBinder("memberDTO")
+	public void ch04LoginFormValidator(WebDataBinder binder) {
+		binder.setValidator(new LoginFormValidator());
+	}
+	
+	@PostMapping("/login")
+	public String login(@Valid MemberDTO loginForm, Errors errors) {
+		if(errors.hasErrors()) {
+			log.info("유효성 검사 실패");
+			return "/member/login";
+		}
+		log.info("유효성 검사 성공");
+		
+		log.info("memberId: "+ loginForm.getMember_id());
+		log.info("memberPW: " + loginForm.getMember_password());
+		return "redirect:/";
 	}
 	
 	@RequestMapping("/login")
@@ -60,7 +83,7 @@ public class MemberController {
 	}
 	
 	@PostMapping("/member-info")
-	public void requestAjax(MemberDto memDto, HttpServletResponse response) 
+	public void requestAjax(MemberDTO memDto, HttpServletResponse response) 
 		throws Exception {
 		log.info(memDto.toString());
 		

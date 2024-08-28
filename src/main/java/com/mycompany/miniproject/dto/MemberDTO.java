@@ -16,4 +16,5 @@ public class MemberDTO {
 	private String member_q;//일단 문자열로
 	private String member_a;
 	private int member_grade;
+	
 }

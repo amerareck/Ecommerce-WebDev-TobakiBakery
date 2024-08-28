@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/login-style.css">
     <div class="container">
         <!-- 네비게이션 시작 -->
@@ -19,14 +20,16 @@
             <h3><b>회원 로그인</b></h3>
             
             <!-- 로그인 폼 시작 -->
-            <form action="../index" method="post" class="mt-4">
+            <form method="post" class="mt-4" action="login">
                 <div class="form-group">
-                    <input type="text" class="form-control" name="username" placeholder=" 아이디" required>
+                    <input type="text" class="form-control" name="member_id" placeholder=" 아이디" required>
+                    <form:errors class="text-danger"  path="memberDTO.member_id"/>
                 </div>
                 <div class="form-group">
-                    <input type="password" class="form-control" name="password" placeholder=" 비밀번호" required>
+                    <input type="password" class="form-control" name="member_password" placeholder=" 비밀번호" required>
+                    <form:errors class="text-danger" path="memberDTO.member_password"/>
                 </div>
-                <button type="submit" class="btn btn-dark btn-block login-button" onclick="location.href='index'">로그인</button>
+                <button class="btn btn-dark btn-block login-button" >로그인</button>
             </form>
             <!-- 로그인 폼 끝 -->
 
