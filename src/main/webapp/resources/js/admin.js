@@ -253,13 +253,13 @@ $('#productTableForm').submit(function(event){
     
     deleteData.each(function(){
         str += $(this).find('th.prodNum').text().trim()+'\n';
-        removeList.push({productId : $(this).find('th.prodNum').text().trim()});
+        removeList.push({productId : $(this).find('th.prodNum').text().replace(/[^0-9]/g, '')});
     });
-    
     $.ajax({
     	url: "removeProductList",
     	type: "post",
-    	data: {removeList},
+    	contentType: "application/json",
+    	data: JSON.stringify(removeList),
     	success: function(data){
     		if(data.status === 'ok') {
     		    str += '해당 상품들이 삭제되었습니다.';
@@ -284,7 +284,8 @@ $('#productTableData a.product-delete-selector').each(function(){
         	$.ajax({
         		url: "removeProduct",
         		type: "post",
-        		data: {productId},
+        		contentType: "application/json",
+        		data: JSON.stringify({ productId }),
         		success: function(data) {
         			if(data.status === 'ok') {
         				deleteData.remove();
@@ -351,7 +352,7 @@ $('#productInsertForm').submit(function(event){
     	success: function(data){
     		if(data.status === 'ok') {
     			alert("상품 등록에 성공하였습니다.");
-    			location.href="admin/getAdminMain";
+    			location.href="getAdminMain";
     		} else {
     			alert("상품 등록에 실패하였습니다.");
     		}

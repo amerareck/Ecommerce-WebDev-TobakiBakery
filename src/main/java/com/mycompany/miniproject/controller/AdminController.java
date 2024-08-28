@@ -8,11 +8,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.mycompany.miniproject.dto.ProductDTO;
 
@@ -23,14 +23,17 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/admin")
 public class AdminController {
 	@GetMapping("/getAdminMain")
-	public String adminMain() {
+	public String adminMain(Model model) {
 		log.info("실행");
+		
+		model.addAttribute("adminMain", "active");
 		return "admin/admin-main";
 	}
 	
 	@GetMapping("/addProduct")
-	public String addProduct() {
+	public String addProduct(Model model) {
 		log.info("실행");
+		model.addAttribute("addProduct", "active");
 		return "admin/admin-product-details";
 	}
 	
@@ -86,9 +89,9 @@ public class AdminController {
 	}
 	
 	@PostMapping("/removeProduct")
-	public void removeProduct(@RequestParam int productId, HttpServletResponse res) {
+	public void removeProduct(@RequestBody ProductDTO productDTO, HttpServletResponse res) {
 		log.info("실행");
-		log.info(""+productId);
+		log.info(""+productDTO.getProductId());
 		
 		JSONObject json = new JSONObject();
 		json.put("status", "ok");
