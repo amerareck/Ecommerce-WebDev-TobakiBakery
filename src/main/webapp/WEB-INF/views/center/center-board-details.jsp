@@ -7,8 +7,8 @@
         <nav class="breadcrumb-container">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="../"><i class="fas fa-home"></i></a></li>
-                <li class="breadcrumb-item"><a href="getBoardList">고객센터</a></li>
-                <li class="breadcrumb-item active" aria-current="page">기타문의</li>
+                <li class="breadcrumb-item"><a href="getBoardList?type=notice">고객센터</a></li>
+                <li class="breadcrumb-item active" aria-current="page">${breadcrumb}</li>
             </ol>
         </nav>
         <!-- Breadcrumbs 영역 종료-->
@@ -29,7 +29,7 @@
                             <small class="text-muted board-timestamp">2024.08.04 12:08:25</small>
                             <small class="text-muted"> | 등록자: </small>
                             <small class="board-author">홍*동</small>
-                            <small class="text-muted"> | 조회수: </small></small>
+                            <small class="text-muted"> | 조회수: </small>
                             <small class="border-views">1232</small>
                         </p>
                     </div>
@@ -45,9 +45,9 @@
                         </p>
                     </div>
                     
-                    <a href="getBoardList" class="btn btn-outline-secondary float-right mr-1">목록으로</a>
+                    <a href="getBoardList?type=${boardType}" class="btn btn-outline-secondary float-right mr-1">목록으로</a>
                     <button type="button" id="removeBoardBotton" class="btn btn-outline-secondary float-right mr-1">삭제</button>
-                    <a href="getBoardDetail" class="btn btn-outline-secondary float-right mr-1">수정</a>
+                    <a href="getBoardDetail?type=${boardType}" class="btn btn-outline-secondary float-right mr-1">수정</a>
                 </div>
             </div>
             <!-- 게시글 섹션 종료-->
@@ -104,42 +104,7 @@
             </div>
 
             <hr class="hr"/>
-            <!-- 이전/이후 게시판 리스트 시작 -->
-            <table class="table table-hover my-4">
-                <thead class="thead-light">
-                    <tr>
-                        <th>#</th>
-                        <th>제목</th>
-                        <th>이름</th>
-                        <th>날짜</th>
-                        <th>조회수</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><b>3</b></td>
-                        <td><a href="getBoardDetail">취소문의요&ensp;<span class="badge badge-info">NEW</span></a></td>
-                        <td>라*임</td>
-                        <td>2024-08-04</td>
-                        <td>1141</td>
-                    </tr>
-                    <tr>
-                        <td><b>2</b></td>
-                        <td><a href="getBoardDetail">결제하기 클릭이 안되요. ㅠㅠ&ensp;<span class="badge badge-primary">답변완료</span></a></td>
-                        <td>홍*동</td>
-                        <td>2024-08-03</td>
-                        <td>1232</td>
-                    </tr>
-                    <tr>
-                        <td><b>1</b></td>
-                        <td><a href="getBoardDetail"><i class="fas fa-lock fa-xs"></i> 택배가 젖어 왔어요&ensp;<span class="badge badge-primary">답변완료</span></a></td>
-                        <td>민*종</td>
-                        <td>2024-08-03</td>
-                        <td>1037</td>
-                    </tr>
-                </tbody>
-            </table>
-            <!-- 이전/이후 게시판 리스트 종료 -->
+            <%@include file="/WEB-INF/views/center/centerReratedBoardList.jsp" %>
         </div>
 	</section>
 	<%@include file="/WEB-INF/views/common/footer.jsp" %>

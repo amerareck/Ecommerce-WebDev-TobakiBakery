@@ -7,8 +7,8 @@
         <nav class="breadcrumb-container">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="../"><i class="fas fa-home"></i></a></li>
-                <li class="breadcrumb-item"><a href="getBoardList">고객센터</a></li>
-                <li class="breadcrumb-item active" aria-current="page">기타문의</li>
+                <li class="breadcrumb-item"><a href="getBoardList?type=notice">고객센터</a></li>
+                <li class="breadcrumb-item active" aria-current="page">${breadcrumb}</li>
             </ol>
         </nav>
         <!-- Breadcrumbs 영역 해제-->
@@ -29,10 +29,10 @@
                                 <input class="form-control" id="memberName" type="text" value="엄상식" disabled />
                             </div>
                         </div>
-                        <hr class="hr"/>
+                        <hr class="hr" ${hideCategory}/>
                         <!-- 상품 문의 작성 페이지시 visible-->
                         <!-- 주문에 대한 문의가 아님. 구매자가 주문 이전에 상품에 대한 질문을 하는 곳. -->
-                        <div class="form-group d-flex align-items-center" id="productListForm">
+                        <div class="form-group d-flex align-items-center" id="productListForm" ${hideCategory}>
                             <div class="form-title">
                                 <b>유형</b>
                             </div>
@@ -57,10 +57,10 @@
                                 </div>
                             </div>
                         </div>
-                        <hr class="hr"/>
+                        <hr class="hr" ${hideReview}/>
                         <!-- 상품 문의 작성 페이지 속성 종료 -->
                         <!-- 리뷰 작성 페이지일 경우 visible-->
-                        <div class="form-group d-flex align-items-center w-100" id="productReviewForm">
+                        <div class="form-group d-flex align-items-center w-100" id="productReviewForm" ${hideReview}>
                             <div class="form-title border-right w-30" style="height: 40px;">
                                 <label for="content" style="margin-right: 22px; line-height: 40px;"><b>리뷰 상품</b></label>
                             </div>
@@ -120,7 +120,7 @@
                         <hr class="hr"/>
                         <div class="form-group d-flex justify-content-end">
                             <button type="submit" class="btn btn-secondary mr-1" id="boardSubmitButton">등록하기</button>
-                            <a class="btn btn-secondary buttonAnchor" href="getBoardList">목록보기</a>
+                            <a class="btn btn-secondary buttonAnchor" href="getBoardList?type=${boardType}">목록보기</a>
                         </div>
                     </form>
                 </div>

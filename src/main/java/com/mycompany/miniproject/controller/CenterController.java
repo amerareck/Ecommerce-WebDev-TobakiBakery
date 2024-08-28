@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,21 +19,156 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/center")
 public class CenterController {
 	@GetMapping("/getBoardList")
-	public String getBoardList() {
+	public String getBoardList(String type) {
 		log.info("실행");
+		String path = "";
+		if(type.equals("notice")) {
+			path = "redirect:/center/noticeList";
+		} else if(type.equals("product")) {
+			path = "redirect:/center/productList";
+		} else if(type.equals("other")) {
+			path = "redirect:/center/otherList";
+		}
+		return path;
+	}
+	
+	@GetMapping("/noticeList")
+	public String noticeList(Model model) {
+		log.info("실행");
+		
+		model.addAttribute("notice", "active");
+		model.addAttribute("title","공지사항");
+		model.addAttribute("breadcrumb", "공지사항");
+		model.addAttribute("boardType", "notice");
 		return "center/center-board-list";
 	}
 	
-	@GetMapping("/getBoardDetail")
-	public String getBoardDetail() {
+	@GetMapping("/productList")
+	public String productList(Model model) {
 		log.info("실행");
-		return "center/center-board-details";
+		
+		model.addAttribute("product", "active");
+		model.addAttribute("title", "상품문의");
+		model.addAttribute("breadcrumb", "상품문의");
+		model.addAttribute("boardType", "product");
+		return "center/center-board-list";
+	}
+	
+	@GetMapping("/otherList")
+	public String otherList(Model model) {
+		log.info("실행");
+		
+		model.addAttribute("other", "active");
+		model.addAttribute("title", "기타문의");
+		model.addAttribute("breadcrumb", "기타문의");
+		model.addAttribute("boardType", "other");
+		return "center/center-board-list";
 	}
 	
 	@GetMapping("/addBoard")
-	public String addBoard() {
+	public String addBoard(String type) {
 		log.info("실행");
+		String path = "";
+		if(type.equals("notice")) {
+			path = "redirect:/center/addNoticeBoard";
+		} else if(type.equals("product")) {
+			path = "redirect:/center/addProductBoard";
+		} else if(type.equals("other")) {
+			path = "redirect:/center/addOtherBoard";
+		}
+		return path;
+	}
+	
+	@GetMapping("/addNoticeBoard")
+	public String addNoticeBoard(Model model) {
+		log.info("실행");
+		
+		model.addAttribute("notice", "active");
+		model.addAttribute("title","공지사항");
+		model.addAttribute("breadcrumb", "공지사항");
+		model.addAttribute("hideCategory","style='display: none !important;'");
+		model.addAttribute("hideReview","style='display: none !important;'");
+		model.addAttribute("boardType", "notice");
+		
 		return "center/center-board-add";
+	}
+	
+	@GetMapping("/addProductBoard")
+	public String addProductBoard(Model model) {
+		log.info("실행");
+		
+		model.addAttribute("product", "active");
+		model.addAttribute("title", "상품문의");
+		model.addAttribute("breadcrumb", "상품문의");
+		model.addAttribute("hideReview","style='display: none !important;'");
+		model.addAttribute("boardType", "product");
+		
+		return "center/center-board-add";
+	}
+	
+	@GetMapping("/addOtherBoard")
+	public String addOtherBoard(Model model) {
+		log.info("실행");
+		
+		model.addAttribute("other", "active");
+		model.addAttribute("title", "기타문의");
+		model.addAttribute("breadcrumb", "기타문의");
+		model.addAttribute("hideCategory","style='display: none !important;'");
+		model.addAttribute("hideReview","style='display: none !important;'");
+		model.addAttribute("boardType", "other");
+		
+		return "center/center-board-add";
+	}
+	
+	@GetMapping("/getBoardDetail")
+	public String getBoardDetail(String type) {
+		log.info("실행");
+		String path = "";
+		if(type.equals("notice")) {
+			path = "redirect:/center/noticeDetail";
+		} else if(type.equals("product")) {
+			path = "redirect:/center/productDetail";
+		} else if(type.equals("other")) {
+			path = "redirect:/center/otherDetail";
+		}
+		
+		return path;
+	}
+	
+	@GetMapping("/noticeDetail")
+	public String noticeDetail(Model model) {
+		log.info("실행");
+		
+		model.addAttribute("notice", "active");
+		model.addAttribute("title","공지사항");
+		model.addAttribute("breadcrumb", "공지사항");
+		model.addAttribute("boardType", "notice");
+		
+		return "center/center-board-details";
+	}
+	
+	@GetMapping("/productDetail")
+	public String productDetail(Model model) {
+		log.info("실행");
+		
+		model.addAttribute("product", "active");
+		model.addAttribute("title","상품문의");
+		model.addAttribute("breadcrumb", "상품문의");
+		model.addAttribute("boardType", "product");
+		
+		return "center/center-board-details";
+	}
+	
+	@GetMapping("/otherDetail")
+	public String otherDetail(Model model) {
+		log.info("실행");
+		
+		model.addAttribute("other", "active");
+		model.addAttribute("title","기타문의");
+		model.addAttribute("breadcrumb", "기타문의");
+		model.addAttribute("boardType", "other");
+		
+		return "center/center-board-details";
 	}
 	
 	@PostMapping("/removeBoard")
