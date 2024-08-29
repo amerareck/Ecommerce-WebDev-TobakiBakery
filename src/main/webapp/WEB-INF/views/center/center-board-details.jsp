@@ -48,7 +48,7 @@
                         </p>
                     </div>
                     
-                    <a href="getBoardList?type=${boardType}" class="btn btn-outline-secondary float-right mr-1">목록으로</a>
+                    <a href="getBoardList?type=${boardType}" class="btn btn-outline-secondary float-right mr-1" id="redirectPage">목록으로</a>
                     <button type="button" id="removeBoardBotton" class="btn btn-outline-secondary float-right mr-1">삭제</button>
                     <a href="getBoardDetail?type=${boardType}" class="btn btn-outline-secondary float-right mr-1">수정</a>
                 </div>

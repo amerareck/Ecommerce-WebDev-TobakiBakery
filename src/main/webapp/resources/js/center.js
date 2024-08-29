@@ -149,7 +149,8 @@ $('#commentList').on('click', 'button.commentDelete', function(event){
 });
 
 $('#removeBoardBotton').click(function(){
-	const boardIndex = $(".text-muted.board-index").text();
+	const boardIndex = $('.text-muted.board-index').text();
+	const redirectAddr = $('#redirectPage').attr('href');
 	
 	$.ajax({
 		url: "removeBoard",
@@ -158,7 +159,7 @@ $('#removeBoardBotton').click(function(){
 		success: function(data){
 			console.log(data);
 			if(data.status === 'ok') {
-				location.href="getBoardList";
+				location.href=redirectAddr;
 			} else {
 				alert('서버와의 연결에 문제가 발생하였습니다.');
 			}
