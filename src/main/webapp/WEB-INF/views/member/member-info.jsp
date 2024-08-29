@@ -55,7 +55,7 @@
                             <td>* 비밀번호</td>
                             <td>
                                 <input type="password" class="form-control input-small" name="member_password" id="password" required>
-                                <small class="form-text text-muted">영문 대소문자/숫자/특수문자를 혼용하여 3종류 10-16자</small>
+                                <small class="form-text text-muted">영어 대문자,소문자,숫자,특수문자 중 두가지 이상을 포함 8-16자를 입력해주세요.</small>
                             </td>
                         </tr>
                         <!-- 비밀번호 입력 필드 끝 -->
@@ -69,7 +69,7 @@
 
                         <!-- 생일 및 성별 입력 필드 시작 -->
                         <tr>
-                            <td>* 생일/성별</td>
+                            <td>* 생일</td>
                             <td>
                                 <div class="d-flex align-items-center birthday-gender-row">
                                     <select class="form-control input-tiny" name="member_birthday" id="birth_year" required>
@@ -135,7 +135,7 @@
                                         </select>
                                     </div>
                                     <div class="col">
-                                        <input type="text" class="form-control" id="phone_middel_number" name="phone_num" required>
+                                        <input type="text" class="form-control" id="phone_middle_number" name="phone_num" required>
                                     </div>
                                     <div class="col">
                                         <input type="text" class="form-control" id="phone_last_number" name="phone_num" required>
@@ -150,8 +150,8 @@
                             <td>* 이메일</td>
                             <td>
                                 <div class="input-group-append">
-                                    <input type="text" class="form-control" name="member_email" style="width: 150px;" required>
-                                    <span class="input-group-text">@</span>
+                                    <input type="text" class="form-control" id="email_local" name="member_email" style="width: 150px;" required>
+                                    <span class="input-group-text" id="email_dat">@</span>
                                     <input type="text" class="form-control" name="member_email" id="email_domain" style="width: 150px;" required>
                                     <div class="input-group-append">
                                         <select class="form-control" name="member_email" id="email_select" required onchange="setEmailDomain()">

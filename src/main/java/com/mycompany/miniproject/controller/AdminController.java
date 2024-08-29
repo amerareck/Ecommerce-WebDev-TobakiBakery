@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -54,12 +55,23 @@ public class AdminController {
 		}
 	}
 	@PostMapping("/updateProduct")
-	public void updateProduct(ProductDTO dto, HttpServletResponse res) {
+	public void updateProduct(ProductDTO dto,BindingResult result, HttpServletResponse res) {
 		log.info("실행");
 		log.info(dto.toString());
 		
 		JSONObject json = new JSONObject();
-		json.put("status", "ok");
+		
+		if (result.hasErrors()) {
+	        // 유효성 검사 실패 처리
+	        log.error("유효성 검사 실패: " + result.getAllErrors());
+	        
+	        json.put("status", "error");
+	        json.put("message", result.getAllErrors().get(0).getDefaultMessage());
+	    } else {
+	        // 유효성 검사 통과
+	        log.info(dto.toString());
+	        json.put("status", "ok");
+	    }
 		
 		try(PrintWriter pw = res.getWriter()) {
 			res.setContentType("application/json; charset=UTF-8");

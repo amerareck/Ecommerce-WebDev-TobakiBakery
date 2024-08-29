@@ -1,3 +1,4 @@
+src="https://code.jquery.com/jquery-3.6.0.min.js"
 $('#updateImagefileUpload').change(function(event){
     const file = event.target.files[0];
     if (file) {
@@ -160,23 +161,33 @@ $('#searchOrderSelect').change(function(event){
 function execDaumPostcode() {
     new daum.Postcode({
         oncomplete: function(data) {
-            var addr = '';
-            var extraAddr = '';
-
-            // 도로명 주소와 지번 주소 구분
-            if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+            var addr = ''; 
+           
+            if (data.userSelectedType === 'R') { 
                 addr = data.roadAddress;
-            } else { // 사용자가 지번 주소를 선택했을 경우(J)
+            } else { 
                 addr = data.jibunAddress;
             }
             
-            // 주소 필드에 값 설정
-            document.getElementById('recevierPostNo').value = data.zonecode;
-            document.getElementById('recevierAddr').value = addr;
-            document.getElementById('recevierDetailsAddr').focus();
+            
+            setAddressFields(data.zonecode, addr);
+
+            
+            $('#recevierDetailsAddr').focus();
         }
     }).open();
 }
+
+
+function setAddressFields(postcode, addr) {
+    $('#recevierPostNo').val(postcode); 
+    $('#recevierAddr').val(addr); 
+}
+$('#addressSearchBtn').on('click', function() {
+    execDaumPostcode();
+});
+
+
 
 $('#orderUpdateSubmit').submit(function(event){
     event.preventDefault();

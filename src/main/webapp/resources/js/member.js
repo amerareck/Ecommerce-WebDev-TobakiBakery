@@ -49,11 +49,11 @@ function checkUsername() {
 function validateForm() {
     var password = document.getElementById("password").value;
     var passwordConfirm = document.getElementById("password_confirm").value;
-    var passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{10,16}$/;
+    var passwordRegex = /^(?=.*[A-Za-z])(?=.*[\\d@$!%*?&])[A-Za-z\\d@$!%*?&]{8,16}$/;
 
     // 비밀번호 패턴 검사
     if (!passwordRegex.test(password)) {
-        alert("비밀번호는 영문 대소문자, 숫자, 특수문자를 혼용하여 10-16자 사이여야 합니다.");
+        alert("비밀번호는 영어 대문자,소문자,숫자,특수문자 중 두가지 이상을 포함 8-16자를 입력해주세요.");
         return false;
     }
 
@@ -81,10 +81,10 @@ $(document).ready(function() {
             var address = $("#address").val();
             var address_detail = $("#address_detail").val();
             var phone_num = $("#phone_prefix").val() + $("#phone_middle_number").val() + $("#phone_last_number").val();
-            var member_email = $("#email_local").val() + $(".input-group-text").val() + $("#email_domain").val();
+            var member_email = $("#email_local").val() + "@" + $("#email_domain").val();
             
-            var member_q = $("member_q").val();
-            var member_a = $("member_a").val();
+            var member_q = $("#member_q").val();
+            var member_a = $("#member_a").val();
             
             const memberInfo = {
             		member_id,
@@ -106,6 +106,7 @@ $(document).ready(function() {
                 type: "post",
                 data: memberInfo,
                 success: function(response) {
+                	console.log(memberInfo);
                 	location.href ="../";
                 	}
             });
@@ -118,11 +119,11 @@ $(document).ready(function() {
 function editdateForm() {
     var password = document.getElementById("password").value;
     var passwordConfirm = document.getElementById("password_confirm").value;
-    var passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{10,16}$/;
+    var passwordRegex = /^(?=.*[A-Za-z])(?=.*[\\d@$!%*?&])[A-Za-z\\d@$!%*?&]{8,16}$/;
 
     // 비밀번호 패턴 검사
     if (!passwordRegex.test(password)) {
-        alert("비밀번호는 영문 대소문자, 숫자, 특수문자를 혼용하여 10-16자 사이여야 합니다.");
+        alert("비밀번호는 영어 대문자,소문자,숫자,특수문자 중 두가지 이상을 포함 8-16자를 입력해주세요.");
         return false;
     }
 

@@ -7,6 +7,7 @@
 
 body {
     font-family: 'Pretendard-Regular' !important;
+    caret-color: transparent;
 }
 
 .header-wrapper {
