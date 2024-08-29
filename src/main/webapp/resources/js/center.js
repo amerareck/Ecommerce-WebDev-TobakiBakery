@@ -106,6 +106,18 @@ $('#commentForm').submit(function(event){
     }
 
     let formattedDate = moment().format('YYYY-MM-DD HH:mm:ss');
+    
+    $.ajax({
+    	url: "addComment",
+    	type: "post",
+    	data: {memberId: author, commentContent: content, commentDatetime: formattedDate},
+    	success: function(data) {
+    		if(data.status === 'ok') {
+    			alert('댓글이 등록되었습니다.');
+    		}
+    	}
+    });
+    
     const listTag = $('#commentList ul');
     listTag.append(`
         <li class="list-group-item">

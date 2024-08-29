@@ -3,7 +3,7 @@ package com.mycompany.miniproject.dto;
 import lombok.Data;
 
 @Data
-public class MemberDto {
+public class MemberDTO {
 	private String member_id;
 	private String member_name;
 	private String member_password;

@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.mycompany.miniproject.dto.CommentDTO;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -183,6 +185,23 @@ public class CenterController {
 		
 		try(PrintWriter pw = res.getWriter()) {
 			res.setContentType("application/json; charset=UTF-8");
+			pw.println(json.toString());
+			pw.flush();
+		} catch(IOException ioe) {
+			ioe.printStackTrace();
+		}
+	}
+	
+	@PostMapping("/addComment")
+	public void addComment(CommentDTO comment, HttpServletResponse res) {
+		log.info("실행");
+		log.info(comment.toString());
+		
+		JSONObject json = new JSONObject();
+		json.put("status", "ok");
+		
+		try(PrintWriter pw = res.getWriter()) {
+			res.setContentType("application/json, charset=UTF-8");
 			pw.println(json.toString());
 			pw.flush();
 		} catch(IOException ioe) {

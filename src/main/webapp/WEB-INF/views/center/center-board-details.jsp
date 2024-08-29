@@ -92,8 +92,8 @@
                         <div class="form-group d-flex justify-content-end">
                             <div class="form-input-wrapper d-flex justify-content-center">
                                 <div class="form-input-wrapper d-flex align-items-center">
-                                    <label class="control-label mb-0 mr-3" for="memberName">작성자</label>
-                                    <input class="form-control" id="memberName" type="text" style="margin-right: 0;" value="엄상식" disabled>
+                                    <label class="control-label mb-0 mr-3" for="memberName">아이디</label>
+                                    <input class="form-control" id="memberName" type="text" style="margin-right: 0;" value="umsangsik" disabled>
                                 </div>
                             </div>
                             
