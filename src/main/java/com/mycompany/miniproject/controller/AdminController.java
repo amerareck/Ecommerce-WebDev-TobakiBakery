@@ -21,7 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @Slf4j
 @RequestMapping("/admin")
-public class AdminController {
+public class AdminController { 
 	@GetMapping("/getAdminMain")
 	public String adminMain(Model model) {
 		log.info("실행");
