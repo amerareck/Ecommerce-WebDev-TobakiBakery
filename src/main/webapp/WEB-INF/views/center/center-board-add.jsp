@@ -20,13 +20,13 @@
             <!-- 게시글 작성 컴포넌트 시작 -->
             <div class="card my-4">
                 <div class="card-body">
-                    <form action="#" id="boardWriteForm">
+                    <form action="submitNotice" method="post" id="boardWriteForm">
                         <div class="form-group d-flex align-items-center">
                             <div class="form-title">
                                 <label class="control-label" for="memberName"><b>아이디</b></label>
                             </div>
                             <div class="form-content" style="margin-left: 40px;">
-                                <input class="form-control" id="memberName" type="text" value="엄상식" disabled />
+                                <input class="form-control" id="memberName" type="text" name="${author}" value="엄상식" disabled />
                             </div>
                         </div>
                         <hr class="hr" ${hideCategory}/>
@@ -78,7 +78,7 @@
                             </div>
                             <div class="form-content d-flex flex-grow-1">
                                 <div class="form-start" style="width: 75%">
-                                    <input type="text" class="form-control" id="title">
+                                    <input type="text" class="form-control" id="title" name="${postTitle}">
                                 </div>
                                 <div class="form-end d-flex justify-content-start mt-1" style="width: 40%">
                                     <!--
@@ -90,7 +90,7 @@
                                     </div>
                                     -->
                                     <div class="custom-control custom-checkbox flex-grow-1 ml-2">
-                                        <input type="checkbox" class="custom-control-input" id="secretBorad" checked>
+                                        <input type="checkbox" class="custom-control-input" id="secretBorad" name="${isSecret}" checked>
                                         <label class="custom-control-label" for="secretBorad" style="width:auto;">
                                             <small class="form-text text-muted">게시글 비공개 여부</small>
                                         </label>
@@ -105,7 +105,7 @@
                                 <label for="boardContent" style="margin: 0;"><b>내용</b></label>
                             </div>
                             <div class="form-content" style="width: 56%">
-                                <textarea class="form-control" id="boardContent" rows="10"></textarea>
+                                <textarea class="form-control" id="boardContent" name="${postContent}" rows="10"></textarea>
                             </div>
                         </div>
                         <hr class="hr"/>
@@ -114,7 +114,7 @@
                                 <label for="attachment" style="margin: 0;"><b>첨부</b></label>
                             </div>
                             <div class="form-content">
-                                <input type="file" class="form-control-file" id="attachment">
+                                <input type="file" class="form-control-file" id="attachment" name="${postFile}">
                             </div>
                         </div>
                         <hr class="hr"/>

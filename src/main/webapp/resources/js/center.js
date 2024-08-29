@@ -13,6 +13,7 @@ $('#boardSearchForm').submit(function(event){
     alert(str);
 });
 
+/*
 $('#boardWriteForm').submit(function(event){
     event.preventDefault();
 
@@ -56,6 +57,7 @@ $('#boardWriteForm').submit(function(event){
 
     alert(str);
 });
+*/
 
 $('#productListForm #category').change(function(event){
     const category = $('#productListForm #category option:selected');

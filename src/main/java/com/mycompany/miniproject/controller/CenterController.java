@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.mycompany.miniproject.dto.CommentDTO;
+import com.mycompany.miniproject.dto.NoticeDTO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -91,6 +92,13 @@ public class CenterController {
 		model.addAttribute("hideCategory","style='display: none !important;'");
 		model.addAttribute("hideReview","style='display: none !important;'");
 		model.addAttribute("boardType", "notice");
+		
+		//폼 name
+		model.addAttribute("author", "memberId");
+		model.addAttribute("postTitle", "noticeTitle");
+		model.addAttribute("isSecret", "lockState");
+		model.addAttribute("postContent", "memberId");
+		model.addAttribute("postFile", "noticeContentImg");
 		
 		return "center/center-board-add";
 	}
@@ -209,4 +217,11 @@ public class CenterController {
 		}
 	}
 	
+	@PostMapping("/submitNotice")
+	public String submitNotice(NoticeDTO notice) {
+		log.info("실행");
+		log.info(notice.toString());
+		
+		return "redirect:/center/noticeDetail";
+	}
 }
