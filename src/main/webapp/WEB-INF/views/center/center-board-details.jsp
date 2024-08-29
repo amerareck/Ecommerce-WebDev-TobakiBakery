@@ -2,6 +2,9 @@
     pageEncoding="UTF-8"%>
 <%@include file="/WEB-INF/views/common/header.jsp" %>
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/center.css">
+	
+	<hr class="hr" />
+	
 	<section class="page-container mb-5" style="max-width: 1200px;">
         <!-- Breadcrumbs 영역 시작-->
         <nav class="breadcrumb-container">
@@ -104,7 +107,7 @@
             </div>
 
             <hr class="hr"/>
-            <%@include file="/WEB-INF/views/center/centerReratedBoardList.jsp" %>
+            <%@include file="/WEB-INF/views/center/centerRelatedBoardList.jsp" %>
         </div>
 	</section>
 	<%@include file="/WEB-INF/views/common/footer.jsp" %>

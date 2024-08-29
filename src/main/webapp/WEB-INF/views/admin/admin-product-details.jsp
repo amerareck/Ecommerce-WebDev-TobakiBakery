@@ -5,6 +5,7 @@
     <div class="container">
         <div class="main-content">
 			<%@include file="/WEB-INF/views/admin/adminSidebar.jsp" %>
+			<hr class="hr" />
             <!-- 메인 섹션 시작 -->
             <section class="content">
                 <h2>상품 등록</h2>

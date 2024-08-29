@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/itemDetail.css">
+
+		<hr class="hr" />
+
 		<!-- 상세페이지 -->
 		<div id="contentWrapper">
 

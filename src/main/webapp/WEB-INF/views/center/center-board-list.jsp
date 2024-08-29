@@ -3,6 +3,9 @@
 <%@include file="/WEB-INF/views/common/header.jsp" %>
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/center.css">
 <body>
+
+	<hr class="hr" />
+
     <section class="page-container" style="max-width: 1200px;">
         <!-- Breadcrumbs 영역 시작-->
         <nav class="breadcrumb-container">

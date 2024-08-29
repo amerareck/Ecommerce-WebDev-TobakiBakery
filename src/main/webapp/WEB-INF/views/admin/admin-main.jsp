@@ -2,6 +2,9 @@
     pageEncoding="UTF-8"%>
 <%@include file="/WEB-INF/views/common/header.jsp" %>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/admin.css">
+	
+	<hr class="hr" />
+	
 	<div class="container">
         <div class="main-content">
 			<%@include file="/WEB-INF/views/admin/adminSidebar.jsp" %>
