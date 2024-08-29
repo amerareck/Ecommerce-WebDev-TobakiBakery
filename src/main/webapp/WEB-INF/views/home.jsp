@@ -6,7 +6,7 @@ include 지시자의 역할 : 외부의 파일의 내용을 가져와서 삽입�
 
 	<div class="card">
 <div class="card-header">
-	Home
+	Home DDDED
 </div>
 
 <div class="card-body">
