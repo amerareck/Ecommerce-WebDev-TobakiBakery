@@ -158,34 +158,26 @@ $('#searchOrderSelect').change(function(event){
     }
 });
 
-function execDaumPostcode() {
+function getPostcodeAndAddress() {
     new daum.Postcode({
         oncomplete: function(data) {
-            var addr = ''; 
-           
-            if (data.userSelectedType === 'R') { 
+            var addr = '';
+            var extraAddr = '';
+
+            // 도로명 주소와 지번 주소 구분
+            if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
                 addr = data.roadAddress;
-            } else { 
+            } else { // 사용자가 지번 주소를 선택했을 경우(J)
                 addr = data.jibunAddress;
             }
             
-            
-            setAddressFields(data.zonecode, addr);
-
-            
-            $('#recevierDetailsAddr').focus();
+            // 주소 필드에 값 설정
+            document.getElementById('recevierPostNo').value = data.zonecode;
+            document.getElementById('recevierAddr').value = addr;
+            document.getElementById('recevierDetailsAddr').focus();
         }
     }).open();
 }
-
-
-function setAddressFields(postcode, addr) {
-    $('#recevierPostNo').val(postcode); 
-    $('#recevierAddr').val(addr); 
-}
-$('#addressSearchBtn').on('click', function() {
-    execDaumPostcode();
-});
 
 
 

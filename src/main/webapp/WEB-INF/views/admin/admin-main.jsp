@@ -1124,7 +1124,7 @@
                                                         <input id="recevierAddr" class="form-control input-group-append" value="서울 종로구 창경궁로 254" style="width: 50%;" disabled/>
                                                         <input id="recevierDetailsAddr" class="form-control input-group-append" value="402호" style="width: 20%;" required />
                                                         <div class="input-group-append">
-                                                            <button class="btn btn-secondary " type="button" onclick="execDaumPostcode()">주소검색</button>
+                                                            <button class="btn btn-secondary " type="button" onclick="getPostcodeAndAddress()">주소검색</button>
                                                         </div>
                                                     </div>
                                                 </td>
