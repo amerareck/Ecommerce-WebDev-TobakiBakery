@@ -17,6 +17,7 @@
         position: relative;
         margin-right: auto;
         margin-left: auto;
+        border-top: 1px solid #e7e8e9;
         min-height: calc(100vh - 579px);
     }
 
@@ -48,52 +49,42 @@
 
     #top_category {
         margin-bottom: 20px;
-        display: flex;
-        justify-content: center;
-    }
-
-    #top_category ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-        background-color: #fff;
-        witdh : 50%;
     }
 
 	#top_category ul {
-	    display: flex;
-	    justify-content: space-between;
 	    list-style: none;
-	    padding: 0;
-	    margin: 0 auto; /* 중앙 정렬 */
-	    width: 60%; /* ul의 너비를 전체의 60%로 설정 */
-	    background-color: #fff;
-	}
-	
-	#top_category li {
-	    background-color: #fff;
-	    border: 1px solid #808080;
-	    padding: 10px;
 	    text-align: center;
-	    cursor: pointer;
-	    flex-grow: 1; /* 남은 공간을 균등하게 분할 */
-	    margin: 0 10px; /* 항목 사이에 여백 추가 */
-	    border-radius: 5px; /* 약간의 모서리 둥글림 */
-	    max-width: calc(100% / 3 - 20px); /* 각 항목의 최대 너비를 설정 */
-	    font-size: 20px;
-	}
-	
-	#top_category li a {
-	    color: #808080;
-	    text-decoration: none;
-	}
-	
-	#top_category li:hover {
-	    background-color: #d9534f;
-	    color: white;
-	    border: 1px solid #fff;
+	    width: 100%; /* ul의 너비를 전체의 60%로 설정 */
+	    font-size: 0;
+	    background-color: #fff;
+	    
 	}
 
+	#top_category li {
+		display: inline-block;
+	    border: 1px solid grey;
+	    text-align: center;
+	    cursor: pointer;
+	    width:200px;
+	    height: 50px;
+	    line-height: 50px;
+	    font-size: 24px;
+	   
+	}
+	.category_click{
+		border: 2px solid black !important;
+	}
+	#top_category li a {
+	    text-decoration: none;
+	    color: black;
+	}
+	#top_category li:hover{
+		border: 2px solid black !important;
+	}
+	
+	#top_category li a:hover {
+	    text-decoration: none;
+	}
 
     .item_info {
         display: flex;
@@ -143,7 +134,7 @@
         padding: 20px;
         width: calc(25% - 30px); /* 4개씩 배치되도록 설정 */
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        display: flex;
+        display: flex; 
         flex-direction: column;
         align-items: center;
         position: relative;

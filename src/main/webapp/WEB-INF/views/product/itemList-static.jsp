@@ -19,6 +19,7 @@
 			<div id="contentWrap">
 				<div id="top_category">
 					<ul>
+						<li id="bread_all" class="category_click"><a href="../prduct/itemList_static">전체</a></li>
 						<li id="bread"><a href="../prduct/itemList_bread">빵</a></li>
 						<li id="cake"><a href="../product/itemList_cake">케이크</a></li>
 						<li id="desert"><a href="../product/itemList_desert">디저트</a></li>
