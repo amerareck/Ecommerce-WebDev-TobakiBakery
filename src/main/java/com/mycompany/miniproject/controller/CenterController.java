@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mycompany.miniproject.dto.CommentDTO;
+import com.mycompany.miniproject.dto.EtcAskDTO;
 import com.mycompany.miniproject.dto.NoticeDTO;
 import com.mycompany.miniproject.dto.ProductAskDTO;
 
@@ -127,6 +128,14 @@ public class CenterController {
 			redi.addFlashAttribute("showReview", false);
 			redi.addFlashAttribute("showFile", true);
 			redi.addFlashAttribute("boardType", "other");
+			redi.addFlashAttribute("formAction", "submitEtcAsk");
+			
+			//폼 data
+			redi.addFlashAttribute("author", "memberId");
+			redi.addFlashAttribute("postTitle", "etcAskTitle");
+			redi.addFlashAttribute("isSecret", "lockState");
+			redi.addFlashAttribute("postContent", "etcAskContent");
+			redi.addFlashAttribute("timestamp", "etcAskDatetime");
 			
 			path = "redirect:/center/addOtherBoard";
 		}
@@ -257,5 +266,13 @@ public class CenterController {
 		log.info(productAsk.toString());
 		
 		return "redirect:/center/getBoardDetail?type=product";
+	}
+	
+	@PostMapping("/submitEtcAsk")
+	public String submitEtcAsk(EtcAskDTO etcAsk) {
+		log.info("실행");
+		log.info(etcAsk.toString());
+		
+		return "redirect:/center/getBoardDetail?type=other";
 	}
 }

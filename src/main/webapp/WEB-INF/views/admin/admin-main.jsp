@@ -693,7 +693,8 @@
                                             <input type="number" class="form-control" id="productAmount" value="22" readonly />
                                         </div>
                                     </div>
-
+                                    
+<%--
                                     <div class="d-flex justify-content-between" style="width: 95%;">
                                         <div class="form-group">
                                             <label for="deliveryCompany"><b>배송업체</b></label>
@@ -704,6 +705,7 @@
                                             <input type="number" class="form-control" id="deliveryPrice" value="3000" readonly>
                                         </div>
                                     </div>
+ --%>
                                 </div>
 
                                 <div class="block-right flex-grow-1">
