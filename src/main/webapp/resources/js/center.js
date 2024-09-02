@@ -68,30 +68,39 @@ $('#productListForm #category').change(function(event){
         ['옥수수케이크', '초코케이크', '딸기케이크', '바나나케이크', '메론케이크'],
         ['옥수수쿠키', '초코쿠키', '딸기쿠키', '바나나마들렌', '메론마들렌']
     ];
+    
+    const pid = [
+    	[1, 2, 3, 4, 5],
+    	[6, 7, 8, 9, 10],
+    	[11, 12, 13, 14, 15]
+    ]
 
     if(category.val() == 'bread') {
         target.empty();
         const listData = data[0];
+        const listPid = pid[0];
         for(let i=0; i<listData.length; i++) {
             target.append(`
-                <option value="pid${i}">${listData[i]}</option>
+                <option value="${listPid[i]}">${listData[i]}</option>
             `);
         }
         
     } else if(category.val() == 'cake') {
         target.empty();
         const listData = data[1];
+        const listPid = pid[1];
         for(let i=0; i<listData.length; i++) {
             target.append(`
-                <option value="pid${i}">${listData[i]}</option>
+                <option value="${listPid[i]}">${listData[i]}</option>
             `);
         }
     } else {
         target.empty();
         const listData = data[2];
+        const listPid = pid[2];
         for(let i=0; i<listData.length; i++) {
             target.append(`
-                <option value="pid${i}">${listData[i]}</option>
+                <option value="${listPid[i]}">${listData[i]}</option>
             `);
         }
     }
@@ -165,4 +174,8 @@ $('#removeBoardBotton').click(function(){
 			}
 		}
 	});
+});
+
+$('#boardWriteForm').on('submit', function(event){
+	$('#timestamp').val(moment().format('YYYY-MM-DD HH:mm:ss'));
 });

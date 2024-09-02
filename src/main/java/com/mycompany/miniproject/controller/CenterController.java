@@ -88,13 +88,15 @@ public class CenterController {
 			redi.addFlashAttribute("showReview", false);
 			redi.addFlashAttribute("showFile", true);
 			redi.addFlashAttribute("boardType", "notice");
+			redi.addFlashAttribute("formAction", "submitNotice");
 			
-			//폼 name
+			//폼 data
 			redi.addFlashAttribute("author", "memberId");
 			redi.addFlashAttribute("postTitle", "noticeTitle");
 			redi.addFlashAttribute("isSecret", "lockState");
-			redi.addFlashAttribute("postContent", "memberId");
+			redi.addFlashAttribute("postContent", "noticeContent");
 			redi.addFlashAttribute("postFile", "noticeContentImg");
+			redi.addFlashAttribute("timestamp", "noticeDatetime");
 			
 			path = "redirect:/center/addNoticeBoard";
 			
@@ -106,6 +108,14 @@ public class CenterController {
 			redi.addFlashAttribute("showReview", false);
 			redi.addFlashAttribute("showFile", false);
 			redi.addFlashAttribute("boardType", "product");
+			redi.addFlashAttribute("formAction", "submitProductAsk");
+			
+			//폼 data
+			redi.addFlashAttribute("author", "memberId");
+			redi.addFlashAttribute("postTitle", "productAskTitle");
+			redi.addFlashAttribute("isSecret", "lockState");
+			redi.addFlashAttribute("postContent", "productAskContent");
+			redi.addFlashAttribute("timestamp", "productAskDatetime");
 			
 			path = "redirect:/center/addProductBoard";
 			
@@ -238,7 +248,7 @@ public class CenterController {
 		log.info("실행");
 		log.info(notice.toString());
 		
-		return "redirect:/center/noticeDetail";
+		return "redirect:/center/getBoardDetail?type=notice";
 	}
 	
 	@PostMapping("/submitProductAsk")
@@ -246,6 +256,6 @@ public class CenterController {
 		log.info("실행");
 		log.info(productAsk.toString());
 		
-		return "redirect:/center/prodictDetail";
+		return "redirect:/center/getBoardDetail?type=product";
 	}
 }

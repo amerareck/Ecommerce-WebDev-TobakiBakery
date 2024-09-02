@@ -24,13 +24,13 @@
             <!-- 게시글 작성 컴포넌트 시작 -->
             <div class="card my-4">
                 <div class="card-body">
-                    <form action="submitNotice" method="post" id="boardWriteForm">
+                    <form action="${formAction}" method="post" id="boardWriteForm">
                         <div class="form-group d-flex align-items-center">
                             <div class="form-title">
                                 <label class="control-label" for="memberName"><b>아이디</b></label>
                             </div>
                             <div class="form-content" style="margin-left: 40px;">
-                                <input class="form-control" id="memberName" type="text" name="${author}" value="엄상식" disabled />
+                                <input class="form-control" id="memberName" type="text" name="${author}" value="엄상식" readonly />
                             </div>
                         </div>
                         <c:if test="${showCategory}">
@@ -52,12 +52,12 @@
 	                                </div>
 	                                <div class="form-end d-flex align-items-center border-left">
 	                                    <label for="boardProductName" class="text-center">상품이름</label>
-	                                    <select class="form-control" id="boardProductName">
-	                                        <option value="pid1">옥수수빵</option>
-	                                        <option value="pid2">옥수수식빵</option>
-	                                        <option value="pid3">생크림빵</option>
-	                                        <option value="pid4">단팥빵</option>
-	                                        <option value="pid5">메론빵</option>
+	                                    <select class="form-control" id="boardProductName" name="productId">
+	                                        <option value="1">옥수수빵</option>
+	                                        <option value="2">옥수수식빵</option>
+	                                        <option value="3">생크림빵</option>
+	                                        <option value="4">단팥빵</option>
+	                                        <option value="5">메론빵</option>
 	                                    </select>
 	                                </div>
 	                            </div>
@@ -133,6 +133,7 @@
                             <button type="submit" class="btn btn-secondary mr-1" id="boardSubmitButton">등록하기</button>
                             <a class="btn btn-secondary buttonAnchor" href="getBoardList?type=${boardType}">목록보기</a>
                         </div>
+                        <input type="hidden" id="timestamp" name="${timestamp}" />
                     </form>
                 </div>
             </div>

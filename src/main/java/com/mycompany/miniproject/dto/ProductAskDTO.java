@@ -1,5 +1,8 @@
 package com.mycompany.miniproject.dto;
 
+import lombok.Data;
+
+@Data
 public class ProductAskDTO {
 	int productAskId;
 	String productAskTitle;
