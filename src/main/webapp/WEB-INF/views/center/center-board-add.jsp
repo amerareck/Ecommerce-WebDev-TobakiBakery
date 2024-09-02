@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@include file="/WEB-INF/views/common/header.jsp" %>
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/center.css">
 	
@@ -32,35 +33,38 @@
                                 <input class="form-control" id="memberName" type="text" name="${author}" value="엄상식" disabled />
                             </div>
                         </div>
-                        <hr class="hr" ${hideCategory}/>
-                        <!-- 상품 문의 작성 페이지시 visible-->
-                        <!-- 주문에 대한 문의가 아님. 구매자가 주문 이전에 상품에 대한 질문을 하는 곳. -->
-                        <div class="form-group d-flex align-items-center" id="productListForm" ${hideCategory}>
-                            <div class="form-title">
-                                <b>유형</b>
-                            </div>
-                            <div class="form-content d-flex flex-grow-1">
-                                <div class="form-start d-flex align-items-center border-left">
-                                    <label for="category" class="text-center">카테고리</label>
-                                    <select class="form-control" id="category">
-                                        <option value="bread">Bread</option>
-                                        <option value="cake">Cake</option>
-                                        <option value="desert">Desert</option>
-                                    </select>
-                                </div>
-                                <div class="form-end d-flex align-items-center border-left">
-                                    <label for="boardProductName" class="text-center">상품이름</label>
-                                    <select class="form-control" id="boardProductName">
-                                        <option value="pid1">옥수수빵</option>
-                                        <option value="pid2">옥수수식빵</option>
-                                        <option value="pid3">생크림빵</option>
-                                        <option value="pid4">단팥빵</option>
-                                        <option value="pid5">메론빵</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <hr class="hr" ${hideReview}/>
+                        <c:if test="${showCategory}">
+	                        <hr class="hr" />
+	                        <!-- 상품 문의 작성 페이지시 visible-->
+	                        <!-- 주문에 대한 문의가 아님. 구매자가 주문 이전에 상품에 대한 질문을 하는 곳. -->
+	                        <div class="form-group d-flex align-items-center" id="productListForm">
+	                            <div class="form-title">
+	                                <b>유형</b>
+	                            </div>
+	                            <div class="form-content d-flex flex-grow-1">
+	                                <div class="form-start d-flex align-items-center border-left">
+	                                    <label for="category" class="text-center">카테고리</label>
+	                                    <select class="form-control" id="category">
+	                                        <option value="bread">Bread</option>
+	                                        <option value="cake">Cake</option>
+	                                        <option value="desert">Desert</option>
+	                                    </select>
+	                                </div>
+	                                <div class="form-end d-flex align-items-center border-left">
+	                                    <label for="boardProductName" class="text-center">상품이름</label>
+	                                    <select class="form-control" id="boardProductName">
+	                                        <option value="pid1">옥수수빵</option>
+	                                        <option value="pid2">옥수수식빵</option>
+	                                        <option value="pid3">생크림빵</option>
+	                                        <option value="pid4">단팥빵</option>
+	                                        <option value="pid5">메론빵</option>
+	                                    </select>
+	                                </div>
+	                            </div>
+	                        </div>
+                        </c:if>
+                        <c:if test="${showReview}">
+                        <hr class="hr" />
                         <!-- 상품 문의 작성 페이지 속성 종료 -->
                         <!-- 리뷰 작성 페이지일 경우 visible-->
                         <div class="form-group d-flex align-items-center w-100" id="productReviewForm" ${hideReview}>
@@ -73,6 +77,7 @@
                                 <span id="reviewProdPrice" class="mx-3">가격 :&emsp;[<b>5,000원</b>]</span>
                             </div>
                         </div>
+                        </c:if>
                         <hr class="hr"/>
                         <!-- 리뷰 작성 페이지 속성 끝-->
                         <div class="form-group d-flex" id="boradTitleForm">
@@ -111,15 +116,18 @@
                                 <textarea class="form-control" id="boardContent" name="${postContent}" rows="10"></textarea>
                             </div>
                         </div>
-                        <hr class="hr"/>
-                        <div class="form-group d-flex" id="boardFileForm">
-                            <div class="form-title d-flex align-items-center">
-                                <label for="attachment" style="margin: 0;"><b>첨부</b></label>
-                            </div>
-                            <div class="form-content">
-                                <input type="file" class="form-control-file" id="attachment" name="${postFile}">
-                            </div>
-                        </div>
+                        
+                        <c:if test="${showFile}">
+	                        <hr class="hr"/>
+	                        <div class="form-group d-flex" id="boardFileForm">
+	                            <div class="form-title d-flex align-items-center">
+	                                <label for="attachment" style="margin: 0;"><b>첨부</b></label>
+	                            </div>
+	                            <div class="form-content">
+	                                <input type="file" class="form-control-file" id="attachment" name="${postFile}">
+	                            </div>
+	                        </div>
+                        </c:if>
                         <hr class="hr"/>
                         <div class="form-group d-flex justify-content-end">
                             <button type="submit" class="btn btn-secondary mr-1" id="boardSubmitButton">등록하기</button>
