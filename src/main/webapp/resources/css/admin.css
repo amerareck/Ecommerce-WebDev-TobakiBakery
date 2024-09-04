@@ -180,8 +180,10 @@ body {
     margin: auto;
 }
 .table-wrapper {
-    height: 400px; /* 전체 테이블 높이 */
-    overflow-y: auto;
+	/*
+    height: 400px; *//* 전체 테이블 높이 */
+    /* overflow-y: auto; */
+    
 }
 table.order-list-table tbody tr td, table.order-list-table tbody tr th {
     vertical-align: middle;

@@ -10,8 +10,8 @@
         <!-- Breadcrumbs 영역 시작-->
         <nav class="breadcrumb-container">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="../"><i class="fas fa-home"></i></a></li>
-                <li class="breadcrumb-item"><a href="getBoardList?type=notice">고객센터</a></li>
+                <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}"><i class="fas fa-home"></i></a></li>
+                <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/center">고객센터</a></li>
                 <li class="breadcrumb-item active" aria-current="page">${breadcrumb}</li>
             </ol>
         </nav>
@@ -19,7 +19,7 @@
 
         <!-- 메인 컨테이너 -->
         <div class="list-container">
-		<%@include file="/WEB-INF/views/center/centerSubNavigor.jsp" %>
+		<%@include file="/WEB-INF/views/center/boardSubNavigation.jsp" %>
 
             <!-- 게시글 작성 컴포넌트 시작 -->
             <div class="card my-4">
@@ -89,14 +89,6 @@
                                     <input type="text" class="form-control" id="title" name="${postTitle}">
                                 </div>
                                 <div class="form-end d-flex justify-content-start mt-1" style="width: 40%">
-                                    <!--
-                                    <div class="custom-control custom-checkbox flex-grow-1">
-                                        <input type="checkbox" class="custom-control-input" id="confirmHTML" checked>
-                                        <label class="custom-control-label" for="confirmHTML" style="width:auto;">
-                                            <small class="form-text text-muted">HTML태그 허용</small>
-                                        </label>
-                                    </div>
-                                    -->
                                     <div class="custom-control custom-checkbox flex-grow-1 ml-2">
                                         <input type="checkbox" class="custom-control-input" id="secretBorad" name="${isSecret}" checked>
                                         <label class="custom-control-label" for="secretBorad" style="width:auto;">
@@ -131,7 +123,7 @@
                         <hr class="hr"/>
                         <div class="form-group d-flex justify-content-end">
                             <button type="submit" class="btn btn-secondary mr-1" id="boardSubmitButton">등록하기</button>
-                            <a class="btn btn-secondary buttonAnchor" href="getBoardList?type=${boardType}">목록보기</a>
+                            <a class="btn btn-secondary buttonAnchor" href="${pageContext.request.contextPath}/center" >목록보기</a>
                         </div>
                         <input type="hidden" id="timestamp" name="${timestamp}" />
                     </form>

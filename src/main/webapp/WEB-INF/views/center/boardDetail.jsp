@@ -9,8 +9,8 @@
         <!-- Breadcrumbs 영역 시작-->
         <nav class="breadcrumb-container">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="../"><i class="fas fa-home"></i></a></li>
-                <li class="breadcrumb-item"><a href="getBoardList?type=notice">고객센터</a></li>
+                <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}"><i class="fas fa-home"></i></a></li>
+                <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/center">고객센터</a></li>
                 <li class="breadcrumb-item active" aria-current="page">${breadcrumb}</li>
             </ol>
         </nav>
@@ -18,7 +18,7 @@
 
         <!-- 메인 컨테이너 -->
         <div class="list-container">
-		<%@include file="/WEB-INF/views/center/centerSubNavigor.jsp" %>
+		<%@include file="/WEB-INF/views/center/boardSubNavigation.jsp" %>
 
             <!-- 게시글 섹션 시작-->
             <div class="card mb-4 mt-4">
@@ -48,9 +48,9 @@
                         </p>
                     </div>
                     
-                    <a href="getBoardList?type=${boardType}" class="btn btn-outline-secondary float-right mr-1" id="redirectPage">목록으로</a>
+                    <a href="${pageContext.request.contextPath}/center/${boardType}" class="btn btn-outline-secondary float-right mr-1" id="redirectPage">목록으로</a>
                     <button type="button" id="removeBoardBotton" class="btn btn-outline-secondary float-right mr-1">삭제</button>
-                    <a href="getBoardDetail?type=${boardType}" class="btn btn-outline-secondary float-right mr-1">수정</a>
+                    <a href="${pageContext.request.contextPath}/center/${boardType}/addBoard" class="btn btn-outline-secondary float-right mr-1">수정</a>
                 </div>
             </div>
             <!-- 게시글 섹션 종료-->
@@ -99,7 +99,7 @@
                                     <input class="form-control" id="memberName" type="text" style="margin-right: 0;" value="umsangsik" disabled>
                                 </div>
                             </div>
-                            
+                            <input type="hidden" id="boardType" value="${boardType}" />
                         </div>
                     </form>
                 </div>
@@ -107,7 +107,7 @@
             </div>
 
             <hr class="hr"/>
-            <%@include file="/WEB-INF/views/center/centerRelatedBoardList.jsp" %>
+            <%@include file="/WEB-INF/views/center/boardDetailSubList.jsp" %>
         </div>
 	</section>
 	<%@include file="/WEB-INF/views/common/footer.jsp" %>

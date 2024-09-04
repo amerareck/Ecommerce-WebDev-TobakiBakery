@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mycompany.miniproject.dto.ProductDTO;
 
@@ -21,21 +22,34 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @Slf4j
 @RequestMapping("/admin")
-public class AdminController { 
-	@GetMapping("/getAdminMain")
-	public String adminMain(Model model) {
+public class AdminController {
+	
+	@GetMapping("/main")
+	public String mainPage(Model model) {
 		log.info("실행");
-		
 		model.addAttribute("adminMain", "active");
-		return "admin/admin-main";
+		model.addAttribute("listType", "product");
+		
+		return "admin/adminMain";
+	}
+	
+	@GetMapping("/OrderList")
+	public String OrderList(Model model) {
+		log.info("실행");
+		model.addAttribute("orderList", "active");
+		model.addAttribute("listType", "order");
+		
+		return "admin/adminMain";
 	}
 	
 	@GetMapping("/addProduct")
 	public String addProduct(Model model) {
 		log.info("실행");
 		model.addAttribute("addProduct", "active");
-		return "admin/admin-product-details";
+		
+		return "admin/adminProductDetails";
 	}
+	
 	
 	@PostMapping("/addProduct")
 	public void submitProduct(ProductDTO dto, HttpServletResponse res) {
@@ -53,6 +67,7 @@ public class AdminController {
 			ioe.printStackTrace();
 		}
 	}
+	
 	@PostMapping("/updateProduct")
 	public void updateProduct(ProductDTO dto, HttpServletResponse res) {
 		log.info("실행");

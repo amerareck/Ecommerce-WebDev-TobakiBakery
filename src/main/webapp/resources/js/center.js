@@ -111,17 +111,33 @@ $('#commentForm').submit(function(event){
 
     const author = $('#memberName').val();
     const content = $('#commentCentent').val().replace(/\n/g, '<br>');
+    const index = $('.text-muted.board-index').text();
+    const boardType = $('#boardType').val();
+    let formattedDate = moment().format('YYYY-MM-DD HH:mm:ss');
+    const requestData = {
+    	memberId: author,
+    	commentContent: content,
+    	commentDatetime: formattedDate
+    }
+    console.log(index);
     if(!content) {
         alert('내용을 입력해 주세요.');
         return;
     }
+    
+    if(boardType === 'notice') {
+    	requestData.noticeId = index;
+    } else if(boardType === 'product') {
+    	requestData.productId = index;
+    } else if(boardType === 'other') {
+    	requestData.etcAskId = index;
+    }
 
-    let formattedDate = moment().format('YYYY-MM-DD HH:mm:ss');
     
     $.ajax({
-    	url: "addComment",
+    	url: "../addComment",
     	type: "post",
-    	data: {memberId: author, commentContent: content, commentDatetime: formattedDate},
+    	data: requestData,
     	success: function(data) {
     		if(data.status === 'ok') {
     			alert('댓글이 등록되었습니다.');
@@ -162,7 +178,7 @@ $('#removeBoardBotton').click(function(){
 	const redirectAddr = $('#redirectPage').attr('href');
 	
 	$.ajax({
-		url: "removeBoard",
+		url: "../removeBoard",
 		method: "post",
 		data: {boardIndex},
 		success: function(data){

@@ -11,7 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mycompany.miniproject.dto.CommentDTO;
 import com.mycompany.miniproject.dto.EtcAskDTO;
@@ -24,196 +23,144 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequestMapping("/center")
 public class CenterController {
-	@GetMapping("/getBoardList")
-	public String getBoardList(String type, RedirectAttributes redi) {
+	
+	@GetMapping("")
+	public String home() {
 		log.info("실행");
-		String path = "";
-		if(type.equals("notice")) {
-			redi.addFlashAttribute("notice", "active");
-			redi.addFlashAttribute("title","공지사항");
-			redi.addFlashAttribute("breadcrumb", "공지사항");
-			redi.addFlashAttribute("boardType", "notice");
-			
-			path = "redirect:/center/noticeList";
-			
-		} else if(type.equals("product")) {
-			redi.addFlashAttribute("product", "active");
-			redi.addFlashAttribute("title", "상품문의");
-			redi.addFlashAttribute("breadcrumb", "상품문의");
-			redi.addFlashAttribute("boardType", "product");
-			
-			path = "redirect:/center/productList";
-			
-		} else if(type.equals("other")) {
-			redi.addFlashAttribute("other", "active");
-			redi.addFlashAttribute("title", "기타문의");
-			redi.addFlashAttribute("breadcrumb", "기타문의");
-			redi.addFlashAttribute("boardType", "other");
-			
-			path = "redirect:/center/otherList";
-			
-		}
-		return path;
+		
+		return "redirect:/center/notice";
 	}
 	
-	@GetMapping("/noticeList")
+	@GetMapping("/notice")
 	public String noticeList(Model model) {
 		log.info("실행");
+		model.addAttribute("notice", "active");
+		model.addAttribute("title","공지사항");
+		model.addAttribute("breadcrumb", "공지사항");
+		model.addAttribute("boardType", "notice");
 		
-		return "center/center-board-list";
+		return "center/boardList";
 	}
 	
-	@GetMapping("/productList")
+	@GetMapping("/product")
 	public String productList(Model model) {
 		log.info("실행");
+		model.addAttribute("product", "active");
+		model.addAttribute("title", "상품문의");
+		model.addAttribute("breadcrumb", "상품문의");
+		model.addAttribute("boardType", "product");
 		
-		return "center/center-board-list";
+		return "center/boardList";
 	}
 	
-	@GetMapping("/otherList")
+	@GetMapping("/other")
 	public String otherList(Model model) {
 		log.info("실행");
+		model.addAttribute("other", "active");
+		model.addAttribute("title", "기타문의");
+		model.addAttribute("breadcrumb", "기타문의");
+		model.addAttribute("boardType", "other");
 		
-		return "center/center-board-list";
+		return "center/boardList";
 	}
 	
-	@GetMapping("/addBoard")
-	public String addBoard(String type, RedirectAttributes redi) {
-		log.info("실행");
-		String path = "";
-		if(type.equals("notice")) {
-			redi.addFlashAttribute("notice", "active");
-			redi.addFlashAttribute("title","공지사항");
-			redi.addFlashAttribute("breadcrumb", "공지사항");
-			redi.addFlashAttribute("showCategory", false);
-			redi.addFlashAttribute("showReview", false);
-			redi.addFlashAttribute("showFile", true);
-			redi.addFlashAttribute("boardType", "notice");
-			redi.addFlashAttribute("formAction", "submitNotice");
-			
-			//폼 data
-			redi.addFlashAttribute("author", "memberId");
-			redi.addFlashAttribute("postTitle", "noticeTitle");
-			redi.addFlashAttribute("isSecret", "lockState");
-			redi.addFlashAttribute("postContent", "noticeContent");
-			redi.addFlashAttribute("postFile", "noticeContentImg");
-			redi.addFlashAttribute("timestamp", "noticeDatetime");
-			
-			path = "redirect:/center/addNoticeBoard";
-			
-		} else if(type.equals("product")) {
-			redi.addFlashAttribute("product", "active");
-			redi.addFlashAttribute("title", "상품문의");
-			redi.addFlashAttribute("breadcrumb", "상품문의");
-			redi.addFlashAttribute("showCategory", true);
-			redi.addFlashAttribute("showReview", false);
-			redi.addFlashAttribute("showFile", false);
-			redi.addFlashAttribute("boardType", "product");
-			redi.addFlashAttribute("formAction", "submitProductAsk");
-			
-			//폼 data
-			redi.addFlashAttribute("author", "memberId");
-			redi.addFlashAttribute("postTitle", "productAskTitle");
-			redi.addFlashAttribute("isSecret", "lockState");
-			redi.addFlashAttribute("postContent", "productAskContent");
-			redi.addFlashAttribute("timestamp", "productAskDatetime");
-			
-			path = "redirect:/center/addProductBoard";
-			
-		} else if(type.equals("other")) {
-			redi.addFlashAttribute("other", "active");
-			redi.addFlashAttribute("title", "기타문의");
-			redi.addFlashAttribute("breadcrumb", "기타문의");
-			redi.addFlashAttribute("showCategory", false);
-			redi.addFlashAttribute("showReview", false);
-			redi.addFlashAttribute("showFile", true);
-			redi.addFlashAttribute("boardType", "other");
-			redi.addFlashAttribute("formAction", "submitEtcAsk");
-			
-			//폼 data
-			redi.addFlashAttribute("author", "memberId");
-			redi.addFlashAttribute("postTitle", "etcAskTitle");
-			redi.addFlashAttribute("isSecret", "lockState");
-			redi.addFlashAttribute("postContent", "etcAskContent");
-			redi.addFlashAttribute("timestamp", "etcAskDatetime");
-			
-			path = "redirect:/center/addOtherBoard";
-		}
-		return path;
-	}
-	
-	@GetMapping("/addNoticeBoard")
+	@GetMapping("/notice/addBoard")
 	public String addNoticeBoard(Model model) {
 		log.info("실행");
-
-		return "center/center-board-add";
+		model.addAttribute("notice", "active");
+		model.addAttribute("title","공지사항");
+		model.addAttribute("breadcrumb", "공지사항");
+		model.addAttribute("showCategory", false);
+		model.addAttribute("showReview", false);
+		model.addAttribute("showFile", true);
+		model.addAttribute("boardType", "notice");
+		model.addAttribute("formAction", "submitBoard");
+		
+		//폼 data
+		model.addAttribute("author", "memberId");
+		model.addAttribute("postTitle", "noticeTitle");
+		model.addAttribute("isSecret", "lockState");
+		model.addAttribute("postContent", "noticeContent");
+		model.addAttribute("postFile", "noticeContentImg");
+		model.addAttribute("timestamp", "noticeDatetime");
+		
+		return "center/boardInsert";
 	}
 	
-	@GetMapping("/addProductBoard")
+	@GetMapping("/product/addBoard")
 	public String addProductBoard(Model model) {
 		log.info("실행");
+		model.addAttribute("product", "active");
+		model.addAttribute("title", "상품문의");
+		model.addAttribute("breadcrumb", "상품문의");
+		model.addAttribute("showCategory", true);
+		model.addAttribute("showReview", false);
+		model.addAttribute("showFile", false);
+		model.addAttribute("boardType", "product");
+		model.addAttribute("formAction", "submitBoard");
 		
-		return "center/center-board-add";
+		//폼 data
+		model.addAttribute("author", "memberId");
+		model.addAttribute("postTitle", "productAskTitle");
+		model.addAttribute("isSecret", "lockState");
+		model.addAttribute("postContent", "productAskContent");
+		model.addAttribute("timestamp", "productAskDatetime");
+		return "center/boardInsert";
 	}
 	
-	@GetMapping("/addOtherBoard")
+	@GetMapping("/other/addBoard")
 	public String addOtherBoard(Model model) {
 		log.info("실행");
+		model.addAttribute("other", "active");
+		model.addAttribute("title", "기타문의");
+		model.addAttribute("breadcrumb", "기타문의");
+		model.addAttribute("showCategory", false);
+		model.addAttribute("showReview", false);
+		model.addAttribute("showFile", true);
+		model.addAttribute("boardType", "other");
+		model.addAttribute("formAction", "submitBoard");
 		
-		return "center/center-board-add";
+		//폼 data
+		model.addAttribute("author", "memberId");
+		model.addAttribute("postTitle", "etcAskTitle");
+		model.addAttribute("isSecret", "lockState");
+		model.addAttribute("postContent", "etcAskContent");
+		model.addAttribute("timestamp", "etcAskDatetime");
+		
+		return "center/boardInsert";
 	}
 	
-	@GetMapping("/getBoardDetail")
-	public String getBoardDetail(String type, RedirectAttributes redi) {
-		log.info("실행");
-		String path = "";
-		if(type.equals("notice")) {
-			redi.addFlashAttribute("notice", "active");
-			redi.addFlashAttribute("title","공지사항");
-			redi.addFlashAttribute("breadcrumb", "공지사항");
-			redi.addFlashAttribute("boardType", "notice");
-			
-			path = "redirect:/center/noticeDetail";
-			
-		} else if(type.equals("product")) {
-			redi.addFlashAttribute("product", "active");
-			redi.addFlashAttribute("title","상품문의");
-			redi.addFlashAttribute("breadcrumb", "상품문의");
-			redi.addFlashAttribute("boardType", "product");
-			
-			path = "redirect:/center/productDetail";
-			
-		} else if(type.equals("other")) {
-			redi.addFlashAttribute("other", "active");
-			redi.addFlashAttribute("title","기타문의");
-			redi.addFlashAttribute("breadcrumb", "기타문의");
-			redi.addFlashAttribute("boardType", "other");
-			
-			path = "redirect:/center/otherDetail";
-		}
-		
-		return path;
-	}
-	
-	@GetMapping("/noticeDetail")
+	@GetMapping("/notice/detail")
 	public String noticeDetail(Model model) {
 		log.info("실행");
+		model.addAttribute("notice", "active");
+		model.addAttribute("title","공지사항");
+		model.addAttribute("breadcrumb", "공지사항");
+		model.addAttribute("boardType", "notice");
 		
-		return "center/center-board-details";
+		return "center/boardDetail";
 	}
 	
-	@GetMapping("/productDetail")
+	@GetMapping("/product/detail")
 	public String productDetail(Model model) {
 		log.info("실행");
+		model.addAttribute("product", "active");
+		model.addAttribute("title","상품문의");
+		model.addAttribute("breadcrumb", "상품문의");
+		model.addAttribute("boardType", "product");
 				
-		return "center/center-board-details";
+		return "center/boardDetail";
 	}
 	
-	@GetMapping("/otherDetail")
+	@GetMapping("/other/detail")
 	public String otherDetail(Model model) {
 		log.info("실행");
+		model.addAttribute("other", "active");
+		model.addAttribute("title","기타문의");
+		model.addAttribute("breadcrumb", "기타문의");
+		model.addAttribute("boardType", "other");
 				
-		return "center/center-board-details";
+		return "center/boardDetail";
 	}
 	
 	@PostMapping("/removeBoard")
@@ -252,27 +199,27 @@ public class CenterController {
 		}
 	}
 	
-	@PostMapping("/submitNotice")
+	@PostMapping("notice/submitBoard")
 	public String submitNotice(NoticeDTO notice) {
 		log.info("실행");
 		log.info(notice.toString());
 		
-		return "redirect:/center/getBoardDetail?type=notice";
+		return "redirect:/center/notice/detail";
 	}
 	
-	@PostMapping("/submitProductAsk")
+	@PostMapping("product/submitBoard")
 	public String submitProductAsk(ProductAskDTO productAsk) {
 		log.info("실행");
 		log.info(productAsk.toString());
 		
-		return "redirect:/center/getBoardDetail?type=product";
+		return "redirect:/center/product/detail";
 	}
 	
-	@PostMapping("/submitEtcAsk")
+	@PostMapping("other/submitBoard")
 	public String submitEtcAsk(EtcAskDTO etcAsk) {
 		log.info("실행");
 		log.info(etcAsk.toString());
 		
-		return "redirect:/center/getBoardDetail?type=other";
+		return "redirect:/center/other/detail";
 	}
 }
