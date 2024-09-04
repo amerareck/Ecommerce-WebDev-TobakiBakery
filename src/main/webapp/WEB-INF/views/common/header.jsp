@@ -103,7 +103,7 @@
 							</ul>
 						</div>
 						<!--상단네비 검색 및 장바구니-->
-						<form action="#" id="headerSearch">
+						<form action="#" id="headerSearch" method="post" >
 							<div class="top-menu-finder-cart align-self-end">
 								<div class="top-finder">
 									<div class="input-group">

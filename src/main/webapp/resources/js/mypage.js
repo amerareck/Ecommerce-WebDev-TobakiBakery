@@ -1,15 +1,14 @@
-document.getElementById('delete-account').addEventListener('click', function() {
-           
-            const userConfirmed = confirm("정말 탈퇴하시겠습니까?");
-            
-            if (userConfirmed) {
-               
-                alert("탈퇴가 완료되었습니다.");
-                
-            } else {
-                
-            }
-        });
+$('delete-account').on('click', function() {    
+	const userConfirmed = confirm("정말 탈퇴하시겠습니까?");
+	
+	if (userConfirmed) {
+	   
+	    alert("탈퇴가 완료되었습니다.");
+	    
+	} else {
+	    
+	}
+});
 
 function setDateRange(range) {
 	const today = new Date();
