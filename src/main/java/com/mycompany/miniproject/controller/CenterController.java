@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.mycompany.miniproject.dto.CommentDTO;
-import com.mycompany.miniproject.dto.EtcAskDTO;
+import com.mycompany.miniproject.dto.HelpdeskDTO;
 import com.mycompany.miniproject.dto.NoticeDTO;
 import com.mycompany.miniproject.dto.ProductAskDTO;
 
@@ -216,7 +216,7 @@ public class CenterController {
 	}
 	
 	@PostMapping("other/submitBoard")
-	public String submitEtcAsk(EtcAskDTO etcAsk) {
+	public String submitEtcAsk(HelpdeskDTO etcAsk) {
 		log.info("실행");
 		log.info(etcAsk.toString());
 		
