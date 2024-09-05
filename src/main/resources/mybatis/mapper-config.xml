@@ -13,7 +13,7 @@
 		<typeAlias type="com.mycompany.miniproject.dto.OrderProductDTO"
 					alias="OrderProduct"/>
 		<typeAlias type="com.mycompany.miniproject.dto.ProductReviewDTO"
-					alias="Review"/>
+					alias="ProductReview"/>
 
 	</typeAliases>
 </configuration>
