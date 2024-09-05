@@ -20,7 +20,9 @@ public class OrderDTO {
 	private String deliveryStatus;
 	private int orderTotalPrice; 
 	private String memberId;
-	
+	private int productId;
+	private int orderProductCount;
+	private int orderProductPrice;
 	
 
 }
