@@ -1,14 +1,20 @@
 package com.mycompany.miniproject.controller;
 
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,11 +28,13 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequestMapping("/member")
 public class MemberController {
-
-	@RequestMapping("/member-info")
+	
+	private final Random random = new Random();
+	
+	@RequestMapping("/memberInfo")
 	public String addMember() {
 		log.info("회원가입 실행");
-		return "/member/member-info";
+		return "/member/memberInfo";
 	}
 	
 	@InitBinder("memberDTO")
@@ -42,8 +50,8 @@ public class MemberController {
 		}
 		log.info("유효성 검사 성공");
 		
-		log.info("memberId: "+ loginForm.getMember_id());
-		log.info("memberPW: " + loginForm.getMember_password());
+		log.info("memberId: "+ loginForm.getMemberId());
+		log.info("memberPW: " + loginForm.getMemberPassword());
 		return "redirect:/";
 	}
 	
@@ -52,36 +60,79 @@ public class MemberController {
 		log.info("로그인 실행");
 		return "/member/login";
 	}
-	@RequestMapping("/member-edit")
+	@RequestMapping("/memberEdit")
 	public String memberEdit() {
 		log.info("회원수정 실행");
-		return "/member/member-edit";
+		return "/member/memberEdit";
 	}
 	
-	@RequestMapping("/member-search-id")
-	public String getMemberId() {
-		log.info("아이디 찾기 실행");
-		return "/member/member-search-id";
+	@RequestMapping("/memberSearch")
+	public String getMemberSearch(String search, Model model) {
+		log.info("실행");
+		   if("id".equals(search)) {
+		        model.addAttribute("search", "id");
+		    } else if("pw".equals(search)) {
+		        model.addAttribute("search", "pw");
+		    }
+		   return "/member/memberSearchForm";
+		    
 	}
 	
-	@RequestMapping("/member-search-pw")
-	public String getMemberPassword() {
-		log.info("비밀번호 찾기");
-		return "/member/member-search-pw";
+	@GetMapping("/memberIdSearch")
+	public String getMemberIdSearch() {
+		log.info("실행");
+		return "/member/memberIdSearch";
 	}
-	
-	@RequestMapping("/member-search-id-complete")
-	public String getMemberIdComplete() {
-		log.info("아이디 찾기 완료");
-		return "/member/member-search-id-complete";
+	@GetMapping("/memberPwSearch")
+	public String getMemberPwSearch() {
+		log.info("실행");
+		return "/member/memberPwSearch";
 	}
-	
-	@RequestMapping("/member-search-pw-complete")
-	public String getMemberPasswordComplete() {
-		log.info("비밀번호 찾기 완료");
-		return "/member/member-search-pw-complete";
+	@GetMapping("/memberIdSearchComplete")
+	public String getMemberSearchIdComplete() {
+		log.info("실행");
+		return "/member/memberIdSearchComplete";
 	}
-	
+	@GetMapping("/memberPwSearchComplete")
+	public String getMemberSearchPwComplete(Model model) {
+		log.info("실행");
+		int randomNum = random.nextInt(100000);
+		
+		String pwTokenNum = Integer.toString(randomNum);
+		
+	    StringBuilder pwTokenStr = new StringBuilder();
+	        for (int i = 0; i < 2; i++) {
+	            int randomAlpha = random.nextInt(52); 
+	            char pwAlaph;
+	            if (randomAlpha < 26) {
+	            	pwAlaph = (char) ('A' + randomAlpha); 
+	            } else {
+	            	pwAlaph = (char) ('a' + (randomAlpha - 26)); 
+	            }
+	            pwTokenStr.append(pwAlaph);
+	        }
+	    
+	    String token = pwTokenNum + pwTokenStr;
+	    
+	    List<Character> TokenList = new ArrayList<>();
+	    for (char c : token.toCharArray()) {
+	    	TokenList.add(c);
+	    }
+	    
+	    Collections.shuffle(TokenList);
+	    
+	    StringBuilder shuffleToken = new StringBuilder();
+	    for (char c : TokenList) {
+	    	shuffleToken.append(c);
+	    }
+	    
+	    String pwToken = shuffleToken.toString();
+	    
+		model.addAttribute("pwToken", pwToken);
+		log.info("pwToken: " + pwToken);
+		return "/member/memberPwSearchComplete";
+	}
+
 	@PostMapping("/member-info")
 	public void requestAjax(MemberDTO memDto, HttpServletResponse response) 
 		throws Exception {
@@ -97,7 +148,7 @@ public class MemberController {
 		PrintWriter pw = response.getWriter();
 		pw.println(json);
 		pw.flush(); 
-		pw.close();
+		pw.close(); 
 		
 	}
 

@@ -23,14 +23,14 @@ public class LoginFormValidator implements Validator{
 		log.info("실행");
 		MemberDTO loginForm = (MemberDTO) target;
 
-		String memberId = loginForm.getMember_id();
+		String memberId = loginForm.getMemberId();
 		if(memberId == null || memberId.equals("")) {
 			errors.rejectValue("member_id", "errors.mid.required");
 		}else if(memberId.length() < 6){
 			errors.rejectValue("member_id", "errors.mid.length", new Object[] {"6"}, null);
 		}
 		
-		String memberPw = loginForm.getMember_password();
+		String memberPw = loginForm.getMemberPassword();
 		String pattern = "(?=.*[A-Za-z])(?=.*[\\d@$!%*?&])[A-Za-z\\d@$!%*?&]{8,16}";
 		if(memberPw==null || memberPw.equals("")) {
 			errors.rejectValue("member_password", "errors.mpassword.required");

@@ -140,3 +140,11 @@ button[type="check"] {
     text-align: center;
     margin-top: 20px;
 }
+
+form{
+	text-align: center;
+}
+a:hover{
+	text-decoration: none;
+	color:#000;
+}
