@@ -7,7 +7,7 @@
 
 <!-- 비밀번호 찾기 폼 컨테이너 시작 -->
 <div class="form-container">
-    <form>
+    <form >
         <!-- 비밀번호 찾기 입력 테이블 시작 -->
         <table class="table" style="width: 500px;">
             <tbody>

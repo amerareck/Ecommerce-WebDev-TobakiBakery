@@ -68,7 +68,7 @@
 					<tr>
 						<td>* 비밀번호 확인</td>
 						<td><input type="password" class="form-control input-small"
-							name="password_confirm" id="password_confirm" required></td>
+							name="passwordConfirm" id="password_confirm" required></td>
 					</tr>
 					<!-- 비밀번호 확인 입력 필드 끝 -->
 
@@ -77,7 +77,7 @@
 						<td>* 생년월일</td>
 						<td>
 							<div class="d-flex align-items-center birthday-gender-row">
-								<select class="form-control input-tiny" name="birth_year"
+								<select class="form-control input-tiny" name="birthYear"
 									required>
 									<option>1900</option>
 									<script>
@@ -87,7 +87,7 @@
                                        </script>
 								</select>
 								<h6>년</h6>
-								<select class="form-control input-tiny" name="birth_month"
+								<select class="form-control input-tiny" name="birthMonth"
 									required>
 									<option>10</option>
 									<script>
@@ -97,7 +97,7 @@
                                        </script>
 								</select>
 								<h6>월</h6>
-								<select class="form-control input-tiny" name="birth_day"
+								<select class="form-control input-tiny" name="birthDay"
 									required>
 									<option>10</option>
 									<script>
@@ -126,7 +126,7 @@
 							name="address" placeholder="주소" style="width: 500px;"
 							value="서울 종로구 대학로 136" readonly> <input type="text"
 							class="form-control mt-2" id="address_detail"
-							name="address_detail" placeholder="상세주소" value="103호"
+							name="addressDetail" placeholder="상세주소" value="103호"
 							style="width: 500px;">
 						</td>
 					</tr>
@@ -138,7 +138,7 @@
 						<td>
 							<div class="form-row">
 								<div class="col">
-									<select class="form-control" name="phone_prefix" required>
+									<select class="form-control" name="phonePrefix" required>
 										<option>010</option>
 										<option>011</option>
 										<option>012</option>
@@ -147,11 +147,11 @@
 								</div>
 								<div class="col">
 									<input type="text" class="form-control"
-										name="phone_middle_number" value="1234" required>
+										name="phoneMidNum" value="1234" required>
 								</div>
 								<div class="col">
 									<input type="text" class="form-control"
-										name="phone_last_number" value="1234" required>
+										name="phoneLastNum" value="1234" required>
 								</div>
 							</div>
 						</td>
@@ -163,13 +163,13 @@
 						<td>* 이메일</td>
 						<td>
 							<div class="input-group-append">
-								<input type="text" class="form-control" name="email_local"
+								<input type="text" class="form-control" name="emailLocal"
 									style="width: 150px;" value="hgd1234" required> <span
 									class="input-group-text">@</span> <input type="text"
-									class="form-control" name="email_domain" id="email_domain"
+									class="form-control" name="emailDomain" id="email_domain"
 									style="width: 150px;" required>
 								<div class="input-group-append">
-									<select class="form-control" name="email_select"
+									<select class="form-control" name="emailSelect"
 										id="email_select" required onchange="setEmailDomain()">
 										<option value="">직접입력</option>
 										<option value="naver.com">naver.com</option>
