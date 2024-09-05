@@ -10,8 +10,7 @@
 					alias="Cart"/>
 		<typeAlias type="com.mycompany.miniproject.dto.OrderDTO"
 					alias="Order"/>
-		<typeAlias type="com.mycompany.miniproject.dto.OrderProductDTO"
-					alias="OrderProduct"/>
+		
 		<typeAlias type="com.mycompany.miniproject.dto.ProductReviewDTO"
 					alias="ProductReview"/>
 
