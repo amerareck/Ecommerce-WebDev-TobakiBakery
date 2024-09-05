@@ -14,4 +14,8 @@ public class ProductReviewDTO {
 	private Date reviewDate;
 	private String memberId;
 	private int productId;
+	
+	private String imageOriginalName;
+	private String imageType;
+	private String imageData;
 }
