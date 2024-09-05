@@ -12,5 +12,9 @@
 		<typeAlias type="com.mycompany.miniproject.dto.CartDTO" alias="Cart"/>
 		<typeAlias type="com.mycompany.miniproject.dto.OrderDTO" alias="Order"/>	
 		<typeAlias type="com.mycompany.miniproject.dto.ProductReviewDTO" alias="ProductReview"/>
+		<typeAlias type="com.mycompany.miniproject.dto.ProductDTO" alias="Product"/>
+		<typeAlias type="com.mycompany.miniproject.dto.MemberDTO" alias="Member"/>
+		<typeAlias type="com.mycompany.miniproject.dto.CategoryDTO" alias="Category"/>
+		
 	</typeAliases>
 </configuration>
