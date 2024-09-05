@@ -1,14 +1,15 @@
 package com.mycompany.miniproject.dto;
 
+import java.util.Date;
+
 import lombok.Data;
 
 @Data
 public class CommentDTO {
 	int commentId;
 	String commentContent;
-	String commentDatetime;
-	String memberId; // 작성자 id
-	int noticeId; // 공지사항 id
-	int productAskId; // 상품문의 id
-	int etcAskId; // 기타문의 id
+	Date commnetDatetime;
+	String memberId;
+	int noticeId;
+	int helpdeskId;
 }
