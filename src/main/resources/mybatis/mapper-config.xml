@@ -9,5 +9,8 @@
 		<typeAlias type="com.mycompany.miniproject.dto.NoticeDTO" alias="Notice" />
 		<typeAlias type="com.mycompany.miniproject.dto.HelpdeskDTO" alias="Helpdesk" />
 		<typeAlias type="com.mycompany.miniproject.dto.CommentDTO" alias="Comment" />
+		<typeAlias type="com.mycompany.miniproject.dto.CartDTO" alias="Cart"/>
+		<typeAlias type="com.mycompany.miniproject.dto.OrderDTO" alias="Order"/>	
+		<typeAlias type="com.mycompany.miniproject.dto.ProductReviewDTO" alias="ProductReview"/>
 	</typeAliases>
 </configuration>
