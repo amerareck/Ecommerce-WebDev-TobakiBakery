@@ -19,5 +19,7 @@ public class ProductDTO {
 	String productUsecase;
 	String imageOriginalName;
 	String imageType;
-	String imageData;
+	byte[] imageData;
+	
+	boolean newProduct;
 }

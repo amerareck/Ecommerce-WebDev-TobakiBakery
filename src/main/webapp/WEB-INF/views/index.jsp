@@ -51,9 +51,7 @@
 		<div class="item_wrap" id="best">
 			<!-- 1행 -->
 			<dl class="item_elem">
-				<div class="badge">
-					BEST
-				</div>
+				<div class="badge">BEST</div>
 				<dt class="thumb">
 					<img class="prd_img" src="resources/image/bread/걀렛뜨 데로와 푀유떼.jpg"
 						onclick="location.href='./product/itemDetail-static'">
@@ -223,170 +221,36 @@
 
 		<!-- 신제품 -->
 		<div class="item_wrap" id="new">
-			<!-- 1행 -->
-			<dl class="item_elem">
-				<div class="badge">NEW</div>
-				<dt class="thumb">
-					<img class="prd_img" src="resources/image/cake/갸또 쇼꼴라.jpg"
-						onclick="location.href='./product/itemDetail-static'">
-					<div class="cart-overlay"
-						onclick="location.href='./order/orderCart-static'">
-						<img src="https://cdn-icons-png.flaticon.com/512/1170/1170678.png"
-							alt="장바구니로 이동">
-					</div>
-				</dt>
-				<dd>
-					<ul>
-						<li class="prd_title"><a href="./product/itemDetail-static">갸또
-								쇼콜라</a></li>
-						<li class="prd_price">39,000원</li>
-						<li class="prd_review"><em>상품후기</em> (8)</li>
-					</ul>
-				</dd>
-			</dl>
-
-			<dl class="item_elem">
-				<div class="badge">NEW</div>
-				<dt class="thumb">
-					<img class="prd_img" src="resources/image/cake/고구마 생크림 케익.jpg"
-						onclick="location.href='./product/itemDetail-static'">
-					<div class="cart-overlay"
-						onclick="location.href='./order/orderCart-static'">
-						<img src="https://cdn-icons-png.flaticon.com/512/1170/1170678.png"
-							alt="장바구니로 이동">
-					</div>
-				</dt>
-				<dd>
-					<ul>
-						<li class="prd_title"><a href="./product/itemDetail-static">고구마
-								생크림 케이크</a></li>
-						<li class="prd_price">32,000원</li>
-						<li class="prd_review"><em>상품후기</em> (8)</li>
-					</ul>
-				</dd>
-			</dl>
-
-			<dl class="item_elem">
-				<div class="badge">NEW</div>
-				<dt class="thumb">
-					<img class="prd_img" src="resources/image/cake/샤를로뜨.jpg"
-						onclick="location.href='./product/itemDetail-static'">
-					<div class="cart-overlay"
-						onclick="location.href='./order/orderCart-static'">
-						<img src="https://cdn-icons-png.flaticon.com/512/1170/1170678.png"
-							alt="장바구니로 이동">
-					</div>
-				</dt>
-				<dd>
-					<ul>
-						<li class="prd_title"><a href="./product/itemDetail-static">샤를로뜨</a></li>
-						<li class="prd_price">23,800원</li>
-						<li class="prd_review"><em>상품후기</em> (8)</li>
-					</ul>
-				</dd>
-			</dl>
-
-			<dl class="item_elem">
-				<div class="badge">NEW</div>
-				<dt class="thumb">
-					<img class="prd_img" src="resources/image/desert/라피누.jpg"
-						onclick="location.href='./product/itemDetail-static'">
-					<div class="cart-overlay"
-						onclick="location.href='./order/orderCart-static'">
-						<img src="https://cdn-icons-png.flaticon.com/512/1170/1170678.png"
-							alt="장바구니로 이동">
-					</div>
-				</dt>
-				<dd>
-					<ul>
-						<li class="prd_title"><a href="./product/itemDetail-static">라피누</a></li>
-						<li class="prd_price">18,000원</li>
-						<li class="prd_review"><em>상품후기</em> (8)</li>
-					</ul>
-				</dd>
-			</dl>
-
-			<!-- 2행 -->
-			<dl class="item_elem">
-				<div class="badge">NEW</div>
-				<dt class="thumb">
-					<img class="prd_img" src="resources/image/cake/프레지에.jpg"
-						onclick="location.href='./product/itemDetail-static'">
-					<div class="cart-overlay"
-						onclick="location.href='./order/orderCart-static'">
-						<img src="https://cdn-icons-png.flaticon.com/512/1170/1170678.png"
-							alt="장바구니로 이동">
-					</div>
-				</dt>
-				<dd>
-					<ul>
-						<li class="prd_title"><a href="./product/itemDetail-static">프레지에</a></li>
-						<li class="prd_price">43,000원</li>
-						<li class="prd_review"><em>상품후기</em> (8)</li>
-					</ul>
-				</dd>
-			</dl>
-
-			<dl class="item_elem">
-				<div class="badge">NEW</div>
-				<dt class="thumb">
-					<img class="prd_img" src="resources/image/cake/티라미수.jpg"
-						onclick="location.href='./product/itemDetail-static'">
-					<div class="cart-overlay"
-						onclick="location.href='./order/orderCart-static'">
-						<img src="https://cdn-icons-png.flaticon.com/512/1170/1170678.png"
-							alt="장바구니로 이동">
-					</div>
-				</dt>
-				<dd>
-					<ul>
-						<li class="prd_title"><a href="./product/itemDetail-static">티라미수</a></li>
-						<li class="prd_price">34,000원</li>
-						<li class="prd_review"><em>상품후기</em> (8)</li>
-					</ul>
-				</dd>
-			</dl>
-
-			<dl class="item_elem">
-				<div class="badge">NEW</div>
-				<dt class="thumb">
-					<img class="prd_img" src="resources/image/cake/쉭쎄.jpg"
-						onclick="location.href='./product/itemDetail-static'">
-					<div class="cart-overlay"
-						onclick="location.href='./order/orderCart-static'">
-						<img src="https://cdn-icons-png.flaticon.com/512/1170/1170678.png"
-							alt="장바구니로 이동">
-					</div>
-				</dt>
-				<dd>
-					<ul>
-						<li class="prd_title"><a href="./product/itemDetail-static">쉭쎄</a></li>
-						<li class="prd_price">41,000원</li>
-						<li class="prd_review"><em>상품후기</em> (8)</li>
-					</ul>
-				</dd>
-			</dl>
-
-			<dl class="item_elem">
-				<div class="badge">NEW</div>
-				<dt class="thumb">
-					<img class="prd_img" src="resources/image/cake/까망베르 치즈케익.jpg"
-						onclick="location.href='./product/itemDetail-static'">
-					<div class="cart-overlay"
-						onclick="location.href='./order/orderCart-static'">
-						<img src="https://cdn-icons-png.flaticon.com/512/1170/1170678.png"
-							alt="장바구니로 이동">
-					</div>
-				</dt>
-				<dd>
-					<ul>
-						<li class="prd_title"><a href="./product/itemDetail-static">까망베르
-								치즈케익</a></li>
-						<li class="prd_price">30,000원</li>
-						<li class="prd_review"><em>상품후기</em> (8)</li>
-					</ul>
-				</dd>
-			</dl>
+			<c:forEach items="${newProdList}" var="prod">
+				<dl class="item_elem">
+					<c:if test="${prod.newProduct}">
+						<div class="badge">NEW</div>
+					</c:if>
+					<dt class="thumb">
+						<a href="product/itemDetail-static">
+							<img class="prd_img" src="productImage?productId=${prod.productId}&productUsecase=THUMBNAIL" />
+						</a>
+						<div class="cart-overlay">
+							<a href="${pageContext.request.contextPath}/order/orderCart-static">
+								<img src="https://cdn-icons-png.flaticon.com/512/1170/1170678.png" />
+							</a>
+						</div>
+					</dt>
+					<dd>
+						<ul>
+							<li class="prd_title">
+								<a href="${pageContext.request.contextPath}/product/itemDetail-static">${prod.productName}</a>
+							</li>
+							<li class="prd_price">
+								<fmt:formatNumber value="${prod.productPrice}" pattern="#,##0" />원
+							</li>
+							<%-- 상품후기는 아직 데이터가 없으므로 건너뜁니다. --%>
+							<li class="prd_review"><em>상품후기</em> (8)</li>
+						</ul>
+					</dd>
+				</dl>
+			</c:forEach>
+			
 		</div>
 		<div class="gap"></div>
 	</div>
