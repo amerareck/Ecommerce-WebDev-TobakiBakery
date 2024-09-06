@@ -18,7 +18,7 @@
 	
 	<!--@Mapper 어노테이션을 사용하기 위한 설정  -->
 	<mybatis-spring:scan 
-	base-package="com.mycompany.miniproject.dao.mybatis"
+	base-package="com.mycompany.miniproject.dao"
 	annotation="org.apache.ibatis.annotations.Mapper"/>
 	
 	
