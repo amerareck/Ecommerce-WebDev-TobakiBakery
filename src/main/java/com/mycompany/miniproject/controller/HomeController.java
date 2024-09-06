@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.mycompany.miniproject.dto.ProductDTO;
-import com.mycompany.miniproject.service.MainService;
+import com.mycompany.miniproject.service.ProductService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 public class HomeController {
 	
 	@Autowired
-	private MainService mainService;
+	private ProductService productService;
 	
 	@RequestMapping("")
 	public String getIndex(Model model) {
@@ -37,7 +37,7 @@ public class HomeController {
 	}
 	
 	public void getNewProductList(Model model) {
-		List<ProductDTO> newProdList = mainService.getNewProductList();
+		List<ProductDTO> newProdList = productService.getNewProductList();
 		log.info(newProdList.toString());
 		
 		model.addAttribute("newProdList", newProdList);
@@ -45,7 +45,7 @@ public class HomeController {
 	
 	@GetMapping("/productImage")
 	public void getProductImage(ProductDTO product, HttpServletResponse res, HttpServletRequest req) throws IOException {
-		ProductDTO prodImage = mainService.getProductImage(product);
+		ProductDTO prodImage = productService.getProductImage(product);
 		
 		if(prodImage == null || prodImage.getImageType() == null) {
 			String imgPath = "/resources/image/no-thumbnail.png";
