@@ -42,4 +42,24 @@ public class ProductService {
 		
 		return img;
 	}
+	
+	
+	public ProductDTO checkBestProduct(ProductDTO target) {
+		List<ProductDTO> list = productDAO.selectBestProduct();
+		for(ProductDTO dto : list) {
+			if(dto.equals(target)) {
+				target.setBestProduct(true);
+				break;
+			}
+		}
+		return target;
+	}
+	
+	public List<ProductDTO> getBestProductList(){
+		List<ProductDTO> bestList = productDAO.selectBestProduct();
+		for(ProductDTO dto : bestList) {
+			dto.setBestProduct(true); 
+		}
+		return bestList;
+	}
 }

@@ -11,5 +11,9 @@ public interface ProductDAO {
 	public List<ProductDTO> selectBestProd();
 
 	public ProductDTO selectProductImage(ProductDTO dto);
+
+	public List<ProductDTO> selectBestProduct();
+
+
 	
 }

@@ -38,4 +38,20 @@
 			AND product_usecase = #{productUsecase}
 		]]>
 	</select>
+	
+	<select id="selectBestProduct" resultType="Product">
+		<![CDATA[
+		SELECT product_id, product_name, product_price, order_product_count
+			FROM (
+			    SELECT p.product_id, p.product_name, p.product_price, op.order_product_count
+			    FROM product p
+			    LEFT OUTER JOIN order_product op
+			    ON p.product_id = op.product_id
+			    ORDER BY op.order_product_count
+			)
+		WHERE ROWNUM <= 8
+		]]>
+		
+	</select>
+	
 </mapper>

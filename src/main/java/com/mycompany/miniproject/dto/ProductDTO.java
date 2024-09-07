@@ -22,4 +22,5 @@ public class ProductDTO {
 	byte[] imageData;
 	
 	boolean newProduct;
+	boolean bestProduct;
 }

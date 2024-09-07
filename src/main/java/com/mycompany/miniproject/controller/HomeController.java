@@ -32,7 +32,7 @@ public class HomeController {
 	public String getIndex(Model model) {
 		log.info("실행");
 		getNewProductList(model);
-		
+		getBestProductList(model);
 		return "index";
 	}
 	
@@ -41,6 +41,13 @@ public class HomeController {
 		log.info(newProdList.toString());
 		
 		model.addAttribute("newProdList", newProdList);
+	}
+	
+	public void getBestProductList(Model model) {
+		List<ProductDTO> bestProductList = productService.getBestProductList();
+		log.info(bestProductList.toString());
+		
+		model.addAttribute("bestProductList", bestProductList);
 	}
 	
 	@GetMapping("/productImage")
