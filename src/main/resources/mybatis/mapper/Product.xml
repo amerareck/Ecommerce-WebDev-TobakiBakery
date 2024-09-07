@@ -41,15 +41,28 @@
 	
 	<select id="selectBestProduct" resultType="Product">
 		<![CDATA[
-			SELECT product_id, product_name, product_price, order_product_count
+			SELECT 
+				product_id, 
+				product_name, 
+				product_price, 
+				order_product_count
 			FROM (
-			    SELECT p.product_id, p.product_name, p.product_price, op.order_product_count
-			    FROM order_product op
-			    LEFT OUTER JOIN product p
-			    ON p.product_id = op.product_id
-			    ORDER BY op.order_product_count DESC
+			    SELECT 
+			    		p.product_id, 
+			    		p.product_name, 
+			    		p.product_price, 
+			    		op.order_product_count
+			    FROM 
+			    		order_product op
+			    LEFT OUTER JOIN 
+			    		product p
+			    ON 
+			    		p.product_id = op.product_id
+			    ORDER BY 
+			    		op.order_product_count DESC
 			)
-			WHERE ROWNUM <= 8
+				WHERE 
+					rownum <= 8
 		]]>
 		
 	</select>
