@@ -62,4 +62,24 @@ public class ProductService {
 		}
 		return bestList;
 	}
+	
+	
+	public ProductDTO checkRecomProduct(ProductDTO target) {
+		List<ProductDTO> list = productDAO.selectRecomProduct();
+		for(ProductDTO dto : list) {
+			if(dto.equals(target)) {
+				target.setRecomProduct(true);
+				break;
+			}
+		}
+		return target;
+	}
+	
+	public List<ProductDTO> getRecomProductList(){
+		List<ProductDTO> recomList = productDAO.selectRecomProduct();
+		for(ProductDTO dto : recomList) {
+			dto.setRecomProduct(true); 
+		}
+		return recomList;
+	}
 }

@@ -67,4 +67,24 @@
 		
 	</select>
 	
+	<select id="selectRecomProduct" resultType="Product">
+    <![CDATA[
+        SELECT *
+        FROM (
+            SELECT 
+                product_id, 
+                product_name, 
+                product_price
+            FROM 
+                product
+            ORDER BY 
+                DBMS_RANDOM.VALUE
+        )
+        WHERE rownum <= 8
+    ]]>
+</select>
+
+
+	
+	
 </mapper>

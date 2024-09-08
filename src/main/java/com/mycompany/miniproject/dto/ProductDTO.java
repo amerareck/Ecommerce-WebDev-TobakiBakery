@@ -23,4 +23,5 @@ public class ProductDTO {
 	
 	boolean newProduct;
 	boolean bestProduct;
+	boolean recomProduct;
 }
