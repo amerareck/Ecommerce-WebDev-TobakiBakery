@@ -29,7 +29,7 @@
 				<div class="item_wrap">
 					<c:forEach items="${recomProductList}" var="recomProd">
 				<dl class="item_elem">
-					<c:if test="${recomProd.recomProduct}">
+					<c:if test="${recomProd.productRecom == 1}">
 						<div class="badge">RECOM</div>
 					</c:if>
 					<dt class="thumb">

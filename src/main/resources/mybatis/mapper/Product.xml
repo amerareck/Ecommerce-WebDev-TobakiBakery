@@ -69,7 +69,9 @@
 	
 	<select id="selectRecomProduct" resultType="Product">
     <![CDATA[
-        SELECT *
+        SELECT product_id, 
+                product_name, 
+                product_price
         FROM (
             SELECT 
                 product_id, 
@@ -77,14 +79,12 @@
                 product_price
             FROM 
                 product
-            ORDER BY 
-                DBMS_RANDOM.VALUE
+            WHERE 
+                product_recom = 1
         )
         WHERE rownum <= 8
     ]]>
 </select>
 
 
-	
-	
 </mapper>
