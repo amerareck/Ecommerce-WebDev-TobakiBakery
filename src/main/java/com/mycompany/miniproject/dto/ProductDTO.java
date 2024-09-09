@@ -21,7 +21,7 @@ public class ProductDTO {
 	String imageType;
 	byte[] imageData;
 	
-	boolean newProduct;
-	boolean bestProduct;
+	int productNew;
+	int productBest;
 	boolean recomProduct;
 }

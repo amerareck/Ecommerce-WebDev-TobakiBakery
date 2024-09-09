@@ -22,7 +22,7 @@ public class ProductService {
 		List<ProductDTO> list = productDAO.selectNewProduct();
 		for(ProductDTO dto : list) {
 			if(dto.equals(target)) {
-				target.setNewProduct(true);
+				target.setProductNew(1);
 				break;
 			}
 		}
@@ -31,9 +31,7 @@ public class ProductService {
 	
 	public List<ProductDTO> getNewProductList() {
 		List<ProductDTO> list = productDAO.selectNewProduct();
-		for(ProductDTO dto : list) {
-			dto.setNewProduct(true);
-		}
+		
 		return list;
 	}
 	
@@ -43,12 +41,11 @@ public class ProductService {
 		return img;
 	}
 	
-	
 	public ProductDTO checkBestProduct(ProductDTO target) {
 		List<ProductDTO> list = productDAO.selectBestProduct();
 		for(ProductDTO dto : list) {
 			if(dto.equals(target)) {
-				target.setBestProduct(true);
+				target.setProductBest(1);
 				break;
 			}
 		}
@@ -58,28 +55,14 @@ public class ProductService {
 	public List<ProductDTO> getBestProductList(){
 		List<ProductDTO> bestList = productDAO.selectBestProduct();
 		for(ProductDTO dto : bestList) {
-			dto.setBestProduct(true); 
+			dto.setProductBest(1); 
 		}
 		return bestList;
 	}
 	
-	
-	public ProductDTO checkRecomProduct(ProductDTO target) {
-		List<ProductDTO> list = productDAO.selectRecomProduct();
-		for(ProductDTO dto : list) {
-			if(dto.equals(target)) {
-				target.setRecomProduct(true);
-				break;
-			}
-		}
-		return target;
-	}
-	
 	public List<ProductDTO> getRecomProductList(){
 		List<ProductDTO> recomList = productDAO.selectRecomProduct();
-		for(ProductDTO dto : recomList) {
-			dto.setRecomProduct(true); 
-		}
+		
 		return recomList;
 	}
 }

@@ -51,7 +51,7 @@
 		<div class="item_wrap" id="best">
 			<c:forEach items="${bestProductList}" var="bestProd">
 				<dl class="item_elem">
-					<c:if test="${bestProd.bestProduct}">
+					<c:if test="${bestProd.productBest==1}">
 						<div class="badge">BEST</div>
 					</c:if>
 					<dt class="thumb">
@@ -93,7 +93,7 @@
 		<div class="item_wrap" id="new">
 			<c:forEach items="${newProdList}" var="prod">
 				<dl class="item_elem">
-					<c:if test="${prod.newProduct}">
+					<c:if test="${prod.productNew == 1}">
 						<div class="badge">NEW</div>
 					</c:if>
 					<dt class="thumb">
