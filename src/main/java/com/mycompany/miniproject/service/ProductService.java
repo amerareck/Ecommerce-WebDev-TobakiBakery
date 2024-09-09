@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mycompany.miniproject.dao.ProductDAO;
+import com.mycompany.miniproject.dto.Pager;
+import com.mycompany.miniproject.dto.Pager;
 import com.mycompany.miniproject.dto.ProductDTO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -64,5 +66,22 @@ public class ProductService {
 		List<ProductDTO> recomList = productDAO.selectRecomProduct();
 		
 		return recomList;
+	}
+	
+	public List<ProductDTO> getProductListAll(Pager pager){
+		List<ProductDTO> prodList = productDAO.selectAll(pager);
+		
+		return prodList;
+	}
+	
+	public int getProductCount() {
+		int productCnt = productDAO.countProduct();
+		return productCnt;
+	}
+	
+	public int getTotalRows() {
+		log.info("실행");
+		int totalRows = productDAO.countProduct();
+		return totalRows;
 	}
 }

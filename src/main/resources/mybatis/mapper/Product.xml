@@ -86,5 +86,42 @@
     ]]>
 </select>
 
+<select id="selectAll" parameterType="Pager" resultType="Product">
+	<![CDATA[
+        SELECT
+			product_id, 
+			product_name, 
+			product_price
+        FROM(
+        		SELECT
+	        		rownum as rnum,
+				product_id, 
+				product_name, 
+				product_price
+			FROM(
+	        		SELECT
+					product_id, 
+					product_name, 
+					product_price
+				FROM
+					PRODUCT
+				ORDER BY 
+					product_id 
+        		)
+        		where rownum <= #{endRowNo}
+       ) 
+       where rnum >= #{startRowNo}
+      ]]>  		
+</select>
+
+
+<select id="countProduct" resultType="int">
+	SELECT
+		COUNT(product_id)
+	FROM
+		PRODUCT
+</select>
+
+
 
 </mapper>
