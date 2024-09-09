@@ -19,7 +19,7 @@ public class ProductService {
 	
 	// 뱃지 다는 방식에 대해서 깊은 논의가 필요함. db에 없으니 이거 상품 꺼내올떄마다 뱃지체크하게 생겼네
 	public ProductDTO checkNewProduct(ProductDTO target) {
-		List<ProductDTO> list = productDAO.selectBestProd();
+		List<ProductDTO> list = productDAO.selectNewProduct();
 		for(ProductDTO dto : list) {
 			if(dto.equals(target)) {
 				target.setNewProduct(true);
@@ -30,7 +30,7 @@ public class ProductService {
 	}
 	
 	public List<ProductDTO> getNewProductList() {
-		List<ProductDTO> list = productDAO.selectBestProd();
+		List<ProductDTO> list = productDAO.selectNewProduct();
 		for(ProductDTO dto : list) {
 			dto.setNewProduct(true);
 		}

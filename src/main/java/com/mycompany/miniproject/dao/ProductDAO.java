@@ -8,7 +8,7 @@ import com.mycompany.miniproject.dto.ProductDTO;
 
 @Mapper
 public interface ProductDAO {
-	public List<ProductDTO> selectBestProd();
+	public List<ProductDTO> selectNewProduct();
 
 	public ProductDTO selectProductImage(ProductDTO dto);
 
