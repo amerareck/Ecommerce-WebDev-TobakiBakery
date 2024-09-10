@@ -19,5 +19,7 @@ public interface ProductDAO {
 	public List<ProductDTO> selectAll(Pager pager);
 
 	public int countProduct();
+
+	public ProductDTO selectProductDetail(int productId);
 	
 }

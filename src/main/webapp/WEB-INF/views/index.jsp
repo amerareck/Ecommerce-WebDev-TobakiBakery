@@ -55,7 +55,7 @@
 						<div class="badge">BEST</div>
 					</c:if>
 					<dt class="thumb">
-						<a href="product/itemDetail-static">
+						<a href="product/productDetail?productId=${bestProd.productId}">
 							<img class="prd_img" src="productImage?productId=${bestProd.productId}&productUsecase=THUMBNAIL" />
 						</a>
 						<div class="cart-overlay">
@@ -67,7 +67,7 @@
 					<dd>
 						<ul>
 							<li class="prd_title">
-								<a href="${pageContext.request.contextPath}/product/itemDetail-static">${bestProd.productName}</a>
+								<a href="${pageContext.request.contextPath}/product/productDetail">${bestProd.productName}</a>
 							</li>
 							<li class="prd_price">
 								<fmt:formatNumber value="${bestProd.productPrice}" pattern="#,##0" />원
@@ -97,7 +97,7 @@
 						<div class="badge">NEW</div>
 					</c:if>
 					<dt class="thumb">
-						<a href="product/itemDetail-static">
+						<a href="product/productDetail?productId=${prod.productId}">
 							<img class="prd_img" src="productImage?productId=${prod.productId}&productUsecase=THUMBNAIL" />
 						</a>
 						<div class="cart-overlay">

@@ -24,4 +24,6 @@ public class ProductDTO {
 	int productNew;
 	int productBest;
 	
+    private int deliveryPrice;//배송비를 조인해서 찾아오려면 필요하다고 합니다...다른 방법이 있으면 찾아볼게요
+
 }

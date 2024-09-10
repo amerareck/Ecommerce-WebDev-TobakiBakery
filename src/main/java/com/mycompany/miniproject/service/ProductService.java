@@ -84,4 +84,9 @@ public class ProductService {
 		int totalRows = productDAO.countProduct();
 		return totalRows;
 	}
+	
+	public  ProductDTO getProductDetail(int productId) {
+		 ProductDTO prodDetail = productDAO.selectProductDetail(productId);
+	    return prodDetail;
+	}
 }

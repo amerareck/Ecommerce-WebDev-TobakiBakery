@@ -122,6 +122,26 @@
 		PRODUCT
 </select>
 
-
+<select id="selectProductDetail" parameterType="int" resultType="Product" >
+<![CDATA[
+	SELECT 
+	    product_id, 
+	    product_name, 
+	    product_price, 
+	    delivery_price
+	FROM 
+		PRODUCT
+	LEFT JOIN
+		 ORDER_PRODUCT 
+	USING 
+		(PRODUCT_ID)
+	LEFT JOIN 
+		"order" 
+	USING 
+		(ORDER_NUMBER)
+	WHERE 
+		product_id = #{productId}
+	]]>  	
+</select>
 
 </mapper>

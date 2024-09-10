@@ -55,18 +55,28 @@ public class ProductController {
 	}
 	
 	
-	@RequestMapping("/itemDetail-static")
-	public String getProductDetail() {
+	@GetMapping("/productDetail")
+	public String getProductDetail(@RequestParam("productId") int productId, Model model) {
+		getProdDetail(productId, model);
 		log.info("상품상세 실행");
-		return "/product/itemDetail-static";
+		return "/product/productDetail";
 	}
 	
-	@RequestMapping("/itemList-best")
+	public void getProdDetail(int productId,  Model model) {
+		ProductDTO prodDetail = productService.getProductDetail(productId);
+		log.info("productDetail" + prodDetail);
+		
+		model.addAttribute("prodDetail", prodDetail);
+	}
+	
+	
+	@GetMapping("/itemList-best")
 	public String getProductBestList() {
 		log.info("best상품 실행");
 		return "/product/itemList-best";
 	}
-	@RequestMapping("/itemList-recom")
+	
+	@GetMapping("/itemList-recom")
 	public String getProductRecomList(Model model) {
 		log.info("추천상품 실행");
 		getRecomProductList(model);

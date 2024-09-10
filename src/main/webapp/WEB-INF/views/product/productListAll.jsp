@@ -36,7 +36,7 @@
 				<c:forEach items="${prodListAll}" var="allProd">
 					<dl class="item_elem">
 						<dt class="thumb">
-							<a href="product/itemDetail-static"> <img class="prd_img"
+							<a href="productDetail?productId=${allProd.productId}"> <img class="prd_img"
 								src="productImage?productId=${allProd.productId}&productUsecase=THUMBNAIL" />
 							</a>
 							<div class="cart-overlay">
@@ -49,8 +49,8 @@
 						</dt>
 						<dd>
 							<ul>
-								<li class="prd_title"><a
-									href="${pageContext.request.contextPath}/product/itemDetail-static">${allProd.productName}</a>
+								<li class="prd_title">
+								<a href="productDetail?productId=${allProd.productId}">${allProd.productName}</a>
 								</li>
 								<li class="prd_price"><fmt:formatNumber
 										value="${allProd.productPrice}" pattern="#,##0" />원</li>
@@ -64,32 +64,39 @@
 
 			<!-- 페이지네이션 -->
 			<div>
-<tr>
-           			<td colspan="5" class="text-center">
-           				<%-- [처음][이전]1 2 3 4 5[다음][맨뒤] --%>
-           				<div>
-           					<a href="productListAll?pageNo=1" class="btn btn-outline-primary btn-sm">처음</a>
-           					<c:if test="${pager.groupNo>1}">           					
-           					<a href="productListAll?pageNo=${pager.startPageNo-1}" class="btn btn-outline-info btn-sm">이전</a>
-           					</c:if>
-           					
-           					<c:forEach begin="${pager.startPageNo}" end="${pager.endPageNo}" step="1" var="i">
-           						<c:if test="${pager.pageNo==i}">
-           							<a href="productListAll?pageNo=${i}" class="btn btn-danger btn-sm">${i}</a>
-           						</c:if>
-        							<c:if test="${pager.pageNo!=i}">
-           							<a href="productListAll?pageNo=${i}" class="btn btn-outline-success btn-sm">${i}</a>
-           						</c:if>
-           					</c:forEach>
-           					
-           					<c:if test="${pager.groupNo<pager.totalGroupNo}">           					
-           					<a href="productListAll?pageNo=${pager.endPageNo+1}" class="btn btn-outline-info btn-sm">다음</a>
-           					</c:if>
-           					
-           					<a href="productListAll?pageNo=${pager.totalPageNo}" class="btn btn-outline-primary btn-sm">맨 끝</a>
-           				</div>
-           			</td>
-           		</tr>
+				<tr>
+					<td colspan="5" class="text-center">
+						<%-- [처음][이전]1 2 3 4 5[다음][맨뒤] --%>
+						<div>
+							<a href="productListAll?pageNo=1"
+								class="btn btn-outline-primary btn-sm">처음</a>
+							<c:if test="${pager.groupNo>1}">
+								<a href="productListAll?pageNo=${pager.startPageNo-1}"
+									class="btn btn-outline-info btn-sm">이전</a>
+							</c:if>
+
+							<c:forEach begin="${pager.startPageNo}" end="${pager.endPageNo}"
+								step="1" var="i">
+								<c:if test="${pager.pageNo==i}">
+									<a href="productListAll?pageNo=${i}"
+										class="btn btn-danger btn-sm">${i}</a>
+								</c:if>
+								<c:if test="${pager.pageNo!=i}">
+									<a href="productListAll?pageNo=${i}"
+										class="btn btn-outline-success btn-sm">${i}</a>
+								</c:if>
+							</c:forEach>
+
+							<c:if test="${pager.groupNo<pager.totalGroupNo}">
+								<a href="productListAll?pageNo=${pager.endPageNo+1}"
+									class="btn btn-outline-info btn-sm">다음</a>
+							</c:if>
+
+							<a href="productListAll?pageNo=${pager.totalPageNo}"
+								class="btn btn-outline-primary btn-sm">맨 끝</a>
+						</div>
+					</td>
+				</tr>
 
 			</div>
 		</div>
