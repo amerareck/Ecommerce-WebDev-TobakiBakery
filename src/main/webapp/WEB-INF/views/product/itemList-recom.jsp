@@ -29,11 +29,11 @@
 				<div class="item_wrap">
 					<c:forEach items="${recomProductList}" var="recomProd">
 				<dl class="item_elem">
-					<c:if test="${recomProd.recomProduct}">
+					<c:if test="${recomProd.productRecom == 1}">
 						<div class="badge">RECOM</div>
 					</c:if>
 					<dt class="thumb">
-						<a href="${pageContext.request.contextPath}/product/itemDetail-static">
+						<a href="productDetail?productId=${recomProd.productId}">
 							<img class="prd_img" src="${pageContext.request.contextPath}/productImage?productId=${recomProd.productId}&productUsecase=THUMBNAIL" />
 						</a>
 						<div class="cart-overlay">
@@ -45,7 +45,7 @@
 					<dd>
 						<ul>
 							<li class="prd_title">
-								<a href="${pageContext.request.contextPath}/product/itemDetail-static">${recomProd.productName}</a>
+								<a href="productDetail?productId=${recomProd.productId}">${recomProd.productName}</a>
 							</li>
 							<li class="prd_price">
 								<fmt:formatNumber value="${recomProd.productPrice}" pattern="#,##0" />원
@@ -71,11 +71,3 @@
 
 			<!-- footer 자리 -->
 			<%@ include file="/WEB-INF/views/common/footer.jsp"%>
-		</div>
-		<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-		<script
-			src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-		<script
-			src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-</body>
-</html>

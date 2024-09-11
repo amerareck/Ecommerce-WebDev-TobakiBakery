@@ -23,5 +23,6 @@ public class ProductDTO {
 	
 	int productNew;
 	int productBest;
-	boolean recomProduct;
+	
+
 }

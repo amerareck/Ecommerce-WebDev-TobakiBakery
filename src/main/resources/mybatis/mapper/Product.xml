@@ -69,7 +69,9 @@
 	
 	<select id="selectRecomProduct" resultType="Product">
     <![CDATA[
-        SELECT *
+        SELECT product_id, 
+                product_name, 
+                product_price
         FROM (
             SELECT 
                 product_id, 
@@ -77,14 +79,58 @@
                 product_price
             FROM 
                 product
-            ORDER BY 
-                DBMS_RANDOM.VALUE
+            WHERE 
+                product_recom = 1
         )
         WHERE rownum <= 8
     ]]>
 </select>
 
+<select id="selectAll" parameterType="Pager" resultType="Product">
+	<![CDATA[
+        SELECT
+			product_id, 
+			product_name, 
+			product_price
+        FROM(
+        		SELECT
+	        		rownum as rnum,
+				product_id, 
+				product_name, 
+				product_price
+			FROM(
+	        		SELECT
+					product_id, 
+					product_name, 
+					product_price
+				FROM
+					PRODUCT
+				ORDER BY 
+					product_id 
+        		)
+        		where rownum <= #{endRowNo}
+       ) 
+       where rnum >= #{startRowNo}
+      ]]>  		
+</select>
 
-	
-	
+
+<select id="countProduct" resultType="int">
+	SELECT
+		COUNT(product_id)
+	FROM
+		PRODUCT
+</select>
+
+<select id="selectProductDetail" parameterType="int" resultType="Product" >
+	SELECT 
+	    product_id, 
+	    product_name, 
+	    product_price
+	FROM 
+		PRODUCT
+	WHERE 
+		product_id = #{productId}
+</select>
+
 </mapper>

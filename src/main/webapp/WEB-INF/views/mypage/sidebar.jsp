@@ -23,7 +23,7 @@
 	<h3>개인정보</h3>
 	<ul class="nav nav-pills flex-column">
 		<li class="nav-item"><a class="nav-link"
-			href="${pageContext.request.contextPath}/member/member-edit">회원정보수정</a></li>
+			href="${pageContext.request.contextPath}/member/memberEdit">회원정보수정</a></li>
 		<li class="nav-item"><a class="nav-link" href="#">
 				<button id="delete-account">회원탈퇴</button>
 		</a></li>

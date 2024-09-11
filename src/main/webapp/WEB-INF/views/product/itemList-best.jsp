@@ -33,7 +33,7 @@
 						<dt class="thumb">
 							<img class="prd_img"
 								src="${pageContext.request.contextPath}/resources/image/bread/걀렛뜨 데로와 푀유떼.jpg"
-								onclick="location.href='../product/itemDetail-static'">
+								onclick="location.href='../product/productDetail'">
 							<div class="cart-overlay"
 								onclick="location.href='../order/orderCart-static'">
 								<img
@@ -44,7 +44,7 @@
 						<dd>
 							<ul>
 								<li class="prd_title"><a
-									href="../product/itemDetail-static">걀렛뜨 데로와 푀유떼</a></li>
+									href="product/productDetail?productId=${prod.productId}">걀렛뜨 데로와 푀유떼</a></li>
 								<li class="prd_price">9,800원</li>
 								<li class="prd_review"><em>상품후기</em> (8)</li>
 							</ul>
@@ -55,7 +55,7 @@
 						<div class="badge">BEST</div>
 						<dt class="thumb">
 							<img class="prd_img" src="${pageContext.request.contextPath}/resources/image/bread/로데브.jpg"
-								onclick="location.href='../product/itemDetail-static'">
+								onclick="location.href='../product/productDetail'">
 							<div class="cart-overlay"
 								onclick="location.href='../order/orderCart-static'">
 								<img
@@ -66,7 +66,7 @@
 						<dd>
 							<ul>
 								<li class="prd_title"><a
-									href="../product/itemDetail-static">로데브</a></li>
+									href="../product/productDetail">로데브</a></li>
 								<li class="prd_price">12,000원</li>
 								<li class="prd_review"><em>상품후기</em> (8)</li>
 							</ul>
@@ -77,7 +77,7 @@
 						<div class="badge">BEST</div>
 						<dt class="thumb">
 							<img class="prd_img" src="${pageContext.request.contextPath}/resources/image/bread/바따르.jpg"
-								onclick="location.href='../product/itemDetail-static'">
+								onclick="location.href='../product/productDetail'">
 							<div class="cart-overlay"
 								onclick="location.href='../order/orderCart-static'">
 								<img
@@ -88,7 +88,7 @@
 						<dd>
 							<ul>
 								<li class="prd_title"><a
-									href="../product/itemDetail-static">바따르</a></li>
+									href="../product/productDetail">바따르</a></li>
 								<li class="prd_price">3,800원</li>
 								<li class="prd_review"><em>상품후기</em> (8)</li>
 							</ul>
@@ -99,7 +99,7 @@
 						<div class="badge">BEST</div>
 						<dt class="thumb">
 							<img class="prd_img" src="${pageContext.request.contextPath}/resources/image/bread/자연효모빵.jpg"
-								onclick="location.href='../product/itemDetail-static'">
+								onclick="location.href='../product/productDetail'">
 							<div class="cart-overlay"
 								onclick="location.href='../order/orderCart-static'">
 								<img
@@ -110,7 +110,7 @@
 						<dd>
 							<ul>
 								<li class="prd_title"><a
-									href="../product/itemDetail-static">자연효모빵</a></li>
+									href="../product/productDetail">자연효모빵</a></li>
 								<li class="prd_price">1,800원</li>
 								<li class="prd_review"><em>상품후기</em> (8)</li>
 							</ul>
@@ -122,7 +122,7 @@
 						<div class="badge">BEST</div>
 						<dt class="thumb">
 							<img class="prd_img" src="${pageContext.request.contextPath}/resources/image/bread/카스텔라.jpg"
-								onclick="location.href='../product/itemDetail-static'">
+								onclick="location.href='../product/productDetail'">
 							<div class="cart-overlay"
 								onclick="location.href='../order/orderCart-static'">
 								<img
@@ -133,7 +133,7 @@
 						<dd>
 							<ul>
 								<li class="prd_title"><a
-									href="../product/itemDetail-static">카스텔라</a></li>
+									href="../product/productDetail">카스텔라</a></li>
 								<li class="prd_price">3,000원</li>
 								<li class="prd_review"><em>상품후기</em> (8)</li>
 							</ul>
@@ -144,7 +144,7 @@
 						<div class="badge">BEST</div>
 						<dt class="thumb">
 							<img class="prd_img" src="${pageContext.request.contextPath}/resources/image/bread/오렌지케익.jpg"
-								onclick="location.href='../product/itemDetail-static'">
+								onclick="location.href='../product/productDetail'">
 							<div class="cart-overlay"
 								onclick="location.href='../order/orderCart-static'">
 								<img
@@ -155,7 +155,7 @@
 						<dd>
 							<ul>
 								<li class="prd_title"><a
-									href="../product/itemDetail-static">오렌지케익</a></li>
+									href="../product/productDetail">오렌지케익</a></li>
 								<li class="prd_price">4,400원</li>
 								<li class="prd_review"><em>상품후기</em> (8)</li>
 							</ul>
@@ -166,7 +166,7 @@
 						<div class="badge">BEST</div>
 						<dt class="thumb">
 							<img class="prd_img" src="${pageContext.request.contextPath}/resources/image/bread/마블케익.jpg"
-								onclick="location.href='../product/itemDetail-static'">
+								onclick="location.href='../product/productDetail'">
 							<div class="cart-overlay"
 								onclick="location.href='../order/orderCart-static'">
 								<img
@@ -177,7 +177,7 @@
 						<dd>
 							<ul>
 								<li class="prd_title"><a
-									href="../product/itemDetail-static">마블케익</a></li>
+									href="../product/productDetail">마블케익</a></li>
 								<li class="prd_price">4,000원</li>
 								<li class="prd_review"><em>상품후기</em> (8)</li>
 							</ul>
@@ -188,7 +188,7 @@
 						<div class="badge">BEST</div>
 						<dt class="thumb">
 							<img class="prd_img" src="${pageContext.request.contextPath}/resources/image/bread/뺑드미.jpg"
-								onclick="location.href='../product/itemDetail-static'">
+								onclick="location.href='../product/productDetail'">
 							<div class="cart-overlay"
 								onclick="location.href='../order/orderCart-static'">
 								<img
@@ -199,7 +199,7 @@
 						<dd>
 							<ul>
 								<li class="prd_title"><a
-									href="../product/itemDetail-static">뺑드미</a></li>
+									href="../product/productDetail">뺑드미</a></li>
 								<li class="prd_price">3,300원</li>
 								<li class="prd_review"><em>상품후기</em> (8)</li>
 							</ul>
@@ -220,11 +220,3 @@
 
 			<!-- footer 자리 -->
 			<%@ include file="/WEB-INF/views/common/footer.jsp"%>
-		</div>
-		<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-		<script
-			src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-		<script
-			src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-</body>
-</html>

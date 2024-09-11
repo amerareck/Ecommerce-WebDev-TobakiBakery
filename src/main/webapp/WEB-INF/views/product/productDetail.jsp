@@ -23,8 +23,7 @@
 						<div class="thumb-info">
 							<!-- 상품 왼쪽 이미지 -->
 							<div class="thumb-wrap">
-								<img src="${pageContext.request.contextPath}/resources/image/bread/걀렛뜨 데로와 푀유떼.jpg"
-									alt="걀렛뜨 데로와 푀유떼">
+								<img src="productImage?productId=${prodDetail.productId}&productUsecase=THUMBNAIL">
 							</div>
 							<!-- thumb-wrap -->
 							<!-- 상품 오른쪽 정보 -->
@@ -36,7 +35,7 @@
 											<!-- 상품 정보단 -->
 											<div class="info_inner">
 												<!-- 상품 이름 출력 -->
-												<h3 class="tit-prd">걀렛뜨 데로와 푀유떼</h3>
+												<h3 class="tit-prd">${prodDetail.productName}</h3>
 												<br>
 												<!-- 상품 정보 테이블 나오는 곳 -->
 												<div class="table-opt">
@@ -55,7 +54,7 @@
 																</th>
 																<td class="price">
 																	<div class="tb-left">
-																		<b>9,800원</b>
+																		<b><fmt:formatNumber value="${prodDetail.productPrice}" pattern="#,##0" />원</b>
 																	</div>
 																</td>
 															</tr>
@@ -77,7 +76,7 @@
 																	<div class="tb-left">배송비</div>
 																</th>
 																<td class="price">
-																	<div class="tb-left">배송조건 : 3,000원 (30,000원 이상 구매
+																	<div class="tb-left">배송조건 : 3000원 (30,000원 이상 구매
 																		시 무료)</div>
 																</td>
 															</tr>
@@ -217,7 +216,7 @@
 								<div class="tab-pane fade show active" id="detail-info"
 									role="tabpanel">
 									<p>
-										<img src="${pageContext.request.contextPath}/resources/image/bread/걀렛뜨 데로와 푀유떼_상세.jpg" class="img-fluid" alt="상품 상세 이미지">
+										<img src="productImage?productId=${prodDetail.productId}&productUsecase=DETAIL" class="img-fluid" alt="상품 상세 이미지">
 									</p>
 								</div>
 								<div class="tab-pane fade" id="shipping-info" role="tabpanel">
