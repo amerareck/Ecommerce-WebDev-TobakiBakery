@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.mycompany.miniproject.dao.ProductDAO;
 import com.mycompany.miniproject.dto.Pager;
-import com.mycompany.miniproject.dto.Pager;
 import com.mycompany.miniproject.dto.ProductDTO;
 
 import lombok.extern.slf4j.Slf4j;

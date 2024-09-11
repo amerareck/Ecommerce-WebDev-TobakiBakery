@@ -66,6 +66,8 @@
 					</ul>
 				</div>
 			</div>
+</div>
+</div>
 
 			<!-- content 부분 끝입니다. -->
 

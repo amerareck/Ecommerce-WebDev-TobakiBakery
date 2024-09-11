@@ -39,6 +39,7 @@
 
         </div>
         <!-- 컨텐츠 래퍼 끝 -->
-    </div>
+  
+    
        
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>

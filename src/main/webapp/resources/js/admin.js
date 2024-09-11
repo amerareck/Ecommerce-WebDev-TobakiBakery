@@ -192,18 +192,49 @@ $('#orderUpdateSubmit').submit(function(event){
         orderProductName.push($(this).find('.product-name').text().trim());
         orderProductState.push($(this).find('select.form-control option:selected').text());
     });
-    let str = '수정을 하려고 하는 내역은 다음과 같습니다.\n';
-    str += '주문메모 : '+ $('#memo').text()+'\n';
-    str += '이름 : '+ $('#receiver').val()+'\n';
-    str += '폰번호 : '+ phoneNumber+'\n';
-    str += '우편번호 : '+ $('#recevierPostNo').val()+'\n';
-    str += '주소 : '+ $('#recevierAddr').val()+' '+$('#recevierDetailsAddr').val()+'\n';
-    str+= '배송상태 : ';
-    for(let i=0; i<orderProductData.length; i++) {
-        str+= '['+orderProductName[i]+' - '+orderProductState[i]+']\n';
-    }
-    alert(str);
+    // 서버로 보낼 데이터 객체 생성
+    const updateData = {
+        memo: $('#memo').val().trim(),
+        receiver: $('#receiver').val().trim(),
+        phone: phoneNumber,
+        postNo: $('#recevierPostNo').val().trim(),
+        address: $('#recevierAddr').val().trim() + ' ' + $('#recevierDetailsAddr').val().trim(),
+        products: orderProductName.map((name, index) => ({
+            name: name,
+            state: orderProductState[index]
+        }))
+    };
+
+    // AJAX 요청 보내기
+    $.ajax({
+        url: "updateOrderDetails",  // 수정할 URL을 설정합니다.
+        type: "post",
+        contentType: "application/json",
+        data: JSON.stringify(updateData),
+        success: function(data) {
+            if (data.status === 'ok') {
+                alert("주문 정보가 성공적으로 수정되었습니다.");
+                // 여기서 페이지 새로 고침이나 필요한 작업을 수행할 수 있습니다.
+            } else {
+                alert("주문 정보 수정에 실패했습니다.");
+            }
+        }
+    });
 });
+
+    
+//    let str = '수정을 하려고 하는 내역은 다음과 같습니다.\n';
+//    str += '주문메모 : '+ $('#memo').text()+'\n';
+//    str += '이름 : '+ $('#receiver').val()+'\n';
+//    str += '폰번호 : '+ phoneNumber+'\n';
+//    str += '우편번호 : '+ $('#recevierPostNo').val()+'\n';
+//    str += '주소 : '+ $('#recevierAddr').val()+' '+$('#recevierDetailsAddr').val()+'\n';
+//    str+= '배송상태 : ';
+//    for(let i=0; i<orderProductData.length; i++) {
+//        str+= '['+orderProductName[i]+' - '+orderProductState[i]+']\n';
+//    }
+//    alert(str);
+//});
 
 $('#productUpdateForm').submit(function(event){
     event.preventDefault();

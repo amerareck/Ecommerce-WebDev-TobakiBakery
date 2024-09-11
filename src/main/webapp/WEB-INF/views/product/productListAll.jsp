@@ -61,7 +61,8 @@
 					</dl>
 				</c:forEach>
 			</div>
-
+</div>
+</div>
 			<!-- 페이지네이션 -->
 			<div>
 				<tr>

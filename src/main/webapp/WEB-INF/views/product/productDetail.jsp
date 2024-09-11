@@ -107,9 +107,9 @@
 												<!-- 상품 구매정보 버튼 -->
 												<div class="prd-btn">
 													<button type="button" class="btn btn-light"
-														onclick="location.href='../mypage/mypage-order'">구매하기</button>
+														onclick="location.href='../mypage/mypageOrder'">구매하기</button>
 													<button type="button" class="btn btn-light"
-														onclick="location.href='../order/orderCart-static'">장바구니</button>
+														onclick="location.href='../order/orderCart'">장바구니</button>
 												</div>
 
 											</div>
