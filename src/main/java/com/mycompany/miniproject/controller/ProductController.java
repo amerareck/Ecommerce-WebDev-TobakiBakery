@@ -34,21 +34,32 @@ public class ProductController {
 	private ProductService productService;
 
 	@GetMapping("/productListAll")
-	public String getProdutListAll( Model model,@RequestParam(defaultValue="1")int pageNo, HttpSession session) { 
+	public String getProdutListAll(@RequestParam(name = "categoryName", defaultValue = "")String categoryName, 
+			Model model,@RequestParam(defaultValue="1")int pageNo, 
+			HttpSession session) { 
+		log.info("categoryName: " + categoryName);
+		if (categoryName == null || categoryName.trim().isEmpty()) {
+	        categoryName = null;
+	    }
+
 		log.info("상품목록 실행");
-		getAllProductList(model, pageNo, session);
-		int prodCount = productService.getProductCount();
+		getAllProductList(categoryName, model, pageNo, session);
+		int prodCount = productService.getProductCount(categoryName);
 		log.info("상품갯수: " + prodCount);
+		log.info("categoryName: " + categoryName);
+		log.info("pageNo: " + pageNo);
+		
 		model.addAttribute("prodCount", prodCount);
 	    
 		return "/product/productListAll";
 	}
 	
-	public void getAllProductList(Model model,int pageNo, HttpSession session) {
-		int totalRows = productService.getTotalRows();
+	public void getAllProductList( String categoryName, Model model,int pageNo, HttpSession session) {
+		int totalRows = productService.getProductCount(categoryName);
 		Pager pager = new Pager(8, 5, totalRows, pageNo);
+		pager.setCategoryName(categoryName);
 		session.setAttribute("pager", pager);
-		List<ProductDTO> prodListAll = productService.getProductListAll(pager);
+		List<ProductDTO> prodListAll = productService.getProductListAll(categoryName, pager);
 		log.info(prodListAll.toString());
 		
 		model.addAttribute("prodListAll", prodListAll);
