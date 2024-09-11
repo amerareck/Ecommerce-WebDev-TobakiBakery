@@ -90,8 +90,6 @@ public class ProductController {
 		model.addAttribute("recomProductList", recomProductList);
 	}
 	
-
-	
 	@GetMapping("/productImage")
 	public void getProductImage(ProductDTO product, HttpServletResponse res, HttpServletRequest req) throws IOException {
 		ProductDTO prodImage = productService.getProductImage(product);

@@ -76,7 +76,7 @@
 																	<div class="tb-left">배송비</div>
 																</th>
 																<td class="price">
-																	<div class="tb-left">배송조건 : ${prodDetail.deliveryPrice}원 (30,000원 이상 구매
+																	<div class="tb-left">배송조건 : 3000원 (30,000원 이상 구매
 																		시 무료)</div>
 																</td>
 															</tr>
