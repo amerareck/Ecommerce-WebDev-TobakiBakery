@@ -48,9 +48,9 @@
                         </p>
                     </div>
                     
-                    <a href="${pageContext.request.contextPath}/center/${boardType}" class="btn btn-outline-secondary float-right mr-1" id="redirectPage">목록으로</a>
+                    <a href="${pageContext.request.contextPath}/center/list?type=${boardType}" class="btn btn-outline-secondary float-right mr-1" id="redirectPage">목록으로</a>
                     <button type="button" id="removeBoardBotton" class="btn btn-outline-secondary float-right mr-1">삭제</button>
-                    <a href="${pageContext.request.contextPath}/center/${boardType}/addBoard" class="btn btn-outline-secondary float-right mr-1">수정</a>
+                    <a href="${pageContext.request.contextPath}/center/addBoard?type=${boardType}" class="btn btn-outline-secondary float-right mr-1">수정</a>
                 </div>
             </div>
             <!-- 게시글 섹션 종료-->

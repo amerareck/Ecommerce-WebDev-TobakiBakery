@@ -58,21 +58,21 @@
                 <tbody>
                     <tr>
                         <th scope="row">3</th>
-                        <td><a href="${pageContext.request.contextPath}/center/${boardType}/detail">취소문의요&ensp; <span class="badge badge-info">NEW</span></a></td>
+                        <td><a href="${pageContext.request.contextPath}/center/detail?type=${boardType}">취소문의요&ensp; <span class="badge badge-info">NEW</span></a></td>
                         <td>라*임</td>
                         <td>2024/08/04</td>
                         <td>0</td>
                     </tr>
                     <tr>
                         <th scope="row">2</th>
-                        <td><a href="${pageContext.request.contextPath}/center/${boardType}/detail">결제하기 클릭이 안되요. ㅠㅠ&ensp; <span class="badge badge-primary">답변완료</span></a></td>
+                        <td><a href="${pageContext.request.contextPath}/center/detail?type=${boardType}">결제하기 클릭이 안되요. ㅠㅠ&ensp; <span class="badge badge-primary">답변완료</span></a></td>
                         <td>ka******</td>
                         <td>2024/08/03</td>
                         <td>0</td>
                     </tr>
                     <tr>
                         <th scope="row">1</th>
-                        <td><a href="${pageContext.request.contextPath}/center/${boardType}/detail"><i class="fas fa-lock fa-xs"></i> 택배가 젖어 왔어요&ensp;<span class="badge badge-primary">답변완료</span></a></td>
+                        <td><a href="${pageContext.request.contextPath}/center/detail?type=${boardType}"><i class="fas fa-lock fa-xs"></i> 택배가 젖어 왔어요&ensp;<span class="badge badge-primary">답변완료</span></a></td>
                         <td>min******</td>
                         <td>2024/08/02</td>
                         <td>3</td>
@@ -110,7 +110,7 @@
             </div>
               <!-- 게시판 묶음 네비게이터 바 종료 -->
     
-            <a class="btn btn-secondary float-right btn-bottom" href="${pageContext.request.contextPath}/center/${boardType}/addBoard">글쓰기</a>
+            <a class="btn btn-secondary float-right btn-bottom" href="${pageContext.request.contextPath}/center/addBoard/${boardType}">글쓰기</a>
         </div>
     </section>
 	<%@include file="/WEB-INF/views/common/footer.jsp" %>

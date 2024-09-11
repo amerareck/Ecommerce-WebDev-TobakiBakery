@@ -4,18 +4,25 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mycompany.miniproject.dto.CommentDTO;
 import com.mycompany.miniproject.dto.HelpdeskDTO;
 import com.mycompany.miniproject.dto.NoticeDTO;
-import com.mycompany.miniproject.dto.ProductAskDTO;
+import com.mycompany.miniproject.dto.NoticeForm;
+import com.mycompany.miniproject.validator.NoticeBoardValidator;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,141 +32,87 @@ import lombok.extern.slf4j.Slf4j;
 public class CenterController {
 	
 	@GetMapping("")
-	public String home() {
+	public String handler() {
 		log.info("실행");
 		
-		return "redirect:/center/notice";
+		return "redirect:/center/list";
 	}
 	
-	@GetMapping("/notice")
-	public String noticeList(Model model) {
-		log.info("실행");
-		model.addAttribute("notice", "active");
-		model.addAttribute("title","공지사항");
-		model.addAttribute("breadcrumb", "공지사항");
-		model.addAttribute("boardType", "notice");
+	@GetMapping("/list") 
+	public String getList(String type, Model model) {
+		String[] elNames = {"active", "title", "breadcrumb", "boardType"};
 		
+		if(type!=null && type.equals("helpdesk")) {
+			String[] data = {"helpdesk", "문의사항", "문의사항", "helpdesk"};
+			for(int i=0; i<elNames.length; i++) {
+				model.addAttribute(elNames[i], data[i]);
+			}
+		} else {
+			String[] data = {"notice", "공지사항", "공지사항", "notice"};
+			for(int i=0; i<elNames.length; i++) {
+				model.addAttribute(elNames[i], data[i]);
+			}
+		}
 		return "center/boardList";
 	}
 	
-	@GetMapping("/product")
-	public String productList(Model model) {
-		log.info("실행");
-		model.addAttribute("product", "active");
-		model.addAttribute("title", "상품문의");
-		model.addAttribute("breadcrumb", "상품문의");
-		model.addAttribute("boardType", "product");
-		
-		return "center/boardList";
-	}
-	
-	@GetMapping("/other")
-	public String otherList(Model model) {
-		log.info("실행");
-		model.addAttribute("other", "active");
-		model.addAttribute("title", "기타문의");
-		model.addAttribute("breadcrumb", "기타문의");
-		model.addAttribute("boardType", "other");
-		
-		return "center/boardList";
-	}
-	
-	@GetMapping("/notice/addBoard")
-	public String addNoticeBoard(Model model) {
-		log.info("실행");
-		model.addAttribute("notice", "active");
-		model.addAttribute("title","공지사항");
-		model.addAttribute("breadcrumb", "공지사항");
-		model.addAttribute("showCategory", false);
-		model.addAttribute("showReview", false);
-		model.addAttribute("showFile", true);
-		model.addAttribute("boardType", "notice");
-		model.addAttribute("formAction", "submitBoard");
-		
-		//폼 data
-		model.addAttribute("author", "memberId");
-		model.addAttribute("postTitle", "noticeTitle");
-		model.addAttribute("isSecret", "lockState");
-		model.addAttribute("postContent", "noticeContent");
-		model.addAttribute("postFile", "noticeContentImg");
-		model.addAttribute("timestamp", "noticeDatetime");
+	@GetMapping("/addBoard")
+	public String addBoard(String type, Model model) {
+		String[] elNames = {
+				"active", "title", "breadcrumb", "showCategory", "showReview",
+				"boardType", "formAction",
+				"author", "postTitle", "isSecret", "postContent", "timestamp"
+		};
+
+		if(type!=null && type.equals("helpdesk")) {
+			String[] data = {
+					"helpdesk", "문의사항", "문의사항", "none", "none",
+					"helpdesk", "submitBoard",
+					"memberId", "etcAskTitle", "lockState", "etcAskContent", "etcAskDatetime"
+			};
+			
+			for(int i=0; i<elNames.length; i++) {
+				model.addAttribute(elNames[i], data[i]);
+			}
+		} else {
+			String[] data = {
+					"notice", "공지사항", "공지사항", "none", "none",
+					"notice", "submitBoard",
+					"memberId", "noticeTitle", "lockState", "noticeContent", "noticeDatetime"
+			};
+			
+			for(int i=0; i<elNames.length; i++) {
+				model.addAttribute(elNames[i], data[i]);
+			}
+		}
 		
 		return "center/boardInsert";
 	}
 	
-	@GetMapping("/product/addBoard")
-	public String addProductBoard(Model model) {
-		log.info("실행");
-		model.addAttribute("product", "active");
-		model.addAttribute("title", "상품문의");
-		model.addAttribute("breadcrumb", "상품문의");
-		model.addAttribute("showCategory", true);
-		model.addAttribute("showReview", false);
-		model.addAttribute("showFile", false);
-		model.addAttribute("boardType", "product");
-		model.addAttribute("formAction", "submitBoard");
+	@GetMapping("/detail")
+	public String getDetail(String type, Model model) {
+		String[] elNames = {
+			"notice", "title", "breadcrumb", "boardType"	
+		};
+
+		if(type!=null && type.equals("helpdesk")) {
+			String[] data = {
+					"helpdesk", "문의사항", "문의사항", "helpdesk"
+			};
+			
+			for(int i=0; i<elNames.length; i++) {
+				model.addAttribute(elNames[i], data[i]);
+			}
+		} else {
+			String[] data = {
+					"notice", "공지사항", "공지사항", "notice"
+			};
+			
+			for(int i=0; i<elNames.length; i++) {
+				model.addAttribute(elNames[i], data[i]);
+			}
+		}
 		
-		//폼 data
-		model.addAttribute("author", "memberId");
-		model.addAttribute("postTitle", "productAskTitle");
-		model.addAttribute("isSecret", "lockState");
-		model.addAttribute("postContent", "productAskContent");
-		model.addAttribute("timestamp", "productAskDatetime");
-		return "center/boardInsert";
-	}
-	
-	@GetMapping("/other/addBoard")
-	public String addOtherBoard(Model model) {
-		log.info("실행");
-		model.addAttribute("other", "active");
-		model.addAttribute("title", "기타문의");
-		model.addAttribute("breadcrumb", "기타문의");
-		model.addAttribute("showCategory", false);
-		model.addAttribute("showReview", false);
-		model.addAttribute("showFile", true);
-		model.addAttribute("boardType", "other");
-		model.addAttribute("formAction", "submitBoard");
-		
-		//폼 data
-		model.addAttribute("author", "memberId");
-		model.addAttribute("postTitle", "etcAskTitle");
-		model.addAttribute("isSecret", "lockState");
-		model.addAttribute("postContent", "etcAskContent");
-		model.addAttribute("timestamp", "etcAskDatetime");
-		
-		return "center/boardInsert";
-	}
-	
-	@GetMapping("/notice/detail")
-	public String noticeDetail(Model model) {
-		log.info("실행");
-		model.addAttribute("notice", "active");
-		model.addAttribute("title","공지사항");
-		model.addAttribute("breadcrumb", "공지사항");
-		model.addAttribute("boardType", "notice");
-		
-		return "center/boardDetail";
-	}
-	
-	@GetMapping("/product/detail")
-	public String productDetail(Model model) {
-		log.info("실행");
-		model.addAttribute("product", "active");
-		model.addAttribute("title","상품문의");
-		model.addAttribute("breadcrumb", "상품문의");
-		model.addAttribute("boardType", "product");
-				
-		return "center/boardDetail";
-	}
-	
-	@GetMapping("/other/detail")
-	public String otherDetail(Model model) {
-		log.info("실행");
-		model.addAttribute("other", "active");
-		model.addAttribute("title","기타문의");
-		model.addAttribute("breadcrumb", "기타문의");
-		model.addAttribute("boardType", "other");
-				
 		return "center/boardDetail";
 	}
 	
@@ -199,27 +152,47 @@ public class CenterController {
 		}
 	}
 	
+	@InitBinder("noticeForm")
+	public void noticeSubmitBinder(WebDataBinder binder) {
+		log.info("InitBinder 실행");
+		binder.setValidator(new NoticeBoardValidator());
+	}
+	
 	@PostMapping("notice/submitBoard")
-	public String submitNotice(NoticeDTO notice) {
+	public String submitNotice(@Valid NoticeForm notice, Errors error, RedirectAttributes redi) throws IOException {
 		log.info("실행");
 		log.info(notice.toString());
 		
+		if(error.hasErrors()) {
+			log.info("유효성 검사 실패");
+			log.info(error.getFieldError("noticeTitle").getDefaultMessage());
+			redi.addFlashAttribute("isAlert", true);
+			redi.addFlashAttribute("alert", error.getFieldError("noticeTitle").getDefaultMessage());
+			return "redirect:/center/notice/addBoard";
+		}
+		// 유효성 검사 통과
+		NoticeDTO noticeDTO = new NoticeDTO();
+		noticeDTO.setMemberId(notice.getMemberId());
+		noticeDTO.setNoticeTitle(notice.getNoticeTitle());
+		noticeDTO.setNoticeContent(notice.getNoticeContent());
+		for(MultipartFile mf : notice.getNoticeAttach()) {
+			if(!mf.isEmpty()) {
+				noticeDTO.setImageOriginalName(mf.getOriginalFilename());
+				noticeDTO.setImageType(mf.getContentType());
+				noticeDTO.setImageData(mf.getBytes());
+			}
+		}
+		
+		
+
 		return "redirect:/center/notice/detail";
 	}
 	
-	@PostMapping("product/submitBoard")
-	public String submitProductAsk(ProductAskDTO productAsk) {
-		log.info("실행");
-		log.info(productAsk.toString());
-		
-		return "redirect:/center/product/detail";
-	}
-	
-	@PostMapping("other/submitBoard")
+	@PostMapping("helpdesk/submitBoard")
 	public String submitEtcAsk(HelpdeskDTO etcAsk) {
 		log.info("실행");
 		log.info(etcAsk.toString());
 		
-		return "redirect:/center/other/detail";
+		return "redirect:/center/helpdesk/detail";
 	}
 }

@@ -47,9 +47,8 @@
 								<li class="nav-item dropdown">
 									<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="${pageContext.request.contextPath}/center/getBoardList" role="button" aria-haspopup="true" aria-expanded="false">고객센터</a>
 									<div class="dropdown-menu">
-										<a class="dropdown-item" href="${pageContext.request.contextPath}/center/notice">공지사항</a>
-										<a class="dropdown-item" href="${pageContext.request.contextPath}/center/product">상품문의</a>
-										<a class="dropdown-item" href="${pageContext.request.contextPath}/center/other">기타문의</a>
+										<a class="dropdown-item" href="${pageContext.request.contextPath}/center">공지사항</a>
+										<a class="dropdown-item" href="${pageContext.request.contextPath}/center/list?type=helpdesk">문의사항</a>
 										<div class="dropdown-divider"></div>
 										<a class="dropdown-item" href="${pageContext.request.contextPath}/admin/main">관리자 사이트</a>
 									</div>
@@ -100,7 +99,7 @@
 									<a class="nav-link" href="${pageContext.request.contextPath}/product/itemList-recom">추천상품</a>
 								</li>
 								<li class="nav-item">
-									<a class="nav-link" href="${pageContext.request.contextPath}/center/notice">공지사항</a>
+									<a class="nav-link" href="${pageContext.request.contextPath}/center/list?type=notice">공지사항</a>
 								</li>
 							</ul>
 						</div>
