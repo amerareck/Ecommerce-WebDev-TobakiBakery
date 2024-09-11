@@ -12,9 +12,9 @@
 			<li class="breadcrumb-item"><a
 				href="${pageContext.request.contextPath}"><i class="fas fa-home"></i></a></li>
 			<li class="breadcrumb-item"><a
-				href="${pageContext.request.contextPath}/mypage/mypage-main">마이페이지</a></li>
+				href="${pageContext.request.contextPath}/mypage/mypageMain">마이페이지</a></li>
 			<li class="breadcrumb-item"><a
-				href="${pageContext.request.contextPath}/mypage/mypage-review">나의
+				href="${pageContext.request.contextPath}/mypage/mypageReview">나의
 					상품 후기</a></li>
 
 
@@ -47,7 +47,7 @@
 					<tr>
 						<td>2</td>
 						<td><a
-							href="${pageContext.request.contextPath}/product/itemDetail-static"><img
+							href="product/productDetail?productId=${prod.productId}"><img
 								src="${pageContext.request.contextPath}/resources/image/bread/팡도르.jpg"
 								alt="상품 이미지"></a></td>
 						<td>
@@ -66,7 +66,7 @@
 					<tr>
 						<td>1</td>
 						<td><a
-							href="${pageContext.request.contextPath}/product/itemDetail-static"><img
+							href="product/productDetail?productId=${prod.productId}"><img
 								src="${pageContext.request.contextPath}/resources/image/bread/파네토네.jpg"
 								alt="상품 이미지"></a></td>
 						<td>

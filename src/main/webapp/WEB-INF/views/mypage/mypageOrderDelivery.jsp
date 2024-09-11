@@ -10,9 +10,9 @@
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item"><a href="../index.html"><i
 						class="fas fa-home"></i></a></li>
-				<li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/mypage/mypage-main">마이페이지</a></li>
+				<li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/mypage/mypageMain">마이페이지</a></li>
 				<li class="breadcrumb-item"><a
-					href="${pageContext.request.contextPath}/mypage/mypage-order-delivery">주문내역</a></li>
+					href="${pageContext.request.contextPath}/mypage/mypageOrderDelivery">주문내역</a></li>
 
 			</ol>
 		</nav>
@@ -41,7 +41,7 @@
 						onclick="setDateRange('year')">1년</button>
 				</div>
 				<div class="orderdelivery-search">
-					<input type="date" id="start-date" value=""> <input
+					<input type="date" id="start-date" value=""> ~ <input
 						type="date" id="end-date" value="">
 					<button type="button" class="btn btn-secondary">조회</button>
 				</div>

@@ -11,7 +11,7 @@
 			<li class="breadcrumb-item"><a
 				href="${pageContext.request.contextPath}"><i class="fas fa-home"></i></a></li>
 			<li class="breadcrumb-item"><a
-				href="${pageContext.request.contextPath}//mypage/mypage-order">주문서
+				href="${pageContext.request.contextPath}//mypage/mypageOrder">주문서
 					작성</a></li>
 
 		</ol>
@@ -34,7 +34,7 @@
 				<tbody>
 					<tr>
 						<td><a
-							href="${pageContext.request.contextPath}/product/itemDetail-static"><img
+							href="${pageContext.request.contextPath}/product/productDetail"><img
 								src="${pageContext.request.contextPath}/resources/image/bread/자연효모빵.jpg"
 								alt="제품 이미지" width=100px; height=100px;></a> <span>자연효모빵</span>
 						</td>
@@ -44,7 +44,7 @@
 
 					<tr>
 						<td><a
-							href="${pageContext.request.contextPath}/product/itemDetail-static"><img
+							href="${pageContext.request.contextPath}/product/productDetail"><img
 								src="${pageContext.request.contextPath}/resources/image/bread/오렌지케익.jpg"
 								alt="제품 이미지" width=100px; height=100px;></a> <span>오렌지
 								케잌</span></td>

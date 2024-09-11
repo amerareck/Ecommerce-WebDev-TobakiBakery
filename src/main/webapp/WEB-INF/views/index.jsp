@@ -59,7 +59,7 @@
 							<img class="prd_img" src="productImage?productId=${bestProd.productId}&productUsecase=THUMBNAIL" />
 						</a>
 						<div class="cart-overlay">
-							<a href="${pageContext.request.contextPath}/order/orderCart-static">
+							<a href="${pageContext.request.contextPath}/order/orderCart">
 								<img src="https://cdn-icons-png.flaticon.com/512/1170/1170678.png" />
 							</a>
 						</div>
@@ -101,7 +101,7 @@
 							<img class="prd_img" src="productImage?productId=${prod.productId}&productUsecase=THUMBNAIL" />
 						</a>
 						<div class="cart-overlay">
-							<a href="${pageContext.request.contextPath}/order/orderCart-static">
+							<a href="${pageContext.request.contextPath}/order/orderCart">
 								<img src="https://cdn-icons-png.flaticon.com/512/1170/1170678.png" />
 							</a>
 						</div>
@@ -109,7 +109,7 @@
 					<dd>
 						<ul>
 							<li class="prd_title">
-								<a href="${pageContext.request.contextPath}/product/itemDetail-static">${prod.productName}</a>
+								<a href="${pageContext.request.contextPath}/product/productDetail">${prod.productName}</a>
 							</li>
 							<li class="prd_price">
 								<fmt:formatNumber value="${prod.productPrice}" pattern="#,##0" />원

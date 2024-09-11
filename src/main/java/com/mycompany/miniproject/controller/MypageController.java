@@ -10,28 +10,28 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/mypage")
 public class MypageController {	
 	
-	@RequestMapping("/mypage-main")	
+	@RequestMapping("/mypageMain")	
 	public String getmypagemain() {
 		log.info("실행");
-			return "mypage/mypage-main";
+			return "mypage/mypageMain";
 		}
 	
-	@RequestMapping("/mypage-order-delivery")	
+	@RequestMapping("/mypageOrderDelivery")	
 	public String getmyorderdelivery() {
 		log.info("실행");
-			return "mypage/mypage-order-delivery";
+			return "mypage/mypageOrderDelivery";
 		}
 	
-	@RequestMapping("/mypage-order")	
+	@RequestMapping("/mypageOrder")	
 	public String getmypageorder() {
 		log.info("실행");
-			return "mypage/mypage-order";
+			return "mypage/mypageOrder";
 		}
 	
-	@RequestMapping("/mypage-review")	
+	@RequestMapping("/mypageReview")	
 	public String getmypagereview() {
 		log.info("실행");
-			return "mypage/mypage-review";
+			return "mypage/mypageReview";
 		}
 	
 	

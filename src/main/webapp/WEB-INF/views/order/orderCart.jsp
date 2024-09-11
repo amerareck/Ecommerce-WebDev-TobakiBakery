@@ -13,9 +13,9 @@
 			<li class="breadcrumb-item"><a
 				href="${pageContext.request.contextPath}"><i class="fas fa-home"></i></a></li>
 			<li class="breadcrumb-item"><a
-				href="${pageContext.request.contextPath}/mypage/mypage-main">마이페이지</a></li>
+				href="${pageContext.request.contextPath}/mypage/mypageMain">마이페이지</a></li>
 			<li class="breadcrumb-item"><a
-				href="${pageContext.request.contextPath}/order/orderCart-static">장바구니</a></li>
+				href="${pageContext.request.contextPath}/order/orderCart">장바구니</a></li>
 		</ol>
 	</nav>
 
@@ -53,8 +53,8 @@
 						<tbody>
 							<tr>
 								<td><input type="checkbox"></td>
-								<td><a href="${pageContext.request.contextPath}/product/itemDetail-static"><img src="../resources/image/bread/자연효모빵.jpg" width="100px"></a></td>
-								<td><a href="${pageContext.request.contextPath}/product/itemDetail-static" style="color: black !important;">자연효모빵</a></td>
+								<td><a href="${pageContext.request.contextPath}/product/productDetail"><img src="../resources/image/bread/자연효모빵.jpg" width="100px"></a></td>
+								<td><a href="${pageContext.request.contextPath}/product/productDetail" style="color: black !important;">자연효모빵</a></td>
 								<td>
 									<div class="quantity-control">
 										<button>-</button>
@@ -67,8 +67,8 @@
 							</tr>
 							<tr>
 								<td><input type="checkbox"></td>
-								<td><a href="${pageContext.request.contextPath}/product/itemDetail-static"><img src="${pageContext.request.contextPath}/resources/image/bread/오렌지케익.jpg" width="100px"></a></td>
-								<td><a href="${pageContext.request.contextPath}/product/itemDetail-static" style="color: black !important;">오렌지케익</a></td>
+								<td><a href="${pageContext.request.contextPath}/product/productDetailc"><img src="${pageContext.request.contextPath}/resources/image/bread/오렌지케익.jpg" width="100px"></a></td>
+								<td><a href="${pageContext.request.contextPath}/product/productDetailc" style="color: black !important;">오렌지케익</a></td>
 								<td>
 									<div class="quantity-control">
 										<button onclick="minus();">-</button>

@@ -42,7 +42,7 @@
 									<a class="nav-link" href="${pageContext.request.contextPath}/member/memberInfo">회원가입</a>
 								</li>
 								<li class="nav-item">
-									<a class="nav-link" href="${pageContext.request.contextPath}/mypage/mypage-main">마이페이지</a>
+									<a class="nav-link" href="${pageContext.request.contextPath}/mypage/mypageMain">마이페이지</a>
 								</li>
 								<li class="nav-item dropdown">
 									<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="${pageContext.request.contextPath}/center/getBoardList" role="button" aria-haspopup="true" aria-expanded="false">고객센터</a>
@@ -74,9 +74,9 @@
 									<i class="fa fa-bars"></i>&emsp;카테고리&emsp;
 								</button>
 								<div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-									<a class="dropdown-item py-2" href="${pageContext.request.contextPath}/product/itemList-static"><i class="fa fa-bread-slice"></i> :: 빵</a>
-									<a class="dropdown-item py-2" href="${pageContext.request.contextPath}/product/itemList-static"><i class="fa fa-birthday-cake"></i> :: 케이크</a>
-									<a class="dropdown-item py-2" href="${pageContext.request.contextPath}/product/itemList-static"><i class="fa fa-cookie"></i> :: 디저트</a>
+									<a class="dropdown-item py-2" href="${pageContext.request.contextPath}/product/productListAll"><i class="fa fa-bread-slice"></i> :: 빵</a>
+									<a class="dropdown-item py-2" href="${pageContext.request.contextPath}/product/productListAll"><i class="fa fa-birthday-cake"></i> :: 케이크</a>
+									<a class="dropdown-item py-2" href="${pageContext.request.contextPath}/product/productListAll"><i class="fa fa-cookie"></i> :: 디저트</a>
 								</div>
 							</div><!--
 							<a href="#">"카테고리버튼"</a>
@@ -115,7 +115,7 @@
 									</div>
 								</div>
 								<div class="top-cart">
-									<a href="${pageContext.request.contextPath}/order/orderCart-static"><i class="fas fa-shopping-cart icon-size"></i></a>									
+									<a href="${pageContext.request.contextPath}/order/orderCart"><i class="fas fa-shopping-cart icon-size"></i></a>									
 									<span class="cart-count">3</span>
 								</div>
 							</div>

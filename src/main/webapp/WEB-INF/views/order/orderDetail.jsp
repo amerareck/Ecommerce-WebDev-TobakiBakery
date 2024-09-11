@@ -13,7 +13,7 @@
 			<li class="breadcrumb-item"><a
 				href="${pageContext.request.contextPath}"><i class="fas fa-home"></i></a></li>
 			<li class="breadcrumb-item"><a
-				href="${pageContext.request.contextPath}/mypage/mypage-main">주문내역</a></li>
+				href="${pageContext.request.contextPath}/mypage/mypageMain">주문내역</a></li>
 			<li class="breadcrumb-item"><a
 				href="${pageContext.request.contextPath}/order/orderDetail">주문상세내역</a></li>
 

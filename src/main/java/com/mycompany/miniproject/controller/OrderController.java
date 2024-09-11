@@ -12,13 +12,13 @@ public class OrderController {
 	@RequestMapping("/orderDetail")	
 	public String getorderDetail() {
 		log.info("실행");
-			return "order/order-Detail";
+			return "order/orderDetail";
 		}
 	
-	@RequestMapping("/orderCart-static")	
+	@RequestMapping("/orderCart")	
 	public String getorderCartStatic() {
 		log.info("실행");
-			return "order/orderCart-static";
+			return "order/orderCart";
 		}
 	
 	@RequestMapping("/orderPay")	
