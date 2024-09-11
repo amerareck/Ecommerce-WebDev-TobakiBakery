@@ -6,8 +6,6 @@ document.querySelectorAll('.btn-danger.btn-sm').forEach(function(button) {
         updateTotalPrice();
     });
 });
-
-
 // 선택삭제 버튼 기능
 document.querySelector('.btns_order .btn-outline-secondary:nth-child(1)').addEventListener('click', function () {
     const checkedItems = document.querySelectorAll('#cartTable tbody input[type="checkbox"]:checked');

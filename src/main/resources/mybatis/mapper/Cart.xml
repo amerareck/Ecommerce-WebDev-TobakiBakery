@@ -19,7 +19,6 @@
     	where product_id = #{productId}
     
     </delete>
-    
     <insert id="insertCartItem">
 	    INSERT INTO cart (member_id, product_id, cart_count)
 	    VALUES (#{memberId}, #{productId}, #{cartCount})

@@ -47,7 +47,6 @@ public class OrderController {
 		 
 		 model.addAttribute("cartItemList", cartItemList);
 		 
-
 	
 			return "order/orderCart";
 		}
