@@ -21,10 +21,10 @@
 			<div id="top_category">
 				<ul>
 					<li id="bread_all" class="category_click"><a
-						href="../prduct/itemList_static">전체</a></li>
-					<li id="bread"><a href="#">빵</a></li>
-					<li id="cake"><a href="#">케이크</a></li>
-					<li id="desert"><a href="#">디저트</a></li>
+						href="${pageContext.request.contextPath}/product/productListAll?categoryName=">전체</a></li>
+					<li id="bread"><a href="${pageContext.request.contextPath}/product/productListAll?categoryName=BREAD">빵</a></li>
+					<li id="cake"><a href="${pageContext.request.contextPath}/product/productListAll?categoryName=CAKE">케이크</a></li>
+					<li id="desert"><a href="${pageContext.request.contextPath}/product/productListAll?categoryName=DESSERT">디저트</a></li>
 				</ul>
 			</div>
 			<div class="item_info">
@@ -68,7 +68,7 @@
 					<td colspan="5" class="text-center">
 						<%-- [처음][이전]1 2 3 4 5[다음][맨뒤] --%>
 						<div>
-							<a href="productListAll?pageNo=1"
+							<a href="${pageContext.request.contextPath}/product/productListAll?pageNo=1&categoryName=${pager.categoryName}"
 								class="btn btn-outline-primary btn-sm">처음</a>
 							<c:if test="${pager.groupNo>1}">
 								<a href="productListAll?pageNo=${pager.startPageNo-1}"
@@ -78,21 +78,21 @@
 							<c:forEach begin="${pager.startPageNo}" end="${pager.endPageNo}"
 								step="1" var="i">
 								<c:if test="${pager.pageNo==i}">
-									<a href="productListAll?pageNo=${i}"
+									<a href="${pageContext.request.contextPath}/product/productListAll?pageNo=${i}&categoryName=${pager.categoryName}"
 										class="btn btn-danger btn-sm">${i}</a>
 								</c:if>
 								<c:if test="${pager.pageNo!=i}">
-									<a href="productListAll?pageNo=${i}"
+									<a href="${pageContext.request.contextPath}/product/productListAll?pageNo=${i}&categoryName=${pager.categoryName}"
 										class="btn btn-outline-success btn-sm">${i}</a>
 								</c:if>
 							</c:forEach>
 
 							<c:if test="${pager.groupNo<pager.totalGroupNo}">
-								<a href="productListAll?pageNo=${pager.endPageNo+1}"
+								<a href="${pageContext.request.contextPath}/product/productListAll?pageNo=${pager.endPageNo+1}&categoryName=${pager.categoryName}"
 									class="btn btn-outline-info btn-sm">다음</a>
 							</c:if>
 
-							<a href="productListAll?pageNo=${pager.totalPageNo}"
+							<a href="${pageContext.request.contextPath}/product/productListAll?pageNo=${pager.totalPageNo}&categoryName=${pager.categoryName}"
 								class="btn btn-outline-primary btn-sm">맨 끝</a>
 						</div>
 					</td>

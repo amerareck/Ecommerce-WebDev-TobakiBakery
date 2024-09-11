@@ -74,9 +74,9 @@
 									<i class="fa fa-bars"></i>&emsp;카테고리&emsp;
 								</button>
 								<div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-									<a class="dropdown-item py-2" href="${pageContext.request.contextPath}/product/productListAll"><i class="fa fa-bread-slice"></i> :: 빵</a>
-									<a class="dropdown-item py-2" href="${pageContext.request.contextPath}/product/productListAll"><i class="fa fa-birthday-cake"></i> :: 케이크</a>
-									<a class="dropdown-item py-2" href="${pageContext.request.contextPath}/product/productListAll"><i class="fa fa-cookie"></i> :: 디저트</a>
+									<a class="dropdown-item py-2" href="${pageContext.request.contextPath}/product/productListAll?categoryName=BREAD"><i class="fa fa-bread-slice"></i> :: 빵</a>
+									<a class="dropdown-item py-2" href="${pageContext.request.contextPath}/product/productListAll?categoryName=CAKE"><i class="fa fa-birthday-cake"></i> :: 케이크</a>
+									<a class="dropdown-item py-2" href="${pageContext.request.contextPath}/product/productListAll?categoryName=DESSERT"><i class="fa fa-cookie"></i> :: 디저트</a>
 								</div>
 							</div><!--
 							<a href="#">"카테고리버튼"</a>

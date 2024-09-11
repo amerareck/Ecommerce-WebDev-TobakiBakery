@@ -68,20 +68,20 @@ public class ProductService {
 		return recomList;
 	}
 	
-	public List<ProductDTO> getProductListAll(Pager pager){
+	public List<ProductDTO> getProductListAll(String categoryName, Pager pager){
 		List<ProductDTO> prodList = productDAO.selectAll(pager);
 		
 		return prodList;
 	}
 	
-	public int getProductCount() {
-		int productCnt = productDAO.countProduct();
+	public int getProductCount(String categoryName) {
+		int productCnt = productDAO.countProduct(categoryName);
 		return productCnt;
 	}
 	
 	public int getTotalRows() {
 		log.info("실행");
-		int totalRows = productDAO.countProduct();
+		int totalRows = productDAO.totalRows();
 		return totalRows;
 	}
 	
@@ -89,4 +89,4 @@ public class ProductService {
 		 ProductDTO prodDetail = productDAO.selectProductDetail(productId);
 	    return prodDetail;
 	}
-}
+} 

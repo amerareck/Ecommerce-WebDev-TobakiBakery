@@ -87,37 +87,53 @@
 </select>
 
 <select id="selectAll" parameterType="Pager" resultType="Product">
-	<![CDATA[
+    <![CDATA[
         SELECT
-			product_id, 
-			product_name, 
-			product_price
-        FROM(
-        		SELECT
-	        		rownum as rnum,
-				product_id, 
-				product_name, 
-				product_price
-			FROM(
-	        		SELECT
-					product_id, 
-					product_name, 
-					product_price
-				FROM
-					PRODUCT
-				ORDER BY 
-					product_id 
-        		)
-        		where rownum <= #{endRowNo}
-       ) 
-       where rnum >= #{startRowNo}
-      ]]>  		
+            product_id, 
+            product_name, 
+            product_price,
+            category_name
+        FROM (
+            SELECT rownum as rnum, 
+                product_id, 
+                product_name, 
+                product_price,
+                category_name
+            FROM (
+                SELECT
+                    product_id, 
+                    product_name, 
+                    product_price,
+                    category_name
+                FROM PRODUCT
+    ]]>
+    <if test="categoryName != null and categoryName != ''">
+        WHERE category_name = #{categoryName}
+    </if>
+    <![CDATA[
+                ORDER BY product_id
+            )
+            WHERE rownum <= #{endRowNo}
+        )
+        WHERE rnum >= #{startRowNo}
+    ]]>
 </select>
 
 
-<select id="countProduct" resultType="int">
+
+<select id="countProduct" parameterType="String" resultType="int">
+    SELECT
+        COUNT(*)
+    FROM
+        PRODUCT
+    <if test="categoryName != null and categoryName != ''">
+        WHERE category_name = #{categoryName}
+    </if>	
+</select>
+
+<select id="totalRows"  resultType="int">
 	SELECT
-		COUNT(product_id)
+		count(product_id)
 	FROM
 		PRODUCT
 </select>
