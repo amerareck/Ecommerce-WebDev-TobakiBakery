@@ -1,12 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<c:if test="${isAlert}" >
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:if test="${isAlert}">
 	<script>
-		alert('${alert}');
-		var redirect = '${redirect}';
-		if(redirect !== '') {
-			location.href='${redirect}';			
+		window.onload = function(){
+			alert('${alert}');
+			var redirect = '${redirect}';
+			if(redirect !== '') {
+				location.href='${redirect}';			
+			}
 		}
 	</script>
 </c:if>
