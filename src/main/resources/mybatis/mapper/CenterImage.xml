@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.mycompany.miniproject.dao.CenterImageDAO">
-
+	<insert id="insertNoticeImage" parameterType="Notice">
+		<![CDATA[
+			INSERT INTO CENTER_IMAGE(
+				image_original_name,
+				image_type,
+				image_data,
+				notice_id,
+			) VALUES (
+				#{imageOriginalName},
+				#{imageType},
+				#{imageData},
+				#{noticeId}
+			);
+		]]>
+	</insert>
 
 </mapper>

@@ -2,7 +2,9 @@ package com.mycompany.miniproject.dao;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.mycompany.miniproject.dto.NoticeDTO;
+
 @Mapper
-public class NoticeDAO {
-	
+public interface NoticeDAO {
+	public int insertNotice(NoticeDTO dto);
 }

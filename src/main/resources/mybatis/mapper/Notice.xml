@@ -1,6 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.mycompany.miniproject.dao.NoticeDAO">
-
+	<insert id="insertNotice" parameterType="Notice">
+		<![CDATA[
+			INSERT INTO NOTICE (
+				notice_id,
+				notice_title,
+				notice_datetime,
+				notice_content,
+				notice_views,
+				member_id
+			) VALUES (
+				seq_notice_id.nextval,
+				#{noticeTitle},
+				sysdate,
+				#{noticeContent},
+				#{member_id}
+			)
+ 		]]>
+	</insert>
 
 </mapper>

@@ -82,6 +82,7 @@ public class ProductController {
 		out.write(prodImage.getImageData());
 		out.flush();
 		out.close();
+
 	}
 	
 }
