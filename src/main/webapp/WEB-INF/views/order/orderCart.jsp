@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@include file="/WEB-INF/views/common/header.jsp"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>	
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/mypage.css">
 <link rel="stylesheet"
@@ -32,64 +35,64 @@
 				<!-- 장바구니 테이블 -->
 				<div id="cartTable">
 					<table>
-						<colgroup>
-							<col width="5%">
-							<col width="15%">
-							<col width="20%">
-							<col width="15%">
-							<col width="15%">
-							<col width="10%">
-						</colgroup>
-						<thead>
-							<tr class="table-warning">
-								<th scope="row"><div class="tb_check">선택</div></th>
-								<th scope="row"><div class="tb_img">사진</div></th>
-								<th scope="row"><div class="tb_title">상품명</div></th>
-								<th scope="row"><div class="tb_quantity">수량</div></th>
-								<th scope="row"><div class="tb_price">결제예정가</div></th>
-								<th scope="row"><div class="tb_delete">선택</div></th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td><input type="checkbox"></td>
-								<td><a href="${pageContext.request.contextPath}/product/productDetail"><img src="../resources/image/bread/자연효모빵.jpg" width="100px"></a></td>
-								<td><a href="${pageContext.request.contextPath}/product/productDetail" style="color: black !important;">자연효모빵</a></td>
-								<td>
-									<div class="quantity-control">
-										<button>-</button>
-										<input type="text" value="2" min="1" max="10">
-										<button>+</button>
-									</div>
-								</td>
-								<td class="currentPrice" data-unit-price="4600">9,200원</td>
-								<td><button class="btn btn-danger btn-sm">삭제</button></td>
-							</tr>
-							<tr>
-								<td><input type="checkbox"></td>
-								<td><a href="${pageContext.request.contextPath}/product/productDetailc"><img src="${pageContext.request.contextPath}/resources/image/bread/오렌지케익.jpg" width="100px"></a></td>
-								<td><a href="${pageContext.request.contextPath}/product/productDetailc" style="color: black !important;">오렌지케익</a></td>
-								<td>
-									<div class="quantity-control">
-										<button onclick="minus();">-</button>
-										<input type="text" value="1" min="1" max="10">
-										<button onclick="plus();">+</button>
-									</div>
-								</td>
-								<td class="currentPrice" data-unit-price="22000">22,000원</td>
-								<td><button class="btn btn-danger btn-sm">삭제</button></td>
-							</tr>
-						</tbody>
-						<tfoot>
-							<tr>
-								<td colspan="6">
-									<div class="basket_totalprice">
-										총 구매 금액: <strong>85,800원</strong>
-									</div>
-								</td>
-							</tr>
-						</tfoot>
-					</table>
+                <colgroup>
+                    <col width="5%">
+                    <col width="15%">
+                    <col width="20%">
+                    <col width="15%">
+                    <col width="15%">
+                    <col width="10%">
+                </colgroup>
+                <thead>
+                    <tr class="table-warning">
+                        <th>선택</th>
+                        <th>사진</th>
+                        <th>상품명</th>
+                        <th>수량</th>
+                        <th>결제예정가</th>
+                        <th>삭제</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:forEach items="${cartItemList}" var="cartItem">
+                        <tr>
+                            <td><input type="checkbox" /></td>
+                            <td>
+                                <a href="${pageContext.request.contextPath}/product/productDetail?productId=${cartItem.productId}">
+                                    <img src="${pageContext.request.contextPath}/productImage?productId=${cartItem.productId}&productUsecase=THUMBNAIL" width="100px" />
+                                </a>
+                            </td>
+                            <td>
+                                <a href="${pageContext.request.contextPath}/product/productDetail?productId=${cartItem.productId}" style="color: black !important;">
+                                    ${cartItem.productName}
+                                </a>
+                            </td>
+                            <td>
+                                <div class="quantity-control">
+                                    <button>-</button>
+                                    <input type="text" value="${cartItem.quantity}" min="1" max="10" />
+                                    <button>+</button>
+                                </div>
+                            </td>
+                            <td class="currentPrice" data-unit-price="${cartItem.productPrice}">
+                                <fmt:formatNumber value="${cartItem.productPrice * cartItem.cartCount}" pattern="#,##0" />원
+                            </td>
+                            <td><button class="btn btn-danger btn-sm">삭제</button></td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="6">
+                            <div class="basket_totalprice">
+                                	총 구매 금액: <strong>
+                                    <fmt:formatNumber value="${totalPrice}" pattern="#,##0" />원
+                                </strong>
+                            </div>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
 				</div>
 				<!-- 공지사항 -->
 				<div class="cartNotice">
