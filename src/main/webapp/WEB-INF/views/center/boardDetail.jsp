@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@include file="/WEB-INF/views/common/header.jsp" %>
+<%@ include file="/WEB-INF/views/common/header.jsp" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/center.css">
 	
 	<hr class="hr" />
@@ -24,28 +26,30 @@
             <div class="card mb-4 mt-4">
                 <div class="card-body">
                     <div class="post-info">
-                        <h4 class="card-title h4 board-title">결제하기 클릭이 안되요. ㅠㅠ</h4>
+                        <h4 class="card-title h4 board-title">${board.title}</h4>
                         <p class="card-text">
                             <small class="text-muted">글번호: </small>
-                            <small class="text-muted board-index">2</small>
+                            <small class="text-muted board-index">${board.boardId}</small>
                             <small class="text-muted"> | 등록일: </small>
-                            <small class="text-muted board-timestamp">2024.08.04 12:08:25</small>
+                            <small class="text-muted board-timestamp">
+                            	<fmt:formatDate value="${board.datetime}" pattern="yyyy-MM-dd hh:mm:ss"/>
+                            </small>
                             <small class="text-muted"> | 등록자: </small>
-                            <small class="board-author">홍*동</small>
+                            <small class="board-author">${board.memberId}</small>
                             <small class="text-muted"> | 조회수: </small>
-                            <small class="border-views">1232</small>
+                            <small class="border-views">${board.views}</small>
                         </p>
                     </div>
                     <hr>
                     <div class="post-content">
                         <p class="card-text">
-                            구매 했는데 결제하기 버튼이 클릭이 안되네요.<br>
-                            결제가 안 나와요.<br>
-                            몇번을 시도하다가 지쳐서 글 남겨요.<br>
-                            어떻게 하면 되나요?<br><br>
-                            그리고 핸드폰으로는 결제할 수 없는건가요?<br>
-                            핸드폰으로 결제하기 눌러도 결제가 안되더라구요.ㅠㅠ
+                            ${board.content}
                         </p>
+                        <c:if test="${board.imageNames != null}">
+                        	<c:forEach items="${board.imageNames}" var="imageName" >
+                        		<p><img src="${pageContext.request.contextPath}/center/image?type=${boardType}&imageName=${imageName}&boardId=${board.boardId}" /></p>
+                        	</c:forEach>
+                        </c:if>
                     </div>
                     
                     <a href="${pageContext.request.contextPath}/center/list?type=${boardType}" class="btn btn-outline-secondary float-right mr-1" id="redirectPage">목록으로</a>

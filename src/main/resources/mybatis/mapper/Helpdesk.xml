@@ -2,5 +2,33 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.mycompany.miniproject.dao.HelpdeskDAO">
 
+	<insert id="insertHelpdeskPost" parameterType="Helpdesk">
+		<![CDATA[
+			INSERT INTO HELPDESK (
+				helpdesk_id,
+				helpdesk_title,
+				helpdesk_datetime,
+				helpdesk_content,
+				helpdesk_views,
+				member_id
+			) VALUES (
+				seq_helpdesk_id.nextval,
+				#{helpdeskTitle},
+				sysdate,
+				#{helpdeskContent},
+				0,
+				#{memberId}
+			)
+ 		]]>
+	</insert>
 
+	<select id="getRecentHelpdeskId" parameterType="String" resultType="int">
+		<![CDATA[
+			SELECT helpdesk_id
+			FROM HELPDESK
+			WHERE member_id = #{memberId}
+			ORDER BY helpdesk_datetime DESC
+			FETCH FIRST 1 ROWS ONLY
+		]]>
+	</select>
 </mapper>

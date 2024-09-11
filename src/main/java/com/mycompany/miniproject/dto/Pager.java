@@ -17,7 +17,8 @@ public class Pager {
 	   private int startRowIndex;   //페이지의 시작 행 인덱스(0, ..., n-1) for mysql
 	   private int endRowNo;      //페이지의 마지막 행 번호
 	   private int endRowIndex;   //페이지의 마지막 행 인덱스
-
+	   private String categoryName; // 카테고리 별 페이징 처리 용
+	   
 	   public Pager(int rowsPerPage, int pagesPerGroup, int totalRows, int pageNo) {
 	      this.rowsPerPage = rowsPerPage;
 	      this.pagesPerGroup = pagesPerGroup;

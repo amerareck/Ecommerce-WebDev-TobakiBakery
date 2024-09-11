@@ -6,5 +6,11 @@ import com.mycompany.miniproject.dto.NoticeDTO;
 
 @Mapper
 public interface NoticeDAO {
-	public int insertNotice(NoticeDTO dto);
+	public int insertNoticePost(NoticeDTO dto);
+
+	public int selectNoticeSequence();
+
+	public int getRecentNoticeId(String memberId);
+
+	public NoticeDTO selectNoticeSingleRow(int boardNum);
 }

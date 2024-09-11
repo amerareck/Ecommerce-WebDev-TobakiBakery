@@ -7,14 +7,36 @@
 				image_original_name,
 				image_type,
 				image_data,
-				notice_id,
+				notice_id
 			) VALUES (
 				#{imageOriginalName},
 				#{imageType},
 				#{imageData},
 				#{noticeId}
-			);
+			)
 		]]>
 	</insert>
+	
+	<select id="selectBoardImageNames" parameterType="int" resultType="String">
+		<![CDATA[
+			SELECT image_original_name
+			FROM CENTER_IMAGE
+			WHERE notice_id = #{noticeId}
+		]]>
+	</select>
+	
+	<select id="selectBoardImage" parameterType="Notice" resultType="Notice">
+		<![CDATA[
+			SELECT
+				image_original_name,
+				image_type,
+				image_data,
+				notice_id
+			FROM CENTER_IMAGE
+			WHERE 
+				notice_id = #{noticeId}
+			AND image_original_name = #{imageOriginalName}
+		]]>
+	</select>
 
 </mapper>

@@ -19,7 +19,7 @@
     </li>
     --%>
     <li class="nav-item">
-        <a class="nav-link <c:if test="${boardType == 'helpdesk'}">active</c:if>" href="${pageContext.request.contextPath}/center/list?type=helpdesk">기타문의</a>
+        <a class="nav-link <c:if test="${boardType == 'helpdesk'}">active</c:if>" href="${pageContext.request.contextPath}/center/list?type=helpdesk">문의사항</a>
     </li>
 </ul>
 

@@ -2,7 +2,6 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@include file="/WEB-INF/views/common/header.jsp" %>
-<%@include file="/WEB-INF/views/common/alert.jsp" %>
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/center.css">
 	
 	<hr class="hr" />
@@ -31,7 +30,7 @@
                                 <label class="control-label" for="memberName"><b>아이디</b></label>
                             </div>
                             <div class="form-content" style="margin-left: 40px;">
-                                <input class="form-control" id="memberName" type="text" name="${author}" value="엄상식" readonly />
+                                <input class="form-control" id="memberName" type="text" name="${author}" value="admin" readonly />
                             </div>
                         </div>
                         <c:if test="${showCategory == 'show'}">
@@ -134,4 +133,5 @@
             <!-- 게시글 작성 컴포넌트 종료 -->
         </div>
     </section>
+    <%@include file="/WEB-INF/views/common/alert.jsp" %>
 	<%@include file="/WEB-INF/views/common/footer.jsp" %>
