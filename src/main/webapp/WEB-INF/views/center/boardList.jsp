@@ -110,7 +110,7 @@
             </div>
               <!-- 게시판 묶음 네비게이터 바 종료 -->
     
-            <a class="btn btn-secondary float-right btn-bottom" href="${pageContext.request.contextPath}/center/addBoard/${boardType}">글쓰기</a>
+            <a class="btn btn-secondary float-right btn-bottom" href="${pageContext.request.contextPath}/center/addBoard?type=${boardType}">글쓰기</a>
         </div>
     </section>
 	<%@include file="/WEB-INF/views/common/footer.jsp" %>

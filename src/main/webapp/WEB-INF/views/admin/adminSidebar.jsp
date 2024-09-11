@@ -15,8 +15,8 @@
        <hr class="hr"/>
        <h3>고객센터</h3>
        <ul class="nav nav-pills flex-column">
-           <li class="nav-item"><a class="nav-link" href="../center/notice">공지사항</a></li>
-           <li class="nav-item"><a class="nav-link" href="../center/product">문의사항</a></li>
+           <li class="nav-item"><a class="nav-link" href="../center/list?type=notice">공지사항</a></li>
+           <li class="nav-item"><a class="nav-link" href="../center/list?type=helpdesk">문의사항</a></li>
        </ul>
    </aside>
    <!-- 사이드바 종료 -->

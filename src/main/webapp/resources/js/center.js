@@ -193,5 +193,9 @@ $('#removeBoardBotton').click(function(){
 });
 
 $('#boardWriteForm').on('submit', function(event){
+	const boardContent = $('#boardContent').val();
+	$('#boardContent').val(boardContent.replace(/\n/g, "<br>"));
+	console.log($('#boardContent').val());
+	
 	$('#timestamp').val(moment().format('YYYY-MM-DD HH:mm:ss'));
 });

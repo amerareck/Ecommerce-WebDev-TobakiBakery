@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.mycompany.miniproject.dao.NoticeDAO">
-	<insert id="insertNotice" parameterType="Notice">
+	<insert id="insertNoticePost" parameterType="Notice">
 		<![CDATA[
 			INSERT INTO NOTICE (
 				notice_id,
@@ -15,9 +15,34 @@
 				#{noticeTitle},
 				sysdate,
 				#{noticeContent},
-				#{member_id}
+				0,
+				#{memberId}
 			)
  		]]>
 	</insert>
+	
+	<select id="getRecentNoticeId" parameterType="String" resultType="int">
+		<![CDATA[
+			SELECT notice_id
+			FROM NOTICE
+			WHERE member_id = #{memberId}
+			ORDER BY notice_datetime DESC
+			FETCH FIRST 1 ROWS ONLY
+		]]>
+	</select>
+	
+	<select id="selectNoticeSingleRow" parameterType="int" resultType="Notice">
+		<![CDATA[
+			SELECT 
+				notice_id,
+				notice_title,
+				notice_datetime,
+				notice_content,
+				notice_views,
+				member_id
+			FROM NOTICE
+			WHERE notice_id = #{boardNum}
+		]]>
+	</select>
 
 </mapper>
