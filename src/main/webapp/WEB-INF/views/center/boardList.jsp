@@ -23,7 +23,7 @@
 
             <!-- 게시글 검색 컴포넌트 시작 -->
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <div class="table-row-counter">총 3개의 게시물이 있습니다.</div>
+                <div class="table-row-counter">총 ${boardAllCount}개의 게시물이 있습니다.</div>
                 <form class="form-inline" id="boardSearchForm">
                     <div class="form-group mr-2">
                         <select class="form-control" id="searchCategory">
@@ -56,6 +56,37 @@
                     </tr>
                 </thead>
                 <tbody>
+                	<c:if test="${boardType == 'notice'}" >
+	                	<c:forEach items="${boardList}" var="element" > 
+	                		<tr>
+		                        <th scope="row">${element.noticeId}</th>
+		                        <td><a href="${pageContext.request.contextPath}/center/detail?type=${boardType}&boardNum=${element.noticeId}">${element.noticeTitle}&ensp; <span class="badge badge-info">NEW</span></a></td>
+		                        <td>${element.memberId}</td>
+		                        <td><fmt:formatDate value="${element.noticeDatetime}" pattern="yyyy-MM-dd"/></td>
+		                        <td>${element.noticeViews}</td>
+	                    	</tr>
+	                	</c:forEach>
+                	</c:if>
+                	<c:if test="${boardType == 'helpdesk'}" >
+	                	<c:forEach items="${boardList}" var="element" > 
+	                		<tr>
+		                        <th scope="row">${element.helpdeskId}</th>
+		                        <td>
+		                        	<a href="${pageContext.request.contextPath}/center/detail?type=helpdesk&boardNum=${element.helpdeskId}">
+			                        	<c:if test="${element.lockState}">
+				                        	<i class="fas fa-lock fa-xs"></i>
+			                        	</c:if>
+			                        	${element.helpdeskTitle}&ensp; 
+			                        	<span class="badge badge-info">NEW</span>
+		                        	</a>
+		                        </td>
+		                        <td>${element.memberId}</td>
+		                        <td><fmt:formatDate value="${element.helpdeskDatetime}" pattern="yyyy-MM-dd"/></td>
+		                        <td>${element.helpdeskViews}</td>
+	                    	</tr>
+	                	</c:forEach>
+                	</c:if>
+                	<%-- 
                     <tr>
                         <th scope="row">3</th>
                         <td><a href="${pageContext.request.contextPath}/center/detail?type=${boardType}">취소문의요&ensp; <span class="badge badge-info">NEW</span></a></td>
@@ -77,6 +108,7 @@
                         <td>2024/08/02</td>
                         <td>3</td>
                     </tr>
+                     --%>
                     <!-- More rows as needed -->
                 </tbody>
             </table>
@@ -86,25 +118,35 @@
             <div class="paging-wrapper">
                 <ul class="pagination">
                     <li class="page-item disabled">
-                        <a class="page-link" href="#">&laquo;</a>
+                    	<c:if test="${pager.groupNo>1}" >
+	                        <a class="page-link" href="${pageContext.request.contextPath}/center/list?type=${boardType}&pageNo=${pager.startPageNo-1}" >&laquo;</a>
+                    	</c:if>
+                    	<c:if test="${pager.groupNo<=1}" >
+	                        <a class="page-link" href="javascript:void(0);" >&laquo;</a>
+                    	</c:if>
                     </li>
-                    <li class="page-item active">
-                        <a class="page-link" href="#">1</a>
-                    </li>
+                    
+                    <c:forEach begin="${pager.startPageNo}" end="${pager.endPageNo}" var="i">
+                    	<c:if test="${pager.pageNo == i}" >
+                    		<li class="page-item active">
+                        		<a class="page-link" href="${pageContext.request.contextPath}/center/list?type=${boardType}&pageNo=${i}">${i}</a>
+                    		</li>
+                    	</c:if>
+                    		
+                    	<c:if test="${pager.pageNo != i}" >
+                    		<li class="page-item">
+		                        <a class="page-link" href="${pageContext.request.contextPath}/center/list?type=${boardType}&pageNo=${i}">${i}</a>
+		                    </li>
+                    	</c:if>
+                    </c:forEach>
+
                     <li class="page-item">
-                        <a class="page-link" href="#">2</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">3</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">4</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">5</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">&raquo;</a>
+                    	<c:if test="${pager.groupNo<pager.totalGroupNo}" >
+	                        <a class="page-link" href="${pageContext.request.contextPath}/center/list?type=${boardType}&pageNo=${pager.endPageNo+1}">&raquo;</a>
+	                    </c:if>
+                    	<c:if test="${pager.groupNo>=pager.totalGroupNo}" >
+	                        <a class="page-link" href="javascript:void(0)">&raquo;</a>
+                    	</c:if>
                     </li>
                 </ul>
             </div>

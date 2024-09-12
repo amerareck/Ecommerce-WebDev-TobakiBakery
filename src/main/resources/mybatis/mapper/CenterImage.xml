@@ -17,15 +17,39 @@
 		]]>
 	</insert>
 	
-	<select id="selectBoardImageNames" parameterType="int" resultType="String">
+	<insert id="insertHelpdeskImage" parameterType="Helpdesk">
+		<![CDATA[
+			INSERT INTO CENTER_IMAGE(
+				image_original_name,
+				image_type,
+				image_data,
+				helpdesk_id
+			) VALUES (
+				#{imageOriginalName},
+				#{imageType},
+				#{imageData},
+				#{helpdeskId}
+			)
+		]]>
+	</insert>
+	
+	<select id="selectBoardImageNamesFromNotice" parameterType="int" resultType="String">
 		<![CDATA[
 			SELECT image_original_name
 			FROM CENTER_IMAGE
-			WHERE notice_id = #{noticeId}
+			WHERE notice_id = #{condition}
 		]]>
 	</select>
 	
-	<select id="selectBoardImage" parameterType="Notice" resultType="Notice">
+	<select id="selectBoardImageNamesFromHelpdesk" parameterType="int" resultType="String">
+		<![CDATA[
+			SELECT image_original_name
+			FROM CENTER_IMAGE
+			WHERE helpdesk_id = #{condition}
+		]]>
+	</select>
+	
+	<select id="selectBoardImageFromNotice" parameterType="Notice" resultType="Notice">
 		<![CDATA[
 			SELECT
 				image_original_name,
@@ -35,6 +59,20 @@
 			FROM CENTER_IMAGE
 			WHERE 
 				notice_id = #{noticeId}
+			AND image_original_name = #{imageOriginalName}
+		]]>
+	</select>
+	
+	<select id="selectBoardImageFromHelpdesk" parameterType="Helpdesk" resultType="Helpdesk">
+		<![CDATA[
+			SELECT
+				image_original_name,
+				image_type,
+				image_data,
+				helpdesk_id
+			FROM CENTER_IMAGE
+			WHERE 
+				helpdesk_id = #{helpdeskId}
 			AND image_original_name = #{imageOriginalName}
 		]]>
 	</select>

@@ -10,6 +10,7 @@
 				helpdesk_datetime,
 				helpdesk_content,
 				helpdesk_views,
+				lock_state,
 				member_id
 			) VALUES (
 				seq_helpdesk_id.nextval,
@@ -17,10 +18,28 @@
 				sysdate,
 				#{helpdeskContent},
 				0,
+		]]>
+		<if test="lockState">1,</if>
+		<if test="!lockState">0,</if>
+		<![CDATA[
 				#{memberId}
 			)
  		]]>
 	</insert>
+	
+	<select id="selectHelpdeskSingleRow" parameterType="int" resultType="Helpdesk">
+		<![CDATA[
+			SELECT 
+				helpdesk_id,
+				helpdesk_title,
+				helpdesk_datetime,
+				helpdesk_content,
+				helpdesk_views,
+				member_id
+			FROM HELPDESK
+			WHERE helpdesk_id = #{boardNum}
+		]]>
+	</select>
 
 	<select id="getRecentHelpdeskId" parameterType="String" resultType="int">
 		<![CDATA[
@@ -29,6 +48,49 @@
 			WHERE member_id = #{memberId}
 			ORDER BY helpdesk_datetime DESC
 			FETCH FIRST 1 ROWS ONLY
+		]]>
+	</select>
+	
+	<select id="selectBoardAllCount" resultType="int" >
+		<![CDATA[
+			SELECT COUNT(*)
+			FROM HELPDESK
+		]]>
+	</select>
+	
+	<select id="selectHelpdeskList" parameterType="Pager" resultType="Helpdesk">
+		<![CDATA[
+			SELECT
+				helpdesk_id,
+				helpdesk_title,
+				helpdesk_datetime,
+				helpdesk_content,
+				helpdesk_views,
+				lock_state,
+				member_id
+			FROM
+				(SELECT
+					rownum as rnum,
+					helpdesk_id,
+					helpdesk_title,
+					helpdesk_datetime,
+					helpdesk_content,
+					helpdesk_views,
+					lock_state,
+					member_id
+				FROM 
+					(SELECT
+						 helpdesk_id,
+						 helpdesk_title,
+						 helpdesk_datetime,
+						 helpdesk_content,
+						 helpdesk_views,
+						 lock_state,
+						 member_id
+					 FROM HELPDESK
+					 ORDER BY helpdesk_id DESC)
+				WHERE rownum <= #{endRowNo})
+			WHERE rnum >= #{startRowNo}
 		]]>
 	</select>
 </mapper>

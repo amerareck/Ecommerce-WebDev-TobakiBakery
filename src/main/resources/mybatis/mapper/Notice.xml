@@ -44,5 +44,45 @@
 			WHERE notice_id = #{boardNum}
 		]]>
 	</select>
+	
+	<select id="selectBoardAllCount" resultType="int" >
+		<![CDATA[
+			SELECT COUNT(*)
+			FROM NOTICE
+		]]>
+	</select>
+	
+	<select id="selectNoticeList" parameterType="Pager" resultType="Notice">
+		<![CDATA[
+			SELECT
+				notice_id,
+				notice_title,
+				notice_datetime,
+				notice_content,
+				notice_views,
+				member_id
+			FROM
+				(SELECT
+					rownum as rnum,
+					notice_id,
+					notice_title,
+					notice_datetime,
+					notice_content,
+					notice_views,
+					member_id
+				FROM 
+					(SELECT
+						 notice_id,
+						 notice_title,
+						 notice_datetime,
+						 notice_content,
+						 notice_views,
+						 member_id
+					 FROM NOTICE
+					 ORDER BY notice_id DESC)
+				WHERE rownum <= #{endRowNo})
+			WHERE rnum >= #{startRowNo}
+		]]>
+	</select>
 
 </mapper>

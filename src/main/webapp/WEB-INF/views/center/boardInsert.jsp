@@ -90,12 +90,12 @@
                                 </div>
                                 <div class="form-end d-flex justify-content-start mt-1" style="width: 40%">
                                 	<c:if test="${boardType != 'notice'}">
-                                    <div class="custom-control custom-checkbox flex-grow-1 ml-2">
-                                        <input type="checkbox" class="custom-control-input" id="secretBorad" name="${isSecret}" checked>
-                                        <label class="custom-control-label" for="secretBorad" style="width:auto;">
-                                            <small class="form-text text-muted">게시글 비공개 여부</small>
-                                        </label>
-                                    </div>
+	                                    <div class="custom-control custom-checkbox flex-grow-1 ml-2">
+	                                        <input type="checkbox" class="custom-control-input" id="secretBorad" name="${isSecret}" checked>
+	                                        <label class="custom-control-label" for="secretBorad" style="width:auto;">
+	                                            <small class="form-text text-muted">게시글 비공개 여부</small>
+	                                        </label>
+	                                    </div>
                                 	</c:if>
                                 </div>
                             </div>

@@ -1,12 +1,15 @@
 package com.mycompany.miniproject.dto;
 
+import org.springframework.web.multipart.MultipartFile;
+
+import lombok.Data;
+
+@Data
 public class HelpdeskForm {
 	String helpdeskTitle;
 	String helpdeskContent;
-	boolean lock_state;
+	boolean lockState;
 	String memberId;
 	
-	String imageOriginalName;
-	String imageType;
-	byte[] imageData;
+	MultipartFile[] helpdeskAttach;
 }
