@@ -35,25 +35,19 @@ function setEmailDomain() {
     }
 }
 
-// 폼 유효성 검사 함수
-function checkUsername() {
-    var username = document.getElementById("username").value;
-    if (username.length < 6) {
-        alert("아이디는 6글자 이상이어야 합니다.");
-    } else {
-        alert("사용 가능한 아이디입니다!");
-    }
-}
 
 // 회원가입
 function validateForm() {
     var password = document.getElementById("password").value;
     var passwordConfirm = document.getElementById("password_confirm").value;
-    var passwordRegex = /^(?=.*[A-Za-z])(?=.*[\\d@$!%*?&])[A-Za-z\\d@$!%*?&]{8,16}$/;
+    var passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,16}$/;
+   
 
+    
     // 비밀번호 패턴 검사
+    
     if (!passwordRegex.test(password)) {
-        alert("비밀번호는 영어 대문자,소문자,숫자,특수문자 중 두가지 이상을 포함 8-16자를 입력해주세요.");
+        alert("비밀번호는 영어 대문자,소문자,숫자,특수문자  포함 8-16자를 입력해주세요.");
         return false;
     }
 
@@ -64,84 +58,99 @@ function validateForm() {
     }
 
     // 모든 조건이 통과되면 폼이 제출됩니다.
-    alert("회원가입이 완료되었습니다!");
+    var member_birthday = $("#birth_year").val()+ $("#birth_month").val()+ $("#birth_day").val();
+    var phone_num = $("#phone_prefix").val() + $("#phone_middle_number").val() + $("#phone_last_number").val();
+    $("#member_birthday").val(member_birthday);
+    $("#phone_num").val(phone_num);
+    
     return true;
 }
+
 //화원가입 완료시 ajax에  정보 담기
+
 $(document).ready(function() {
-    $("#signupForm").submit(function(e) {
-        e.preventDefault();
+	var member_email = $("#email_local").val() + "@" + $("#email_domain").val();
+	$("#member_email").val(member_email);
 
-        if (validateForm()) {
-            var member_name = $("#name").val();
-            var member_id = $("#username").val();
-            var member_password = $("#password").val();
-            var member_birthday = $("#birth_year").val() + "-" + $("#birth_month").val() + "-" + $("#birth_day").val();
-            var post_num = $("#postcode").val();
-            var address = $("#address").val();
-            var address_detail = $("#address_detail").val();
-            var phone_num = $("#phone_prefix").val() + $("#phone_middle_number").val() + $("#phone_last_number").val();
-            var member_email = $("#email_local").val() + "@" + $("#email_domain").val();
-            
-            var member_q = $("#member_q").val();
-            var member_a = $("#member_a").val();
-            
-            const memberInfo = {
-            		member_id,
-                    member_name,
-                    member_password,
-                    member_birthday,
-                    post_num,
-                    address,
-                    address_detail,
-                    phone_num,
-                    member_email,
-                    member_q,
-                    member_a,
-                    member_grade: 0
-            };
-            
-            $.ajax({
-                url: "/miniproject/member/member-info",
-                type: "post",
-                data: memberInfo,
-                success: function(response) {
-                	console.log(memberInfo);
-                	location.href ="../";
-                	}
-            });
-
+    
+	$("#checkId").click(function() {
+        var username = $("#username").val();  
+        
+        if (username.length < 6) {
+            alert("아이디는 6글자 이상이어야 합니다.");
+            return;
         }
+
+        
+        $.ajax({
+            url: '../member/checkId',  
+            type: 'post',             
+            data: { memberId: username },  
+            success: function(response) {
+                if (response.resultId === 'idCheckOK') {
+                		console.log(response.resultId);
+                    alert("사용 가능한 아이디입니다.");
+                } else {
+                		console.log(response.resultId);
+                    alert("이미 존재하는 아이디입니다.");
+                }
+            }
+        });
+    });	
+	
+    $("#emailCheck").click(function() {
+    		var member_email = $("#email_local").val() + "@" + $("#email_domain").val();
+    		$("#member_email").val(member_email);
+        var userEmail = $("#member_email").val();  
+        
+        if ($("#email_local").val().trim() === '') {
+            alert("이메일을 입력하세요");
+            return false;
+        }else if($("#email_domain").val().trim()=== ''){
+        		alert("이메일 주소를 입력하세요");
+            return false;
+        }
+        console.log(userEmail);
+        $.ajax({
+            url: '../member/checkEmail',  
+            type: 'post',             
+            data: { memberEmail: userEmail },  
+            success: function(response) {
+                if (response.resultEmail === 'emailCheckOK') {
+                		console.log(response.resultEmail);
+                    alert("사용 가능한 이메일 입니다.");
+                }
+                else  {
+                		console.log(response.resultEmail);
+                    alert("이미 존재하는 이메일 입니다.");
+                }
+            }
+        });
+    });	
+    
+    $("#signupForm").submit(function(e) {
+        if (validateForm()) {
+        	  alert("회원가입이 완료되었습니다!");
+            return true;
+        } else {
+        	
+            return false;
+        }
+        
+    });
+    
+    //회원정보 수정
+    $("#editForm").submit(function(e) {
+        if (validateForm()) {
+        		alert("회원수정이 완료되었습니다!");
+            return true;
+        } else {
+        	
+            return false;
+        }
+        
     });
 });
-
-// 회원정보수정
-function editdateForm() {
-    var password = document.getElementById("password").value;
-    var passwordConfirm = document.getElementById("password_confirm").value;
-    var passwordRegex = /^(?=.*[A-Za-z])(?=.*[\\d@$!%*?&])[A-Za-z\\d@$!%*?&]{8,16}$/;
-
-    // 비밀번호 패턴 검사
-    if (!passwordRegex.test(password)) {
-        alert("비밀번호는 영어 대문자,소문자,숫자,특수문자 중 두가지 이상을 포함 8-16자를 입력해주세요.");
-        return false;
-    }
-
-    // 비밀번호 일치 여부 검사
-    if (password !== passwordConfirm) {
-        alert("비밀번호가 일치하지 않습니다.");
-        return false;
-    }
-
-    // 모든 조건이 통과되면 폼이 제출됩니다.
-    alert("회원수정이 완료되었습니다!");
-    return true;
-}
-
-// 중복 확인 버튼 클릭 시 경고 메시지 표시
-function showEmailAlert() {
-    alert("사용 가능한 이메일 입니다!");
-}
 
 
 function showJoinAlert() {
