@@ -11,12 +11,27 @@ import com.mycompany.miniproject.dto.ProductDTO;
 @Mapper
 public interface CartDAO {
 
-	List<ProductDTO> selectCartItemsByMemberId(String memberId);
+	
+List<ProductDTO> selectCartItemsByMemberId(CartDTO cartDto);
 	
 	
 	void deleteCartItem(@Param("productId") String productId);
 
-	void insertCartItem(@Param("memberId") String memberId, @Param("productId") int productId, @Param("cartCount") int cartCount);
-	void updateCartCount(@Param("cartCount") int cartCount, @Param("productId") int productId);
+	
 	CartDTO findCartItem(String memberId, String productId);
+
+
+	int insertCartItem(CartDTO cartDto);
+
+	
+	
+	
+
+	 
+
+	
+
+
+
+
 }

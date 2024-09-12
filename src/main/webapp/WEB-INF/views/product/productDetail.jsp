@@ -109,7 +109,7 @@
 													<button type="button" class="btn btn-light"
 														onclick="location.href='../mypage/mypageOrder'">구매하기</button>
 													<button type="button" class="btn btn-light"
-														onclick="location.href='../order/orderCart'">장바구니</button>
+														onclick="location.href='../order/orderCart?productId=${prodDetail.productId}'">장바구니</button>
 												</div>
 
 											</div>

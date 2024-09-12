@@ -59,7 +59,7 @@
 							<img class="prd_img" src="productImage?productId=${bestProd.productId}&productUsecase=THUMBNAIL" />
 						</a>
 						<div class="cart-overlay">
-							<a href="${pageContext.request.contextPath}/order/orderCart">
+							<a href="${pageContext.request.contextPath}/order/orderCart?productId=${bestProd.productId}">
 								<img src="https://cdn-icons-png.flaticon.com/512/1170/1170678.png" />
 							</a>
 						</div>
@@ -101,7 +101,7 @@
 							<img class="prd_img" src="productImage?productId=${prod.productId}&productUsecase=THUMBNAIL" />
 						</a>
 						<div class="cart-overlay">
-							<a href="${pageContext.request.contextPath}/order/orderCart">
+							<a href="${pageContext.request.contextPath}/order/orderCart?productId=${prod.productId}">
 								<img src="https://cdn-icons-png.flaticon.com/512/1170/1170678.png" />
 							</a>
 						</div>

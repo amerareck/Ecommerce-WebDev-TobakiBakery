@@ -29,8 +29,12 @@
 		<!-- 장바구니 부분 -->
 		<section class="content">
 			<h2>장바구니</h2>
-
-			<!-- 장바구니 카드 -->
+		<c:choose>
+			<c:when test="${map.count == 0}">
+			 장바구니가 비어있습니다.
+			 </c:when>
+		 <c:otherwise>
+		 				<!-- 장바구니 카트 -->
 			<div id="cartWrap">
 				<!-- 장바구니 테이블 -->
 				<div id="cartTable">
@@ -112,7 +116,12 @@
 					<button type="button" class="btn btn-outline-danger">선택상품 주문하기</button>
 				</div>
 			</div>
+			 </c:otherwise>
+			 </c:choose>
 		</section>
+		 
+		 		
+
 	</div>
 </div>
 
