@@ -1,0 +1,63 @@
+package com.mycompany.miniproject.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.mycompany.miniproject.dao.MemberDAO;
+import com.mycompany.miniproject.dto.MemberDTO;
+import com.mycompany.miniproject.type.JoinResult;
+import com.mycompany.miniproject.type.MemberRole;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Service
+@Slf4j
+public class MemberService {
+	
+	@Autowired
+	private MemberDAO memberDao;
+	
+	public JoinResult join(MemberDTO member) {
+		log.info("실행");
+		boolean exist = isMemberId(member.getMemberId());
+		if(exist) {
+			return JoinResult.FAIL_DUPLICATED_MEMBERID;
+		}
+		member.setMemberRole(MemberRole.USER.toString());
+		memberDao.insertMember(member);
+		return JoinResult.SUCCESS;
+	}
+	
+	public boolean isMemberId(String memberId) {
+		log.info("실행");
+		MemberDTO member = memberDao.selectMemberId(memberId);
+		if(member==null) {
+			return false;
+		}else {
+			return true;
+		}
+		
+	}
+	
+	public boolean isMemberEmail(String memberEmail) {
+		log.info("실행");
+		MemberDTO member = memberDao.selectMemberEmail(memberEmail);
+		if(member==null) {
+			return false;
+		}else {
+			return true;
+		}
+		
+	}
+	
+	public MemberDTO getMemberInfo(MemberDTO member) {
+		MemberDTO memberInfo = memberDao.selectMemberInfo(member.getMemberId());
+		return memberInfo;
+	}
+
+	public int updateMember(MemberDTO member) {
+		int memberEdit = memberDao.updateMember(member);
+		return memberEdit;
+	}
+	
+}

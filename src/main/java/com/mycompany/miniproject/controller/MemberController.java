@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -18,8 +19,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.mycompany.miniproject.dto.MemberDTO;
+import com.mycompany.miniproject.service.MemberService;
+import com.mycompany.miniproject.type.JoinResult;
 import com.mycompany.miniproject.validator.LoginFormValidator;
 
 import lombok.extern.slf4j.Slf4j;
@@ -29,16 +33,20 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/member")
 public class MemberController {
 	
+	@Autowired
+	private MemberService memberService;
+	
 	private final Random random = new Random();
 	
-	@RequestMapping("/memberInfo")
-	public String addMember() {
-		log.info("회원가입 실행");
+	@GetMapping("memberInfo")
+	public String getMember() {
+		log.info("실행");
 		return "/member/memberInfo";
 	}
 	
-	@InitBinder("memberDTO")
-	public void ch04LoginFormValidator(WebDataBinder binder) {
+	
+	@InitBinder("loginForm")
+	public void LoginFormValidator(WebDataBinder binder) {
 		binder.setValidator(new LoginFormValidator());
 	}
 	
@@ -60,10 +68,23 @@ public class MemberController {
 		log.info("로그인 실행");
 		return "/member/login";
 	}
-	@RequestMapping("/memberEdit")
-	public String memberEdit() {
-		log.info("회원수정 실행");
+	@GetMapping("/memberEdit")
+	public String getMemberEdit(MemberDTO member, Model model) {
+		log.info("실행");
+		member.setMemberId("aaaaaa");
+		MemberDTO memberInfo = memberService.getMemberInfo(member);
+		
+		model.addAttribute("memberInfo", memberInfo);
+		
 		return "/member/memberEdit";
+	}
+	
+	@PostMapping("/edit")
+	public String editMemberInfo(MemberDTO member) {
+		log.info("실행");
+		memberService.updateMember(member);
+		
+		return "redirect:/member/memberEdit";
 	}
 	
 	@RequestMapping("/memberSearch")
@@ -130,26 +151,75 @@ public class MemberController {
 	    
 		model.addAttribute("pwToken", pwToken);
 		log.info("pwToken: " + pwToken);
+		
 		return "/member/memberPwSearchComplete";
 	}
 
-	@PostMapping("/member-info")
-	public void requestAjax(MemberDTO memDto, HttpServletResponse response) 
-		throws Exception {
-		log.info(memDto.toString());
-		
-		
-		
+
+    @PostMapping("/checkId")
+    public void checkMemberId(@RequestParam("memberId") String memberId, 
+    		HttpServletResponse response) 
+    throws Exception{
+    		log.info("실행");
+        boolean checkId = memberService.isMemberId(memberId);
 		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("result", "ok");
+		if(!checkId) {
+			jsonObject.put("resultId", "idCheckOK");
+		}else {
+			jsonObject.put("resultId", "false");
+		}
+
 		String json = jsonObject.toString();
-		 
 		response.setContentType("application/json; charset=UTF-8");
 		PrintWriter pw = response.getWriter();
 		pw.println(json);
-		pw.flush(); 
-		pw.close(); 
+		pw.flush();
+		pw.close();
+    }
+	
+	
+    @PostMapping("/checkEmail")
+    public void checkMemberEmail( 
+    		@RequestParam("memberEmail") String memberEmail
+    		, HttpServletResponse response) 
+    throws Exception{
+    		log.info("실행");
+    		log.info("memberEmail: " + memberEmail );
+        boolean checkEmail = memberService.isMemberEmail(memberEmail);
+		JSONObject jsonObject = new JSONObject();
+		if(!checkEmail) {
+			jsonObject.put("resultEmail", "emailCheckOK");
+		}else {
+			jsonObject.put("resultEmail", "false");
+		}
+	
+		String json = jsonObject.toString();
+		response.setContentType("application/json; charset=UTF-8");
+		PrintWriter pw = response.getWriter();
+		pw.println(json);
+		pw.flush();
+		pw.close();
+    }
+    
+	
+	@PostMapping("/join")
+	public String addMember(MemberDTO member,  Model model) {
+		log.info("실행");
+		log.info(member.toString());
 		
+		JoinResult joinResult = memberService.join(member);
+		if(joinResult == JoinResult.FAIL_DUPLICATED_MEMBERID) {
+			log.info("회원가입 실패");
+			String errorMsg = "존재하는 아이디 입니다.";
+			model.addAttribute("errorMsg", errorMsg);
+			return "/member/memberInfo";
+		}else {
+		log.info("회원가입 실행");
+		
+		return "redirect:/member/login";
+		}
+			
 	}
+
 
 }

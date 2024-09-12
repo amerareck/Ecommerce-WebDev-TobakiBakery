@@ -1,5 +1,104 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.mycompany.miniproject.dao.MemberDAO">
-
+	
+	<insert id="insertMember">
+		<![CDATA[
+			INSERT INTO MEMBER(
+					member_id,
+					member_name, 
+					member_password,
+					member_birthday,
+					member_email,
+					post_num,
+					address,
+					address_detail,
+					phone_num,
+					member_question,
+					member_answer,
+					member_role,
+					member_enable
+					)
+			VALUES(
+					#{memberId},
+					#{memberName},
+					#{memberPassword},
+					#{memberBirthday},
+					#{memberEmail},
+					#{postNum},
+					#{address},
+					#{addressDetail},
+					#{phoneNum},
+					#{memberQuestion},
+					#{memberAnswer},
+					#{memberRole},
+					1
+			)		
+				
+		]]>
+	</insert>
+	
+	<select id="selectMemberId" parameterType="string" resultType="Member">
+		<![CDATA[
+			SELECT
+				member_id
+			FROM
+				MEMBER
+			WHERE
+				member_id = #{memberId}
+			]]>		
+	</select>
+	
+		<select id="selectMemberEmail" parameterType="string" resultType="Member">
+		<![CDATA[
+			SELECT
+				member_email
+			FROM
+				MEMBER
+			WHERE
+				member_email = #{memberEmail}
+			]]>		
+	</select>
+	
+	<select id="selectMemberInfo" parameterType="String" resultType="Member">
+		<![CDATA[
+			SELECT
+				member_id,
+				member_name, 
+				member_birthday,
+				member_email,
+				post_num,
+				address,
+				address_detail,
+				phone_num,
+				member_question,
+				member_answer
+			FROM
+				MEMBER
+			WHERE
+				member_id = #{member_id}
+			]]>		
+	</select>
+	
+	<update id="updateMember" parameterType="Member">
+		<![CDATA[
+			UPDATE
+				MEMBER
+			SET
+				member_id = #{memberId},
+				member_password=#{memberPassword},
+				address = #{address},
+				post_num = #{postNum},
+				address_detail = #{addressDetail},
+				phone_num = #{phoneNum},	
+				member_email = #{memberEmail},
+				member_question = #{memberQuestion},
+				member_answer = #{memberAnswer}
+			WHERE
+				member_id = #{memberId}	
+				
+			]]>		
+		
+	</update>
+	
 </mapper>
