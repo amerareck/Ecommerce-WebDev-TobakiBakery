@@ -30,7 +30,7 @@
                                 <label class="control-label" for="memberName"><b>아이디</b></label>
                             </div>
                             <div class="form-content" style="margin-left: 40px;">
-                                <input class="form-control" id="memberName" type="text" name="${author}" value="admin" readonly />
+                                <input class="form-control" id="memberName" type="text" name="${author}" value="${board.author}" readonly />
                             </div>
                         </div>
                         <c:if test="${showCategory == 'show'}">
@@ -86,12 +86,12 @@
                             </div>
                             <div class="form-content d-flex flex-grow-1">
                                 <div class="form-start" style="width: 75%">
-                                    <input type="text" class="form-control" id="title" name="${postTitle}">
+                                    <input type="text" class="form-control" id="title" name="${postTitle}" value="${board.title}" >
                                 </div>
                                 <div class="form-end d-flex justify-content-start mt-1" style="width: 40%">
                                 	<c:if test="${boardType != 'notice'}">
 	                                    <div class="custom-control custom-checkbox flex-grow-1 ml-2">
-	                                        <input type="checkbox" class="custom-control-input" id="secretBorad" name="${isSecret}" checked>
+	                                        <input type="checkbox" class="custom-control-input" id="secretBorad" name="${isSecret}" value="${board.lockState}" checked>
 	                                        <label class="custom-control-label" for="secretBorad" style="width:auto;">
 	                                            <small class="form-text text-muted">게시글 비공개 여부</small>
 	                                        </label>
@@ -107,7 +107,7 @@
                                 <label for="boardContent" style="margin: 0;"><b>내용</b></label>
                             </div>
                             <div class="form-content" style="width: 56%">
-                                <textarea class="form-control" id="boardContent" name="${postContent}" rows="10"></textarea>
+                                <textarea class="form-control" id="boardContent" name="${postContent}" rows="10">${board.content}</textarea>
                             </div>
                         </div>
 
@@ -116,9 +116,18 @@
                             <div class="form-title d-flex align-items-center">
                                 <label for="attachment" style="margin: 0;"><b>첨부</b></label>
                             </div>
-                            <div class="form-content">
-                                <input type="file" class="form-control-file" id="attachment" name="${postFile}" multiple="multiple" />
-                            </div>
+							<div class="form-content">
+						        <c:if test="${updateBoard == 'show'}">
+						           	<b>현재 첨부된 파일</b><br>
+						        	<c:forEach items="${board.savedFileNames}" var="fileName" >
+						        		<span>${fileName}</span>
+						            	<button type="button" id="deleteImage" name="deleteImage" class="d-inline-block btn btn-link p-1" >삭제</button><br />
+						        	</c:forEach>
+						        	<hr class="hr mt-1"/>
+						        </c:if>
+								
+						        <input type="file" class="form-control-file mt-3" id="attachment" name="${postFile}" multiple="multiple" />
+							</div>
                         </div>
                         
                         <hr class="hr"/>

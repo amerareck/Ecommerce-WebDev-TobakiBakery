@@ -82,13 +82,15 @@ public class CenterController {
 	@GetMapping("/addBoard")
 	public String addBoard(String type, Model model) {
 		log.info("실행");
+		if(type == null) return "redirect:/center/list?type=notice";
+		
 		String[] elNames = {
 				"active", "title", "breadcrumb", "showCategory", "showReview",
 				"boardType", "formAction",
 				"author", "postTitle", "isSecret", "postContent", "postFile", "timestamp"
 		};
 
-		if(type!=null && type.equals("helpdesk")) {
+		if(type.equals("helpdesk")) {
 			String[] data = {
 					"helpdesk", "문의사항", "문의사항", "none", "none",
 					"helpdesk", "submitHelpdesk",
@@ -230,6 +232,8 @@ public class CenterController {
 		noticeDTO.setMemberId(notice.getMemberId());
 		noticeDTO.setNoticeTitle(notice.getNoticeTitle());
 		noticeDTO.setNoticeContent(notice.getNoticeContent());
+		noticeDTO.setNoticeId(centerService.insertNoticePost(noticeDTO));
+
 		List<NoticeDTO> imageList = new ArrayList<>();
 		for(MultipartFile mf : notice.getNoticeAttach()) {
 			if(!mf.isEmpty()) {
@@ -237,11 +241,11 @@ public class CenterController {
 				image.setImageOriginalName(mf.getOriginalFilename());
 				image.setImageType(mf.getContentType());
 				image.setImageData(mf.getBytes());
+				image.setNoticeId(noticeDTO.getNoticeId());
 				image.setMemberId(noticeDTO.getMemberId());
 				imageList.add(image);
 			}
 		}
-		centerService.insertNoticePost(noticeDTO);
 		if(!imageList.isEmpty()) {
 			centerService.insertNoticeImages(imageList);
 		}
@@ -272,6 +276,7 @@ public class CenterController {
 		dto.setHelpdeskTitle(form.getHelpdeskTitle());
 		dto.setLockState(form.isLockState());
 		dto.setHelpdeskContent(form.getHelpdeskContent());
+		dto.setHelpdeskId(centerService.insertHelpdeskPost(dto));
 		List<HelpdeskDTO> imageList = new ArrayList<>();
 		for(MultipartFile mf : form.getHelpdeskAttach()) {
 			if(!mf.isEmpty()) {
@@ -279,12 +284,12 @@ public class CenterController {
 				image.setImageOriginalName(mf.getOriginalFilename());
 				image.setImageType(mf.getContentType());
 				image.setImageData(mf.getBytes());
+				image.setHelpdeskId(dto.getHelpdeskId());
 				image.setMemberId(dto.getMemberId());
 				imageList.add(image);
 			}
 		}
 
-		centerService.insertHelpdeskPost(dto);
 		if(!imageList.isEmpty()) {
 			centerService.insertHelpdeskImages(imageList);
 		}
@@ -332,5 +337,39 @@ public class CenterController {
 			out.flush();
 			out.close();
 		}
+	}
+	
+	@GetMapping("/update")
+	public String updateBoard(String type, String boardNum, Model model) {
+		log.info("실행");
+		if(type==null) return "redirect:/center/list?type=notice";
+		
+		String result = addBoard(type, model);
+		Map<String, Object> map = new HashMap<>();
+		boardNum = boardNum.replaceAll("[^0-9]", "");
+		
+		if(type.equals("notice")) {
+			NoticeDTO dto = new NoticeDTO();
+			dto = centerService.getNoticePostByBoardNum(Integer.parseInt(boardNum));
+			dto.setNoticeContent(dto.getNoticeContent().replaceAll("<br>", "\n"));
+			
+			map.put("author", dto.getMemberId());
+			map.put("title", dto.getNoticeTitle());
+			map.put("content", dto.getNoticeContent());
+			map.put("savedFileNames", centerService.getBoardImageNames("notice", Integer.parseInt(boardNum)));
+			
+		} else if(type.equals("helpdesk")) {
+			HelpdeskDTO dto = new HelpdeskDTO();
+			dto = centerService.getHelpdeskPostByBoardNum(Integer.parseInt(boardNum));
+			map.put("author", dto.getMemberId());
+			map.put("title", dto.getHelpdeskTitle());
+			map.put("content", dto.getHelpdeskContent());
+			map.put("lockState", dto.isLockState());
+		}
+		
+		model.addAttribute("board", map);
+		model.addAttribute("updateBoard", "show");
+		
+		return result;
 	}
 }

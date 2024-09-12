@@ -24,28 +24,28 @@ public class CenterService {
 	@Autowired
 	private CenterImageDAO imageDAO;
 	
-	public void insertNoticePost(NoticeDTO dto) {
+	public int insertNoticePost(NoticeDTO dto) {
 		log.info("실행");
 		noticeDAO.insertNoticePost(dto);
+		return noticeDAO.getRecentNoticeId(dto.getMemberId());
 	}
 	
 	public void insertNoticeImages(List<NoticeDTO> imageList) {
 		log.info("실행");
 		for(NoticeDTO dto : imageList) {
-			dto.setNoticeId(noticeDAO.getRecentNoticeId(dto.getMemberId()));
 			imageDAO.insertNoticeImage(dto);
 		}
 	}
 	
-	public void insertHelpdeskPost(HelpdeskDTO dto) {
+	public int insertHelpdeskPost(HelpdeskDTO dto) {
 		log.info("실행");
 		helpdeskDAO.insertHelpdeskPost(dto);
+		return helpdeskDAO.getRecentHelpdeskId(dto.getMemberId());
 	}
 	
 	public void insertHelpdeskImages(List<HelpdeskDTO> imageList) {
 		log.info("실행");
 		for(HelpdeskDTO dto : imageList) {
-			dto.setHelpdeskId(helpdeskDAO.getRecentHelpdeskId(dto.getMemberId()));
 			imageDAO.insertHelpdeskImage(dto);
 		}
 	}
