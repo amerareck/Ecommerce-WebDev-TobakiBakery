@@ -4,13 +4,13 @@ import lombok.Data;
 
 @Data
 public class ProductAskDTO {
-	int productAskId;
-	String productAskTitle;
-	String productAskDatetime;
-	int productAskViews;
-	String productAskContent;
-	boolean lockState;
-	int productId;
-	String memberId;
+	private int productAskId;
+	private String productAskTitle;
+	private String productAskDatetime;
+	private int productAskViews;
+	private String productAskContent;
+	private boolean lockState;
+	private int productId;
+	private String memberId;
 	
 }

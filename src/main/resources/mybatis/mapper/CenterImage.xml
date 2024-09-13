@@ -76,5 +76,23 @@
 			AND image_original_name = #{imageOriginalName}
 		]]>
 	</select>
+	
+	<delete id="deleteImageFromNotice" parameterType="map" >
+		<![CDATA[
+			DELETE FROM CENTER_IMAGE
+			WHERE
+				image_original_name = #{imageOriginalName}
+			AND notice_id = #{boardId}
+		]]>
+	</delete>
+	
+	<delete id="deleteImageFromHelpdesk" parameterType="map" >
+		<![CDATA[
+			DELETE FROM CENTER_IMAGE
+			WHERE
+				image_original_name = #{imageOriginalName}
+			AND helpdesk_id = #{boardId}
+		]]>
+	</delete>
 
 </mapper>

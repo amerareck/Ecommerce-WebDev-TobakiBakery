@@ -84,5 +84,16 @@
 			WHERE rnum >= #{startRowNo}
 		]]>
 	</select>
+	
+	<update id="updateNotice" parameterType="Notice">
+		<![CDATA[
+			UPDATE NOTICE
+			SET
+				notice_title = #{noticeTitle},
+				notice_content = #{noticeContent},
+				notice_datetime = #{noticeDatetime}
+			WHERE notice_id = #{noticeId}
+		]]>
+	</update>
 
 </mapper>

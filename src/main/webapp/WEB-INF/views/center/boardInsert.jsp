@@ -30,7 +30,12 @@
                                 <label class="control-label" for="memberName"><b>아이디</b></label>
                             </div>
                             <div class="form-content" style="margin-left: 40px;">
-                                <input class="form-control" id="memberName" type="text" name="${author}" value="${board.author}" readonly />
+                            	<c:if test="${empty board}">
+                            		<input class="form-control" id="memberName" type="text" name="${author}" value="admin" readonly />
+                            	</c:if>
+                            	<c:if test="${not empty board}">
+	                                <input class="form-control" id="memberName" type="text" name="${author}" value="${board.author}" readonly />
+                            	</c:if>
                             </div>
                         </div>
                         <c:if test="${showCategory == 'show'}">
@@ -118,12 +123,19 @@
                             </div>
 							<div class="form-content">
 						        <c:if test="${updateBoard == 'show'}">
-						           	<b>현재 첨부된 파일</b><br>
+						           	<div id="savedFileNamesRavel" class="mb-1"><b>현재 첨부된 파일</b></div>
+						           	<c:if test="${empty board.savedFileNames}" >
+						           		<div id="notFoundAttachFiles" class="mb-1">현재 첨부된 파일이 존재하지 않습니다.</div>
+						           	</c:if>
 						        	<c:forEach items="${board.savedFileNames}" var="fileName" >
-						        		<span>${fileName}</span>
-						            	<button type="button" id="deleteImage" name="deleteImage" class="d-inline-block btn btn-link p-1" >삭제</button><br />
+						        		<div id="${fileName}" class="savedFiles" >
+							        		<span>${fileName}</span>
+							            	<button type="button" name="deleteImage" class="d-inline-block btn btn-link p-1 deleteImage" >삭제</button>
+						        		</div>
 						        	</c:forEach>
 						        	<hr class="hr mt-1"/>
+						        	<input id="boardIdForDeleteImage" name="boardId" type="hidden" value="${board.boardId}" />
+						        	<input id="boardTypeForDeleteImage" type="hidden" value="${boardType}" />
 						        </c:if>
 								
 						        <input type="file" class="form-control-file mt-3" id="attachment" name="${postFile}" multiple="multiple" />
@@ -132,10 +144,16 @@
                         
                         <hr class="hr"/>
                         <div class="form-group d-flex justify-content-end">
-                            <button type="submit" class="btn btn-secondary mr-1" id="boardSubmitButton">등록하기</button>
+                        	<c:if test="${updateBoard!='show'}">
+	                            <button type="submit" class="btn btn-secondary mr-1" id="boardSubmitButton">등록하기</button>
+                        	</c:if>
+                        	<c:if test="${updateBoard=='show'}">
+	                            <button type="submit" class="btn btn-secondary mr-1" id="boardSubmitButton">수정하기</button>
+                        	</c:if>
                             <a class="btn btn-secondary buttonAnchor" href="${pageContext.request.contextPath}/center" >목록보기</a>
                         </div>
                         <input type="hidden" id="timestamp" name="${timestamp}" />
+			        	<input name="boardType" type="hidden" value="${boardType}" />
                     </form>
                 </div>
             </div>

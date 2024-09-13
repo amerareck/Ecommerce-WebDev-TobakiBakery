@@ -1,24 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.mycompany.miniproject.dao.CartDAO">
-<select id="selectCartItemsByMemberId" resultType="Product" parameterType="Cart">
-        select p.product_id, p.product_name, p.product_price, c.cart_count
-        from product p
-        left outer join cart c on p.product_id = c.product_id
-        where c.member_id = #{memberId}
+	<select id="selectCartItemsByMemberId" resultType="Product" parameterType="Cart">
+		<![CDATA[
+        SELECT 
+        	p.product_id, 
+        	p.product_name, 
+        	p.product_price, 
+        	c.cart_count
+        FROM 	
+        	product p
+        LEFT OUTER JOIN CART c 
+        	ON p.product_id = c.product_id
+        WHERE 
+        	c.member_id = #{memberId}
+        ]]>
     </select>
     
-    <update id="updateCartCount">
-    	update cart
-    	set cart_count = #{cartCount}
-    	where product_id = #{productId}
-  
-    </update>
-    <delete id="deleteCartItem">
-    	delete from cart
-    	where product_id = #{productId}
+
     
+    <delete id="deleteCartItem">
+    	<![CDATA[
+    	DELETE FROM CART
+    	WHERE 
+    		product_id = #{productId}
+    	]]>
     </delete>
+    
     <insert id="insertCartItem" parameterType="Cart">
     	<![CDATA[
     		INSERT INTO CART(
@@ -34,4 +42,6 @@
     	]]>
 
 	</insert>
+	
+	
 </mapper>

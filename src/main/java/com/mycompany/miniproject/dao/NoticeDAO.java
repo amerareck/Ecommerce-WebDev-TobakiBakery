@@ -20,4 +20,6 @@ public interface NoticeDAO {
 	public int selectBoardAllCount();
 
 	public List<NoticeDTO> selectNoticeList(Pager pager);
+
+	public int updateNotice(NoticeDTO dto);
 }
