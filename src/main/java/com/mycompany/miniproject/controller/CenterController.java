@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -25,15 +26,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.mycompany.miniproject.dto.BoardForm;
 import com.mycompany.miniproject.dto.CommentDTO;
 import com.mycompany.miniproject.dto.HelpdeskDTO;
-import com.mycompany.miniproject.dto.HelpdeskForm;
 import com.mycompany.miniproject.dto.NoticeDTO;
-import com.mycompany.miniproject.dto.NoticeForm;
 import com.mycompany.miniproject.dto.Pager;
 import com.mycompany.miniproject.service.CenterService;
-import com.mycompany.miniproject.validator.HelpdeskBoardValidator;
-import com.mycompany.miniproject.validator.NoticeBoardValidator;
+import com.mycompany.miniproject.validator.BoardValidator;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -94,7 +93,7 @@ public class CenterController {
 			String[] data = {
 					"helpdesk", "문의사항", "문의사항", "none", "none",
 					"helpdesk", "submitHelpdesk",
-					"memberId", "helpdeskTitle", "lockState", "helpdeskContent", "helpdeskAttach", "helpdeskDatetime"
+					"memberId", "title", "lockState", "content", "attach", "datetime"
 			};
 			
 			for(int i=0; i<elNames.length; i++) {
@@ -104,7 +103,7 @@ public class CenterController {
 			String[] data = {
 					"notice", "공지사항", "공지사항", "none", "none",
 					"notice", "submitNotice",
-					"memberId", "noticeTitle", "lockState", "noticeContent", "noticeAttach", "noticeDatetime"
+					"memberId", "title", "lockState", "content", "attach", "datetime"
 			};
 			
 			for(int i=0; i<elNames.length; i++) {
@@ -209,33 +208,34 @@ public class CenterController {
 		}
 	}
 	
-	@InitBinder("noticeForm")
-	public void noticeSubmitBinder(WebDataBinder binder) {
+	@InitBinder("boardForm")
+	public void boardSubmitBinder(WebDataBinder binder) {
 		log.info("InitBinder 실행");
-		binder.setValidator(new NoticeBoardValidator());
+		binder.setValidator(new BoardValidator());
 	}
 	
 	@PostMapping("/submitNotice")
-	public String submitNotice(@Valid NoticeForm notice, Errors error, RedirectAttributes redi) throws IOException {
+	public String submitNotice(@Valid BoardForm notice, Errors error, RedirectAttributes redi) throws IOException {
 		log.info("실행");
 		log.info(notice.toString());
 		
 		if(error.hasErrors()) {
 			log.info("유효성 검사 실패");
-			log.info(error.getFieldError("noticeTitle").getDefaultMessage());
-			redi.addFlashAttribute("isAlert", true);
-			redi.addFlashAttribute("alert", error.getFieldError("noticeTitle").getDefaultMessage());
-			return "redirect:/center/addBoard?type=notice";
+			FieldError fieldError = error.getFieldError("title");
+			if(fieldError != null) {
+				redi.addFlashAttribute("isAlert", true);
+				redi.addFlashAttribute("alert", fieldError.getDefaultMessage());
+			}
 		}
 		// 유효성 검사 통과
 		NoticeDTO noticeDTO = new NoticeDTO();
 		noticeDTO.setMemberId(notice.getMemberId());
-		noticeDTO.setNoticeTitle(notice.getNoticeTitle());
-		noticeDTO.setNoticeContent(notice.getNoticeContent());
+		noticeDTO.setNoticeTitle(notice.getTitle());
+		noticeDTO.setNoticeContent(notice.getContent());
 		noticeDTO.setNoticeId(centerService.insertNoticePost(noticeDTO));
 
 		List<NoticeDTO> imageList = new ArrayList<>();
-		for(MultipartFile mf : notice.getNoticeAttach()) {
+		for(MultipartFile mf : notice.getAttach()) {
 			if(!mf.isEmpty()) {
 				NoticeDTO image = new NoticeDTO();
 				image.setImageOriginalName(mf.getOriginalFilename());
@@ -253,32 +253,28 @@ public class CenterController {
 		return "redirect:/center/detail?type=notice&boardNum="+noticeDTO.getNoticeId();
 	}
 	
-	@InitBinder("helpdeskForm")
-	public void helpdeskSubmitBinder(WebDataBinder binder) {
-		log.info("InitBinder 실행");
-		binder.setValidator(new HelpdeskBoardValidator());
-	}
-	
 	@PostMapping("/submitHelpdesk")
-	public String submitHelpdesk(@Valid HelpdeskForm form, Errors error, RedirectAttributes redi) throws IOException {
+	public String submitHelpdesk(@Valid BoardForm form, Errors error, RedirectAttributes redi) throws IOException {
 		log.info("실행");
 		log.info(form.toString());
 		
 		if(error.hasErrors()) {
 			log.info("유효성 검사 실패");
-			redi.addFlashAttribute("isAlert", true);
-			redi.addFlashAttribute("alert", error.getFieldError("helpdeskTitle").getDefaultMessage());
-			return "redirect:/center/addBoard?type=helpdesk";
+			FieldError fieldError = error.getFieldError("title");
+			if(fieldError != null) {
+				redi.addFlashAttribute("isAlert", true);
+				redi.addFlashAttribute("alert", fieldError.getDefaultMessage());
+			}
 		}
 		// 유효성 검사 통과
 		HelpdeskDTO dto = new HelpdeskDTO();
 		dto.setMemberId(form.getMemberId());
-		dto.setHelpdeskTitle(form.getHelpdeskTitle());
+		dto.setHelpdeskTitle(form.getTitle());
 		dto.setLockState(form.isLockState());
-		dto.setHelpdeskContent(form.getHelpdeskContent());
+		dto.setHelpdeskContent(form.getContent());
 		dto.setHelpdeskId(centerService.insertHelpdeskPost(dto));
 		List<HelpdeskDTO> imageList = new ArrayList<>();
-		for(MultipartFile mf : form.getHelpdeskAttach()) {
+		for(MultipartFile mf : form.getAttach()) {
 			if(!mf.isEmpty()) {
 				HelpdeskDTO image = new HelpdeskDTO();
 				image.setImageOriginalName(mf.getOriginalFilename());
@@ -356,6 +352,7 @@ public class CenterController {
 			map.put("author", dto.getMemberId());
 			map.put("title", dto.getNoticeTitle());
 			map.put("content", dto.getNoticeContent());
+			map.put("boardId", dto.getNoticeId());
 			map.put("savedFileNames", centerService.getBoardImageNames("notice", Integer.parseInt(boardNum)));
 			
 		} else if(type.equals("helpdesk")) {
@@ -365,11 +362,117 @@ public class CenterController {
 			map.put("title", dto.getHelpdeskTitle());
 			map.put("content", dto.getHelpdeskContent());
 			map.put("lockState", dto.isLockState());
+			map.put("boardId", dto.getHelpdeskId());
+			map.put("savedFileNames", centerService.getBoardImageNames("helpdesk", Integer.parseInt(boardNum)));
 		}
 		
 		model.addAttribute("board", map);
+		model.addAttribute("formAction", "updateSubmit");
 		model.addAttribute("updateBoard", "show");
 		
 		return result;
+	}
+	
+	@PostMapping("/updateSubmit")
+	public String updateSubmit(@Valid BoardForm form, Errors error, RedirectAttributes redi) throws IOException {
+		log.info("실행");
+		log.info(form.toString());
+		
+		if(error.hasErrors()) {
+			log.info("유효성 검사 실패");
+			FieldError fieldError = error.getFieldError("title");
+			if(fieldError != null) {
+				redi.addFlashAttribute("isAlert", true);
+				redi.addFlashAttribute("alert", fieldError.getDefaultMessage());
+			}
+			fieldError = error.getFieldError("boardType");
+			if(fieldError != null) {
+				redi.addFlashAttribute("isAlert", true);
+				redi.addFlashAttribute("alert", fieldError.getDefaultMessage());
+			}
+			return "redirect:/center/addBoard?type="+form.getBoardType();
+		}
+		
+		if(form.getBoardType().equals("notice")) {
+			NoticeDTO dto = new NoticeDTO();
+			dto.setMemberId(form.getMemberId());
+			dto.setNoticeTitle(form.getTitle());
+			dto.setNoticeContent(form.getContent());
+			dto.setNoticeId(form.getBoardId());
+			dto.setNoticeDatetime(form.getDatetime());
+			centerService.updateNotice(dto);
+			
+			List<NoticeDTO> imageList = new ArrayList<>();
+			for(MultipartFile mf : form.getAttach()) {
+				if(!mf.isEmpty()) {
+					NoticeDTO image = new NoticeDTO();
+					image.setImageOriginalName(mf.getOriginalFilename());
+					image.setImageType(mf.getContentType());
+					image.setImageData(mf.getBytes());
+					image.setNoticeId(dto.getNoticeId());
+					image.setMemberId(dto.getMemberId());
+					imageList.add(image);
+				}
+			}
+
+			if(!imageList.isEmpty()) {
+				centerService.insertNoticeImages(imageList);
+			}
+		} else if(form.getBoardType().equals("helpdesk")) {
+			HelpdeskDTO dto = new HelpdeskDTO();
+			dto.setMemberId(form.getMemberId());
+			dto.setHelpdeskTitle(form.getTitle());
+			dto.setLockState(form.isLockState());
+			dto.setHelpdeskContent(form.getContent());
+			dto.setHelpdeskId(form.getBoardId());
+			dto.setHelpdeskDatetime(form.getDatetime());
+			centerService.updateHelpdesk(dto);
+			
+			List<HelpdeskDTO> imageList = new ArrayList<>();
+			for(MultipartFile mf : form.getAttach()) {
+				if(!mf.isEmpty()) {
+					HelpdeskDTO image = new HelpdeskDTO();
+					image.setImageOriginalName(mf.getOriginalFilename());
+					image.setImageType(mf.getContentType());
+					image.setImageData(mf.getBytes());
+					image.setHelpdeskId(dto.getHelpdeskId());
+					image.setMemberId(dto.getMemberId());
+					imageList.add(image);
+				}
+			}
+
+			if(!imageList.isEmpty()) {
+				centerService.insertHelpdeskImages(imageList);
+			}
+		}
+		
+		return "redirect:/center/detail?type="+form.getBoardType()+"&boardNum="+form.getBoardId();
+	}
+	
+	@PostMapping("/deleteImage")
+	public void deleteImageForAjax(
+			@RequestParam String imageName, 
+			@RequestParam("boardId")int boardId, 
+			@RequestParam String boardType,
+			HttpServletResponse res) throws IOException {
+		log.info("실행");
+		log.info("삭제할 imageName: "+imageName);
+		Map<String, Object> map = new HashMap<>();
+		map.put("imageOriginalName", imageName);
+		map.put("boardId", boardId);
+		map.put("boardType", boardType);
+		
+		JSONObject json = new JSONObject();
+		if(centerService.deleteImage(map)) {
+			json.put("result", "ok");
+		} else {
+			json.put("result", "notFoundImage");
+		}
+		
+		res.setContentType("application/json; charset=UTF-8");
+		PrintWriter pw = res.getWriter();
+		pw.println(json);
+		pw.flush();
+		pw.close();
 	}
 }

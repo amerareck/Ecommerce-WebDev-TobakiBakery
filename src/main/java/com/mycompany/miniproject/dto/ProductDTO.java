@@ -6,23 +6,23 @@ import lombok.Data;
 
 @Data
 public class ProductDTO {
-	String productId;
-	String productName;
-	int productPrice;
-	Date productDateTime;
-	String productDetail;
-	int productState;
-	int productStock;
-	int productRecom;
-	String category_name;
+	private String productId;
+	private String productName;
+	private int productPrice;
+	private Date productDateTime;
+	private String productDetail;
+	private int productState;
+	private int productStock;
+	private int productRecom;
+	private String category_name;
 	
-	String productUsecase;
-	String imageOriginalName;
-	String imageType;
-	byte[] imageData;
+	private String productUsecase;
+	private String imageOriginalName;
+	private String imageType;
+	private byte[] imageData;
 	
-	int productNew;
-	int productBest;
+	private int productNew;
+	private int productBest;
 	
 
 }

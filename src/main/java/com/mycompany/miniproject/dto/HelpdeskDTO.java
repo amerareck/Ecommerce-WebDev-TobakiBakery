@@ -6,16 +6,16 @@ import lombok.Data;
 
 @Data
 public class HelpdeskDTO {
-	int helpdeskId;
-	String helpdeskTitle;
-	String helpdeskContent;
-	Date helpdeskDatetime;
-	int helpdeskViews;
-	boolean lockState;
-	String memberId;
+	private int helpdeskId;
+	private String helpdeskTitle;
+	private String helpdeskContent;
+	private Date helpdeskDatetime;
+	private int helpdeskViews;
+	private boolean lockState;
+	private String memberId;
 	
-	String imageOriginalName;
-	String imageType;
-	byte[] imageData;
+	private String imageOriginalName;
+	private String imageType;
+	private byte[] imageData;
 	
 }

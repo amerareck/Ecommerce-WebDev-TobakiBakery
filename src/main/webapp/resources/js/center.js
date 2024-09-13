@@ -199,3 +199,36 @@ $('#boardWriteForm').on('submit', function(event){
 	
 	$('#timestamp').val(moment().format('YYYY-MM-DD HH:mm:ss'));
 });
+
+$('.deleteImage').on('click', function(event){
+	const target = $(this).parent();
+	const imageName = $(this).prev('span').text().trim();
+	const boardId = $('#boardIdForDeleteImage').val();
+	const boardType = $('#boardTypeForDeleteImage').val();
+	
+	$.ajax({
+		url: 'deleteImage',
+		method: 'post',
+		data: {imageName, boardId, boardType},
+		success: function(response) {
+			if(response.result === 'ok') {
+				console.log('왜 작동 안하니');
+				console.log(target);
+				target.remove();
+				
+				const savedFileLength = $('.savedFiles').length;
+				if(savedFileLength === 0) {
+					$('#savedFileNamesRavel')
+						.after(`<div id="notFoundAttachFiles" class="mb-1">현재 첨부된 파일이 존재하지 않습니다.</div>`);
+				}
+				
+			} else if(response.result === 'notFoundImage') {
+				alert('현재 이미지가 존재하지 않거나, 이미 삭제되었습니다.\n다시 확인해 주세요.');
+			
+			} else {
+				alert('불명확한 사유로 인해 처리가 실패하였습니다.\n고객센터에 문의해 주세요.');
+			}
+		}
+	});
+});
+

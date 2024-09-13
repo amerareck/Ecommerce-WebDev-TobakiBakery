@@ -1,6 +1,7 @@
 package com.mycompany.miniproject.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -16,4 +17,6 @@ public interface CenterImageDAO {
 
 	public List<String> selectBoardImageNamesFromNotice(int condition);
 	public List<String> selectBoardImageNamesFromHelpdesk(int condition);
+	public int deleteImageFromNotice(Map<String, Object> map);
+	public int deleteImageFromHelpdesk(Map<String, Object> map);
 }

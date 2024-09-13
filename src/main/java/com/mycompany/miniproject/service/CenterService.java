@@ -1,6 +1,7 @@
 package com.mycompany.miniproject.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -89,6 +90,26 @@ public class CenterService {
 	
 	public List<HelpdeskDTO> getHelpdeskList(Pager pager) {
 		return helpdeskDAO.selectHelpdeskList(pager);
+	}
+
+	public boolean deleteImage(Map<String, Object> map) {
+		String type = (String) map.get("boardType");
+		if(type.equals("notice")) {
+			int res = imageDAO.deleteImageFromNotice(map);
+			log.info(""+res);
+			return res == 1;
+		} else if(type.equals("helpdesk")) {
+			return imageDAO.deleteImageFromHelpdesk(map) == 1;
+		}
+		return false;
+	}
+
+	public void updateHelpdesk(HelpdeskDTO dto) {
+		helpdeskDAO.updateHelpdesk(dto);
+	}
+
+	public void updateNotice(NoticeDTO dto) {
+		noticeDAO.updateNotice(dto);
 	}
 	
 }

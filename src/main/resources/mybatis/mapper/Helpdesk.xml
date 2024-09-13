@@ -93,4 +93,16 @@
 			WHERE rnum >= #{startRowNo}
 		]]>
 	</select>
+	
+	<update id="updateHelpdesk" parameterType="Helpdesk">
+		<![CDATA[
+			UPDATE HELPDESK
+			SET
+				helpdesk_title = #{helpdeskTitle},
+				helpdesk_content = #{helpdeskContent},
+				helpdesk_datetime = #{helpdeskDatetime},
+				lock_state = #{lockState}
+			WHERE helpdesk_id = #{helpdeskId}
+		]]>
+	</update>
 </mapper>

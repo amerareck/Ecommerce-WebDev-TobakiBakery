@@ -6,14 +6,14 @@ import lombok.Data;
 
 @Data
 public class NoticeDTO {
-	int noticeId;
-	String noticeTitle;
-	Date noticeDatetime;
-	String noticeContent;
-	int noticeViews;
-	String memberId;
+	private int noticeId;
+	private String noticeTitle;
+	private Date noticeDatetime;
+	private String noticeContent;
+	private int noticeViews;
+	private String memberId;
 	
-	String imageOriginalName;
-	String imageType;
-	byte[] imageData;
+	private String imageOriginalName;
+	private String imageType;
+	private byte[] imageData;
 }
