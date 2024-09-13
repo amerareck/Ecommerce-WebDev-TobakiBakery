@@ -6,10 +6,10 @@ import lombok.Data;
 
 @Data
 public class CommentDTO {
-	int commentId;
-	String commentContent;
-	Date commnetDatetime;
-	String memberId;
-	int noticeId;
-	int helpdeskId;
+	private int commentId;
+	private String commentContent;
+	private Date commnetDatetime;
+	private String memberId;
+	private int noticeId;
+	private int helpdeskId;
 }
