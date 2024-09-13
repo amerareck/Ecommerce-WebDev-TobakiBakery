@@ -29,12 +29,8 @@
 		<!-- 장바구니 부분 -->
 		<section class="content">
 			<h2>장바구니</h2>
-		<c:choose>
-			<c:when test="${map.count == 0}">
-			 장바구니가 비어있습니다.
-			 </c:when>
-		 <c:otherwise>
-		 				<!-- 장바구니 카트 -->
+		
+			<!-- 장바구니 카트 -->
 			<div id="cartWrap">
 				<!-- 장바구니 테이블 -->
 				<div id="cartTable">
@@ -49,7 +45,7 @@
                 </colgroup>
                 <thead>
                     <tr class="table-warning">
-                        <th>선택</th>
+                        <th><input type="checkbox" id="select-all"/></th>
                         <th>사진</th>
                         <th>상품명</th>
                         <th>수량</th>
@@ -63,27 +59,33 @@
                             <td><input type="checkbox" /></td>
                             <td>
                                 <a href="${pageContext.request.contextPath}/product/productDetail?productId=${cartItem.productId}">
-                                    <img src="${pageContext.request.contextPath}/productImage?productId=${cartItem.productId}&productUsecase=THUMBNAIL" width="100px" />
+                                    <img src="${pageContext.request.contextPath}/productImage?productId=${cartItem.productId}&productUsecase=THUMBNAIL" width="100px" height="100px" />
                                 </a>
                             </td>
                             <td>
                                 <a href="${pageContext.request.contextPath}/product/productDetail?productId=${cartItem.productId}" style="color: black !important;">
                                     ${cartItem.productName}
                                 </a>
-                            </td>
-                            <td>
-                                <div class="quantity-control">
-                                    <button>-</button>
-                                    <input type="text" value="${cartItem.quantity}" min="1" max="10" />
-                                    <button>+</button>
-                                </div>
-                            </td>
-                            <td class="currentPrice" data-unit-price="${cartItem.productPrice}">
-                                <fmt:formatNumber value="${cartItem.productPrice * cartItem.cartCount}" pattern="#,##0" />원
-                            </td>
-                            <td><button class="btn btn-danger btn-sm">삭제</button></td>
-                        </tr>
-                    </c:forEach>
+                            </td> 
+                                <td>
+                                	<div class="quantity-control">
+                                		<button class="quantity-minus">-</button>
+                                		<input type="text" value="${1}" min="1" max="10"/>
+                                		<button class="quantity-plus">+</button>
+                               		</div>
+                           		</td>
+                                <td><fmt:formatNumber value="${cartItem.productPrice}" pattern="#,##0" />원</td>
+                                <td>
+                                	<form action="${pageContext.request.contextPath}/order/deleteCartItem" method="get">
+                                		<input type="hidden" name="productId" value="${cartItem.productId}">
+                                		<button type="button" class="btn-delete">삭제</button>
+                                		
+                               		</form>
+                               </td>
+                                
+                            </tr>
+                       </c:forEach>
+                
                 </tbody>
                 <tfoot>
                     <tr>
@@ -115,9 +117,7 @@
 					<button type="button" class="btn btn-outline-secondary">장바구니 비우기</button>
 					<button type="button" class="btn btn-outline-danger">선택상품 주문하기</button>
 				</div>
-			</div>
-			 </c:otherwise>
-			 </c:choose>
+			</div>		
 		</section>
 		 
 		 		
