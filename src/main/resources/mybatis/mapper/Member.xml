@@ -71,6 +71,8 @@
 				address,
 				address_detail,
 				phone_num,
+				member_enable,
+				member_role,
 				member_question,
 				member_answer
 			FROM
@@ -101,4 +103,18 @@
 		
 	</update>
 	
+	
+	<select id="selectMemberForLogin" parameterType="string" resultType="Member">
+		<![CDATA[
+			SELECT
+				member_id,
+				member_password,
+				member_enable,
+				member_role
+			FROM
+				MEMBER
+			WHERE
+				member_id = #{memberId}
+			]]>		
+	</select>
 </mapper>

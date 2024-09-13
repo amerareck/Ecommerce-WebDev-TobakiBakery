@@ -21,7 +21,7 @@
 		</h1>
 		<br> <br>
 		<form id="editForm" action="edit" method="post">
-
+ 		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 			<!-- 회원정보 입력 헤더 시작 -->
 			<div class="signup-header">
 				<h2>
@@ -39,7 +39,7 @@
                         <!-- 이름 입력 필드 시작 -->
                         <tr>
                             <td>* 이름</td>
-                            <td><input type="text" class="form-control input-small" name="memberName" value="${memberInfo.memberName}" id="name" readonly></td>
+                            <td><input type="text" class="form-control input-small" name="memberName" value="${memberInfo.memberName}" id="name"></td>
                         </tr>
                         <!-- 이름 입력 필드 끝 -->
 
@@ -48,7 +48,7 @@
                             <td>* 아이디</td>
                             <td>
                                 <div class="input-group-append">
-                                    <input type="text" class="form-control input-small"  value="${memberInfo.memberId}" name="memberId" id="username" required>
+                                    <input type="text" class="form-control input-small" disabled="disabled" value="${memberInfo.memberId}" name="memberId" id="username" required>
                                     &nbsp;
                                     <button class="btn btn-secondary" type="button" id="checkId">중복확인</button>
                                 </div>
@@ -102,11 +102,11 @@
                             <td>* 주소</td>
                             <td>
                                 <div class="input-group-append">
-                                    <input type="text" value="${memberInfo.postNum}" class="form-control input-small-postcode" id="postcode" name="postNum" placeholder="우편번호" readonly required>
+                                    <input type="text" value="${memberInfo.postNum}" class="form-control input-small-postcode" id="postcode" name="postNum" placeholder="우편번호" required>
                                     &nbsp;
                                     <button class="btn btn-secondary" type="button" onclick="execDaumPostcode()">우편번호검색</button>
                                 </div>
-                                <input type="text" class="form-control mt-2" id="address" name="address" placeholder="주소" style="width: 500px;" readonly value="${memberInfo.address}">
+                                <input type="text" class="form-control mt-2" id="address" name="address" placeholder="주소" style="width: 500px;" value="${memberInfo.address}">
                                 <input type="text" class="form-control mt-2" id="address_detail" name="addressDetail" placeholder="상세주소" style="width: 500px;" value="${memberInfo.addressDetail}">
                             </td>
                         </tr>
@@ -166,6 +166,7 @@
                             <td>
                                 <div>
                                     <select class="form-control input-small" name="memberQuestion" id="member_q" required>
+                                    		<option value="${MemberDTO.memberQuestion}"></option>
                                         <option value="1">가장 좋아하는 색깔은?</option>
                                         <option value="2">가장 좋아하는 동물은?</option>
                                         <option value="3">내가 다녔던 초등학교는?</option>

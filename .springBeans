@@ -10,8 +10,11 @@
 		<config>src/main/resources/spring/dispatcher/ch01_component_scan.xml</config>
 		<config>src/main/resources/spring/dispatcher/ch01_view_resolver.xml</config>
 		<config>src/main/resources/spring/dispatcher/ch01_static_resources.xml</config>
+		<config>src/main/resources/spring/root/spring_security.xml</config>
 	</configs>
 	<autoconfigs>
+		<config>src/main/resources/spring/dispatcher/ch09_multipart_resolver.xml</config>
+		<config>src/main/resources/spring/dispatcher/login_error_message.xml</config>
 	</autoconfigs>
 	<configSets>
 	</configSets>

@@ -16,5 +16,5 @@ public class MemberDTO {
 	private int memberQuestion;
 	private String memberAnswer;
 	private String memberRole;
-	private int memberEnable;
+	private boolean memberEnable;
 }

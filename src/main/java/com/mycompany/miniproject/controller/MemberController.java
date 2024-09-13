@@ -7,10 +7,13 @@ import java.util.List;
 import java.util.Random;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -24,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.mycompany.miniproject.dto.MemberDTO;
 import com.mycompany.miniproject.service.MemberService;
 import com.mycompany.miniproject.type.JoinResult;
+import com.mycompany.miniproject.type.LoginResult;
 import com.mycompany.miniproject.validator.LoginFormValidator;
 
 import lombok.extern.slf4j.Slf4j;
@@ -51,27 +55,51 @@ public class MemberController {
 	}
 	
 	@PostMapping("/login")
-	public String login(@Valid MemberDTO loginForm, Errors errors) {
+	public String login(@Valid MemberDTO member, Errors errors, HttpSession session) {
+		
 		if(errors.hasErrors()) {
 			log.info("유효성 검사 실패");
-			return "/member/login";
+			return "/member/loginForm";
 		}
-		log.info("유효성 검사 성공");
+		MemberDTO mem = memberService.getMemberInfo(member);
 		
-		log.info("memberId: "+ loginForm.getMemberId());
-		log.info("memberPW: " + loginForm.getMemberPassword());
-		return "redirect:/";
+		log.info("memberId: "+ member.getMemberId());
+		log.info("memberPW: " + member.getMemberPassword());
+		log.info("유효성 검사 성공");
+		LoginResult loginResult = memberService.login(member);
+		if(loginResult == LoginResult.FAIL_MEMBERID) {
+			return "member/loginForm";
+		}else if(loginResult == LoginResult.FAIL_MEMBERPASSWORD) {
+			return "member/loginForm";
+		}else if(loginResult == LoginResult.FAIL_ENABLED) {
+			log.info("비활계정");
+			return "redirect:/";
+		}else {
+			log.info("상태:  " + memberService.login(member));
+			log.info("로그인 성공");
+			session.setAttribute("login", mem);
+			log.info("세션 : "+ session.getAttribute("login").toString());			
+			log.info("mRole: " + mem.getMemberRole());
+
+			return "redirect:/";
+		}
+		
 	}
 	
-	@RequestMapping("/login")
+	@GetMapping("/loginForm")
 	public String login() {
-		log.info("로그인 실행");
-		return "/member/login";
+		log.info("로그인폼 실행");
+		return "/member/loginForm";
 	}
+	
+	
 	@GetMapping("/memberEdit")
 	public String getMemberEdit(MemberDTO member, Model model) {
 		log.info("실행");
-		member.setMemberId("aaaaaa");
+		member.setMemberId("gunn0128");
+		PasswordEncoder passwordEncoder = 
+				PasswordEncoderFactories.createDelegatingPasswordEncoder();
+		member.setMemberPassword(passwordEncoder.encode(member.getMemberPassword()));
 		MemberDTO memberInfo = memberService.getMemberInfo(member);
 		
 		model.addAttribute("memberInfo", memberInfo);
@@ -85,6 +113,13 @@ public class MemberController {
 		memberService.updateMember(member);
 		
 		return "redirect:/member/memberEdit";
+	}
+	
+	@GetMapping("/logout")
+	public String logout(HttpSession session) {
+		log.info("실행");
+		session.removeAttribute("login");
+		return "redirect:/member/loginForm";		
 	}
 	
 	@RequestMapping("/memberSearch")
@@ -207,6 +242,10 @@ public class MemberController {
 		log.info("실행");
 		log.info(member.toString());
 		
+		PasswordEncoder passwordEncoder = 
+				PasswordEncoderFactories.createDelegatingPasswordEncoder();
+		member.setMemberPassword(passwordEncoder.encode(member.getMemberPassword()));
+		
 		JoinResult joinResult = memberService.join(member);
 		if(joinResult == JoinResult.FAIL_DUPLICATED_MEMBERID) {
 			log.info("회원가입 실패");
@@ -216,7 +255,7 @@ public class MemberController {
 		}else {
 		log.info("회원가입 실행");
 		
-		return "redirect:/member/login";
+		return "redirect:/member/loginForm";
 		}
 			
 	}

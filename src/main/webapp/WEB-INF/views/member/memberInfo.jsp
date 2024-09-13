@@ -17,8 +17,8 @@
             <br>
             <br>
             <form id="signupForm" method="post" action="join">
-
-                <!-- 회원정보 입력 헤더 시작 -->
+  			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+              <!-- 회원정보 입력 헤더 시작 -->
                 <div class="signup-header">
                     <h2><b>회원정보입력</b></h2>
                     <p>* 표시는 필수입력항목입니다.</p>

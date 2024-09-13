@@ -123,6 +123,7 @@ $(document).ready(function() {
                 else  {
                 		console.log(response.resultEmail);
                     alert("이미 존재하는 이메일 입니다.");
+                    
                 }
             }
         });
