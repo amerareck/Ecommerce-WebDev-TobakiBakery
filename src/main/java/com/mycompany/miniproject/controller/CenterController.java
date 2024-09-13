@@ -173,14 +173,20 @@ public class CenterController {
 	}
 	
 	@PostMapping("/removeBoard")
-	public void removeBoard(String boardIndex, HttpServletResponse res) {
+	public void removeBoard(@RequestParam int boardIndex, String boardType, HttpServletResponse res) {
 		log.info("실행");
 		log.info("삭제할 게시판 인덱스: "+boardIndex);
 		// 삭제로직 호출
-		// ...
+		
+		boolean result = centerService.removeBoard(boardType, boardIndex);
+		
 		// json 결과 리턴
 		JSONObject json = new JSONObject();
-		json.put("status", "ok");
+		if(result) {
+			json.put("status", "ok");
+		} else {
+			json.put("statis", "fail");
+		}
 		
 		try(PrintWriter pw = res.getWriter()) {
 			res.setContentType("application/json; charset=UTF-8");
@@ -449,7 +455,7 @@ public class CenterController {
 		return "redirect:/center/detail?type="+form.getBoardType()+"&boardNum="+form.getBoardId();
 	}
 	
-	@PostMapping("/deleteImage")
+	@PostMapping("/removeImage")
 	public void deleteImageForAjax(
 			@RequestParam String imageName, 
 			@RequestParam("boardId")int boardId, 

@@ -175,16 +175,21 @@ $('#commentList').on('click', 'button.commentDelete', function(event){
 
 $('#removeBoardBotton').click(function(){
 	const boardIndex = $('.text-muted.board-index').text();
-	const redirectAddr = $('#redirectPage').attr('href');
+	const boardType = $('#boardType').val();
+	console.log(boardType);
 	
 	$.ajax({
-		url: "../removeBoard",
+		url: "removeBoard",
 		method: "post",
-		data: {boardIndex},
+		data: {boardIndex, boardType},
 		success: function(data){
 			console.log(data);
 			if(data.status === 'ok') {
-				location.href=redirectAddr;
+				alert('게시글을 삭제하였습니다.');
+				location.href='list';
+			} else if(data.status === 'fail') {
+				alert('이미 삭제된 게시글이거나, 게시글이 존재하지 않습니다.');
+				location.href='list';
 			} else {
 				alert('서버와의 연결에 문제가 발생하였습니다.');
 			}
@@ -207,7 +212,7 @@ $('.deleteImage').on('click', function(event){
 	const boardType = $('#boardTypeForDeleteImage').val();
 	
 	$.ajax({
-		url: 'deleteImage',
+		url: 'removeImage',
 		method: 'post',
 		data: {imageName, boardId, boardType},
 		success: function(response) {

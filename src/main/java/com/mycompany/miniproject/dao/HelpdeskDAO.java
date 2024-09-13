@@ -16,4 +16,5 @@ public interface HelpdeskDAO {
 	public HelpdeskDTO selectHelpdeskSingleRow(int boardNum);
 	public List<HelpdeskDTO> selectHelpdeskList(Pager pager);
 	public int updateHelpdesk(HelpdeskDTO dto);
+	public int deleteBoard(int boardIndex);
 }

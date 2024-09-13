@@ -1,5 +1,6 @@
 package com.mycompany.miniproject.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -110,6 +111,32 @@ public class CenterService {
 
 	public void updateNotice(NoticeDTO dto) {
 		noticeDAO.updateNotice(dto);
+	}
+
+	public boolean removeBoard(String boardType, int boardIndex) {
+		List<String> names = getBoardImageNames(boardType, boardIndex);
+		Map<String, Object> map = new HashMap<>();
+		
+		if(boardType.equals("notice")) {
+			for(String name : names) {
+				map.put("imageOriginalName", name);
+				map.put("boardId", boardIndex);
+				imageDAO.deleteImageFromNotice(map);
+			}
+			return noticeDAO.deleteBoard(boardIndex) == 1;
+			
+		} else if(boardType.equals("helpdesk")) {
+			for(String name : names) {
+				map.put("imageOriginalName", name);
+				map.put("boardId", boardIndex);
+				imageDAO.deleteImageFromHelpdesk(map);
+			}
+			return helpdeskDAO.deleteBoard(boardIndex) == 1;
+			
+		} else {
+			log.info("타입이 없거나 옳지 않은 boardType");
+			return false;
+		}
 	}
 	
 }

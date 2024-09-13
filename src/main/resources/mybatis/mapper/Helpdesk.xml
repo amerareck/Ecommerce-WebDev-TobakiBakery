@@ -105,4 +105,11 @@
 			WHERE helpdesk_id = #{helpdeskId}
 		]]>
 	</update>
+	
+	<delete id="deleteBoard" parameterType="int">
+		<![CDATA[
+			DELETE FROM HELPDESK
+			WHERE helpdesk_id = #{helpdeskId}
+		]]>
+	</delete>
 </mapper>
