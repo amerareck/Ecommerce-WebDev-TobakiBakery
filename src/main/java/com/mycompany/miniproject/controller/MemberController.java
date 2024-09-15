@@ -61,11 +61,8 @@ public class MemberController {
 			log.info("유효성 검사 실패");
 			return "/member/loginForm";
 		}
-		MemberDTO mem = memberService.getMemberInfo(member);
-		
-		log.info("memberId: "+ member.getMemberId());
-		log.info("memberPW: " + member.getMemberPassword());
 		log.info("유효성 검사 성공");
+		
 		LoginResult loginResult = memberService.login(member);
 		if(loginResult == LoginResult.FAIL_MEMBERID) {
 			return "member/loginForm";
@@ -77,9 +74,9 @@ public class MemberController {
 		}else {
 			log.info("상태:  " + memberService.login(member));
 			log.info("로그인 성공");
-			session.setAttribute("login", mem);
+			session.setAttribute("login", member );
 			log.info("세션 : "+ session.getAttribute("login").toString());			
-			log.info("mRole: " + mem.getMemberRole());
+			
 
 			return "redirect:/";
 		}

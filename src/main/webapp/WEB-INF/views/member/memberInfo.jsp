@@ -18,6 +18,7 @@
             <br>
             <form id="signupForm" method="post" action="join">
   			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+  			<div id="csrfTokenHolder" data-token="${_csrf.token}" data-header="${_csrf.headerName}" style="display:none;"></div>  			
               <!-- 회원정보 입력 헤더 시작 -->
                 <div class="signup-header">
                     <h2><b>회원정보입력</b></h2>

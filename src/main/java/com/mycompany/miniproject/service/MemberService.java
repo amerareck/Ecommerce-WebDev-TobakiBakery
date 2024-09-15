@@ -24,7 +24,7 @@ public class MemberService {
 		if(exist) {
 			return JoinResult.FAIL_DUPLICATED_MEMBERID;
 		}
-		member.setMemberRole(MemberRole.ROLE_USER.toString());
+		member.setMemberRole(MemberRole.USER.toString());
 		memberDao.insertMember(member);
 		return JoinResult.SUCCESS;
 	}
@@ -63,9 +63,7 @@ public class MemberService {
 	
 	public LoginResult login(MemberDTO member) {
 		log.info("실행");
-		MemberDTO memberLogin = memberDao.selectMemberForLogin(member.getMemberId());
-		log.info("멤버 갖고와봐 : " + memberLogin.toString());
-		
+		MemberDTO memberLogin = memberDao.selectMemberForLogin(member.getMemberId());		
 		if(memberLogin == null) {
 			return LoginResult.FAIL_MEMBERID;
 		}

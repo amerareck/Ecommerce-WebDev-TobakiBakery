@@ -34,7 +34,7 @@ public class UserDetailService implements UserDetailsService{
 		}
 		log.info("실행");
 		List<GrantedAuthority> authorities = new ArrayList<>(); 
-		log.info("제발"+member.getMemberRole());
+		log.info("권한"+member.getMemberRole());
 		authorities.add(new SimpleGrantedAuthority(member.getMemberRole()));
 		
 		UserDetails userDetails = new MemberDetails(member, authorities);
