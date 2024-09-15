@@ -69,23 +69,29 @@ function validateForm() {
 //화원가입 완료시 ajax에  정보 담기
 
 $(document).ready(function() {
-	var member_email = $("#email_local").val() + "@" + $("#email_domain").val();
-	$("#member_email").val(member_email);
+    let csrfToken = $('#csrfTokenHolder').data('token');
+    let csrfHeader = $('#csrfTokenHolder').data('header');
+	
 
     
 	$("#checkId").click(function() {
-        var username = $("#username").val();  
+        let username = $("#username").val();  
         
-        if (username.length < 6) {
-            alert("아이디는 6글자 이상이어야 합니다.");
+        if (username.length < 5) {
+            alert("아이디는 5글자 이상이어야 합니다.");
             return;
         }
+
 
         
         $.ajax({
             url: '../member/checkId',  
             type: 'post',             
             data: { memberId: username },  
+            beforeSend: function(security) {
+                // CSRF 토큰을 요청 헤더에 추가
+                security.setRequestHeader(csrfHeader, csrfToken);
+            },
             success: function(response) {
                 if (response.resultId === 'idCheckOK') {
                 		console.log(response.resultId);
@@ -99,9 +105,9 @@ $(document).ready(function() {
     });	
 	
     $("#emailCheck").click(function() {
-    		var member_email = $("#email_local").val() + "@" + $("#email_domain").val();
+    		let member_email = $("#email_local").val() + "@" + $("#email_domain").val();
     		$("#member_email").val(member_email);
-        var userEmail = $("#member_email").val();  
+        let userEmail = $("#member_email").val();  
         
         if ($("#email_local").val().trim() === '') {
             alert("이메일을 입력하세요");
@@ -115,6 +121,10 @@ $(document).ready(function() {
             url: '../member/checkEmail',  
             type: 'post',             
             data: { memberEmail: userEmail },  
+            beforeSend: function(security) {
+                // CSRF 토큰을 요청 헤더에 추가
+                security.setRequestHeader(csrfHeader, csrfToken);
+            },
             success: function(response) {
                 if (response.resultEmail === 'emailCheckOK') {
                 		console.log(response.resultEmail);
@@ -123,7 +133,6 @@ $(document).ready(function() {
                 else  {
                 		console.log(response.resultEmail);
                     alert("이미 존재하는 이메일 입니다.");
-                    
                 }
             }
         });
