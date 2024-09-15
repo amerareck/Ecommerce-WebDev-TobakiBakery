@@ -232,3 +232,17 @@ footer {
 	margin-top: 100px;
 	margin-bottom: 100px;
 }
+.breadcrumb {
+	background-color:#fff;
+    width: 18%;
+    padding: 12px 14px;
+    font-size: 9pt;
+    border-style: none;
+}
+.breadcrumb .breadcrumb-item a {
+    color: gray;
+}
+.breadcrumb .breadcrumb-item.active {
+    color: black;
+    font-weight: bold;
+}
