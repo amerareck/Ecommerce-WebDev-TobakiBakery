@@ -3,15 +3,18 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/search-style.css">
  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <div class="container">
-    <!-- 네비게이션 시작 -->
-<nav class="breadcrumb">
-    <a class="breadcrumb-item" href="../"><i class="fas fa-home"></i></a>
-    <a class="breadcrumb-item" href="../member/member-search-id">아이디 찾기</a>
-</nav>
-<!-- 네비게이션 끝 -->
+
+ <!-- Breadcrumbs 영역 시작-->
+ <nav class="breadcrumb-container">
+     <ol class="breadcrumb">
+         <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}"><i class="fas fa-home"></i></a></li>
+         <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/member/memberSearchForm">아이디 / 비밀번호 찾기</a></li>
+         <li class="breadcrumb-item active" aria-current="page">${breadcrumb}</li>
+     </ol>
+ </nav>
+<!-- Breadcrumbs 영역 끝 -->
 
 <br>
-<input type="hidden" id="searchType" value="${search}">
       <!-- 컨텐츠 래퍼 시작 -->
 <div class="content-wrapper">
     <h1><b>아이디 찾기 / 비밀번호 찾기</b></h1>
@@ -19,8 +22,8 @@
 
     <!-- 탭 메뉴 시작 -->
     <div class="tabs">
-        <a href="${pageContext.request.contextPath}/member/memberSearch?search=id" id="search-Id"class="tab-button active">아이디찾기</a>
-        <a href="${pageContext.request.contextPath}/member/memberSearch?search=pw" id="search-Pw" class="tab-button">비밀번호 찾기</a>
+        <a href="${pageContext.request.contextPath}/member/memberSearchForm?type=idSearch" id="search-Id"class="tab-button <c:if test="${searchType == 'idSearch'}">active</c:if><c:if test="${searchType == 'idSearchComplete'}">active</c:if>">아이디찾기</a>
+        <a href="${pageContext.request.contextPath}/member/memberSearchForm?type=pwSearch" id="search-Pw" class="tab-button <c:if test="${searchType == 'pwSearch'}">active</c:if><c:if test="${searchType == 'pwSearchComplete'}">active</c:if>">비밀번호 찾기</a>
     </div>
     <!-- 탭 메뉴 끝 -->
 
@@ -30,7 +33,22 @@
     </div>
        <!-- 폼 불러 옴 -->
 		<div id="msearch-form">
-			
+				<c:if test="${searchType== 'idSearch'}" >
+					<%-- 아이디 찾기 폼 호출  --%>
+					<jsp:include page="/WEB-INF/views/member/memberIdSearchForm.jsp" />
+				</c:if>
+				<c:if test="${searchType == 'pwSearch'}" >
+					<%-- 비밀번호 찾기 폼 호출  --%>
+					<jsp:include page="/WEB-INF/views/member/memberPwSearchForm.jsp" />
+				</c:if>
+				<c:if test="${searchType == 'idSearchComplete'}" >
+					<%-- 비밀번호 찾기 폼 호출  --%>
+					<jsp:include page="/WEB-INF/views/member/memberIdSearchComplete.jsp" />
+				</c:if>
+				<c:if test="${searchType == 'pwSearchComplete'}" >
+					<%-- 비밀번호 찾기 폼 호출  --%>
+					<jsp:include page="/WEB-INF/views/member/memberIdSearchComplete.jsp" />
+				</c:if>
 		</div>
          <!-- 추가 안내 문구 시작 -->
          <p class="info">입력하신 정보는 본인확인을 위한 정보로만 사용되며, 본인확인 용도 외에는 사용되거나 저장되지 않습니다.

@@ -76,4 +76,11 @@ public class MemberService {
 		return LoginResult.SUCCESS;
 	}
 	
+	public String getMemberIdSearch(MemberDTO member) {
+		log.info("실행");
+		String memberSearchId = memberDao.searchMemberId(member);
+		
+		return memberSearchId;
+	}
+	
 }

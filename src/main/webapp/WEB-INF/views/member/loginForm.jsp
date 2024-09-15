@@ -35,8 +35,8 @@
 
           <!-- 아이디/비밀번호 찾기 링크 시작 -->
           <div class="links mt-3">
-              <a href="${pageContext.request.contextPath}/member/memberSearch?search=id" class="text-dark"><i class="fas fa-search"></i> 아이디 찾기</a> / 
-              <a href="${pageContext.request.contextPath}/member/memberSearch?search=pw" class="text-dark">비밀번호 찾기</a>
+              <a href="${pageContext.request.contextPath}/member/memberSearchForm?search=id" class="text-dark"><i class="fas fa-search"></i> 아이디 찾기</a> / 
+              <a href="${pageContext.request.contextPath}/member/memberSearchForm?search=pw" class="text-dark">비밀번호 찾기</a>
           </div>
           <!-- 아이디/비밀번호 찾기 링크 끝 -->
 

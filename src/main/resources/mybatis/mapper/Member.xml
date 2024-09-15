@@ -117,4 +117,21 @@
 				member_id = #{memberId}
 			]]>		
 	</select>
+	
+		<select id="searchMemberId" parameterType="Member" resultType="String">
+		<![CDATA[
+			SELECT
+				member_id
+			FROM
+				MEMBER
+			WHERE
+				member_name = #{memberName}
+			AND
+				member_question = #{memberQuestion}
+			AND
+				member_answer = #{memberAnswer}
+			]]>		
+	</select>
+	
+	
 </mapper>

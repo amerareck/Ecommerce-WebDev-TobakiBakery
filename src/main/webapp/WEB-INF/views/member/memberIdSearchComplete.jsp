@@ -12,7 +12,7 @@
 
           <!-- 아이디 공개 시작 -->
           <div class="username">
-              <h1>hgd1***</h1>
+              <h1>${searchMemberId}</h1>
           </div>
           <!-- 아이디 공개 끝 끝 -->
 

@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mycompany.miniproject.dto.MemberDTO;
 import com.mycompany.miniproject.service.MemberService;
@@ -119,33 +120,62 @@ public class MemberController {
 		return "redirect:/member/loginForm";		
 	}
 	
-	@RequestMapping("/memberSearch")
-	public String getMemberSearch(String search, Model model) {
+	@GetMapping("/memberSearchForm")
+	public String getMemberSearch(@RequestParam(value="type", defaultValue="idSearch") String type, 
+			Model model) {
 		log.info("실행");
-		   if("id".equals(search)) {
-		        model.addAttribute("search", "id");
-		    } else if("pw".equals(search)) {
-		        model.addAttribute("search", "pw");
+		String[] elNames = {"active", "title", "breadcrumb", "searchType"};
+
+		   if(type!=null && type.equals("idSearch")) {
+				String[] data = {"idSearch", "아이디 찾기", "아이디 찾기", "idSearch"};
+				for(int i=0; i<elNames.length; i++) {
+					model.addAttribute(elNames[i], data[i]);
+				}
+			
+		    } else if(type!=null && type.equals("pwSearch")) {
+				String[] data = {"pwSearch", "비밀번호 찾기", "비밀번호 찾기", "pwSearch"};
+				for(int i=0; i<elNames.length; i++) {
+					model.addAttribute(elNames[i], data[i]);
+				}
 		    }
 		   return "/member/memberSearchForm";
 		    
 	}
 	
-	@GetMapping("/memberIdSearch")
+	
+	@GetMapping("/memberIdSearchForm")
 	public String getMemberIdSearch() {
 		log.info("실행");
-		return "/member/memberIdSearch";
+		
+		return "/member/memberIdSearchForm";
 	}
-	@GetMapping("/memberPwSearch")
+	
+	@PostMapping("/memberIdSearch")
+	public String memberIdSearch(MemberDTO member, Model model) {
+		log.info("실행");
+		
+		String searchMemberId = memberService.getMemberIdSearch(member);
+		String[] elNames = {"active", "title", "breadcrumb", "searchType"};
+		String[] data = {"idSearch", "아이디 찾기", "아이디 찾기", "idSearchComplete"};
+		for(int i=0; i<elNames.length; i++) {
+			model.addAttribute(elNames[i], data[i]);
+			
+		}
+	    model.addAttribute("searchMemberId", searchMemberId);
+	    
+	    return "/member/memberSearchForm";
+	}
+	
+	
+	@PostMapping("/memberPwSearch")
 	public String getMemberPwSearch() {
 		log.info("실행");
-		return "/member/memberPwSearch";
+		
+		return "/member/memberSearchForm";
 	}
-	@GetMapping("/memberIdSearchComplete")
-	public String getMemberSearchIdComplete() {
-		log.info("실행");
-		return "/member/memberIdSearchComplete";
-	}
+	
+
+	
 	@GetMapping("/memberPwSearchComplete")
 	public String getMemberSearchPwComplete(Model model) {
 		log.info("실행");
@@ -256,6 +286,7 @@ public class MemberController {
 		}
 			
 	}
+	
 
 
 }
