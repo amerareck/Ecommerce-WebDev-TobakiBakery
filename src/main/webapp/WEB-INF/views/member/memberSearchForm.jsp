@@ -47,7 +47,7 @@
 				</c:if>
 				<c:if test="${searchType == 'pwSearchComplete'}" >
 					<%-- 비밀번호 찾기 폼 호출  --%>
-					<jsp:include page="/WEB-INF/views/member/memberIdSearchComplete.jsp" />
+					<jsp:include page="/WEB-INF/views/member/memberPwSearchComplete.jsp" />
 				</c:if>
 		</div>
          <!-- 추가 안내 문구 시작 -->

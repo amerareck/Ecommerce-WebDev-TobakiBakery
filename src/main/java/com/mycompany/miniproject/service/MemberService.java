@@ -1,7 +1,15 @@
 package com.mycompany.miniproject.service;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.mycompany.miniproject.dao.MemberDAO;
 import com.mycompany.miniproject.dto.MemberDTO;
@@ -81,6 +89,66 @@ public class MemberService {
 		String memberSearchId = memberDao.searchMemberId(member);
 		
 		return memberSearchId;
+	}
+	
+	
+	public String memberTokne() {
+		log.info("실행");
+
+		Random random = new Random();
+
+		int randomNum = (int) (Math.random() * 1000000);		
+		String pwTokenNum = Integer.toString(randomNum);
+		
+	    StringBuilder pwTokenStr = new StringBuilder();
+	        for (int i = 0; i < 2; i++) {
+	            int randomAlpha = random.nextInt(52); 
+	            char pwAlaph;
+	            if (randomAlpha < 26) {
+	            	pwAlaph = (char) ('A' + randomAlpha); 
+	            } else {
+	            	pwAlaph = (char) ('a' + (randomAlpha - 26)); 
+	            }
+	            pwTokenStr.append(pwAlaph);
+	        }
+	    
+	    String token = pwTokenNum + pwTokenStr;
+	    
+	    List<Character> tokenList = new ArrayList<>();
+	    for (char c : token.toCharArray()) {
+	    	tokenList.add(c);
+	    }
+	    
+	    Collections.shuffle(tokenList);
+	    
+	    StringBuilder shuffleToken = new StringBuilder();
+	    for (char c : tokenList) {
+	    	shuffleToken.append(c);
+	    }
+	    
+	    String pwToken = shuffleToken.toString();
+		log.info(pwToken);
+
+			
+		return pwToken;
+		
+	}
+	
+	
+	public int getMemberPwSearch(MemberDTO member, String memberPwToken) {
+		log.info("실행");
+	
+		 log.info("임시 번호: " + memberPwToken);
+		 PasswordEncoder passwordEncoder = 
+					PasswordEncoderFactories.createDelegatingPasswordEncoder();
+		 String encodedPassword = passwordEncoder.encode(memberPwToken);
+		 member.setMemberPassword(encodedPassword);
+
+	    
+		int memberPw = memberDao.updateMemberPwToken(member);
+		log.info("암호화 번호: "  + encodedPassword);	
+		
+		return memberPw;
 	}
 	
 }

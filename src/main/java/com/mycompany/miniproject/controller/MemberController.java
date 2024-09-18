@@ -41,7 +41,7 @@ public class MemberController {
 	@Autowired
 	private MemberService memberService;
 	
-	private final Random random = new Random();
+	
 	
 	@GetMapping("memberInfo")
 	public String getMember() {
@@ -94,10 +94,8 @@ public class MemberController {
 	@GetMapping("/memberEdit")
 	public String getMemberEdit(MemberDTO member, Model model) {
 		log.info("실행");
-		member.setMemberId("gunn0128");
-		PasswordEncoder passwordEncoder = 
-				PasswordEncoderFactories.createDelegatingPasswordEncoder();
-		member.setMemberPassword(passwordEncoder.encode(member.getMemberPassword()));
+		
+		
 		MemberDTO memberInfo = memberService.getMemberInfo(member);
 		
 		model.addAttribute("memberInfo", memberInfo);
@@ -156,7 +154,7 @@ public class MemberController {
 		
 		String searchMemberId = memberService.getMemberIdSearch(member);
 		String[] elNames = {"active", "title", "breadcrumb", "searchType"};
-		String[] data = {"idSearch", "아이디 찾기", "아이디 찾기", "idSearchComplete"};
+		String[] data = {"idSearchComplete", "아이디 찾기", "아이디 찾기", "idSearchComplete"};
 		for(int i=0; i<elNames.length; i++) {
 			model.addAttribute(elNames[i], data[i]);
 			
@@ -166,58 +164,37 @@ public class MemberController {
 	    return "/member/memberSearchForm";
 	}
 	
-	
-	@PostMapping("/memberPwSearch")
+	@GetMapping("/memberPwSearchForm")
 	public String getMemberPwSearch() {
 		log.info("실행");
+
+		
+		return "/member/memberPwSearchForm";
+	}
+
+	@PostMapping("/memberPwSearch")
+	public String memberPwSearch(MemberDTO member, Model model) {
+		log.info("실행");
+		
+		
+		String[] elNames = {"active", "title", "breadcrumb", "searchType"};
+		String[] data = {"pwSearchComplete", "비밀번호 찾기", "비밀번호 찾기", "pwSearchComplete"};
+		for(int i=0; i<elNames.length; i++) {
+			model.addAttribute(elNames[i], data[i]);
+			
+		}
+		String memberToken = memberService.memberTokne();
+		memberService.getMemberPwSearch(member, memberToken);
+		
+		model.addAttribute("pwToken", memberToken);
+		
 		
 		return "/member/memberSearchForm";
 	}
-	
+
+
 
 	
-	@GetMapping("/memberPwSearchComplete")
-	public String getMemberSearchPwComplete(Model model) {
-		log.info("실행");
-		int randomNum = random.nextInt(100000);
-		
-		String pwTokenNum = Integer.toString(randomNum);
-		
-	    StringBuilder pwTokenStr = new StringBuilder();
-	        for (int i = 0; i < 2; i++) {
-	            int randomAlpha = random.nextInt(52); 
-	            char pwAlaph;
-	            if (randomAlpha < 26) {
-	            	pwAlaph = (char) ('A' + randomAlpha); 
-	            } else {
-	            	pwAlaph = (char) ('a' + (randomAlpha - 26)); 
-	            }
-	            pwTokenStr.append(pwAlaph);
-	        }
-	    
-	    String token = pwTokenNum + pwTokenStr;
-	    
-	    List<Character> TokenList = new ArrayList<>();
-	    for (char c : token.toCharArray()) {
-	    	TokenList.add(c);
-	    }
-	    
-	    Collections.shuffle(TokenList);
-	    
-	    StringBuilder shuffleToken = new StringBuilder();
-	    for (char c : TokenList) {
-	    	shuffleToken.append(c);
-	    }
-	    
-	    String pwToken = shuffleToken.toString();
-	    
-		model.addAttribute("pwToken", pwToken);
-		log.info("pwToken: " + pwToken);
-		
-		return "/member/memberPwSearchComplete";
-	}
-
-
     @PostMapping("/checkId")
     public void checkMemberId(@RequestParam("memberId") String memberId, 
     		HttpServletResponse response) 

@@ -20,6 +20,8 @@ public interface MemberDAO {
 	public MemberDTO selectMemberForLogin(String memberId);
 
 	public String searchMemberId(MemberDTO member);
+
+	public int updateMemberPwToken(MemberDTO member);
 	
 	
 }
