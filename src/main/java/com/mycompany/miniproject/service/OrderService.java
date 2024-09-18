@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mycompany.miniproject.dao.CartDAO;
+import com.mycompany.miniproject.dao.OrderDAO;
 import com.mycompany.miniproject.dto.CartDTO;
-import com.mycompany.miniproject.dto.ProductDTO;
 
 import lombok.extern.slf4j.Slf4j;
 @Slf4j
@@ -15,21 +15,28 @@ import lombok.extern.slf4j.Slf4j;
 public class OrderService {
 	
 	@Autowired
-	private CartDAO cartDAO;
+	private OrderDAO orderDao;
 	
-	public List<ProductDTO> getCartItemsByMemberId(CartDTO cartDto) {
-		log.info("장바구니 로딩");
-		return cartDAO.selectCartItemsByMemberId(cartDto);
+	public List<CartDTO> getCart(String memberId) {
+		List<CartDTO> cartList =orderDao.getCartProuducts(memberId);
+		return cartList;
 	}
 	
-	public void addItemToCart(CartDTO cartDto) {
-		cartDAO.insertCartItem(cartDto);
+	public void addCart(CartDTO cartDto) {
+		orderDao.addProductToCart(cartDto);
 		
 	} 
-	public void deleteCartItem(int productId) {
-		log.info("상품삭제 : "+productId);
+	public boolean checkCart(CartDTO cartDto) {
+		if (orderDao.checkCartProduct(cartDto) == 0) {
+			return true;
+		}
+		return false;
+	}
+	public void updateQty(CartDTO cartDto) {
+		orderDao.updateProductQty(cartDto);
 	}
 
+	
 	 
 	   
 }

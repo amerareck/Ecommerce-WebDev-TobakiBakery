@@ -54,6 +54,7 @@
                     </tr>
                 </thead>
                 <tbody>
+                <div class="productList">
                     <c:forEach items="${cartItemList}" var="cartItem">
                         <tr>
                             <td><input type="checkbox" /></td>
@@ -68,24 +69,23 @@
                                 </a>
                             </td> 
                                 <td>
-                                	<div class="quantity-control">
-                                		<button class="quantity-minus">-</button>
-                                		<input type="text" value="${1}" min="1" max="10"/>
-                                		<button class="quantity-plus">+</button>
-                               		</div>
-                           		</td>
-                                <td><fmt:formatNumber value="${cartItem.productPrice}" pattern="#,##0" />원</td>
-                                <td>
-                                	<form action="${pageContext.request.contextPath}/order/deleteCartItem" method="get">
-                                		<input type="hidden" name="productId" value="${cartItem.productId}">
-                                		<button type="button" class="btn-delete">삭제</button>
-                                		
-                               		</form>
-                               </td>
-                                
-                            </tr>
-                       </c:forEach>
-                
+                                	<select class="product-amount" data-pid="${cartItem.productId}" data-qty="${cartItem.cartCount}">
+	                    		<option value="1">1</option>
+	                    		<option value="2">2</option>
+	                    		<option value="3">3</option>
+	                    		<option value="4">4</option>
+	                    		<option value="5">5</option>
+	                    	</select>
+		                    <div class="product-price" data-price="${cartItem.productPrice}">
+								<p><strong><fmt:formatNumber value="${cartItem.cartCount * cartItem.productPrice}" type="number" groupingUsed="true"/>원</strong></p>
+		                    </div>
+		                    <div class="basket-delete">
+		                    	 class="delete-icon" style="width: 30px; height: 30px;">
+		                    </div>
+		                    </c:forEach>
+		                </div>
+	               
+	      
                 </tbody>
                 <tfoot>
                     <tr>

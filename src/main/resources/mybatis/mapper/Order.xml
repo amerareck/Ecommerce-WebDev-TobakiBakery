@@ -1,3 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.mycompany.miniproject.dao.OrderProductDAO"/>
+<mapper namespace="com.mycompany.miniproject.dao.OrderDAO">
+	<insert id="addProductToCart" parameterType="Cart">
+		<![CDATA[
+			
+			INSERT INTO CART (
+				member_id, 
+				product_id, 
+				cart_count
+			) VALUES (
+				#{memberId}, 
+				#{productId}, 
+				#{cartCount}
+			)
+		]]>
+	</insert>
+	
+	<select id="getCartProuducts" resultType="Cart" parameterType="String">
+		<![CDATA[
+			SELECT
+			    member_id, 
+			    product_id, 
+			    cart_count
+			    
+			FROM 
+				CART
+			JOIN 
+				PRODUCT
+			USING
+				(product_id)
+			WHERE 
+				member_id = #{memberId}
+		]]>
+	</select>
+	
+	<select id="checkCartProduct" resultType="int" parameterType="Cart">
+		<![CDATA[
+		SELECT  member_id,
+				product_id,
+				cart_count
+		FROM CART
+		WHERE memeber_id = #{memberId}
+		AND product_id = #{productId}
+		]]>
+	</select>
+	
+	<update id="updateProductQty" parameterType="Cart">
+		<![CDATA[
+		UPDATE CART
+		SET cart_count = #{cartCount}
+		where member_id = #{memeberId}
+		and product_id = #{productId}
+		]]>
+	</update>
+	
+</mapper>
