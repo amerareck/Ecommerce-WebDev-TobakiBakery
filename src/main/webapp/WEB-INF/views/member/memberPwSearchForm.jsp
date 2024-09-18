@@ -7,21 +7,22 @@
 
 <!-- 비밀번호 찾기 폼 컨테이너 시작 -->
 <div class="form-container">
-    <form >
+    <form method="post" action="memberPwSearch">
+     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
         <!-- 비밀번호 찾기 입력 테이블 시작 -->
         <table class="table" style="width: 500px;">
             <tbody>
                 <!-- 아이디 입력 필드 시작 -->
                 <tr>
                     <td>아이디</td>
-                    <td><input type="text" class="form-control input-small" name="username" required></td>
+                    <td><input type="text" class="form-control input-small" name="memberId" required></td>
                 </tr>
                 <!-- 아이디 입력 필드 끝 -->
 
                 <!-- 이름 입력 필드 시작 -->
                 <tr>
                     <td>이름</td>
-                    <td><input type="text" class="form-control input-small" name="name" required></td>
+                    <td><input type="text" class="form-control input-small" name="memberName" required></td>
                 </tr>
                 <!-- 이름 입력 필드 끝 -->
 
@@ -29,12 +30,12 @@
                 <tr>
                     <td>질문</td>
                     <td>
-                        <select class="form-control input-small" name="question" required>
-                            <option>가장 좋아하는 색깔은?</option>
-                            <option>가장 좋아하는 동물은?</option>
-                            <option>내가 다녔던 초등학교는?</option>
-                            <option>어렸을때의 별명은?</option>
-                            <option>현재 거주하고 있는 주소는?</option>
+                        <select class="form-control input-small" name="memberQuestion" required>
+                            <option value="1">가장 좋아하는 색깔은?</option>
+                            <option value="2">가장 좋아하는 동물은?</option>
+                            <option value="3">내가 다녔던 초등학교는?</option>
+                            <option value="4">어렸을때의 별명은?</option>
+                            <option value="5">현재 거주하고 있는 주소는?</option>
                         </select>
                     </td>
                 </tr>
@@ -43,7 +44,7 @@
                 <!-- 답변 입력 필드 시작 -->
                 <tr>
                     <td>답변</td>
-                    <td><input type="text" class="form-control input-small" name="answer" required></td>
+                    <td><input type="text" class="form-control input-small" name="memberAnswer" required></td>
                 </tr>
                 <!-- 답변 입력 필드 끝 -->
             </tbody>
@@ -51,7 +52,7 @@
         <!-- 비밀번호 찾기 입력 테이블 끝 -->
 
         <!-- 확인 버튼 시작 -->
-		<a id="pw-search-complete" class="btn btn-dark" href="${pageContext.request.contextPath}/member/memberPwSearchComplete">확인</a>
+		<button id="pw-search-complete" class="btn btn-dark" >확인</button>
         <!-- 확인 버튼 끝 -->
 
         <br>

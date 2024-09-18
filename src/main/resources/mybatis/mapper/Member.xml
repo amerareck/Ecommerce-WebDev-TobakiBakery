@@ -118,7 +118,7 @@
 			]]>		
 	</select>
 	
-		<select id="searchMemberId" parameterType="Member" resultType="String">
+	<select id="searchMemberId" parameterType="Member" resultType="String">
 		<![CDATA[
 			SELECT
 				member_id
@@ -132,6 +132,23 @@
 				member_answer = #{memberAnswer}
 			]]>		
 	</select>
+	
+	<update id="updateMemberPwToken" parameterType="Member" >
+		<![CDATA[
+				UPDATE 
+					MEMBER 
+				SET 
+					member_password = #{memberPassword}
+				WHERE 
+					member_id = #{memberId}
+				AND	
+					member_name = #{memberName}	
+				AND	
+					member_question = #{memberQuestion}
+				AND 
+					member_answer = #{memberAnswer}
+			]]>		
+	</update>
 	
 	
 </mapper>
