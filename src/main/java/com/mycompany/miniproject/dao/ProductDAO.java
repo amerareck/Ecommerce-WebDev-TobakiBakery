@@ -23,5 +23,10 @@ public interface ProductDAO {
 	public ProductDTO selectProductDetail(int productId);
 
 	public int totalRows();
+
+	public static ProductDAO getProductById(String productId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }

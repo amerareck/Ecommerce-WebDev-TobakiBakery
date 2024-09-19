@@ -23,7 +23,6 @@
 		<security:logout 
 			logout-url="/logout"
 			success-handler-ref="logoutSuccessHandler"/>
-		
 
 		<security:csrf disabled="true"/>
 		<security:intercept-url pattern="/**" access="permitAll" />

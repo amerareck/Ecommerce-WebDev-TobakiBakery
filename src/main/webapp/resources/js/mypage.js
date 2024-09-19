@@ -65,7 +65,7 @@ function execDaumPostcode() {
     }).open();
 }
 
-document.querySelectorAll('.btn-delete').forEach(function(button) {
+/*document.querySelectorAll('.btn-delete').forEach(function(button) {
     button.addEventListener('click', function(event) {
         
         var row = event.target.closest('tr');
@@ -74,9 +74,9 @@ document.querySelectorAll('.btn-delete').forEach(function(button) {
         row.remove();
         
        
-        alert("후기가 삭제되었습니다.");
+        alert("삭제되었습니다.");
     });
-});
+});*/
 
 $(document).ready(function () {
 	$("footer").load("${pageContext.request.contextPath}/common/footer");

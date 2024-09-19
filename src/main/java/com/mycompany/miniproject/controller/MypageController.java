@@ -1,7 +1,11 @@
 package com.mycompany.miniproject.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.mycompany.miniproject.dao.ProductDAO;
 
 import lombok.extern.slf4j.Slf4j;
 @Controller
@@ -23,10 +27,15 @@ public class MypageController {
 		}
 	
 	@RequestMapping("/mypageOrder")	
-	public String getmypageorder() {
-		log.info("실행");
-			return "mypage/mypageOrder";
-		}
+	public String getmypageorder(@RequestParam("productId") String productId, Model model) {
+	     // productId를 사용하여 상품 정보를 가져옴
+	     ProductDAO product = ProductDAO.getProductById(productId);
+	     
+	     // 상품 정보를 모델에 추가하여 JSP로 전달
+	     model.addAttribute("product", product);
+	     log.info("실행");
+	     return "mypage/mypageOrder";
+	 }
 	
 	@RequestMapping("/mypageReview")	
 	public String getmypagereview() {

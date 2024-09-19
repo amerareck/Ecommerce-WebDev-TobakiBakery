@@ -88,4 +88,9 @@ public class ProductService {
 		 ProductDTO prodDetail = productDAO.selectProductDetail(productId);
 	    return prodDetail;
 	}
+
+	public static List<ProductDAO> getProductsByIds(String[] productIdArray) {
+		
+		return null;
+	}
 } 

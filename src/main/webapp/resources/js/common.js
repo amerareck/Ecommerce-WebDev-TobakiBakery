@@ -10,3 +10,4 @@ $('#headerSearch').submit(function(event){
         location.href = 'itemList-static.html';
     }
 });
+
