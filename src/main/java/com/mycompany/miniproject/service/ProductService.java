@@ -109,4 +109,12 @@ public class ProductService {
 		}
 		return 0;
 	}
+
+	public int getProductAllCount() {
+		return productDAO.selectProductAllCount();
+	}
+
+	public List<ProductDTO> getAllProductList(Pager pager) {
+		return productDAO.selectAllProductList(pager);
+	}
 } 

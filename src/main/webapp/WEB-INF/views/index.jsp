@@ -56,7 +56,8 @@
 					</c:if>
 					<dt class="thumb">
 						<a href="product/productDetail?productId=${bestProd.productId}">
-							<img class="prd_img" src="productImage?productId=${bestProd.productId}&productUsecase=THUMBNAIL" />
+							<img class="prd_img" 
+								src="${pageContext.request.contextPath}/product/productImage?productId=${bestProd.productId}&productUsecase=THUMBNAIL" />
 						</a>
 						<div class="cart-overlay">
 							<a href="${pageContext.request.contextPath}/order/orderCart?productId=${bestProd.productId}">
@@ -98,7 +99,8 @@
 					</c:if>
 					<dt class="thumb">
 						<a href="product/productDetail?productId=${prod.productId}">
-							<img class="prd_img" src="productImage?productId=${prod.productId}&productUsecase=THUMBNAIL" />
+							<img class="prd_img" 
+								src="${pageContext.request.contextPath}/product/productImage?productId=${prod.productId}&productUsecase=THUMBNAIL" />
 						</a>
 						<div class="cart-overlay">
 							<a href="${pageContext.request.contextPath}/order/orderCart?productId=${prod.productId}">

@@ -31,5 +31,9 @@ public interface ProductDAO {
 	public int insertProductImage(ProductDTO dto);
 
 	public ProductDTO selectRecentProductId(String productName);
+
+	public int selectProductAllCount();
+
+	public List<ProductDTO> selectAllProductList(Pager pager);
 	
 }

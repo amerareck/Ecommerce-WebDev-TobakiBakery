@@ -49,27 +49,4 @@ public class HomeController {
 		
 		model.addAttribute("bestProductList", bestProductList);
 	}
-	
-	@GetMapping("/productImage")
-	public void getProductImage(ProductDTO product, HttpServletResponse res, HttpServletRequest req) throws IOException {
-		ProductDTO prodImage = productService.getProductImage(product);
-		
-		if(prodImage == null || prodImage.getImageType() == null) {
-			String imgPath = "/resources/image/no-thumbnail.png";
-			Path path = Paths.get(req.getServletContext().getRealPath(imgPath));
-			Files.copy(path, res.getOutputStream());
-			return;
-		}
-		
-		String contentType = prodImage.getImageType();
-		String fileName = prodImage.getImageOriginalName();
-		String encodingFileName = new String(fileName.getBytes("UTF-8"), "ISO-8859-1");
-		res.setContentType(contentType);
-		res.setHeader("Content-Disposition", "attachment; filename=\""+encodingFileName+"\"");
-
-		OutputStream out = res.getOutputStream();
-		out.write(prodImage.getImageData());
-		out.flush();
-		out.close();
-	}
 }
