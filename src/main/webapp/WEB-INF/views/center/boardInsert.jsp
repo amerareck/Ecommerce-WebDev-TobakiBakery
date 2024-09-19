@@ -160,5 +160,4 @@
             <!-- 게시글 작성 컴포넌트 종료 -->
         </div>
     </section>
-    <%@include file="/WEB-INF/views/common/alert.jsp" %>
 	<%@include file="/WEB-INF/views/common/footer.jsp" %>

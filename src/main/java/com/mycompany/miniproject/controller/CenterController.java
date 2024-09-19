@@ -233,8 +233,8 @@ public class CenterController {
 		}
 	}
 	
-	@GetMapping("/commant")
-	public void getComment(String type, @RequestParam(value="boardId", required=true) int boardId, HttpServletResponse res) {
+	@GetMapping("/comment")
+	public void getCommentList(String type, @RequestParam(value="boardId", required=true) int boardId, HttpServletResponse res) {
 		log.info("실행");
 		if(type == null) {
 			log.info("댓글 생성 실패 - type=null");

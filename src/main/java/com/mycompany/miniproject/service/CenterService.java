@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mycompany.miniproject.dao.CenterImageDAO;
+import com.mycompany.miniproject.dao.CommentDAO;
 import com.mycompany.miniproject.dao.HelpdeskDAO;
 import com.mycompany.miniproject.dao.NoticeDAO;
 import com.mycompany.miniproject.dto.CommentDTO;
@@ -26,6 +27,8 @@ public class CenterService {
 	private HelpdeskDAO helpdeskDAO;
 	@Autowired
 	private CenterImageDAO imageDAO;
+	@Autowired
+	private CommentDAO commentDAO;
 	
 	public int insertNoticePost(NoticeDTO dto) {
 		log.info("실행");
@@ -161,8 +164,14 @@ public class CenterService {
 	}
 
 	public List<CommentDTO> getCommentList(String type, int boardId) {
-		// TODO Auto-generated method stub
-		return null;
+		if(type.equals("notice")) {
+			return commentDAO.selectNoticeCommentList(boardId);
+		} else if(type.equals("helpdesk")) {
+			return commentDAO.selectHelpdeskCommentList(boardId);
+		} else {
+			log.info("type 에러 : "+type);
+			return null;
+		}
 	}
 	
 }
