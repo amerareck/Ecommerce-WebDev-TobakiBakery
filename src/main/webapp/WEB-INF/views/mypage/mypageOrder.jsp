@@ -36,8 +36,8 @@
 					<c:forEach var="product" items="${orderProducts}">
 						<tr>
 							<td><a
-							href="${pageContext.request.contextPath}/product/productDetail?productId=${cartItem.productId}"><img
-								src="${pageContext.request.contextPath}/productImage?productId=${cartItem.productId}&productUsecase=THUMBNAIL" width="100px" height="100px" />
+							href="${pageContext.request.contextPath}/product/productDetail?productId=${product.productId}"><img
+								src="${pageContext.request.contextPath}/productImage?productId=${product.productId}&productUsecase=THUMBNAIL" width="100px" height="100px" />
 								 width=100px; height=100px;></a> <span>${product.productName}</span>
 						</td>
 						<td>1개</td>
