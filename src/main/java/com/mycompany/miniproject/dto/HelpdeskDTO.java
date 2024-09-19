@@ -12,10 +12,10 @@ public class HelpdeskDTO {
 	private Date helpdeskDatetime;
 	private int helpdeskViews;
 	private boolean lockState;
+	private int lockStateNum;
 	private String memberId;
 	
 	private String imageOriginalName;
 	private String imageType;
 	private byte[] imageData;
-	
 }

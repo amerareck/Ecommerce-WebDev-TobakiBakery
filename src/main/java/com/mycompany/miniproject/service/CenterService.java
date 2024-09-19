@@ -41,6 +41,7 @@ public class CenterService {
 	
 	public int insertHelpdeskPost(HelpdeskDTO dto) {
 		log.info("실행");
+		dto.setLockStateNum(dto.isLockState() ? 1 : 0);
 		helpdeskDAO.insertHelpdeskPost(dto);
 		return helpdeskDAO.getRecentHelpdeskId(dto.getMemberId());
 	}
@@ -58,6 +59,17 @@ public class CenterService {
 	
 	public HelpdeskDTO getHelpdeskPostByBoardNum(int boardNum) {
 		return helpdeskDAO.selectHelpdeskSingleRow(boardNum);
+	}
+	
+	public void increaseBoardViews(String type, int boardNum) {
+		log.info("실행");
+		if (type.equals("notice")) {
+			noticeDAO.updateNoticeViews(boardNum);
+		} else if (type.equals("helpdesk")) {
+			helpdeskDAO.updateHelpdeskViews(boardNum);
+		} else {
+			log.info("조회수 증가 안됨");
+		}
 	}
 
 	public List<String> getBoardImageNames(String type, int condition) {
@@ -137,6 +149,14 @@ public class CenterService {
 			log.info("타입이 없거나 옳지 않은 boardType");
 			return false;
 		}
+	}
+
+	public List<HelpdeskDTO> getHelpdeskSubList(int helpdeskId) {
+		return helpdeskDAO.selectHelpdeskSubList(helpdeskId);
+	}
+	
+	public List<NoticeDTO> getNoticeSubList(int noticeId) {
+		return noticeDAO.selectNoticeSubList(noticeId);
 	}
 	
 }

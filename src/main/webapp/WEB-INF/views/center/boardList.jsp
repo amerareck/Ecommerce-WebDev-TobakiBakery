@@ -60,7 +60,10 @@
 	                	<c:forEach items="${boardList}" var="element" > 
 	                		<tr>
 		                        <th scope="row">${element.noticeId}</th>
-		                        <td><a href="${pageContext.request.contextPath}/center/detail?type=${boardType}&boardNum=${element.noticeId}">${element.noticeTitle}&ensp; <span class="badge badge-info">NEW</span></a></td>
+		                        <td>
+		                        	<a href="${pageContext.request.contextPath}/center/detail?type=${boardType}&boardNum=${element.noticeId}" class="d-inline">${element.noticeTitle}&ensp;</a>
+		                       		<span class="badge badge-info">NEW</span>
+		                        </td>
 		                        <td>${element.memberId}</td>
 		                        <td><fmt:formatDate value="${element.noticeDatetime}" pattern="yyyy-MM-dd"/></td>
 		                        <td>${element.noticeViews}</td>
@@ -72,13 +75,13 @@
 	                		<tr>
 		                        <th scope="row">${element.helpdeskId}</th>
 		                        <td>
-		                        	<a href="${pageContext.request.contextPath}/center/detail?type=helpdesk&boardNum=${element.helpdeskId}">
+		                        	<a href="${pageContext.request.contextPath}/center/detail?type=helpdesk&boardNum=${element.helpdeskId}" class="d-inline" >
 			                        	<c:if test="${element.lockState}">
 				                        	<i class="fas fa-lock fa-xs"></i>
 			                        	</c:if>
 			                        	${element.helpdeskTitle}&ensp; 
-			                        	<span class="badge badge-info">NEW</span>
 		                        	</a>
+			                        <span class="badge badge-info">NEW</span>
 		                        </td>
 		                        <td>${element.memberId}</td>
 		                        <td><fmt:formatDate value="${element.helpdeskDatetime}" pattern="yyyy-MM-dd"/></td>

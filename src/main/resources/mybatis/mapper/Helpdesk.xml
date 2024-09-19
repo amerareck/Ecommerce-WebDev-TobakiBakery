@@ -18,10 +18,7 @@
 				sysdate,
 				#{helpdeskContent},
 				0,
-		]]>
-		<if test="lockState">1,</if>
-		<if test="!lockState">0,</if>
-		<![CDATA[
+				#{lockState},
 				#{memberId}
 			)
  		]]>
@@ -94,6 +91,39 @@
 		]]>
 	</select>
 	
+	<select id="selectHelpdeskSubList" parameterType="int" resultType="Helpdesk" >
+		<![CDATA[
+			WITH subListHelpdesk AS (
+			    SELECT
+			        helpdesk_id,
+			        helpdesk_title,
+			        helpdesk_content,
+			        helpdesk_datetime,
+			        helpdesk_views,
+			        lock_state,
+			        member_id,
+			        ROW_NUMBER() OVER (ORDER BY helpdesk_id DESC) AS rn
+			    FROM HELPDESK
+			),
+			TargetRow AS (
+			    SELECT
+			        rn
+			    FROM subListHelpdesk
+			    WHERE helpdesk_id = #{helpdeskId}
+			)
+			SELECT
+				helpdesk_id,
+		        helpdesk_title,
+		        helpdesk_content,
+		        helpdesk_datetime,
+		        helpdesk_views,
+		        lock_state,
+		        member_id
+			FROM subListHelpdesk
+			WHERE rn BETWEEN (SELECT rn FROM TargetRow) -2 AND (SELECT rn FROM TargetRow) + 2
+		]]>
+	</select>
+	
 	<update id="updateHelpdesk" parameterType="Helpdesk">
 		<![CDATA[
 			UPDATE HELPDESK
@@ -102,6 +132,14 @@
 				helpdesk_content = #{helpdeskContent},
 				helpdesk_datetime = #{helpdeskDatetime},
 				lock_state = #{lockState}
+			WHERE helpdesk_id = #{helpdeskId}
+		]]>
+	</update>
+	
+	<update id="updateHelpdeskViews" parameterType="int">
+		<![CDATA[
+			UPDATE HELPDESK
+			SET helpdesk_views = helpdesk_views+1
 			WHERE helpdesk_id = #{helpdeskId}
 		]]>
 	</update>

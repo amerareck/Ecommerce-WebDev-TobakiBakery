@@ -85,6 +85,37 @@
 		]]>
 	</select>
 	
+	<select id="selectNoticeSubList" parameterType="int" resultType="Notice" >
+		<![CDATA[
+			WITH subListNotice AS (
+			    SELECT
+			        notice_id,
+			        notice_title,
+			        notice_content,
+			        notice_datetime,
+			        notice_views,
+			        member_id,
+			        ROW_NUMBER() OVER (ORDER BY notice_id DESC) AS rn
+			    FROM NOTICE
+			),
+			TargetRow AS (
+			    SELECT
+			        rn
+			    FROM subListNotice
+			    WHERE notice_id = #{noticeId}
+			)
+			SELECT
+				notice_id,
+		        notice_title,
+		        notice_content,
+		        notice_datetime,
+		        notice_views,
+		        member_id
+			FROM subListNotice
+			WHERE rn BETWEEN (SELECT rn FROM TargetRow) -2 AND (SELECT rn FROM TargetRow) + 2
+		]]>
+	</select>
+	
 	<update id="updateNotice" parameterType="Notice">
 		<![CDATA[
 			UPDATE NOTICE
@@ -92,6 +123,14 @@
 				notice_title = #{noticeTitle},
 				notice_content = #{noticeContent},
 				notice_datetime = #{noticeDatetime}
+			WHERE notice_id = #{noticeId}
+		]]>
+	</update>
+	
+	<update id="updateNoticeViews" parameterType="int">
+		<![CDATA[
+			UPDATE NOTICE
+			SET notice_views = notice_views+1
 			WHERE notice_id = #{noticeId}
 		]]>
 	</update>

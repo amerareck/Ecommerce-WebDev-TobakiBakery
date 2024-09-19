@@ -24,4 +24,8 @@ public interface NoticeDAO {
 	public int updateNotice(NoticeDTO dto);
 
 	public int deleteBoard(int boardIndex);
+
+	public List<NoticeDTO> selectNoticeSubList(int noticeId);
+
+	public int updateNoticeViews(int boardNum);
 }

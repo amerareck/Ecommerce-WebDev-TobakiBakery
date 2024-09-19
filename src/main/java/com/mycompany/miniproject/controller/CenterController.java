@@ -121,7 +121,7 @@ public class CenterController {
 		
 		Map<String, Object> map = new HashMap<>();
 		String[] elNames = {
-			"notice", "title", "breadcrumb", "boardType"	
+			"notice", "title", "breadcrumb", "boardType"
 		};
 
 		if(type!=null && type.equals("helpdesk")) {
@@ -135,16 +135,33 @@ public class CenterController {
 			
 			boardNum = boardNum.replaceAll("[^0-9]", "");
 			HelpdeskDTO dto = centerService.getHelpdeskPostByBoardNum(Integer.parseInt(boardNum));
-			map.put("title", dto.getHelpdeskTitle());
-			map.put("boardId", dto.getHelpdeskId());
-			map.put("datetime", dto.getHelpdeskDatetime());
-			map.put("memberId", dto.getMemberId());
-			map.put("views", dto.getHelpdeskViews());
-			map.put("content", dto.getHelpdeskContent());
-			
-			List<String> imageNames = centerService.getBoardImageNames("helpdesk", dto.getHelpdeskId());
-			map.put("imageNames", imageNames);
-			model.addAttribute("board", map);
+			if(dto != null) {
+				centerService.increaseBoardViews("helpdesk", dto.getHelpdeskId());
+				map.put("title", dto.getHelpdeskTitle());
+				map.put("boardId", dto.getHelpdeskId());
+				map.put("datetime", dto.getHelpdeskDatetime());
+				map.put("memberId", dto.getMemberId());
+				map.put("views", dto.getHelpdeskViews()+1);
+				map.put("content", dto.getHelpdeskContent());
+				
+				List<String> imageNames = centerService.getBoardImageNames("helpdesk", dto.getHelpdeskId());
+				map.put("imageNames", imageNames);
+				model.addAttribute("board", map);
+				
+				List<HelpdeskDTO> subList = centerService.getHelpdeskSubList(dto.getHelpdeskId());
+				List<Map<String, Object>> box = new ArrayList<>();
+				for(HelpdeskDTO element : subList) {
+					Map<String, Object> subListDto = new HashMap<>();
+					subListDto.put("memberId", element.getMemberId());
+					subListDto.put("title", element.getHelpdeskTitle());
+					subListDto.put("boardId", element.getHelpdeskId());
+					subListDto.put("datetime", element.getHelpdeskDatetime());
+					subListDto.put("views", element.getHelpdeskViews());
+					box.add(subListDto);
+				}
+				
+				model.addAttribute("subList", box);
+			}
 			
 		} else {
 			String[] data = {
@@ -157,16 +174,34 @@ public class CenterController {
 			
 			boardNum = boardNum.replaceAll("[^0-9]", "");
 			NoticeDTO dto = centerService.getNoticePostByBoardNum(Integer.parseInt(boardNum));
-			map.put("title", dto.getNoticeTitle());
-			map.put("boardId", dto.getNoticeId());
-			map.put("datetime", dto.getNoticeDatetime());
-			map.put("memberId", dto.getMemberId());
-			map.put("views", dto.getNoticeViews());
-			map.put("content", dto.getNoticeContent());
-			
-			List<String> imageNames = centerService.getBoardImageNames("notice", dto.getNoticeId());
-			map.put("imageNames", imageNames);
-			model.addAttribute("board", map);
+			if(dto != null) {
+				centerService.increaseBoardViews("notice", dto.getNoticeId());
+				map.put("title", dto.getNoticeTitle());
+				map.put("boardId", dto.getNoticeId());
+				map.put("datetime", dto.getNoticeDatetime());
+				map.put("memberId", dto.getMemberId());
+				map.put("views", dto.getNoticeViews()+1);
+				map.put("content", dto.getNoticeContent());
+				
+				List<String> imageNames = centerService.getBoardImageNames("notice", dto.getNoticeId());
+				map.put("imageNames", imageNames);
+				model.addAttribute("board", map);
+				
+				List<NoticeDTO> subList = centerService.getNoticeSubList(dto.getNoticeId());
+				List<Map<String, Object>> box = new ArrayList<>();
+				for(NoticeDTO element : subList) {
+					Map<String, Object> subListDto = new HashMap<>();
+					subListDto.put("memberId", element.getMemberId());
+					subListDto.put("title", element.getNoticeTitle());
+					subListDto.put("boardId", element.getNoticeId());
+					subListDto.put("datetime", element.getNoticeDatetime());
+					subListDto.put("views", element.getNoticeViews());
+					box.add(subListDto);
+				}
+				
+				model.addAttribute("subList", box);
+			}
+
 		}
 		
 		return "center/boardDetail";
