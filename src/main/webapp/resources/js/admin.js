@@ -335,7 +335,7 @@ $('#productTableData a.product-delete-selector').each(function(){
 });
 
 
-
+/*
 $('#productInsertForm').submit(function(event){
     event.preventDefault();
     
@@ -356,7 +356,7 @@ $('#productInsertForm').submit(function(event){
     const prodAmount = $('#product-amount');
     const prodMainImage = $('#productMainImagefile')[0];
     const isRecomenedProd = $('#recommendedProduct');
-/*
+
     let str = '등록하실 상품 정보는 다음과 같습니다.\n';
     str += '상품명: '+prodName.val().trim()+'\n';
     str += '상품상세: '+prodDetails.val()+'\n';
@@ -367,7 +367,7 @@ $('#productInsertForm').submit(function(event){
     prodMainImage.files.length > 0 ? (str+= '메인이미지 : '+prodMainImage.files[0].name+'\n') : (str+= '메인이미지 : 이미지 없음\n');
     str += '상품상태: '+productState.find('option:selected').text()+'\n';
     str += '추천상품설정: '+isRecomenedProd.is(':checked')+'\n';
-*/
+
     const product = {
     		productName : prodName.val().trim(),
     		productDetail : prodDetails.val(),
@@ -392,4 +392,4 @@ $('#productInsertForm').submit(function(event){
     		}
     	}
     });
-});
+});*/

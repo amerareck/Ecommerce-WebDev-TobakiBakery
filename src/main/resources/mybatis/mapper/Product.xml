@@ -68,85 +68,141 @@
 	</select>
 	
 	<select id="selectRecomProduct" resultType="Product">
-    <![CDATA[
-        SELECT product_id, 
-                product_name, 
-                product_price
-        FROM (
-            SELECT 
-                product_id, 
-                product_name, 
-                product_price
-            FROM 
-                product
-            WHERE 
-                product_recom = 1
-        )
-        WHERE rownum <= 8
-    ]]>
-</select>
+	    <![CDATA[
+	        SELECT product_id, 
+	                product_name, 
+	                product_price
+	        FROM (
+	            SELECT 
+	                product_id, 
+	                product_name, 
+	                product_price
+	            FROM 
+	                product
+	            WHERE 
+	                product_recom = 1
+	        )
+	        WHERE rownum <= 8
+	    ]]>
+	</select>
+	
+	<select id="selectAll" parameterType="Pager" resultType="Product">
+	    <![CDATA[
+	        SELECT
+	            product_id, 
+	            product_name, 
+	            product_price,
+	            category_name
+	        FROM (
+	            SELECT rownum as rnum, 
+	                product_id, 
+	                product_name, 
+	                product_price,
+	                category_name
+	            FROM (
+	                SELECT
+	                    product_id, 
+	                    product_name, 
+	                    product_price,
+	                    category_name
+	                FROM PRODUCT
+	    ]]>
+	    <if test="categoryName != null and categoryName != ''">
+	        WHERE category_name = #{categoryName}
+	    </if>
+	    <![CDATA[
+	                ORDER BY product_id
+	            )
+	            WHERE rownum <= #{endRowNo}
+	        )
+	        WHERE rnum >= #{startRowNo}
+	    ]]>
+	</select>
+	
+	
+	
+	<select id="countProduct" parameterType="String" resultType="int">
+	    SELECT
+	        COUNT(*)
+	    FROM
+	        PRODUCT
+	    <if test="categoryName != null and categoryName != ''">
+	        WHERE category_name = #{categoryName}
+	    </if>	
+	</select>
+	
+	<select id="totalRows"  resultType="int">
+		SELECT
+			count(product_id)
+		FROM
+			PRODUCT
+	</select>
+	
+	<select id="selectProductDetail" parameterType="int" resultType="Product" >
+		SELECT 
+		    product_id, 
+		    product_name, 
+		    product_price
+		FROM 
+			PRODUCT
+		WHERE 
+			product_id = #{productId}
+	</select>
 
-<select id="selectAll" parameterType="Pager" resultType="Product">
-    <![CDATA[
-        SELECT
-            product_id, 
-            product_name, 
-            product_price,
-            category_name
-        FROM (
-            SELECT rownum as rnum, 
-                product_id, 
-                product_name, 
-                product_price,
-                category_name
-            FROM (
-                SELECT
-                    product_id, 
-                    product_name, 
-                    product_price,
-                    category_name
-                FROM PRODUCT
-    ]]>
-    <if test="categoryName != null and categoryName != ''">
-        WHERE category_name = #{categoryName}
-    </if>
-    <![CDATA[
-                ORDER BY product_id
-            )
-            WHERE rownum <= #{endRowNo}
-        )
-        WHERE rnum >= #{startRowNo}
-    ]]>
-</select>
-
-
-
-<select id="countProduct" parameterType="String" resultType="int">
-    SELECT
-        COUNT(*)
-    FROM
-        PRODUCT
-    <if test="categoryName != null and categoryName != ''">
-        WHERE category_name = #{categoryName}
-    </if>	
-</select>
-
-<select id="totalRows"  resultType="int">
-	SELECT
-		count(product_id)
-	FROM
-		PRODUCT
-</select>
-
-<select id="selectProductDetail" parameterType="int" resultType="Product" >
-	SELECT 
-	    product_id, 
-	    product_name, 
-	    product_price
-	FROM 
-		PRODUCT
-	WHERE 
-		product_id = #{productId}
-</select>
+	<insert id="insertProduct" parameterType="Product">
+		<![CDATA[
+			INSERT INTO PRODUCT(
+				product_id,
+				product_name,
+				category_name,
+				product_price,
+				product_datetime,
+				product_detail,
+				product_state,
+				product_stock,
+				product_recom,
+				product_new,
+				product_best
+			) VALUES (
+				seq_product_id.nextval,
+				#{productName},
+				#{categoryName},
+				#{productPrice},
+				sysdate,
+				#{productDetail},
+				#{productState},
+				#{productStock},
+				#{productRecom},
+				0,
+				0
+			)
+		]]>
+	</insert>
+	
+	<insert id="insertProductImage" parameterType="Product">
+		<![CDATA[
+			INSERT INTO PRODUCT_IMAGE(
+				product_id,
+				product_usecase,
+				image_original_name,
+				image_type,
+				image_data
+			) VALUES (
+				#{productId},
+				#{productUsecase},
+				#{imageOriginalName},
+				#{imageType},
+				#{imageData}
+			)
+		]]>
+	</insert>
+	
+	<select id="selectRecentProductId" parameterType="String" resultType="Product">
+		SELECT product_id
+		FROM PRODUCT
+		WHERE product_name = #{productName}
+		ORDER BY product_id DESC
+		FETCH FIRST 1 ROWS ONLY
+	</select>
 
 </mapper>

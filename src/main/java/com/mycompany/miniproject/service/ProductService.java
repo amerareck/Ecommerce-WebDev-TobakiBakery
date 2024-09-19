@@ -93,4 +93,20 @@ public class ProductService {
 		
 		return null;
 	}
+
+	public boolean insertProduct(ProductDTO dto) {
+		return productDAO.insertProduct(dto) == 1;
+	}
+
+	public boolean insertProductImage(ProductDTO dto) {
+		return productDAO.insertProductImage(dto) == 1;
+	}
+
+	public int getRecentProductId(String productName) {
+		ProductDTO dto = productDAO.selectRecentProductId(productName);
+		if(dto!=null) {
+			return dto.getProductId();
+		}
+		return 0;
+	}
 } 
