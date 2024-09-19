@@ -11,6 +11,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -225,6 +226,56 @@ public class CenterController {
 		
 		try(PrintWriter pw = res.getWriter()) {
 			res.setContentType("application/json; charset=UTF-8");
+			pw.println(json.toString());
+			pw.flush();
+		} catch(IOException ioe) {
+			ioe.printStackTrace();
+		}
+	}
+	
+	@GetMapping("/commant")
+	public void getComment(String type, @RequestParam(value="boardId", required=true) int boardId, HttpServletResponse res) {
+		log.info("실행");
+		if(type == null) {
+			log.info("댓글 생성 실패 - type=null");
+			return;
+		}
+		
+		List<CommentDTO> commentList;
+		if(type.equals("notice")) {
+			commentList = centerService.getCommentList(type, boardId);
+			
+		} else if(type.equals("helpdesk")) {
+			commentList = centerService.getCommentList(type, boardId);
+			
+		} else {
+			log.info("댓글 생성 실패 - type="+type);
+			return;
+		}
+		
+		JSONObject json = new JSONObject();
+		JSONArray arr = new JSONArray();
+		if(commentList != null) {
+			for(CommentDTO dto : commentList) {
+				JSONObject dtoJSON = new JSONObject();
+				dtoJSON.put("content", dto.getCommentContent());
+				dtoJSON.put("commnetDatetime", dto.getCommnetDatetime());
+				dtoJSON.put("memberId", dto.getMemberId());
+				arr.put(json);
+			}
+		}
+		
+		JSONObject status = new JSONObject();
+		if(!arr.isEmpty()) {
+			status.put("status", "ok");
+		} else {
+			status.put("status", "empty");
+		}
+		json.put("status", status);
+		json.put("list", arr);
+		
+		try(PrintWriter pw = res.getWriter()) {
+			res.setContentType("application/json, charset=UTF-8");
 			pw.println(json.toString());
 			pw.flush();
 		} catch(IOException ioe) {

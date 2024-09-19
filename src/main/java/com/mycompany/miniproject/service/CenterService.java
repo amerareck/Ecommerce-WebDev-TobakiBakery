@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.mycompany.miniproject.dao.CenterImageDAO;
 import com.mycompany.miniproject.dao.HelpdeskDAO;
 import com.mycompany.miniproject.dao.NoticeDAO;
+import com.mycompany.miniproject.dto.CommentDTO;
 import com.mycompany.miniproject.dto.HelpdeskDTO;
 import com.mycompany.miniproject.dto.NoticeDTO;
 import com.mycompany.miniproject.dto.Pager;
@@ -157,6 +158,11 @@ public class CenterService {
 	
 	public List<NoticeDTO> getNoticeSubList(int noticeId) {
 		return noticeDAO.selectNoticeSubList(noticeId);
+	}
+
+	public List<CommentDTO> getCommentList(String type, int boardId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }
