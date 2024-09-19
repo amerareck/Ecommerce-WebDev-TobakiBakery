@@ -20,6 +20,7 @@
 
 		<h1>주문서 작성</h1>
 		<br>
+		
 
 		<section class="order-products">
 			<h2>주문상품</h2>
@@ -32,30 +33,21 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<td><a
-							href="${pageContext.request.contextPath}/product/productDetail"><img
-								src="${pageContext.request.contextPath}/resources/image/bread/자연효모빵.jpg"
-								alt="제품 이미지" width=100px; height=100px;></a> <span>자연효모빵</span>
+					<c:forEach var="product" items="${orderProducts}">
+						<tr>
+							<td><a
+							href="${pageContext.request.contextPath}/product/productDetail?productId=${cartItem.productId}"><img
+								src="${pageContext.request.contextPath}/productImage?productId=${cartItem.productId}&productUsecase=THUMBNAIL" width="100px" height="100px" />
+								 width=100px; height=100px;></a> <span>${product.productName}</span>
 						</td>
-						<td>2개</td>
-						<td>9,200원</td>
-					</tr>
-
-					<tr>
-						<td><a
-							href="${pageContext.request.contextPath}/product/productDetail"><img
-								src="${pageContext.request.contextPath}/resources/image/bread/오렌지케익.jpg"
-								alt="제품 이미지" width=100px; height=100px;></a> <span>오렌지
-								케잌</span></td>
 						<td>1개</td>
-						<td>22,000원</td>
+						<td><fmt:formatNumber value="${product.productPrice}" pattern="#,##0" />원</td>
 					</tr>
-
+					</c:forEach>
 				</tbody>
 			</table>
-			<div class="order-summary">주문 금액 31,200원 + 배송비 0원 = 주문 금액
-				31,200원</div>
+			<div class="order-summary">총 금액: <fmt:formatNumber value="${totalPrice}" pattern="#,##0"/>
+				원</div>
 		</section>
 
 		<section class="order-info">

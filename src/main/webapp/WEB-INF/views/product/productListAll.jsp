@@ -41,7 +41,7 @@
 							</a>
 							<div class="cart-overlay">
 								<a
-									href="${pageContext.request.contextPath}/order/orderCart">
+									href="${pageContext.request.contextPath}/order/orderCart?productId=${allProd.productId}">
 									<img
 									src="https://cdn-icons-png.flaticon.com/512/1170/1170678.png" />
 								</a>

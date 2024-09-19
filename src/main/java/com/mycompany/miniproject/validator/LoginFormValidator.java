@@ -26,8 +26,8 @@ public class LoginFormValidator implements Validator{
 		String memberId = loginForm.getMemberId();
 		if(memberId == null || memberId.equals("")) {
 			errors.rejectValue("member_id", "errors.mid.required");
-		}else if(memberId.length() < 6){
-			errors.rejectValue("member_id", "errors.mid.length", new Object[] {"6"}, null);
+		}else if(memberId.length() < 5){
+			errors.rejectValue("member_id", "errors.mid.length", new Object[] {"5"}, null);
 		}
 		
 		String memberPw = loginForm.getMemberPassword();

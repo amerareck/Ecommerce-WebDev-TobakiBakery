@@ -2,6 +2,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
 <!DOCTYPE html>
 <html>
 	<head>
@@ -36,7 +38,16 @@
 									</a>
 								</li>
 								<li class="nav-item">
-									<a class="nav-link" href="${pageContext.request.contextPath}/member/login">로그인</a>
+								<sec:authorize access="isAnonymous()">
+									<a class="nav-link" href="${pageContext.request.contextPath}/member/loginForm">로그인</a>
+								</sec:authorize>
+								<sec:authorize access="isAuthenticated()">
+								 <form method="post" action="${pageContext.request.contextPath}/logout" class="d-inline-block"> 
+										<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+										<span><sec:authentication property="principal.username"/></span> 
+										<button  class="btn btn-sm bg-white nav-link d-inline-block">로그아웃</button>
+								</form>		
+								</sec:authorize>
 								</li>
 								<li class="nav-item">
 									<a class="nav-link" href="${pageContext.request.contextPath}/member/memberInfo">회원가입</a>
