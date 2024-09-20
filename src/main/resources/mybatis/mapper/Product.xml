@@ -204,5 +204,66 @@
 		ORDER BY product_id DESC
 		FETCH FIRST 1 ROWS ONLY
 	</select>
+	
+	<select id="selectAllProductList" parameterType="Pager" resultType="Product" >
+		<![CDATA[
+			SELECT
+				product_id,
+				product_name,
+				product_price,
+				product_datetime,
+				product_detail,
+				product_state,
+				product_stock,
+				product_recom,
+				category_name,
+				product_new,
+				product_best
+			FROM
+				(SELECT
+					rownum as rnum,
+					product_id,
+					product_name,
+					product_price,
+					product_datetime,
+					product_detail,
+					product_state,
+					product_stock,
+					product_recom,
+					category_name,
+					product_new,
+					product_best
+				FROM
+					(SELECT
+						product_id,
+						product_name,
+						product_price,
+						product_datetime,
+						product_detail,
+						product_state,
+						product_stock,
+						product_recom,
+						category_name,
+						product_new,
+						product_best
+					FROM PRODUCT
+					ORDER BY product_id)
+				WHERE rownum <= #{endRowNo})
+			WHERE rnum >= #{startRowNo}
+			
+		]]>
+	</select>
+	<select id="selectProductAllCount" resultType="int" >
+		SELECT COUNT(*)
+		FROM PRODUCT
+	</select>
+	
+	<select id="selectImageNamesWithProductId" parameterType="int" resultType="String" >
+		<![CDATA[
+			SELECT image_original_name
+			FROM PRODUCT_IMAGE
+			WHERE product_id = #{productId}
+		]]>
+	</select>
 
 </mapper>

@@ -393,3 +393,4 @@ $('#productInsertForm').submit(function(event){
     	}
     });
 });*/
+

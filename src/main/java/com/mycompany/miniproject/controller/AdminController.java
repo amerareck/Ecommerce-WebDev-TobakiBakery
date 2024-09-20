@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mycompany.miniproject.dto.OrderDTO;
 import com.mycompany.miniproject.dto.Pager;
@@ -35,21 +36,21 @@ public class AdminController {
 	OrderService orderService;
 	
 	@GetMapping("/main")
-	public String mainPage(Model model) {
+	public String mainPage(RedirectAttributes redi) {
 		log.info("실행");
-		model.addAttribute("adminMain", "active");
-		model.addAttribute("listType", "product");
+		redi.addFlashAttribute("adminMain", "active");
+		redi.addFlashAttribute("listType", "product");
 		
-		return "admin/adminMain";
+		return "redirect:/admin/list?type=product";
 	}
 	
 	@GetMapping("/OrderList")
-	public String OrderList(Model model) {
+	public String OrderList(RedirectAttributes redi) {
 		log.info("실행");
-		model.addAttribute("orderList", "active");
-		model.addAttribute("listType", "order");
+		redi.addFlashAttribute("orderList", "active");
+		redi.addFlashAttribute("listType", "order");
 		
-		return "admin/adminMain";
+		return "redirect:/admin/list?type=order";
 	}
 	
 	@GetMapping("/addProduct")
@@ -71,6 +72,8 @@ public class AdminController {
 		
 		if(type.equals("product")) {
 			allCount = productService.getProductAllCount();
+			model.addAttribute("allCount", allCount);
+			
 			pager = new Pager(10, 5, allCount, pageNo);
 			model.addAttribute("pager", pager);
 			
@@ -78,6 +81,8 @@ public class AdminController {
 
 		} else if(type.equals("order")) {
 			allCount = orderService.getOrderAllCount();
+			model.addAttribute("allCount", allCount);
+			
 			pager = new Pager(10, 5, allCount, pageNo);
 			model.addAttribute("pager", pager);
 			
@@ -92,7 +97,7 @@ public class AdminController {
 		List<ProductDTO> list = productService.getAllProductList(pager);
 		model.addAttribute("productList", list);
 		
-		return "admin/ProductList";
+		return "admin/adminProductList";
 	}
 	
 	public String getOrderList(Pager pager, Model model) {
@@ -101,7 +106,7 @@ public class AdminController {
 		List<OrderDTO> list = orderService.getAllOrderList(pager);
 		model.addAttribute("orderList", list);
 		
-		return "admin/OrderList";
+		return "admin/adminOrderList";
 	}
 	
 	@PostMapping("/updateProduct")

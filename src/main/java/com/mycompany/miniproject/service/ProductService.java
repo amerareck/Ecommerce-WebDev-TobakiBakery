@@ -117,4 +117,8 @@ public class ProductService {
 	public List<ProductDTO> getAllProductList(Pager pager) {
 		return productDAO.selectAllProductList(pager);
 	}
+
+	public List<String> getImageNames(int productId) {
+		return productDAO.selectImageNamesWithProductId(productId);
+	}
 } 

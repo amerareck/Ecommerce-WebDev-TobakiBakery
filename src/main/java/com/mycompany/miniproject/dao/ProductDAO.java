@@ -35,5 +35,7 @@ public interface ProductDAO {
 	public int selectProductAllCount();
 
 	public List<ProductDTO> selectAllProductList(Pager pager);
+
+	public List<String> selectImageNamesWithProductId(int productId);
 	
 }

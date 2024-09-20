@@ -1,7 +1,7 @@
 package com.mycompany.miniproject.type;
 
 public enum Category {
-	BRADE("BRADE"),
+	BREAD("BREAD"),
 	CAKE("CAKE"),
 	DESSERT("DESSERT");
 	

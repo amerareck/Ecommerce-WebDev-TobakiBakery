@@ -3,6 +3,7 @@ package com.mycompany.miniproject.controller;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -13,6 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -217,6 +220,28 @@ public class ProductController {
 			return "admin/adminProductDetails";
 		}
 
+	}
+	
+	public void getImageNames(@RequestParam(required=true) int productId, HttpServletResponse res) throws IOException {
+		List<String> imageNames = productService.getImageNames(productId);
+		JSONArray arr = new JSONArray();
+		JSONObject json = new JSONObject();
+		
+		if(imageNames.isEmpty()) {
+			json.put("status", "no-data");
+		} else {
+			for(String str : imageNames) {
+				arr.put(str);
+			}
+			json.put("status", "ok");
+			json.put("imageNames", arr);
+		}
+		
+		res.setContentType("application/json; charset=UTF-8");
+		PrintWriter pw = res.getWriter();
+		pw.println(json.toString());
+		pw.flush();
+		pw.close();
 	}
 	
 }
