@@ -1,11 +1,21 @@
 package com.mycompany.miniproject.type;
 
 public enum Category {
-	BRADE,
-	CAKE,
-	DESSERT;
+	BRADE("BRADE"),
+	CAKE("CAKE"),
+	DESSERT("DESSERT");
 	
-    public static Category getCategory(String value) {
+	private final String value;
+	
+	Category(String value) {
+		this.value = value;
+	}
+	
+	public String getValue() {
+		return this.value;
+	}
+	
+    public static Category fromValue(String value) {
         for (Category category : Category.values()) {
             if (category.name().equalsIgnoreCase(value)) {
                 return category;

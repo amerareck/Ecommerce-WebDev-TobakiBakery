@@ -164,10 +164,10 @@ public class ProductController {
 		ProductDTO dto = new ProductDTO();
 		dto.setProductName(form.getProductName());
 		dto.setProductDetail(form.getProductDetail());
-		dto.setCategoryName(Category.getCategory(form.getCategoryName()));
+		dto.setCategoryName(Category.fromValue(form.getCategoryName()));
 		dto.setProductPrice(form.getProductPrice());
 		dto.setProductStock(form.getProductCount());
-		dto.setProductState(ProductState.getProductState(form.getProductState()));
+		dto.setProductState(ProductState.fromValue(form.getProductState()));
 		dto.setProductRecom(form.isProductRecom() ? 1 : 0);
 		boolean productInsert = productService.insertProduct(dto);
 		
@@ -181,7 +181,7 @@ public class ProductController {
 				//상품 디테일 이미지 처리
 				MultipartFile detail = form.getProductDetailImagefile();
 				if(!detail.isEmpty()) {
-					dto.setProductUsecase(ProductUsecase.DETAIL);
+					dto.setProductUsecase(ProductUsecase.fromValue("DETAIL"));
 					dto.setImageOriginalName(detail.getOriginalFilename());
 					dto.setImageType(detail.getContentType());
 					dto.setImageData(detail.getBytes());

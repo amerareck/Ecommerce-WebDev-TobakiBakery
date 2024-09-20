@@ -17,4 +17,9 @@
 		<typeAlias type="com.mycompany.miniproject.dto.CategoryDTO" alias="Category"/>
 		<typeAlias type="com.mycompany.miniproject.dto.Pager" alias="Pager"/>
 	</typeAliases>
+	<typeHandlers>
+		<typeHandler handler="com.mycompany.miniproject.type.CategoryTypeHandler" javaType="com.mycompany.miniproject.type.Category"/>
+		<typeHandler handler="com.mycompany.miniproject.type.ProductStateTypeHandler" javaType="com.mycompany.miniproject.type.ProductState"/>
+		<typeHandler handler="com.mycompany.miniproject.type.ProductUsecaseTypeHandler" javaType="com.mycompany.miniproject.type.ProductUsecase"/>
+	</typeHandlers>
 </configuration>

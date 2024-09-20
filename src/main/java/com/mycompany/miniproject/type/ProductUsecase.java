@@ -1,10 +1,20 @@
 package com.mycompany.miniproject.type;
 
 public enum ProductUsecase {
-	THUMBNAIL,
-	DETAIL;
+	THUMBNAIL("THUMBNAIL"),
+	DETAIL("DETAIL");
 	
-    public static ProductUsecase getProductUsecaseType(String value) {
+	private final String value;
+	
+	ProductUsecase(String value) {
+		this.value = value;
+	}
+	
+	public String getValue() {
+		return this.value;
+	}
+	
+    public static ProductUsecase fromValue(String value) {
         for (ProductUsecase productUsecase : ProductUsecase.values()) {
             if (productUsecase.name().equalsIgnoreCase(value)) {
                 return productUsecase;
