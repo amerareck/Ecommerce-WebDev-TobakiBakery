@@ -21,7 +21,8 @@
 		</h1>
 		<br> <br>
 		<form id="editForm" action="edit" method="post">
- 		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+ 		<%-- <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+ 		<div id="csrfTokenHolder" data-token="${_csrf.token}" data-header="${_csrf.headerName}" style="display:none;"></div>  			 --%>
 			<!-- 회원정보 입력 헤더 시작 -->
 			<div class="signup-header">
 				<h2>
@@ -80,16 +81,19 @@
                             <td>
                                 <div class="d-flex align-items-center birthday-gender-row">
                                     <select class="form-control input-tiny"  id="birth_year" disabled="disabled" required>
-                                        <option>${fn:substring(memberInfo.memberBirthday, 0, 4)}</option>
+										<fmt:parseDate var="birthyear" value="${memberInfo.memberBirthday}" pattern="yyyyMMdd"/>
+										<option><fmt:formatDate value="${birthyear}" pattern="yyyy"/></option>  
                                     </select>
                                     <h6> 년 </h6>
                                     <select class="form-control input-tiny" id="birth_month"  disabled="disabled" required>
-                                        <option>${fn:substring(memberInfo.memberBirthday, 4, 6)}</option>
+										<fmt:parseDate var="birthmonth" value="${memberInfo.memberBirthday}" pattern="yyyyMMdd"/>
+										<option><fmt:formatDate value="${birthmonth}" pattern="MM"/></option>  
                                     </select>
                                     <h6> 월 </h6>
                                     <select class="form-control input-tiny"  id="birth_day"  disabled="disabled" required>
-                                        <option>${fn:substring(memberInfo.memberBirthday, 6, 8)}</option>
-                                    </select>
+										<fmt:parseDate var="birthday" value="${memberInfo.memberBirthday}" pattern="yyyyMMdd"/>
+										<option><fmt:formatDate value="${birthday}" pattern="dd"/></option>  
+								    </select>
                                     <h6> 일 </h6>
                                     &nbsp;&nbsp;&nbsp;&nbsp;
                                 </div>
@@ -166,7 +170,6 @@
                             <td>
                                 <div>
                                     <select class="form-control input-small" name="memberQuestion" id="member_q" required>
-                                    		<option value="${MemberDTO.memberQuestion}"></option>
                                         <option value="1">가장 좋아하는 색깔은?</option>
                                         <option value="2">가장 좋아하는 동물은?</option>
                                         <option value="3">내가 다녔던 초등학교는?</option>
