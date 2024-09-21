@@ -26,7 +26,7 @@
 
           <!-- 확인 버튼 시작 -->
           <a class="btn btn-dark" href="${pageContext.request.contextPath}/member/login">로그인</a>
-          <a class="btn btn-secondary" href="${pageContext.request.contextPath}/member/memberSearch?search=pw">비밀번호 찾기</a>
+          <a class="btn btn-secondary" href="${pageContext.request.contextPath}/member/memberSearchForm?type=pwSearch">비밀번호 찾기</a>
           <!-- 확인 버튼 끝 -->
           
           <br>
