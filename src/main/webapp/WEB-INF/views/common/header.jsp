@@ -11,7 +11,9 @@
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 	    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/common.css">
 	<meta charset="UTF-8"> 
-	<title>header page</title>
+<%--  	<meta name="_csrf" content="${_csrf.token}"/>   
+	 <meta name="_csrf_header" content="${_csrf.headerName}"/> --%>
+ 	<title>header page</title>
 </head>
 <body>
 	<header>
@@ -31,24 +33,22 @@
 						</button>
 						-->
 						<div class="collapse navbar-collapse" id="navbarColor03">
+						 <form method="post" action="${pageContext.request.contextPath}/logout" class="d-inline-block"> 
+						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 							<ul class="navbar-nav mr-auto">
-								<li class="nav-item active">
-									<a class="nav-link" href="${pageContext.request.contextPath}">메인
-										<span class="sr-only">(current)</span>
-									</a>
-								</li>
 								<li class="nav-item">
 								<sec:authorize access="isAnonymous()">
 									<a class="nav-link" href="${pageContext.request.contextPath}/member/loginForm">로그인</a>
 								</sec:authorize>
-								<sec:authorize access="isAuthenticated()">
-								 <form method="post" action="${pageContext.request.contextPath}/logout" class="d-inline-block"> 
-										<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-										<span><sec:authentication property="principal.username"/></span> 
-										<button  class="btn btn-sm bg-white nav-link d-inline-block">로그아웃</button>
-								</form>		
-								</sec:authorize>
 								</li>
+								<sec:authorize access="isAuthenticated()">
+								<li class="nav-item">								
+										<span class="nav-link"><sec:authentication property="principal.username"/></span>
+								</li>
+								<li class="nav-item">								 
+										<a href="#" class="nav-link d-inline-block" id="logout">로그아웃</a>
+								</li>
+								</sec:authorize>
 								<li class="nav-item">
 									<a class="nav-link" href="${pageContext.request.contextPath}/member/memberInfo">회원가입</a>
 								</li>
@@ -65,6 +65,7 @@
 									</div>
 								</li>
 							</ul>
+					</form>		
 						</div>
 					</nav>
 				</div>

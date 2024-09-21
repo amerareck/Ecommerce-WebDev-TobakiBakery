@@ -31,7 +31,7 @@ public class LoginFormValidator implements Validator{
 		}
 		
 		String memberPw = loginForm.getMemberPassword();
-		String pattern = "(?=.*[A-Za-z])(?=.*[\\d@$!%*?&])[A-Za-z\\d@$!%*?&]{8,16}";
+		String pattern = "(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,16}";
 		if(memberPw==null || memberPw.equals("")) {
 			errors.rejectValue("member_password", "errors.mpassword.required");
 		}else if(memberPw.length() < 8 || memberPw.length() > 16){
