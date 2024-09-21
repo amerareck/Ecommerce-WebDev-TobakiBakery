@@ -2,10 +2,8 @@ package com.mycompany.miniproject.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import com.mycompany.miniproject.dao.ProductDAO;
 
 import lombok.extern.slf4j.Slf4j;
 @Controller
@@ -28,9 +26,9 @@ public class MypageController {
 	
 	@RequestMapping("/mypageOrder")	
 	public String getmypageorder() {
-	     log.info("실행");
-	     return "mypage/mypageOrder";
-	 }
+		log.info("실행");
+			return "mypage/mypageOrder";
+		}
 	
 	@RequestMapping("/mypageReview")	
 	public String getmypagereview() {
@@ -38,7 +36,15 @@ public class MypageController {
 			return "mypage/mypageReview";
 		}
 	
+	@GetMapping("/memberDelete")
+	public String OrderList(Model model) {
+		log.info("실행");
+		model.addAttribute("memberDelete", "memberDelete");
+		
+		return "mypage/mypageMain";
+	}
+	
 	
 	}
-
+	
 

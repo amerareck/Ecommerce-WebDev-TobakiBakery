@@ -104,6 +104,11 @@
                         </tbody>
                     </table>
                 </div>
+                
+    		
+				<%-- 상품 상세보기 및 수정하기 모달 호출  --%>
+    				<%@include file="/WEB-INF/views/mypage/memberDeleteModal.jsp" %>
+			
             </section>
         </div>
     </div>

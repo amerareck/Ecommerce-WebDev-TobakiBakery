@@ -58,8 +58,19 @@ function validateForm() {
     }
 
     // 모든 조건이 통과되면 폼이 제출됩니다.
-    var member_birthday = $("#birth_year").val()+ $("#birth_month").val()+ $("#birth_day").val();
-    var phone_num = $("#phone_prefix").val() + $("#phone_middle_number").val() + $("#phone_last_number").val();
+    let birthMonth = $("#birth_month").val();
+    let birthDay = $("#birth_day").val();
+    
+    if(birthMonth.length < 2){
+    		birthMonth = "0" + birthMonth;
+    }
+    
+    if(birthDay.length < 2){
+		birthDay = "0" + birthDay;
+    }
+    
+    let member_birthday = $("#birth_year").val()+ birthMonth + birthDay;
+    let phone_num = $("#phone_prefix").val() + $("#phone_middle_number").val() + $("#phone_last_number").val();
     $("#member_birthday").val(member_birthday);
     $("#phone_num").val(phone_num);
     
@@ -69,9 +80,7 @@ function validateForm() {
 //화원가입 완료시 ajax에  정보 담기
 
 $(document).ready(function() {
-    let csrfToken = $('#csrfTokenHolder').data('token');
-    let csrfHeader = $('#csrfTokenHolder').data('header');
-	
+
 
     
 	$("#checkId").click(function() {
@@ -138,6 +147,7 @@ $(document).ready(function() {
         });
     });	
     
+    
     $("#signupForm").submit(function(e) {
         if (validateForm()) {
         	  alert("회원가입이 완료되었습니다!");
@@ -160,6 +170,51 @@ $(document).ready(function() {
         }
         
     });
+    
+  
+        $('#memberDeleteForm').submit(function(e) {
+            e.preventDefault(); 
+            let memberId = $('#memberId').val();
+            let memberPassword = $('#memberPassword').val();
+
+            $.ajax({
+                type: 'post',
+                url: '../member/deleteMember', 
+                data: {
+                    memberId: memberId, 
+                    memberPassword: memberPassword 
+                },
+                success: function(response) {
+                    if (response.success) {
+                    		console.log(response.success);
+                        alert(response.message);
+                        location.href = '../'; 
+                    } else {
+                        alert(response.message); 
+                    }
+                }
+            });
+        });
+   
+
+    
+	
+	
+    //로그인 실패 시 알림 창
+    const params = new URLSearchParams(location.search);
+
+    if (params.has('error')) {
+        alert('로그인에 실패했습니다. 아이디 또는 비밀번호를 확인해주세요.');
+        
+        history.back();
+    }
+    
+
+    
+    
+    
+    
+    
 });
 
 

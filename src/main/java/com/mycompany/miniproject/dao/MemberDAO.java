@@ -22,6 +22,10 @@ public interface MemberDAO {
 	public String searchMemberId(MemberDTO member);
 
 	public int updateMemberPwToken(MemberDTO member);
+
+	public int disableMember(MemberDTO member);
+
+	public MemberDTO selectMemberForDeleteMember(String memberId);
 	
 	
 }

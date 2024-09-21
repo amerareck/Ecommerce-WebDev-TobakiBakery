@@ -12,6 +12,9 @@ import javax.validation.Valid;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -43,6 +46,8 @@ public class MemberController {
 	
 	
 	
+	
+	
 	@GetMapping("memberInfo")
 	public String getMember() {
 		log.info("실행");
@@ -55,7 +60,7 @@ public class MemberController {
 		binder.setValidator(new LoginFormValidator());
 	}
 	
-	@PostMapping("/login")
+	/*@PostMapping("/login")
 	public String login(@Valid MemberDTO member, Errors errors, HttpSession session) {
 		
 		if(errors.hasErrors()) {
@@ -82,7 +87,7 @@ public class MemberController {
 			return "redirect:/";
 		}
 		
-	}
+	}*/
 	
 	@GetMapping("/loginForm")
 	public String login() {
@@ -92,11 +97,11 @@ public class MemberController {
 	
 	
 	@GetMapping("/memberEdit")
-	public String getMemberEdit(MemberDTO member, Model model) {
+	public String getMemberEdit(Model model) {
 		log.info("실행");
 		
 		
-		MemberDTO memberInfo = memberService.getMemberInfo(member);
+		MemberDTO memberInfo = memberService.getMemberInfo();
 		
 		model.addAttribute("memberInfo", memberInfo);
 		
@@ -264,6 +269,34 @@ public class MemberController {
 			
 	}
 	
+	@PostMapping("/deleteMember")
+	public void disableMember(
+			MemberDTO member, 
+			HttpSession session,
+			HttpServletResponse response) throws Exception{
+		log.info("실행");
+		
+		
+		int deleteMember = memberService.disableMember(member);
+		JSONObject jsonObject = new JSONObject();
+		
+		if(deleteMember > 0 ) {
+			session.invalidate();
+	        jsonObject.put("success", true);
+	        jsonObject.put("message", "회원 탈퇴가 성공적으로 처리되었습니다.");
+		}else {
+	        jsonObject.put("success", false);
+	        jsonObject.put("message", "아이디 또는 비밀번호가 일치하지 않습니다.");
+		}
+		
+		
+		String json = jsonObject.toString();
+		response.setContentType("application/json; charset=UTF-8");
+		PrintWriter pw = response.getWriter();
+		pw.println(json);
+		pw.flush();
+		pw.close();
 
+	}
 
 }

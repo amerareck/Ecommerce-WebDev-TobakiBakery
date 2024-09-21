@@ -78,7 +78,7 @@
 			FROM
 				MEMBER
 			WHERE
-				member_id = #{member_id}
+				member_id = #{memberId}
 			]]>		
 	</select>
 	
@@ -150,5 +150,29 @@
 			]]>		
 	</update>
 	
+	<update id="disableMember" parameterType="Member">
+		<![CDATA[
+			UPDATE
+				MEMBER
+			SET
+				member_enable = 0 
+			WHERE 
+				member_id = #{memberId}
+			AND
+				member_password = #{memberPassword}
+		]]>		
+	</update>
+	
+	<select id="selectMemberForDeleteMember" parameterType="string" resultType="Member">
+		<![CDATA[
+			SELECT
+				member_id,
+				member_password
+			FROM
+				MEMBER
+			WHERE
+				member_id = #{memberId}
+			]]>		
+	</select>
 	
 </mapper>

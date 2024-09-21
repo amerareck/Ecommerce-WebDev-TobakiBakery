@@ -6,13 +6,16 @@ import java.util.List;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.mycompany.miniproject.dao.MemberDAO;
 import com.mycompany.miniproject.dto.MemberDTO;
+import com.mycompany.miniproject.security.MemberDetails;
 import com.mycompany.miniproject.type.JoinResult;
 import com.mycompany.miniproject.type.LoginResult;
 import com.mycompany.miniproject.type.MemberRole;
@@ -25,6 +28,7 @@ public class MemberService {
 	
 	@Autowired
 	private MemberDAO memberDao;
+
 	
 	public JoinResult join(MemberDTO member) {
 		log.info("실행");
@@ -32,7 +36,7 @@ public class MemberService {
 		if(exist) {
 			return JoinResult.FAIL_DUPLICATED_MEMBERID;
 		}
-		member.setMemberRole(MemberRole.USER.toString());
+		member.setMemberRole(MemberRole.ROLE_USER.toString());
 		memberDao.insertMember(member);
 		return JoinResult.SUCCESS;
 	}
@@ -59,12 +63,28 @@ public class MemberService {
 		
 	}
 	
-	public MemberDTO getMemberInfo(MemberDTO member) {
-		MemberDTO memberInfo = memberDao.selectMemberInfo(member.getMemberId());
+	public MemberDTO getMemberInfo() {
+	    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+	    UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+	    String memberId = userDetails.getUsername();
+		log.info(memberId);
+		
+		MemberDTO memberInfo = memberDao.selectMemberInfo(memberId);
 		return memberInfo;
 	}
 
 	public int updateMember(MemberDTO member) {
+	    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+	    UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+	    String memberId = userDetails.getUsername();
+	    
+		 PasswordEncoder passwordEncoder = 
+					PasswordEncoderFactories.createDelegatingPasswordEncoder();
+		 String encodedPassword = passwordEncoder.encode(member.getMemberPassword());
+		 member.setMemberPassword(encodedPassword);
+	    
+		 member.setMemberId(memberId);
+		
 		int memberEdit = memberDao.updateMember(member);
 		return memberEdit;
 	}
@@ -149,6 +169,31 @@ public class MemberService {
 		log.info("암호화 번호: "  + encodedPassword);	
 		
 		return memberPw;
+	}
+
+	public int disableMember(MemberDTO member) {
+		log.info("실행");
+
+		MemberDTO memberId = memberDao.selectMemberForDeleteMember(member.getMemberId());
+		if(memberId == null) {
+			return 0;
+		}
+		
+		PasswordEncoder passwordEncoder = 
+				PasswordEncoderFactories.createDelegatingPasswordEncoder();
+		
+		
+        if (passwordEncoder.matches(member.getMemberPassword(), memberId.getMemberPassword())) {
+        		member.setMemberPassword(memberId.getMemberPassword());
+	        	int disableMember  = memberDao.disableMember(member);
+            return disableMember;
+        } else {
+            return 0; 
+        }
+		
+		
+	
+		
 	}
 	
 }
