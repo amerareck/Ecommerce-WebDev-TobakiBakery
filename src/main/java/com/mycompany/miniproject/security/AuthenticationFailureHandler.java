@@ -20,7 +20,7 @@ public class AuthenticationFailureHandler
 			AuthenticationException exception) throws IOException, ServletException {
 		
 		log.info("실행");
-		setDefaultFailureUrl("/member/loginForm");
+	    setDefaultFailureUrl("/member/loginForm?error=true");
 		
 		super.onAuthenticationFailure(request, response, exception);
 	}
