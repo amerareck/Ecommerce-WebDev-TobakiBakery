@@ -33,9 +33,9 @@
 						</button>
 						-->
 						<div class="collapse navbar-collapse" id="navbarColor03">
-						 <form method="post" action="${pageContext.request.contextPath}/logout" class="d-inline-block"> 
+						 <form method="post" action="${pageContext.request.contextPath}/logout" class="d-inline-block" id="logoutForm"> 
 						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-							<ul class="navbar-nav mr-auto">
+						<ul class="navbar-nav mr-auto">
 								<li class="nav-item">
 								<sec:authorize access="isAnonymous()">
 									<a class="nav-link" href="${pageContext.request.contextPath}/member/loginForm">로그인</a>

@@ -40,14 +40,14 @@ function setEmailDomain() {
 function validateForm() {
     var password = document.getElementById("password").value;
     var passwordConfirm = document.getElementById("password_confirm").value;
-    var passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,16}$/;
+    var passwordRegex = /(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,16}$/;
    
 
     
     // 비밀번호 패턴 검사
     
     if (!passwordRegex.test(password)) {
-        alert("비밀번호는 영어 대문자,소문자,숫자,특수문자  포함 8-16자를 입력해주세요.");
+        alert("비밀번호는 영문자와 숫자  포함 8-16자를 입력해주세요.");
         return false;
     }
 
@@ -97,10 +97,10 @@ $(document).ready(function() {
             url: '../member/checkId',  
             type: 'post',             
             data: { memberId: username },  
-            beforeSend: function(security) {
+/*            beforeSend: function(security) {
                 // CSRF 토큰을 요청 헤더에 추가
                 security.setRequestHeader(csrfHeader, csrfToken);
-            },
+            },*/
             success: function(response) {
                 if (response.resultId === 'idCheckOK') {
                 		console.log(response.resultId);
@@ -130,10 +130,10 @@ $(document).ready(function() {
             url: '../member/checkEmail',  
             type: 'post',             
             data: { memberEmail: userEmail },  
-            beforeSend: function(security) {
+/*            beforeSend: function(security) {
                 // CSRF 토큰을 요청 헤더에 추가
                 security.setRequestHeader(csrfHeader, csrfToken);
-            },
+            },*/
             success: function(response) {
                 if (response.resultEmail === 'emailCheckOK') {
                 		console.log(response.resultEmail);
@@ -210,7 +210,10 @@ $(document).ready(function() {
     }
     
 
-    
+    $('#logout').on('click', function(e) {
+        e.preventDefault();
+        $('#logoutForm').submit(); 
+    });
     
     
     
