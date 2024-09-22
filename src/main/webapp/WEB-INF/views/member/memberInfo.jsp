@@ -87,7 +87,12 @@
                                         <option>선택</option>
                                         <script>
                                             for (let i = 1; i <= 12; i++) {
+                                            		if(i<10){
+                                                        document.write('<option value="'+i+'">'+"0"+i+'</option>');
+
+                                            		}else{
                                                 document.write('<option value="'+i+'">'+i+'</option>');
+                                            		}
                                             }
                                         </script>
                                     </select>
@@ -95,8 +100,13 @@
                                     <select class="form-control input-tiny"  id="birth_day" required>
                                         <option>선택</option>
                                         <script>
-                                            for (let i = 1; i <= 31; i++) {
-                                                document.write('<option value="'+i+'">'+i+'</option>');
+                                            for (let i = 1; i <= 31; i++) { 
+	                                        		if(i<10){
+	                                                    document.write('<option value="'+i+'">'+"0"+i+'</option>');
+	
+	                                        		}else{
+	                                                document.write('<option value="'+i+'">'+i+'</option>');
+	                                        		}
                                             }
                                         </script>
                                     </select>
