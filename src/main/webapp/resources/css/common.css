@@ -246,3 +246,6 @@ footer {
     color: black;
     font-weight: bold;
 }
+.nav-link{
+    text-transform : none !important;
+}
