@@ -36,12 +36,12 @@ public class AdminController {
 	OrderService orderService;
 	
 	@GetMapping("/main")
-	public String mainPage(RedirectAttributes redi) {
+	public String mainPage(@RequestParam(value="pageNo", defaultValue="1") int pageNo, RedirectAttributes redi) {
 		log.info("실행");
 		redi.addFlashAttribute("adminMain", "active");
 		redi.addFlashAttribute("listType", "product");
 		
-		return "redirect:/admin/list?type=product";
+		return "redirect:/admin/list?type=product&pageNo="+pageNo;
 	}
 	
 	@GetMapping("/OrderList")
@@ -107,23 +107,6 @@ public class AdminController {
 		model.addAttribute("orderList", list);
 		
 		return "admin/adminOrderList";
-	}
-	
-	@PostMapping("/updateProduct")
-	public void updateProduct(ProductDTO dto, HttpServletResponse res) {
-		log.info("실행");
-		log.info(dto.toString());
-		
-		JSONObject json = new JSONObject();
-		json.put("status", "ok");
-
-		try(PrintWriter pw = res.getWriter()) {
-			res.setContentType("application/json; charset=UTF-8");
-			pw.println(json.toString());
-			pw.flush();
-		} catch(IOException ioe) {
-			ioe.printStackTrace();
-		}
 	}
 	
 	@PostMapping("/removeProductList")

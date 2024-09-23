@@ -1,14 +1,4 @@
 src="https://code.jquery.com/jquery-3.6.0.min.js"
-$('#updateImagefileUpload').change(function(event){
-    const file = event.target.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            $('#updateProductImagefile').attr('src', e.target.result);
-        };
-        reader.readAsDataURL(file);
-    }
-});
 
 $('#productMainImagefile').change(function(event){
     const file = event.target.files[0];
@@ -222,59 +212,6 @@ $('#orderUpdateSubmit').submit(function(event){
     });
 });
 
-    
-//    let str = '수정을 하려고 하는 내역은 다음과 같습니다.\n';
-//    str += '주문메모 : '+ $('#memo').text()+'\n';
-//    str += '이름 : '+ $('#receiver').val()+'\n';
-//    str += '폰번호 : '+ phoneNumber+'\n';
-//    str += '우편번호 : '+ $('#recevierPostNo').val()+'\n';
-//    str += '주소 : '+ $('#recevierAddr').val()+' '+$('#recevierDetailsAddr').val()+'\n';
-//    str+= '배송상태 : ';
-//    for(let i=0; i<orderProductData.length; i++) {
-//        str+= '['+orderProductName[i]+' - '+orderProductState[i]+']\n';
-//    }
-//    alert(str);
-//});
-
-$('#productUpdateForm').submit(function(event){
-    event.preventDefault();
-/*
-    let str = '수정을 하려고 하는 내역은 다음과 같습니다.\n';
-    str += '상품명 : '+$('#updateName').val().trim()+'\n';
-    str += '상품상세 : '+$('#updateDetails').val()+'\n';
-    str += '카테고리 : '+$('#updateCategory option:selected').val()+'\n';
-    str += '상품가격 : '+$('#updatePrice').val().replace(/[^0-9]/g, '')+'\n';
-    str += '상품수량 : '+$('#updateAmount').val().replace(/[^0-9]/g, '')+'\n';
-    str += '상품이미지 : '+$('#updateProductImagefile').attr('src')+'\n';
-    str += '상품상태 : '+$('#updateProductState option:selected').val()+' - '+$('#updateProductState option:selected').text()+'\n';
-    str += '추천상품상태 : '+$('#updateRecommendedProduct').is(':checked')+'\n';
-*/
-    const product = {
-    		productName : $('#updateName').val().trim(),
-    		productDetail : $('#updateDetails').val(),
-    		categoryName : $('#updateCategory option:selected').val(),
-    		productPrice : $('#updatePrice').val().replace(/[^0-9]/g, ''),
-    		productCount : $('#updateAmount').val().replace(/[^0-9]/g, ''),
-    		productState : $('#updateProductState option:selected').text(),
-    		productRecom : $('#updateRecommendedProduct').is(':checked'),
-    		productDateTime : moment().format('YYYY-MM-DD HH-mm-ss')
-    };
-    
-    $.ajax({
-    	url: "updateProduct",
-    	type: "post",
-    	data: product,
-    	success: function(data){
-    		if(data.status === "ok") {
-    			alert("상품이 수정되었습니다.");
-    			location.href="getAdminMain";
-    		} else {
-    			alert("수정에 실패했습니다.");
-    		}
-    	}
-    });
-});
-
 $('#productTableForm').submit(function(event){
     event.preventDefault();
 
@@ -306,6 +243,37 @@ $('#productTableForm').submit(function(event){
     });
 });
 
+$('.product-delete-selector').on('click', function(event){
+	const productId = $(this).attr('id').split('-')[2];
+	console.log(productId);
+	const clickedElement = $(this);
+	
+	$.ajax({
+		url: '../product/delete',
+		type: 'post',
+		data: {productId},
+		success: function(data) {
+			if (data.status == 'ok') {
+				alert('상품이 삭제되었습니다.');
+				const target = clickedElement.closest('tr');
+				console.log(target);
+				target.remove();
+				
+				if($('#productTableData').children().length === 0) {
+					const pageNo = $('.page-item.active').find('a').text();
+					location.href = 'main?pageNo='+(pageNo-1);
+				}
+			} else {
+				alert('서버에 문제가 발생하였습니다.')
+			}
+		},
+		error: function (xhr, status, error) {
+            console.log('Error: ' + error);
+        }
+	});
+});
+
+/*
 $('#productTableData a.product-delete-selector').each(function(){
     $(this).click(function(event){
         event.preventDefault();
@@ -333,64 +301,145 @@ $('#productTableData a.product-delete-selector').each(function(){
         }
     });
 });
+*/
 
-
-/*
-$('#productInsertForm').submit(function(event){
-    event.preventDefault();
+$('.productUpdateModal').on('show.bs.modal', function (event) {
+    var modal = $(this);
+    var modalId = modal.attr('id');
+    var productId = modalId.split('-')[1];
+    const detailImageNames = $('#updateModalDetailImageNames-'+productId);
+    const thumbnailImageNames = $('#updateModalthumbnailImageNames-'+productId);
     
-    const category = $('#product-category');
-    const productState = $('#productState');
-    if(!category.val()) {
-        alert('카테고리를 선택해 주세요.');
-        return;
-    } else if(!productState.val()) {
-        alert('상품상태를 설정해 주세요.');
-        return;
-    }
+    detailImageNames.empty();
+    thumbnailImageNames.empty();
+    console.log(modalId);
 
-    const prodName = $('#product-name');
-    const prodDetails = $('#product-details');
-    const prodDetailsImage = $('#product-details-imagefile')[0];
-    const prodPrice = $('#product-price');
-    const prodAmount = $('#product-amount');
-    const prodMainImage = $('#productMainImagefile')[0];
-    const isRecomenedProd = $('#recommendedProduct');
-
-    let str = '등록하실 상품 정보는 다음과 같습니다.\n';
-    str += '상품명: '+prodName.val().trim()+'\n';
-    str += '상품상세: '+prodDetails.val()+'\n';
-    prodDetailsImage.files.length > 0 && (str += '상품상세이미지: '+prodDetailsImage.files[0].name+'\n');
-    str += '카테고리: '+category.find('option:selected').text()+'\n';
-    str += '상품가격: '+prodPrice.val()+'\n';
-    str += '상품수량: '+prodAmount.val()+'\n';
-    prodMainImage.files.length > 0 ? (str+= '메인이미지 : '+prodMainImage.files[0].name+'\n') : (str+= '메인이미지 : 이미지 없음\n');
-    str += '상품상태: '+productState.find('option:selected').text()+'\n';
-    str += '추천상품설정: '+isRecomenedProd.is(':checked')+'\n';
-
-    const product = {
-    		productName : prodName.val().trim(),
-    		productDetail : prodDetails.val(),
-    		categoryName : category.find('option:selected').text(),
-    		productPrice : prodPrice.val(),
-    		productCount : prodAmount.val(),
-    		productState : productState.find('option:selected').text(),
-    		productRecom : isRecomenedProd.is(':checked'),
-    		productDateTime : moment().format('YYYY-MM-DD HH-mm-ss')
-    };
-    
     $.ajax({
-    	url: "addProduct",
-    	type: "post",
-    	data: product,
-    	success: function(data){
-    		if(data.status === 'ok') {
-    			alert("상품 등록에 성공하였습니다.");
-    			location.href="getAdminMain";
-    		} else {
-    			alert("상품 등록에 실패하였습니다.");
-    		}
-    	}
+        url: '../product/getImageNames',
+        type: 'GET',
+        data: { productId },
+        success: function (data) {
+        	$(`<div id="detailImageNamesRavel-${productId}" class="mt-3 mb-1"><b>현재 첨부된 파일</b></div>`).appendTo(detailImageNames);
+        	$(`<div id="thumbnailImageNamesRavel-${productId}" class="mt-3 mb-1"><b>현재 첨부된 파일</b></div>`).appendTo(thumbnailImageNames);
+        	let dcount = 0;
+        	let tcount = 0;
+            if (data.status === 'ok') {
+            	console.log(data.imageNames);
+            	for(let i=0; i<data.imageNames.length; i++) {
+            		let imageName = data.imageNames[i];
+            		if(imageName.productUsecase === 'DETAIL') {
+            			$(`
+                    		<div class="mb-1" data-id="${productId}">
+                    			<span>${imageName.imageName}</span>
+                    			<button type="button" class="d-inline-block btn btn-link p-1 deleteDetailImage" >삭제</button>
+        					</div>
+                    	`).appendTo(detailImageNames);
+            			dcount++;
+            		} else {
+            			$(`
+                    		<div class="mb-1" data-id="${productId}">
+                    			<span>${imageName.imageName}</span>
+                    			<button type="button" class="d-inline-block btn btn-link p-1 deleteThumbnailImage" >삭제</button>
+        					</div>
+                    	`).appendTo(thumbnailImageNames);
+            			tcount++;
+            		}
+            	}
+            	
+            	if(dcount === 0) {
+            		$(`
+                    	<div class="mb-1"><span>현재 첨부된 파일이 존재하지 않습니다.<span></div>
+                    `).appendTo(detailImageNames);
+            	}
+            	if(tcount === 0) {
+            		$(`
+            			<div class="mb-1"><span>현재 첨부된 파일이 존재하지 않습니다.<span></div>
+                    `).appendTo(thumbnailImageNames);
+            	}
+            	
+            } else if (data.status === 'no-data') {
+            	console.log('이미지 없음.');
+            	$(`
+            		<div class="mb-2"><span>현재 첨부된 파일이 존재하지 않습니다.<span></div>
+            	`).appendTo(detailImageNames);
+            	$(`
+                	<div class="mb-2"><span>현재 첨부된 파일이 존재하지 않습니다.<span></div>
+               	`).appendTo(thumbnailImageNames);
+            }
+        },
+        error: function (xhr, status, error) {
+            console.log('Error: ' + error);
+        }
     });
-});*/
+    
+    detailImageNames.on('click', '.deleteDetailImage', function(event) {
+    	const parent = $(this).parent();
+    	const productId = parent.data('id');
+    	const productUsecase = 'DETAIL';
+    	const imageOriginalName = parent.children('span').text();
+    	console.log(productId);
+    	
+    	$.ajax({
+    		url: '../product/deleteImage',
+    		type: 'post',
+    		data: {productId, productUsecase, imageOriginalName},
+    		success: function(data) {
+    			if(data.status === 'ok') {
+    				alert('상품 상세 이미지를 정상적으로 삭제하였습니다.');
+    				parent.empty();
+    				parent.append('<span>현재 첨부된 파일이 존재하지 않습니다.<span>');
+    			} else {
+    				alert('서버에서 상품 삭제를 처리함에 있어 문제가 발생하였습니다.');
+    			}
+    		},
+    		error: function (xhr, status, error) {
+                console.log('Error: ' + error);
+            }
+    	})
+    });
+    
+    thumbnailImageNames.on('click', '.deleteThumbnailImage', function(event) {
+    	const parent = $(this).parent();
+    	const productId = parent.data('id');
+    	const productUsecase = 'THUMBNAIL';
+    	const imageOriginalName = parent.children('span').text();
+    	
+    	$.ajax({
+    		url: '../product/deleteImage',
+    		type: 'post',
+    		data: {productId, productUsecase, imageOriginalName},
+    		success: function(data) {
+    			if(data.status === 'ok') {
+    				alert('상품 상세 이미지를 정상적으로 삭제하였습니다.');
+    				const grand = parent.parent();
+    				parent.remove();
+    				if (grand.find('span').length === 0) {
+    					grand.append('<div class="mb-2"><span>현재 첨부된 파일이 존재하지 않습니다.<span></div>');
+    					const imageTarget = $('#updateProductImagefile-'+productId);
+    					imageTarget.attr('src', '../resources/image/no-thumbnail.png');
+    				}
+    			} else {
+    				alert('서버에서 상품 삭제를 처리함에 있어 문제가 발생하였습니다.');
+    			}
+    		},
+    		error: function (xhr, status, error) {
+                console.log('Error: ' + error);
+            }
+    	})
+    });
+});
+
+$('.thumbnail-image-controller').on('change', '.thumbnail-image-file', function(event){
+	const productId = $(this).attr('id').split('-')[1];
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            $('#updateProductImagefile-'+productId).attr('src', e.target.result);
+        };
+        reader.readAsDataURL(file);
+    }
+});
+
+
 

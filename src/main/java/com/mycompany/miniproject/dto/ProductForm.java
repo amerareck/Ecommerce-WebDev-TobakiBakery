@@ -6,6 +6,7 @@ import lombok.Data;
 
 @Data
 public class ProductForm {
+	private int productId;
 	private String productName;
 	private String productDetail;
 	private String categoryName;
@@ -16,5 +17,7 @@ public class ProductForm {
 	
 	private MultipartFile productDetailImagefile;
 	private MultipartFile[] productThumbnailImagefile;
+	
+	private int pageNo;
 	
 }

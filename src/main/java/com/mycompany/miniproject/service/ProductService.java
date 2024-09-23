@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mycompany.miniproject.dao.ProductDAO;
+import com.mycompany.miniproject.dao.ProductImageDAO;
 import com.mycompany.miniproject.dto.Pager;
 import com.mycompany.miniproject.dto.ProductDTO;
 
@@ -17,6 +18,8 @@ public class ProductService {
 	
 	@Autowired
 	private ProductDAO productDAO;
+	@Autowired
+	private ProductImageDAO imageDAO;
 	
 	// 뱃지 다는 방식에 대해서 깊은 논의가 필요함. db에 없으니 이거 상품 꺼내올떄마다 뱃지체크하게 생겼네
 	public ProductDTO checkNewProduct(ProductDTO target) {
@@ -37,9 +40,7 @@ public class ProductService {
 	}
 	
 	public ProductDTO getProductImage(ProductDTO dto) {
-		ProductDTO img = productDAO.selectProductImage(dto);
-		
-		return img;
+		return imageDAO.selectProductImage(dto);
 	}
 	
 	public ProductDTO checkBestProduct(ProductDTO target) {
@@ -99,7 +100,7 @@ public class ProductService {
 	}
 
 	public boolean insertProductImage(ProductDTO dto) {
-		return productDAO.insertProductImage(dto) == 1;
+		return imageDAO.insertProductImage(dto) == 1;
 	}
 
 	public int getRecentProductId(String productName) {
@@ -118,7 +119,33 @@ public class ProductService {
 		return productDAO.selectAllProductList(pager);
 	}
 
-	public List<String> getImageNames(int productId) {
-		return productDAO.selectImageNamesWithProductId(productId);
+	public List<ProductDTO> getImageNames(ProductDTO dto) {
+		return imageDAO.selectProductName(dto);
+	}
+
+	public boolean removeImage(ProductDTO dto) {
+		return imageDAO.deleteImage(dto) == 1;
+	}
+
+	public boolean updateProduct(ProductDTO dto) {
+		return productDAO.updateProduct(dto) == 1;
+	}
+
+	public boolean updateDetailImage(ProductDTO dto) {
+		if (getProductImage(dto) != null) {
+			return imageDAO.updateProductImage(dto) == 1;
+		} else {
+			return insertProductImage(dto);
+		}
+	}
+
+	public boolean removeProduct(ProductDTO dto) {
+		// 트랜잭션 처리 요망
+		int count = imageDAO.selectProductAllImages(dto);
+		boolean check = imageDAO.deleteAllProductImage(dto) == count;
+		if(check) {
+			check = productDAO.deleteProduct(dto) == 1;
+		}
+		return check;
 	}
 } 

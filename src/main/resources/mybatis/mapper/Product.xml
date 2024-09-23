@@ -23,22 +23,6 @@
 		]]>
 	</select>
 	
-	<select id="selectProductImage" resultType="Product" parameterType="Product">
-		<![CDATA[
-			SELECT
-				product_id,
-				product_usecase,
-				image_original_name,
-				image_type,
-				image_data
-			FROM
-				PRODUCT_IMAGE
-			WHERE
-				product_id = #{productId}
-			AND product_usecase = #{productUsecase}
-		]]>
-	</select>
-	
 	<select id="selectBestProduct" resultType="Product">
 		<![CDATA[
 			SELECT 
@@ -179,24 +163,6 @@
 		]]>
 	</insert>
 	
-	<insert id="insertProductImage" parameterType="Product">
-		<![CDATA[
-			INSERT INTO PRODUCT_IMAGE(
-				product_id,
-				product_usecase,
-				image_original_name,
-				image_type,
-				image_data
-			) VALUES (
-				#{productId},
-				#{productUsecase},
-				#{imageOriginalName},
-				#{imageType},
-				#{imageData}
-			)
-		]]>
-	</insert>
-	
 	<select id="selectRecentProductId" parameterType="String" resultType="Product">
 		SELECT product_id
 		FROM PRODUCT
@@ -253,17 +219,33 @@
 			
 		]]>
 	</select>
+	
 	<select id="selectProductAllCount" resultType="int" >
 		SELECT COUNT(*)
 		FROM PRODUCT
 	</select>
 	
-	<select id="selectImageNamesWithProductId" parameterType="int" resultType="String" >
+	<update id="updateProduct" parameterType="Product" >
 		<![CDATA[
-			SELECT image_original_name
-			FROM PRODUCT_IMAGE
+			UPDATE PRODUCT
+			SET 
+				product_name = #{productName},
+				product_price = #{productPrice},
+				product_detail = #{productDetail},
+				product_state = #{productState},
+				product_stock = #{productStock},
+				product_recom = #{productRecom},
+				category_name = #{categoryName}
+			WHERE
+				product_id = #{productId}
+		]]>	
+	</update>
+	
+	<delete id="deleteProduct" parameterType="Product" >
+		<![CDATA[
+			DELETE FROM PRODUCT
 			WHERE product_id = #{productId}
 		]]>
-	</select>
+	</delete>
 
 </mapper>

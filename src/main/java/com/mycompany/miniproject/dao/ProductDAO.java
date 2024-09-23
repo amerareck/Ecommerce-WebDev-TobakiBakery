@@ -11,8 +11,6 @@ import com.mycompany.miniproject.dto.ProductDTO;
 public interface ProductDAO {
 	public List<ProductDTO> selectNewProduct();
 
-	public ProductDTO selectProductImage(ProductDTO dto);
-
 	public List<ProductDTO> selectBestProduct();
 	public List<ProductDTO> selectRecomProduct();
 
@@ -28,8 +26,6 @@ public interface ProductDAO {
 
 	public int insertProduct(ProductDTO dto);
 
-	public int insertProductImage(ProductDTO dto);
-
 	public ProductDTO selectRecentProductId(String productName);
 
 	public int selectProductAllCount();
@@ -37,5 +33,8 @@ public interface ProductDAO {
 	public List<ProductDTO> selectAllProductList(Pager pager);
 
 	public List<String> selectImageNamesWithProductId(int productId);
-	
+
+	public int updateProduct(ProductDTO dto);
+
+	public int deleteProduct(ProductDTO dto);
 }
