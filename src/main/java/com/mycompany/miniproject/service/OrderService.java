@@ -27,25 +27,33 @@ public class OrderService {
 		return cartDAO.selectCartItemsByMemberId(cartDto);
 	}
 	
-	public void addItemToCart(CartDTO cartDto) {
-		cartDAO.insertCartItem(cartDto);
+	public boolean addItemToCart(CartDTO cartDto) {
+		CartDTO dto = checkCart(cartDto);
 		
-	} 
-	public boolean checkCart(CartDTO cartDto) {
-		if (cartDAO.checkCartProduct(cartDto) == 0) {
-			return true;
+		if (dto==null) {
+			return cartDAO.insertCartItem(cartDto) == 1;
+		} else {
+			return cartDAO.updateProductQty(cartDto) == 1;
 		}
-		return false;
+		
 	}
-
+		
+	public CartDTO checkCart(CartDTO cartDto) {
+		return cartDAO.checkCartProduct(cartDto);
+	}
+	
 	public void updateQty(CartDTO cartDto) {
 		cartDAO.updateProductQty(cartDto);
 		
 	}
 
 	public void deleteItem(CartDTO cartDto) {
-		cartDAO.deleteCartProduct(cartDto);
-		
+		try {
+			cartDAO.deleteCartProduct(cartDto);
+			
+		}catch(Exception e) {
+			throw e;
+		}		
 	}
 
 	public int getOrderAllCount() {
@@ -54,6 +62,11 @@ public class OrderService {
 
 	public List<OrderDTO> getAllOrderList(Pager pager) {
 		return orderDAO.selectAllOrderList(pager);
+	}
+
+	public boolean removeCartItem(CartDTO cartDto) {
+		return cartDAO.deleteCartItem(cartDto) == 1;
+		
 	}
 
 	 

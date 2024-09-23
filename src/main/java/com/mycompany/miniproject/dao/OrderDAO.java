@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.mycompany.miniproject.dto.CartDTO;
 import com.mycompany.miniproject.dto.OrderDTO;
 import com.mycompany.miniproject.dto.Pager;
 
@@ -14,6 +15,6 @@ public interface OrderDAO {
 
 	List<OrderDTO> selectAllOrderList(Pager pager);
 
-	
+	public CartDTO getSelectedProduct(CartDTO cartDto);
 
 }

@@ -127,7 +127,7 @@
 									</div>
 								</div>
 								<div class="top-cart">
-									<a href="${pageContext.request.contextPath}/order/orderCart"><i class="fas fa-shopping-cart icon-size"></i></a>									
+									<a href="${pageContext.request.contextPath}/order/cart"><i class="fas fa-shopping-cart icon-size"></i></a>									
 									<span class="cart-count">3</span>
 								</div>
 							</div>
