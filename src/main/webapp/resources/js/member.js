@@ -38,9 +38,10 @@ function setEmailDomain() {
 
 // 회원가입
 function validateForm() {
+	
     var password = document.getElementById("password").value;
     var passwordConfirm = document.getElementById("password_confirm").value;
-    var passwordRegex = /(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,16}$/;
+    var passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,16}$/;
    
 
     
@@ -80,9 +81,8 @@ function validateForm() {
 //화원가입 완료시 ajax에  정보 담기
 
 $(document).ready(function() {
-
-
-    
+	let userCheck = false;
+	
 	$("#checkId").click(function() {
         let username = $("#username").val();  
         
@@ -105,13 +105,18 @@ $(document).ready(function() {
                 if (response.resultId === 'idCheckOK') {
                 		console.log(response.resultId);
                     alert("사용 가능한 아이디입니다.");
+                    userCheck = true;
                 } else {
                 		console.log(response.resultId);
                     alert("이미 존재하는 아이디입니다.");
+                    userCheck = false;
                 }
             }
         });
     });	
+	
+	
+	let emailCheck = false;
 	
     $("#emailCheck").click(function() {
     		let member_email = $("#email_local").val() + "@" + $("#email_domain").val();
@@ -138,37 +143,52 @@ $(document).ready(function() {
                 if (response.resultEmail === 'emailCheckOK') {
                 		console.log(response.resultEmail);
                     alert("사용 가능한 이메일 입니다.");
+                		emailCheck = true;
                 }
                 else  {
                 		console.log(response.resultEmail);
                     alert("이미 존재하는 이메일 입니다.");
+                		emailCheck = false;
                 }
             }
         });
     });	
     
-    
-    $("#signupForm").submit(function(e) {
-        if (validateForm()) {
-        	  alert("회원가입이 완료되었습니다!");
-            return true;
-        } else {
-        	
+    function finalCheck(e) {
+        // 아이디 중복 체크 검사
+        if (!userCheck) {
+            alert("아이디 중복 체크를 해주세요.");
+            e.preventDefault();
             return false;
         }
         
+        // 이메일 중복 체크 검사
+        if (!emailCheck) {
+            alert("이메일 중복 체크를 해주세요.");
+            e.preventDefault();
+            return false;
+        }
+
+        // 추가적인 폼 검증
+        if (validateForm()) {
+            alert("회원가입이 완료되었습니다!");
+            return true; // 폼 제출 진행
+        } else {
+            alert("회원가입에 실패했습니다.");
+            e.preventDefault();
+            return false; // 폼 제출 방지
+        }
+    }
+
+    
+    //회원가입 최종
+    $("#signupForm").submit(function(e) {
+    		finalCheck(e);
     });
     
     //회원정보 수정
     $("#editForm").submit(function(e) {
-        if (validateForm()) {
-        		alert("회원수정이 완료되었습니다!");
-            return true;
-        } else {
-        	
-            return false;
-        }
-        
+    		finalCheck(e);    
     });
     
   
@@ -209,7 +229,7 @@ $(document).ready(function() {
         history.back();
     }
     
-
+    //로그 아웃
     $('#logout').on('click', function(e) {
         e.preventDefault();
         $('#logoutForm').submit(); 

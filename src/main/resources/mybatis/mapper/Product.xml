@@ -23,32 +23,47 @@
 		]]>
 	</select>
 	
-	<select id="selectBestProduct" resultType="Product">
+	<select id="selectProductImage" resultType="Product" parameterType="Product">
 		<![CDATA[
-			SELECT 
-				product_id, 
-				product_name, 
-				product_price, 
-				order_product_count
-			FROM (
-			    SELECT 
-			    		p.product_id, 
-			    		p.product_name, 
-			    		p.product_price, 
-			    		op.order_product_count
-			    FROM 
-			    		order_product op
-			    LEFT OUTER JOIN 
-			    		product p
-			    ON 
-			    		p.product_id = op.product_id
-			    ORDER BY 
-			    		op.order_product_count DESC
-			)
-				WHERE 
-					rownum <= 8
+			SELECT
+				product_id,
+				product_usecase,
+				image_original_name,
+				image_type,
+				image_data
+			FROM
+				PRODUCT_IMAGE
+			WHERE
+				product_id = #{productId}
+			AND product_usecase = #{productUsecase}
 		]]>
-		
+	</select>
+	
+	<select id="selectBestProduct" resultType="Product">
+		<![CDATA[ 
+				SELECT 
+					product_id,
+					product_name, 
+					product_price, 
+					order_product_count 
+				FROM 
+					( 
+						SELECT 
+							p.product_id, 
+							p.product_name, 
+							p.product_price, 
+							op.order_product_count 
+						FROM 
+							order_product op 
+						LEFT OUTER JOIN 
+							product p 
+						ON 
+							p.product_id = op.product_id 
+						ORDER BY 
+							op.order_product_count DESC 
+							) 
+						WHERE rownum <= 8 
+			]]>
 	</select>
 	
 	<select id="selectRecomProduct" resultType="Product">
@@ -90,11 +105,36 @@
 	                    product_price,
 	                    category_name
 	                FROM PRODUCT
+	                ORDER BY product_id
+	            )
+	            WHERE rownum <= #{endRowNo}
+	        )
+	        WHERE rnum >= #{startRowNo}
 	    ]]>
-	    <if test="categoryName != null and categoryName != ''">
-	        WHERE category_name = #{categoryName}
-	    </if>
+	</select>
+	
+	<select id="selectCategoryProductList" parameterType="Pager" resultType="Product">
 	    <![CDATA[
+	        SELECT
+	            product_id, 
+	            product_name, 
+	            product_price,
+	            category_name
+	        FROM (
+	            SELECT rownum as rnum, 
+	                product_id, 
+	                product_name, 
+	                product_price,
+	                category_name
+	            FROM (
+	                SELECT
+	                    product_id, 
+	                    product_name, 
+	                    product_price,
+	                    category_name
+	                FROM PRODUCT
+	                WHERE
+	                		category_name = #{categoryName}
 	                ORDER BY product_id
 	            )
 	            WHERE rownum <= #{endRowNo}
@@ -104,15 +144,14 @@
 	</select>
 	
 	
-	
-	<select id="countProduct" parameterType="String" resultType="int">
+	<select id="countCategoryProduct" parameterType="String" resultType="int">
+	<![CDATA[
 	    SELECT
 	        COUNT(*)
 	    FROM
 	        PRODUCT
-	    <if test="categoryName != null and categoryName != ''">
 	        WHERE category_name = #{categoryName}
-	    </if>	
+		    ]]>
 	</select>
 	
 	<select id="totalRows"  resultType="int">
@@ -123,14 +162,17 @@
 	</select>
 	
 	<select id="selectProductDetail" parameterType="int" resultType="Product" >
+	<![CDATA[
 		SELECT 
 		    product_id, 
 		    product_name, 
-		    product_price
+		    product_price,
+		    category_name
 		FROM 
 			PRODUCT
 		WHERE 
 			product_id = #{productId}
+		]]>
 	</select>
 
 	<insert id="insertProduct" parameterType="Product">
@@ -159,6 +201,24 @@
 				#{productRecom},
 				0,
 				0
+			)
+		]]>
+	</insert>
+	
+	<insert id="insertProductImage" parameterType="Product">
+		<![CDATA[
+			INSERT INTO PRODUCT_IMAGE(
+				product_id,
+				product_usecase,
+				image_original_name,
+				image_type,
+				image_data
+			) VALUES (
+				#{productId},
+				#{productUsecase},
+				#{imageOriginalName},
+				#{imageType},
+				#{imageData}
 			)
 		]]>
 	</insert>
@@ -220,32 +280,79 @@
 		]]>
 	</select>
 	
-	<select id="selectProductAllCount" resultType="int" >
-		SELECT COUNT(*)
-		FROM PRODUCT
+	<select id="selectProductBestCount" resultType="int" >
+	<![CDATA[
+		SELECT 
+			COUNT(*)
+		FROM 
+			PRODUCT
+		WHERE
+			product_best = 1
+			]]>	
 	</select>
 	
-	<update id="updateProduct" parameterType="Product" >
-		<![CDATA[
-			UPDATE PRODUCT
-			SET 
-				product_name = #{productName},
-				product_price = #{productPrice},
-				product_detail = #{productDetail},
-				product_state = #{productState},
-				product_stock = #{productStock},
-				product_recom = #{productRecom},
-				category_name = #{categoryName}
-			WHERE
-				product_id = #{productId}
-		]]>	
-	</update>
+	<select id="selectProductNewCount" resultType="int" >
+	<![CDATA[
+		SELECT 
+			COUNT(*)
+		FROM 
+			PRODUCT
+		WHERE
+			product_new = 1
+			]]>	
+	</select>
 	
-	<delete id="deleteProduct" parameterType="Product" >
+	<select id="selectProductRecomCount" resultType="int" >
+	<![CDATA[
+		SELECT 
+			COUNT(*)
+		FROM 
+			PRODUCT
+		WHERE
+			product_recom = 1	
+			]]>	
+	</select>
+	
+	<select id="selectProductAllCount" resultType="int" >
+	<![CDATA[
+		SELECT COUNT(*)
+		FROM PRODUCT
+			]]>	
+	</select>
+	
+	<select id="selectImageNamesWithProductId" parameterType="int" resultType="String" >
 		<![CDATA[
-			DELETE FROM PRODUCT
+			SELECT image_original_name
+			FROM PRODUCT_IMAGE
 			WHERE product_id = #{productId}
 		]]>
-	</delete>
+	</select>
+
+	<select id="selectSmartRecom" parameterType="string" resultType="Product">
+		<![CDATA[
+			SELECT 
+				product_id,
+				product_name,
+				product_price
+			FROM
+				PRODUCT
+			WHERE
+				category_name = #{categoryName}
+			ORDER BY
+				DBMS_RANDOM.VALUE
+			FETCH FIRST 4 ROWS ONLY
+		]]>
+	</select>
+	
+	<select id="selectProductCategory" parameterType="int" resultType="string">
+		<![CDATA[
+			SELECT 
+				category_name
+			FROM 
+				PRODUCT 
+			WHERE
+				product_id = #{productId}
+				]]>		
+	</select>
 
 </mapper>

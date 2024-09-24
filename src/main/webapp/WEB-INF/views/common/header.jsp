@@ -102,13 +102,13 @@
 						<div class="top-menu collapse navbar-collapse" id="navbarColor03">
 							<ul class="navbar-nav mr-auto header-font-size ">
 								<li class="nav-item">
-									<a class="nav-link" href="${pageContext.request.contextPath}/product/itemList-best">베스트</a>
+									<a class="nav-link" href="${pageContext.request.contextPath}/product/productListAll?listName=best">베스트</a>
 								</li>
 								<li class="nav-item">
-									<a class="nav-link" href="${pageContext.request.contextPath}/product/itemList-best">신상품</a>
+									<a class="nav-link" href="${pageContext.request.contextPath}/product/productListAll?listName=new">신상품</a>
 								</li>
 								<li class="nav-item">
-									<a class="nav-link" href="${pageContext.request.contextPath}/product/itemList-recom">추천상품</a>
+									<a class="nav-link" href="${pageContext.request.contextPath}/product/productListAll?listName=recom">추천상품</a>
 								</li>
 								<li class="nav-item">
 									<a class="nav-link" href="${pageContext.request.contextPath}/center/list?type=notice">공지사항</a>
@@ -116,11 +116,11 @@
 							</ul>
 						</div>
 						<!--상단네비 검색 및 장바구니-->
-						<form action="#" id="headerSearch" method="post" >
+						<form action="/product/search" id="headerSearch" method="post" >
 							<div class="top-menu-finder-cart align-self-end">
 								<div class="top-finder">
 									<div class="input-group">
-										<input class="form-control headerSearchInput" type="text" placeholder="상품 검색">
+										<input class="form-control headerSearchInput" type="text" placeholder="상품 검색" id="search">
 										<div class="input-group-append">
 											<button class="btn btn-secondary" type="submit"><i class="fa fa-search"></i></button>
 										</div>

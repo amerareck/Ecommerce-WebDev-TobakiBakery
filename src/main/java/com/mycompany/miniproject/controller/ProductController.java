@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -50,72 +51,117 @@ public class ProductController {
 	private ProductService productService;
 
 	@GetMapping("/productListAll")
-	public String getProdutListAll(@RequestParam(name = "categoryName", defaultValue = "")String categoryName, 
-			Model model,@RequestParam(defaultValue="1")int pageNo, 
+	public String getProdutListAll(
+			@RequestParam(name = "categoryName", defaultValue = "")String categoryName, 
+			Model model,
+			@RequestParam(defaultValue="1")int pageNo, 
+			@RequestParam(name = "listName", defaultValue = "") String listName,
 			HttpSession session) { 
 		log.info("categoryName: " + categoryName);
-		if (categoryName == null || categoryName.trim().isEmpty()) {
-	        categoryName = null;
-	    }
+		log.info("listName: " + listName);
+	    
+		int totalRows = 0;
+		
+		Pager pager = new Pager(8, 5, totalRows, pageNo);
+		pager.setCategoryName(categoryName);
+		getCategoryProductList(categoryName, model, pageNo, session);
 
 		log.info("상품목록 실행");
-		getAllProductList(categoryName, model, pageNo, session);
-		int prodCount = productService.getProductCount(categoryName);
-		log.info("상품갯수: " + prodCount);
 		log.info("categoryName: " + categoryName);
 		log.info("pageNo: " + pageNo);
+			
 		
-		model.addAttribute("prodCount", prodCount);
-	    
+		 List<ProductDTO> productList = new ArrayList<>();
+		    String listTitle = "";
+		    int prodCount = 0;
+
+		    if (listName !=null && "best".equals(listName)) {
+		        productList = productService.getBestProductList();
+		        prodCount = productService.getProductBestCount();
+		        listTitle = "BEST 상품";
+		    } else if (listName !=null && "new".equals(listName)) {
+		        productList = productService.getNewProductList();
+		        prodCount = productService.getProductNewCount();
+		        listTitle = "신상품";
+		    } else if (listName !=null && "recom".equals(listName)) {
+		        productList = productService.getRecomProductList(pager);
+		        prodCount = productService.getProductRecomCount();
+		        listTitle = "추천 상품";
+		    } else if (categoryName !=null && "BREAD".equalsIgnoreCase(categoryName)) {
+		        productList = productService.getCategoryProductList(categoryName, pager);
+		        prodCount = productService.getCategoryProductCount(categoryName);
+		        listTitle = "빵";
+		    } else if (categoryName !=null && "CAKE".equalsIgnoreCase(categoryName)) {
+		        productList = productService.getCategoryProductList(categoryName, pager);
+		        prodCount = productService.getCategoryProductCount(categoryName);
+		        listTitle = "케이크";
+		    } else if (categoryName !=null && "DESSERT".equalsIgnoreCase(categoryName)) {
+		        productList = productService.getCategoryProductList(categoryName, pager);
+		        prodCount = productService.getCategoryProductCount(categoryName);
+		        listTitle = "디저트";
+		    } else {
+		        productList = productService.getAllProductList(pager);
+		        prodCount = productService.getProductAllCount();
+		        listTitle = "전체 상품";
+		    }
+
+		    
+		    model.addAttribute("prodCount", prodCount);
+		    model.addAttribute("productList", productList);
+		    model.addAttribute("listTitle", listTitle);
+
+		
 		return "/product/productListAll";
 	}
 	
-	public void getAllProductList( String categoryName, Model model,int pageNo, HttpSession session) {
-		int totalRows = productService.getProductCount(categoryName);
-		Pager pager = new Pager(8, 5, totalRows, pageNo);
-		pager.setCategoryName(categoryName);
-		session.setAttribute("pager", pager);
-		List<ProductDTO> prodListAll = productService.getProductListAll(categoryName, pager);
-		log.info(prodListAll.toString());
+	public void getCategoryProductList( String categoryName, Model model,int pageNo, HttpSession session) {
+		log.info("실행");
+		 int totalRows;
+		    if (categoryName == null || categoryName.isEmpty()) {
+		        totalRows = productService.getProductAllCount(); 
+		    } else {
+		        totalRows = productService.getCategoryProductCount(categoryName);
+		    }
+		    Pager pager = new Pager(8, 5, totalRows, pageNo);
+		    if (categoryName != null && !categoryName.isEmpty()) {
+		        pager.setCategoryName(categoryName);
+		    }
+
+		    session.setAttribute("pager", pager);
+
 		
-		model.addAttribute("prodListAll", prodListAll);
 	}
+	
+
 	
 	
 	@GetMapping("/productDetail")
-	public String getProductDetail(@RequestParam("productId") int productId, Model model) {
+	public String getProductDetail(@RequestParam("productId") int productId, 
+			Model model) {
 		getProdDetail(productId, model);
+		
+		String categoryName = productService.getProductCategoryName(productId);
+		log.info("cateName :  " + categoryName);
+		getProdSmartRecom(categoryName, model);
+		
 		log.info("상품상세 실행");
 		return "/product/productDetail";
 	}
 	
+	public void getProdSmartRecom(String categoryName, Model model) {
+		List<ProductDTO> prodSmart = productService.getProductSmartRecom(categoryName);
+		
+		model.addAttribute("prodSmart", prodSmart);
+	}
+
 	public void getProdDetail(int productId,  Model model) {
 		ProductDTO prodDetail = productService.getProductDetail(productId);
-		log.info("productDetail" + prodDetail);
+		log.info("productDetail: " + prodDetail);
 		
 		model.addAttribute("prodDetail", prodDetail);
 	}
-	
-	
-	@GetMapping("/itemList-best")
-	public String getProductBestList() {
-		log.info("best상품 실행");
-		return "/product/itemList-best";
-	}
-	
-	@GetMapping("/itemList-recom")
-	public String getProductRecomList(Model model) {
-		log.info("추천상품 실행");
-		getRecomProductList(model);
-		return "/product/itemList-recom";
-	}
-	
-	public void getRecomProductList(Model model) {
-		List<ProductDTO> recomProductList = productService.getRecomProductList();
-		log.info(recomProductList.toString());
 		
-		model.addAttribute("recomProductList", recomProductList);
-	}
+	
 	
 	@GetMapping("/productImage")
 	public void getProductImage(ProductDTO product, HttpServletResponse res, HttpServletRequest req) throws IOException {
