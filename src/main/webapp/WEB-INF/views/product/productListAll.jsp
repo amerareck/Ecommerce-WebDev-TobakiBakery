@@ -34,20 +34,19 @@
 			    </c:if>
 			</c:if>
 
-			<!-- listTitle이 없고 categoryName이 없을 때 전체 상품 표시 및 카테고리 메뉴 활성화 -->
 			<c:if test="${listTitle == '전체 상품' ||  listTitle == '빵' || listTitle == '케이크' || listTitle == '디저트'}">
 			    <div id="top_category">
-			        <ul>
-			            <li id="bread_all" class="category_click">
+			        <ul>			        		
+			            <li id="bread_all" <c:if test="${listTitle == '전체 상품'}">class="category_click"</c:if>>
 			                <a href="${pageContext.request.contextPath}/product/productListAll?">전체</a>
 			            </li>
-			            <li id="bread">
+			            <li id="bread" <c:if test="${listTitle == '빵'}">class="category_click"</c:if>>
 			                <a href="${pageContext.request.contextPath}/product/productListAll?categoryName=BREAD">빵</a>
 			            </li>
-			            <li id="cake">
-			                <a href="${pageContext.request.contextPath}/product/productListAll?categoryName=CAKE">케이크</a>
+			            <li id="cake" <c:if test="${listTitle == '케이크'}">class="category_click"</c:if>>
+			                <a href="${pageContext.request.contextPath}/product/productListAll?categoryName=CAKE" >케이크</a>
 			            </li>
-			            <li id="desert">
+			            <li id="desert" <c:if test="${listTitle == '디저트'}">class="category_click"</c:if>>
 			                <a href="${pageContext.request.contextPath}/product/productListAll?categoryName=DESSERT">디저트</a>
 			            </li>
 			        </ul>
@@ -63,6 +62,19 @@
 			<div class="item_wrap">
 				<c:forEach items="${productList}" var="prod">
 					<dl class="item_elem">
+						<c:if test="${listTitle != null && !listTitle.isEmpty() && (categoryName == null || categoryName.isEmpty())}">	
+						<c:choose>
+						    <c:when test="${prod.productNew == 1}">
+						        <h2><div class="badge">NEW</div></h2>
+						    </c:when>
+						    <c:when test="${prod.productBest == 1}">
+						        <h2><div class="badge">BEST</div></h2>
+						    </c:when>
+						    <c:when test="${prod.productRecom == 1}">
+						        <h2><div class="badge">PICK</div></h2>
+						    </c:when>
+						</c:choose>
+						</c:if>
 						<dt class="thumb">
 							<a href="productDetail?productId=${prod.productId}"> <img class="prd_img"
 								src="productImage?productId=${prod.productId}&productUsecase=THUMBNAIL" />
@@ -92,42 +104,44 @@
 </div>
 </div>
 			<!-- 페이지네이션 -->
-			<div>
-				<tr>
-					<td colspan="5" class="text-center">
-						<%-- [처음][이전]1 2 3 4 5[다음][맨뒤] --%>
-						<div>
-							<a href="${pageContext.request.contextPath}/product/productListAll?pageNo=1&categoryName=${pager.categoryName}"
-								class="btn btn-outline-primary btn-sm">처음</a>
-							<c:if test="${pager.groupNo>1}">
-								<a href="productListAll?pageNo=${pager.startPageNo-1}"
-									class="btn btn-outline-info btn-sm">이전</a>
-							</c:if>
-
-							<c:forEach begin="${pager.startPageNo}" end="${pager.endPageNo}"
+		        <div class="pagination mt-3 justify-center">
+		            <div class="d-flex align-items-center">
+		                <ul class="pagination justify-content-center mt-3 mb-2">    
+			                <li class="page-item">
+				                	<a class="page-link" href="${pageContext.request.contextPath}/product/productListAll?pageNo=1<c:if test="${listName == null || listName.isEmpty()}">&categoryName=${pager.categoryName}</c:if><c:if test="${categoryName == null || categoryName.isEmpty()}">&listName=${pager.listName}</c:if>" >&laquo;</a>
+		                    	</li>
+		                    <c:if test="${pager.groupNo>1}" >
+		                    	<li class="page-item" >
+			                        <a class="page-link" href="${pageContext.request.contextPath}/product/productListAll?pageNo=${pager.startPageNo-1}<c:if test="${listName == null || listName.isEmpty()}">&categoryName=${pager.categoryName}</c:if><c:if test="${categoryName == null || categoryName.isEmpty()}">&listName=${pager.listName}</c:if>" >&lt;</a>
+			                    </li>
+		                    </c:if>
+		                    
+		                    <c:forEach begin="${pager.startPageNo}" end="${pager.endPageNo}"
 								step="1" var="i">
-								<c:if test="${pager.pageNo==i}">
-									<a href="${pageContext.request.contextPath}/product/productListAll?pageNo=${i}&categoryName=${pager.categoryName}"
-										class="btn btn-danger btn-sm">${i}</a>
-								</c:if>
-								<c:if test="${pager.pageNo!=i}">
-									<a href="${pageContext.request.contextPath}/product/productListAll?pageNo=${i}&categoryName=${pager.categoryName}"
-										class="btn btn-outline-success btn-sm">${i}</a>
-								</c:if>
-							</c:forEach>
-
-							<c:if test="${pager.groupNo<pager.totalGroupNo}">
-								<a href="${pageContext.request.contextPath}/product/productListAll?pageNo=${pager.endPageNo+1}&categoryName=${pager.categoryName}"
-									class="btn btn-outline-info btn-sm">다음</a>
-							</c:if>
-
-							<a href="${pageContext.request.contextPath}/product/productListAll?pageNo=${pager.totalPageNo}&categoryName=${pager.categoryName}"
-								class="btn btn-outline-primary btn-sm">맨 끝</a>
-						</div>
-					</td>
-				</tr>
-
-			</div>
+		                    	<c:if test="${pager.pageNo == i}" >
+		                    		<li class="page-item active">
+		                        		<a class="page-link" href="${pageContext.request.contextPath}/product/productListAll?pageNo=${i}<c:if test="${listName == null || listName.isEmpty()}">&categoryName=${pager.categoryName}</c:if><c:if test="${categoryName == null || categoryName.isEmpty()}">&listName=${pager.listName}</c:if>">${i}</a>
+		                    		</li>
+		                    	</c:if>
+		                    		
+		                    	<c:if test="${pager.pageNo != i}" >
+		                    		<li class="page-item">
+				                        <a class="page-link" href="${pageContext.request.contextPath}/product/productListAll?pageNo=${i}<c:if test="${listName == null || listName.isEmpty()}">&categoryName=${pager.categoryName}</c:if><c:if test="${categoryName == null || categoryName.isEmpty()}">&listName=${pager.listName}</c:if>">${i}</a>
+				                    </li>
+		                    	</c:if>
+		                    </c:forEach>
+		                    
+							<c:if test="${pager.groupNo<pager.totalGroupNo}" >
+			                    <li class="page-item">
+			                        <a class="page-link" href="${pageContext.request.contextPath}/product/productListAll?pageNo=${pager.endPageNo+1}<c:if test="${listName == null || listName.isEmpty()}">&categoryName=${pager.categoryName}</c:if><c:if test="${categoryName == null || categoryName.isEmpty()}">&listName=${pager.listName}</c:if>">&gt;</a>
+			                    </li>
+		                    </c:if>
+			                    <li class="page-item">
+			                        <a class="page-link" href="${pageContext.request.contextPath}/product/productListAll?pageNo=${pager.totalPageNo}<c:if test="${listName == null || listName.isEmpty()}">&categoryName=${pager.categoryName}</c:if><c:if test="${categoryName == null || categoryName.isEmpty()}">&listName=${pager.listName}</c:if>">&raquo;</a>
+			                    </li>
+		                </ul>
+		            </div>
+		        </div>
 		</div>
 
 		<!-- content 부분 끝입니다. -->

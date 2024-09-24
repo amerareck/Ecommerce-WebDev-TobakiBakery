@@ -23,44 +23,21 @@ public class ProductService {
 	@Autowired
 	private ProductImageDAO imageDAO;
 	
-	// 뱃지 다는 방식에 대해서 깊은 논의가 필요함. db에 없으니 이거 상품 꺼내올떄마다 뱃지체크하게 생겼네
-	public ProductDTO checkNewProduct(ProductDTO target) {
-		List<ProductDTO> list = productDAO.selectNewProduct();
-		for(ProductDTO dto : list) {
-			if(dto.equals(target)) {
-				target.setProductNew(1);
-				break;
-			}
-		}
-		return target;
-	}
 	
-	public List<ProductDTO> getNewProductList() {
-		List<ProductDTO> list = productDAO.selectNewProduct();
+	public List<ProductDTO> getNewProductList(Pager pager) {
+		List<ProductDTO> list = productDAO.selectNewProduct(pager);
 		
 		return list;
 	}
+	
 	
 	public ProductDTO getProductImage(ProductDTO dto) {
 		return imageDAO.selectProductImage(dto);
 	}
 	
-	public ProductDTO checkBestProduct(ProductDTO target) {
-		List<ProductDTO> list = productDAO.selectBestProduct();
-		for(ProductDTO dto : list) {
-			if(dto.equals(target)) {
-				target.setProductBest(1);
-				break;
-			}
-		}
-		return target;
-	}
 	
-	public List<ProductDTO> getBestProductList(){
-		List<ProductDTO> bestList = productDAO.selectBestProduct();
-		for(ProductDTO dto : bestList) {
-			dto.setProductBest(1); 
-		}
+	public List<ProductDTO> getBestProductList(Pager pager){
+		List<ProductDTO> bestList = productDAO.selectBestProduct(pager);
 		return bestList;
 	}
 	
@@ -220,5 +197,19 @@ public class ProductService {
 		}
 		
 		return count;
+	}
+	
+	public int updateNewProductList() {
+		log.info("실행");
+		 productDAO.resetProductNew();
+		 int prodNewUpdate = productDAO.updateNewProduct();
+		return prodNewUpdate;
+	}
+
+	public int updateBestProductList() {
+		log.info("실행");
+		 productDAO.resetProductBest();
+		 int prodBestUpdate = productDAO.updateBestProduct();
+		return prodBestUpdate;
 	}
 } 

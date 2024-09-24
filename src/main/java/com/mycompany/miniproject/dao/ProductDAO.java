@@ -14,9 +14,9 @@ public interface ProductDAO {
 
 	public ProductDTO selectProductImage(ProductDTO dto);
 
-	public List<ProductDTO> selectNewProduct();
+	public List<ProductDTO> selectNewProduct(Pager pager);
 
-	public List<ProductDTO> selectBestProduct();
+	public List<ProductDTO> selectBestProduct(Pager pager);
 	
 	public List<ProductDTO> selectRecomProduct(Pager pager);
 
@@ -66,4 +66,12 @@ public interface ProductDAO {
 	public int selectSearchCountByProductState(String keyword);
 
 	public int selectTotalPrice(CartDTO dto);
+	
+	public int updateNewProduct();
+
+	public int resetProductNew();
+
+	public int updateBestProduct();
+
+	public void resetProductBest();
 }
