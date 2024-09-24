@@ -32,6 +32,7 @@ import com.mycompany.miniproject.dto.CommentDTO;
 import com.mycompany.miniproject.dto.HelpdeskDTO;
 import com.mycompany.miniproject.dto.NoticeDTO;
 import com.mycompany.miniproject.dto.Pager;
+import com.mycompany.miniproject.dto.ProductReviewDTO;
 import com.mycompany.miniproject.service.CenterService;
 import com.mycompany.miniproject.validator.BoardValidator;
 
@@ -392,6 +393,23 @@ public class CenterController {
 		if(type.equals("helpdesk")) {
 			HelpdeskDTO dto = new HelpdeskDTO();
 			dto.setHelpdeskId(Integer.parseInt(boardId.replaceAll("[^0-9]", "")));
+			dto.setImageOriginalName(imageName);
+			
+			dto = centerService.getImage(dto);
+			
+			String contentType = dto.getImageType();
+			String fileName = dto.getImageOriginalName();
+			String encodingFileName = new String(fileName.getBytes("UTF-8"), "ISO-8859-1");
+			res.setContentType(contentType);
+			res.setHeader("Content-Disposition", "attachment; filename=\""+encodingFileName+"\"");
+
+			OutputStream out = res.getOutputStream();
+			out.write(dto.getImageData());
+			out.flush();
+			out.close();
+		} else if (type.equals("productReview")) {
+			ProductReviewDTO dto = new ProductReviewDTO();
+			dto.setProductReviewId(Integer.parseInt(boardId.replaceAll("[^0-9]", "")));
 			dto.setImageOriginalName(imageName);
 			
 			dto = centerService.getImage(dto);

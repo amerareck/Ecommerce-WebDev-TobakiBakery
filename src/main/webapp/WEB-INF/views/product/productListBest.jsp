@@ -38,7 +38,7 @@
 							<img class="prd_img" src="productImage?productId=${bestProd.productId}&productUsecase=THUMBNAIL" />
 						</a>
 						<div class="cart-overlay">
-							<a href="${pageContext.request.contextPath}/order/orderCart">
+							<a href="#" id="insertCart-${bestProd.productId}" class="cartInsert" >
 								<img src="https://cdn-icons-png.flaticon.com/512/1170/1170678.png" />
 							</a>
 						</div>

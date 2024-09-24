@@ -2,6 +2,23 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.mycompany.miniproject.dao.OrderDAO">
 	
+	<select id="getSelectedProduct" parameterType="Cart" resultType="Cart">
+		SELECT 
+			c.member_id,
+			p.product_id,
+			c.cart_count,
+			p.product_name,
+			p.product_price
+		FROM
+			CART c
+		JOIN 
+			PRODUCT p
+		USING(product_id)
+		WHERE
+			member_id=#{memberId}
+		AND product_id = #{productId}
 	
+	
+	</select>
 
 </mapper>

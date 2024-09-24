@@ -17,5 +17,5 @@ public class ProductReviewDTO {
 	
 	private String imageOriginalName;
 	private String imageType;
-	private String imageData;
+	private byte[] imageData;
 }

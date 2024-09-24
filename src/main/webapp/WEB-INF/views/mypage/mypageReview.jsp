@@ -27,7 +27,7 @@
 			<h2>나의 상품 후기</h2>
 			<div class="review-summary">
 				<p>
-					<span>황망고</span>님이 쇼핑몰에 작성한 상품후기 내역입니다.
+					<span>yooni01</span>님이 쇼핑몰에 작성한 상품후기 내역입니다.
 				</p>
 			</div>
 			<table class="review-table">
@@ -43,46 +43,34 @@
 					</tr>
 				</thead>
 				<tbody>
+				    <c:forEach var="review" items="${reviews}">
+				        <tr>
+				            <td>${review.productReviewId}</td>
+				            <td>
+				                <c:if test="${not empty review.imageOriginalName}">
+				                    <a href="product/productDetail?productId=${review.productId}">
+				                        <img class="prd_img"
+								src="../center/image?type=productReview&imageName=${review.imageOriginalName}&boardId=${review.productReviewId}" />
+				                    </a>
+				                </c:if>
+				                <c:if test="${empty review.imageOriginalName}">
+				                    <a href="product/productDetail?productId=${review.productId}">
+				                        <img class="prd_img"
+								src="productImage?productId=${review.productId}&productUsecase=THUMBNAIL" />
+				                    </a>
+				                </c:if>
+				            </td>
+				            
+				            <td>${review.reviewTitle}</td>
+				            <td><fmt:formatDate value="${review.reviewDate}" pattern="yyyy-MM-dd"/></td>
+				            <td>${review.reviewViews}</td>
+				            <td>
+				                <button class="btn-delete" style="margin-top: 10px;">후기삭제</button>
+				            </td>
+				        </tr>
+				    </c:forEach>
+</tbody>
 
-					<tr>
-						<td>2</td>
-						<td><a
-							href="product/productDetail?productId=${prod.productId}"><img
-								src="${pageContext.request.contextPath}/resources/image/bread/팡도르.jpg"
-								alt="상품 이미지"></a></td>
-						<td>
-							<p class="item-name">팡도르</p>
-
-						</td>
-						<td>빵이 다음 날 먹어도 쫄깃해요</td>
-						<td>2024-08-05</td>
-						<td>27</td>
-
-						<td>
-
-							<button class="btn-delete" style="margin-top: 10px;">후기삭제</button>
-						</td>
-					</tr>
-					<tr>
-						<td>1</td>
-						<td><a
-							href="product/productDetail?productId=${prod.productId}"><img
-								src="${pageContext.request.contextPath}/resources/image/bread/파네토네.jpg"
-								alt="상품 이미지"></a></td>
-						<td>
-							<p class="item-name">파네토네</p>
-
-						</td>
-						<td>빵이 진짜 부드럽고 많이 안달아요</td>
-						<td>2024-07-24</td>
-						<td>39</td>
-
-						<td>
-
-							<button class="btn-delete" style="margin-top: 10px;">후기삭제</button>
-						</td>
-					</tr>
-				</tbody>
 			</table>
 
 

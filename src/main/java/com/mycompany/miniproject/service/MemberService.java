@@ -14,7 +14,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.mycompany.miniproject.dao.MemberDAO;
+import com.mycompany.miniproject.dao.ProductReviewDAO;
 import com.mycompany.miniproject.dto.MemberDTO;
+import com.mycompany.miniproject.dto.ProductReviewDTO;
+import com.mycompany.miniproject.dto.ProductReviewForm;
 import com.mycompany.miniproject.type.JoinResult;
 import com.mycompany.miniproject.type.LoginResult;
 import com.mycompany.miniproject.type.MemberRole;
@@ -189,10 +192,8 @@ public class MemberService {
         } else {
             return 0; 
         }
-		
-		
 	
-		
 	}
 	
+
 }

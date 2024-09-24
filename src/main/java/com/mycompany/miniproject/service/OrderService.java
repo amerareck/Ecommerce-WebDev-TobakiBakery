@@ -68,6 +68,12 @@ public class OrderService {
 		return cartDAO.deleteCartItem(cartDto) == 1;
 		
 	}
+	public int getCartItemCount(String memberId) {
+		return cartDAO.countCartItem(memberId);
+	}
+
+	
+	
 
 	 
 	   

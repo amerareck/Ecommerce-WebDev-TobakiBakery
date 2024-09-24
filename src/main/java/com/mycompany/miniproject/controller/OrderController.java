@@ -100,6 +100,8 @@ public class OrderController {
 		cartDto.setMemberId(memberId);
 		cartDto.setCartCount(cartCount);
 		orderService.updateQty(cartDto);
+		
+		
 	}
 	
 	@PostMapping("/deleteCartItem")
@@ -117,5 +119,11 @@ public class OrderController {
 		
 		return "redirect:/order/cart";
 	}
-	
+	@GetMapping("/countCartItem")
+	public String getCartItemCount(Model model, Authentication authentication) {
+		String memberId = authentication.getName();
+		int cartItemCount = orderService.getCartItemCount(memberId);
+		model.addAttribute("cartItemCount", cartItemCount);
+		return "redirect:/order/cart";
+	}
 }

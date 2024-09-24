@@ -57,7 +57,7 @@
                 
                     <c:forEach items="${cartItemList}" var="cartItem">
                         <tr>
-                        	<div id="allchk">
+                        	
                             <td><input type="checkbox" /></td>
                             </div>
                             <td>
@@ -82,7 +82,7 @@
                                 <td>
                                 	<form action="${pageContext.request.contextPath}/order/deleteCartItem" method="post">
                                 		<input type="hidden" name="productId" value="${cartItem.productId}">
-                                		<button type="submit" class="btn-danger btn-sm">삭제</button>
+                                		<button type="submit" id="deleteCart-${cartItem.productId}" class="btn-danger btn-sm">삭제</button>
                                 		
                                		</form>
                                </td>

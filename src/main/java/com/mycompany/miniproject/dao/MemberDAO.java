@@ -27,5 +27,13 @@ public interface MemberDAO {
 
 	public MemberDTO selectMemberForDeleteMember(String memberId);
 	
-	
+	/*public boolean hasPurchasedProduct(String memberId, int productId) {
+	    
+	    return sqlSession.selectOne("myPage.hasPurchasedProduct", Map.of("memberId", memberId, "productId", productId));
+	}
+
+	public void insertReview(ProductReviewDTO reviewDTO) {
+	    sqlSession.insert("myPage.insertReview", reviewDTO);
+	}*/
+
 }

@@ -49,6 +49,14 @@
 		]]>
 	</select>
 	
+	<select id="selectBoardImageNamesFromProductReview" parameterType="int" resultType="String">
+		<![CDATA[
+			SELECT image_original_name
+			FROM CENTER_IMAGE
+			WHERE product_Review_id = #{condition}
+		]]>
+	</select>
+	
 	<select id="selectBoardImageFromNotice" parameterType="Notice" resultType="Notice">
 		<![CDATA[
 			SELECT
@@ -73,6 +81,20 @@
 			FROM CENTER_IMAGE
 			WHERE 
 				helpdesk_id = #{helpdeskId}
+			AND image_original_name = #{imageOriginalName}
+		]]>
+	</select>
+	
+	<select id="selectBoardImageFromProductReview" parameterType="ProductReview" resultType="ProductReview">
+		<![CDATA[
+			SELECT
+				image_original_name,
+				image_type,
+				image_data,
+				helpdesk_id
+			FROM CENTER_IMAGE
+			WHERE 
+				product_review_id = #{productReviewId}
 			AND image_original_name = #{imageOriginalName}
 		]]>
 	</select>

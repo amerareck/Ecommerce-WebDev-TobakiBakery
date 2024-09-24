@@ -15,6 +15,7 @@ import com.mycompany.miniproject.dto.CommentDTO;
 import com.mycompany.miniproject.dto.HelpdeskDTO;
 import com.mycompany.miniproject.dto.NoticeDTO;
 import com.mycompany.miniproject.dto.Pager;
+import com.mycompany.miniproject.dto.ProductReviewDTO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -79,6 +80,8 @@ public class CenterService {
 	public List<String> getBoardImageNames(String type, int condition) {
 		if(type.equals("notice")) {
 			return imageDAO.selectBoardImageNamesFromNotice(condition);
+		} else if(type.equals("productReview")) {
+			return imageDAO.selectBoardImageNamesFromProductReview(condition);
 		} else {
 			return imageDAO.selectBoardImageNamesFromHelpdesk(condition);
 		}
@@ -90,6 +93,10 @@ public class CenterService {
 	
 	public NoticeDTO getImage(NoticeDTO dto) {
 		return imageDAO.selectBoardImageFromNotice(dto);
+	}
+	
+	public ProductReviewDTO getImage(ProductReviewDTO dto) {
+		return imageDAO.selectBoardImageFromProductReview(dto);
 	}
 
 	public int getBoardAllCount(String type) {

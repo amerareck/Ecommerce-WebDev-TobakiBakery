@@ -191,6 +191,11 @@
 									<div class="container mt-5">
 										<h2 style="text-align: center;">상품 후기</h2>
 										<br>
+										<!-- 후기 작성 버튼 -->
+										<div class="text-right mb-3">
+											<button type="button" class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/product/reviewInsert?productId=${prodDetail.productId}'">후기 작성하기</button>
+										</div>
+										
 										<div class="accordion" id="accordionExample">
 											<!-- 후기 리스트 테이블 -->
 											<table class="table table-bordered mt-3">

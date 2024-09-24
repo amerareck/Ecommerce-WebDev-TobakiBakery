@@ -34,10 +34,10 @@
 					</c:if>
 					<dt class="thumb">
 						<a href="productDetail?productId=${recomProd.productId}">
-							<img class="prd_img" src="${pageContext.request.contextPath}/productImage?productId=${recomProd.productId}&productUsecase=THUMBNAIL" />
+							<img class="prd_img" src="${pageContext.request.contextPath}/product/productImage?productId=${recomProd.productId}&productUsecase=THUMBNAIL" />
 						</a>
 						<div class="cart-overlay">
-							<a href="${pageContext.request.contextPath}/order/orderCart-static">
+							<a href="#" id="insertCart-${recomProd.productId}" class="cartInsert2" >
 								<img src="https://cdn-icons-png.flaticon.com/512/1170/1170678.png" />
 							</a>
 						</div>

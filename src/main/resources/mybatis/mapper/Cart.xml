@@ -59,4 +59,10 @@
 		WHERE member_id = #{memberId}
 		AND product_id = #{productId}
 	</delete>
+	
+	<select id="countCartItem" resultType="int">
+		SELECT COUNT(product_id)
+		FROM CART
+		WHERE member_id=#{memberId}
+	</select>
 </mapper>
