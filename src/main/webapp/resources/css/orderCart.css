@@ -33,10 +33,6 @@ body, h1, h2, h3, h4, h5, h6, table, pre, xmp, plaintext, listing, input, textar
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.table-warning {
-	margin-bottom: 40px;
-}
-
 tfoot td {
     margin-top: 20px;
     margin-bottom: 20px;
@@ -51,9 +47,6 @@ tfoot td {
 	display: flex;
 	align-items: center;
 	justify-content: flex-end;
-	margin-top: 40px;
-	margin-bottom: 40px;
-	border: #DDDDDD DASHED 1PX;
 }
 
 .totalprice_img {

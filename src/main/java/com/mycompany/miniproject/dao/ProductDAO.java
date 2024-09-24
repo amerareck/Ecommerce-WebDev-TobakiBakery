@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.mycompany.miniproject.dto.CartDTO;
 import com.mycompany.miniproject.dto.Pager;
 import com.mycompany.miniproject.dto.ProductDTO;
 
@@ -63,4 +64,6 @@ public interface ProductDAO {
 	public int selectSearchCountByName(String keyword);
 	public int selectSearchCountByCategory(String keyword);
 	public int selectSearchCountByProductState(String keyword);
+
+	public int selectTotalPrice(CartDTO dto);
 }

@@ -488,5 +488,17 @@
 			WHERE product_state = #{keyword}
 		]]>
 	</select>
+	
+	<select id="selectTotalPrice" parameterType="Cart" resultType="int" >
+		<![CDATA[
+			SELECT product_price * cart_count
+			FROM 
+			    PRODUCT 
+			    LEFT OUTER JOIN CART USING(product_id)
+			WHERE 
+			    product_id = #{productId}
+			AND member_id = #{memberId}
+		]]>
+	</select>
 
 </mapper>
