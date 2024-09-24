@@ -143,4 +143,40 @@ public class AdminController {
 			ioe.printStackTrace();
 		}
 	}
+	
+	@GetMapping("/searchProduct")
+	public String searchProduct(
+			@RequestParam(value="type", required=true) String type, 
+			@RequestParam(value="keyword", required=true) String keyword, 
+			@RequestParam(value="pageNo", defaultValue="1") int pageNo, 
+			Model model, RedirectAttributes redi) {
+		log.info("실행");
+		log.info("type: "+type+"\nkeyword: "+keyword);
+		
+		int searchProductCount = productService.getSearchProductCount(type, keyword);
+		if(searchProductCount < 1) {
+			redi.addFlashAttribute("isAlert", true);
+			redi.addFlashAttribute("alert", "검색 결과가 존재하지 않습니다.\\n다른 키워드를 검색해 해주세요.");
+			
+			redi.addFlashAttribute("adminMain", "active");
+			redi.addFlashAttribute("listType", "product");
+			return "redirect:/admin/list?type=product&pageNo="+pageNo;
+		}
+		
+		Pager pager = new Pager(10, 5, searchProductCount, pageNo);
+		pager.setSearchType(type);
+		pager.setKeyword(keyword);
+		List<ProductDTO> searchList = productService.getResultSearchProduct(pager);
+		
+		model.addAttribute("adminMain", "active");
+		model.addAttribute("listType", "product");
+		model.addAttribute("isSearchPage", true);
+		model.addAttribute("postListTitle", "검색 목록 리스트");
+		model.addAttribute("searchProductCount", searchProductCount);
+		model.addAttribute("pager", pager);
+		model.addAttribute("productList", searchList);
+		
+		
+		return "admin/adminProductList";
+	}
 }

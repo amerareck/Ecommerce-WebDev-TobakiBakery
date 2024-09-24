@@ -8,41 +8,39 @@ $('#totalProductSelect').change(function(event){
     });
 });
 
-$('#productSearchForm').submit(function(event){
-    event.preventDefault();
-    const selector = $('select#searchProductSelect option:selected');
-    let str = '';
+$('#productSearchForm').on('submit', function(event) {
+    const selector = $('#searchProductSelect option:selected');
+    console.log(selector);
+
     if (selector.val() == '검색조건') {
         alert('검색 조건을 선택하세요.');
+        event.preventDefault();
         return;
-    } else if(selector.val() == 'pname') {
+    } else if(selector.val() == 'productName') {
         const productName = $('#productSearchKeyword');
         if(!productName.val()) {
             alert('검색하실 상품명을 입력하세요.');
+            event.preventDefault();
             return;
         }
-        str = '검색을 진행합니다.\n선택한 검색 타입 : '+selector.val()+'\n';
-        str += '검색 키워드 : '+productName.val().trim();
 
     } else if(selector.val() == 'category') {
         const category = $('#productSearchCategory option:selected');
         if(category.val() == '카테고리') {
             alert('카테고리를 선택하세요.');
+            event.preventDefault();
             return;
         }
-        str = '검색을 진행합니다.\n선택한 검색 타입 : '+selector.val()+'\n';
-        str += '검색 카테고리 : '+category.val();
+
     } else {
         const productState = $('#productSearchStatus option:selected');
         if(productState.val() == '상품상태') {
             alert('상품상태를 선택하세요.');
+            event.preventDefault();
             return;
         }
-        str = '검색을 진행합니다.\n선택한 검색 타입 : '+selector.val()+'\n';
-        str += '검색 상품상태 : '+productState.val();
     }
-
-    alert(str);
+    
 });
 
 $('#searchProductSelect').change(function(event){
@@ -51,25 +49,25 @@ $('#searchProductSelect').change(function(event){
 
     if(selected =='category') {
         targetTag.replaceWith(
-            `<select class="form-control mr-sm-0" id="productSearchCategory">
+            `<select class="form-control mr-sm-0" id="productSearchCategory" name="keyword">
                 <option selected>카테고리</option>
-                <option value="bread">Bread</option>
-                <option value="cake">Cake</option>
-                <option value="desert">Desert</option> 
+                <option value="BREAD">Bread</option>
+                <option value="CAKE">Cake</option>
+                <option value="DESSERT">Dessert</option> 
             </select>`
         );
-    } else if(selected=='pstatus') {
+    } else if(selected=='productState') {
         targetTag.replaceWith(
-            `<select class="form-control mr-sm-0" id="productSearchStatus">
+            `<select class="form-control mr-sm-0" id="productSearchStatus" name="keyword">
                 <option selected>상품상태</option>
-                <option value="1">판매중</option>
-                <option value="2">판매중단</option>
-                <option value="3">매진</option> 
+                <option value="ON_SALE">판매중</option>
+                <option value="NOT_SALE">판매중단</option>
+                <option value="SOLD_OUT">매진</option>
             </select>`
         );
     } else {
         $('#productSearchCategory, #productSearchStatus').replaceWith(
-            `<input class="form-control mr-sm-0" type="text" placeholder="Search" id="productSearchKeyword">`
+            `<input class="form-control mr-sm-0" type="text" placeholder="Search" id="productSearchKeyword" name="keyword">`
         );
     }
 });
@@ -201,39 +199,6 @@ $('#orderUpdateSubmit').submit(function(event){
     });
 });
 
-/*
-$('#productTableForm').submit(function(event){
-    event.preventDefault();
-
-    let str = '선택된 상품 번호 - \n';
-    const removeList = [];
-    const tableData = $('#productTableData tr');
-    const deleteData = tableData.filter(function(){
-        return $(this).find('input.product-select:checked').length > 0;
-    });
-    
-    deleteData.each(function(){
-        str += $(this).find('th.prodNum').text().trim()+'\n';
-        removeList.push({productId : $(this).find('th.prodNum').text().replace(/[^0-9]/g, '')});
-    });
-    $.ajax({
-    	url: "removeProductList",
-    	type: "post",
-    	contentType: "application/json",
-    	data: JSON.stringify(removeList),
-    	success: function(data){
-    		if(data.status === 'ok') {
-    		    str += '해당 상품들이 삭제되었습니다.';
-    		    deleteData.remove();
-    		    alert(str);
-    		} else {
-    			alert("상품 삭제에 실패하였습니다.");
-    		}
-    	}
-    });
-});
-*/
-
 $('.product-delete-selector').on('click', function(event){
 	const productId = $(this).attr('id').split('-')[2];
 	console.log(productId);
@@ -263,36 +228,6 @@ $('.product-delete-selector').on('click', function(event){
         }
 	});
 });
-
-/*
-$('#productTableData a.product-delete-selector').each(function(){
-    $(this).click(function(event){
-        event.preventDefault();
-
-        const deleteData = $(this).parent().parent();
-        const productId = deleteData.find('th.prodNum').text().trim().replace(/[^0-9]/g, '');
-        let str = '선택한 상품NO ['
-        str += productId+']';
-        if(confirm(str+'\n정말 삭제하시겠습니까?')) {
-        	$.ajax({
-        		url: "removeProduct",
-        		type: "post",
-        		contentType: "application/json",
-        		data: JSON.stringify({ productId }),
-        		success: function(data) {
-        			if(data.status === 'ok') {
-        				deleteData.remove();
-        	            str+= '을 삭제하였습니다.';
-        	            alert(str);
-        			} else {
-        				alert("상품 삭제를 실패하였습니다.");
-        			}
-        		}
-        	});
-        }
-    });
-});
-*/
 
 $('.productUpdateModal').on('show.bs.modal', function (event) {
     var modal = $(this);

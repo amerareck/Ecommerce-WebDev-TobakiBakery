@@ -205,24 +205,6 @@
 		]]>
 	</insert>
 	
-	<insert id="insertProductImage" parameterType="Product">
-		<![CDATA[
-			INSERT INTO PRODUCT_IMAGE(
-				product_id,
-				product_usecase,
-				image_original_name,
-				image_type,
-				image_data
-			) VALUES (
-				#{productId},
-				#{productUsecase},
-				#{imageOriginalName},
-				#{imageType},
-				#{imageData}
-			)
-		]]>
-	</insert>
-	
 	<select id="selectRecentProductId" parameterType="String" resultType="Product">
 		SELECT product_id
 		FROM PRODUCT
@@ -353,6 +335,158 @@
 			WHERE
 				product_id = #{productId}
 				]]>		
+	</select>
+	
+	<update id="updateProduct" parameterType="Product" >
+		<![CDATA[
+			UPDATE PRODUCT
+			SET 
+				product_name = #{productName},
+				product_price = #{productPrice},
+				product_detail = #{productDetail},
+				product_state = #{productState},
+				product_stock = #{productStock},
+				product_recom = #{productRecom},
+				category_name = #{categoryName}
+			WHERE
+				product_id = #{productId}
+		]]>	
+	</update>
+	
+	<delete id="deleteProduct" parameterType="Product" >
+		<![CDATA[
+			DELETE FROM PRODUCT
+			WHERE product_id = #{productId}
+		]]>
+	</delete>
+	
+	<select id="selectResultSearchProductByName" parameterType="Pager" resultType="Product">
+		<![CDATA[
+			SELECT
+			    product_id,
+			    product_name,
+			    product_price,
+			    product_datetime,
+			    product_detail,
+			    product_state,
+			    product_stock,
+			    product_recom,
+			    category_name,
+			    product_new,
+			    product_best
+			FROM (
+			    SELECT
+			        product_id,
+			        product_name,
+			        product_price,
+			        product_datetime,
+			        product_detail,
+			        product_state,
+			        product_stock,
+			        product_recom,
+			        category_name,
+			        product_new,
+			        product_best,
+			        ROW_NUMBER() OVER (ORDER BY product_id DESC) AS rnum
+			    FROM PRODUCT
+			    WHERE product_name LIKE '%'||#{keyword}||'%'
+			)
+			WHERE rnum BETWEEN #{startRowNo} AND #{endRowNo}
+		]]>
+	</select>
+	
+	<select id="selectResultSearchProductByCategory" parameterType="Pager" resultType="Product">
+		<![CDATA[
+			SELECT
+			    product_id,
+			    product_name,
+			    product_price,
+			    product_datetime,
+			    product_detail,
+			    product_state,
+			    product_stock,
+			    product_recom,
+			    category_name,
+			    product_new,
+			    product_best
+			FROM (
+			    SELECT
+			        product_id,
+			        product_name,
+			        product_price,
+			        product_datetime,
+			        product_detail,
+			        product_state,
+			        product_stock,
+			        product_recom,
+			        category_name,
+			        product_new,
+			        product_best,
+			        ROW_NUMBER() OVER (ORDER BY product_id DESC) AS rnum
+			    FROM PRODUCT
+			    WHERE category_name = #{keyword}
+			)
+			WHERE rnum BETWEEN #{startRowNo} AND #{endRowNo}
+		]]>
+	</select>
+	
+	<select id="selectResultSearchProductByProductState" parameterType="Pager" resultType="Product">
+		<![CDATA[
+			SELECT
+			    product_id,
+			    product_name,
+			    product_price,
+			    product_datetime,
+			    product_detail,
+			    product_state,
+			    product_stock,
+			    product_recom,
+			    category_name,
+			    product_new,
+			    product_best
+			FROM (
+			    SELECT
+			        product_id,
+			        product_name,
+			        product_price,
+			        product_datetime,
+			        product_detail,
+			        product_state,
+			        product_stock,
+			        product_recom,
+			        category_name,
+			        product_new,
+			        product_best,
+			        ROW_NUMBER() OVER (ORDER BY product_id DESC) AS rnum
+			    FROM PRODUCT
+			    WHERE product_state = #{keyword}
+			)
+			WHERE rnum BETWEEN #{startRowNo} AND #{endRowNo}
+		]]>
+	</select>
+	
+	<select id="selectSearchCountByName" parameterType="String" resultType="int" >
+		<![CDATA[
+			SELECT COUNT(*)
+			FROM PRODUCT
+			WHERE product_name LIKE '%'||#{keyword}||'%'
+		]]>
+	</select>
+	
+	<select id="selectSearchCountByCategory" parameterType="String" resultType="int" >
+		<![CDATA[
+			SELECT COUNT(*)
+			FROM PRODUCT
+			WHERE category_name = #{keyword}
+		]]>
+	</select>
+	
+	<select id="selectSearchCountByProductState" parameterType="String" resultType="int" >
+		<![CDATA[
+			SELECT COUNT(*)
+			FROM PRODUCT
+			WHERE product_state = #{keyword}
+		]]>
 	</select>
 
 </mapper>

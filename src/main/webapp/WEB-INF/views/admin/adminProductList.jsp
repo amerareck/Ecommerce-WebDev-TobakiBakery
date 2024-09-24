@@ -7,18 +7,23 @@
 		<div class="total-products p-2 mb-4">
 			<%-- 상품 검색 start --%>
 		    <div class="d-flex justify-content-between mb-2 align-items-center">
-		        <h3>상품 목록 리스트</h3>
-		        <form class="form-inline my-2 my-lg-0" id="productSearchForm">
+		    	<c:if test="${!isSearchPage}" >
+			        <h3>상품 목록 리스트</h3>
+		    	</c:if>
+		    	<c:if test="${isSearchPage}" >
+					<h3>검색 목록 리스트</h3>
+		    	</c:if>
+		        <form id="productSearchForm" action="searchProduct">
 		            <div class="input-group">
-		                <select class="form-control mr-sm-1" id="searchProductSelect">
-		                    <option selected>검색조건</option>
-		                    <option value="pname">이름</option>
-		                    <option value="category">분류</option>
-		                    <option value="pstatus">상태</option>
+		                <select class="form-control mr-sm-1" id="searchProductSelect" name="type" >
+		                	<option selected>검색조건</option>
+			                <option value="productName">이름</option>
+			                <option value="category">분류</option>
+			                <option value="productState">상태</option>
 		                </select>
-		                <input class="form-control mr-sm-0" type="text" placeholder="Search" id="productSearchKeyword">
+		                <input class="form-control mr-sm-0" type="text" placeholder="Search" id="productSearchKeyword" name="keyword" />
 		                <div class="input-group-append">
-		                    <button class="btn btn-secondary my-2 my-sm-0" style="height: 35px;" type="submit">검색</button>
+		                    <button id="productSearchButton" class="btn btn-secondary my-2 my-sm-0" style="height: 35px;">검색</button>
 		                </div>
 		            </div>
 		        </form>
@@ -106,41 +111,85 @@
 		        <div class="pagination mt-3 justify-content-between">
 		            <div class="d-flex align-items-center">
 		                <ul class="pagination justify-content-center mt-3 mb-2">
-	                    	<c:if test="${pager.groupNo>1}" >
-			                    <li class="page-item">
-				                	<a class="page-link" href="${pageContext.request.contextPath}/admin/list?type=product&pageNo=${pager.startPageNo-1}" >&laquo;</a>
-		                    	</li>
-		                    </c:if>
-		                    <c:if test="${pager.groupNo<=1}" >
-		                    	<li class="page-item disabled" >
-			                        <a class="page-link" href="javascript:void(0);" >&laquo;</a>
-			                    </li>
-		                    </c:if>
+                    		<c:if test="${!isSearchPage}">
+								<c:if test="${pager.groupNo>1}" >
+		                    		<li class="page-item">
+						            	<a class="page-link" href="${pageContext.request.contextPath}/admin/list?type=product&pageNo=${pager.startPageNo-1}" >&laquo;</a>
+				                    </li>
+			                    </c:if>
+			                    <c:if test="${pager.groupNo<=1}" >
+			                    	<li class="page-item disabled" >
+				                        <a class="page-link" href="javascript:void(0);" >&laquo;</a>
+				                    </li>
+			                    </c:if>
+                    		</c:if>
+		                    <c:if test="${isSearchPage}">
+		                    	<c:if test="${pager.groupNo>1}" >
+			                    	<li class="page-item">
+					                	<a class="page-link" href="${pageContext.request.contextPath}/admin/productSearch?type=${pager.searchType}&keyword=${pager.keyword}&pageNo=${pager.startPageNo-1}" >&laquo;</a>
+			                    	</li>
+		                    	</c:if>
+		                    	<c:if test="${pager.groupNo<=1}" >
+			                    	<li class="page-item disabled" >
+				                        <a class="page-link" href="javascript:void(0);" >&laquo;</a>
+				                    </li>
+			                    </c:if>
+	                    	</c:if>
 		                    
 		                    <c:forEach begin="${pager.startPageNo}" end="${pager.endPageNo}" var="i">
-		                    	<c:if test="${pager.pageNo == i}" >
-		                    		<li class="page-item active">
-		                        		<a class="page-link" href="${pageContext.request.contextPath}/admin/list?type=product&pageNo=${i}">${i}</a>
-		                    		</li>
+		                    	<c:if test="${!isSearchPage}" >
+			                    	<c:if test="${pager.pageNo == i}" >
+			                    		<li class="page-item active">
+			                        		<a class="page-link" href="${pageContext.request.contextPath}/admin/list?type=product&pageNo=${i}">${i}</a>
+			                    		</li>
+			                    	</c:if>
+			                    		
+			                    	<c:if test="${pager.pageNo != i}" >
+			                    		<li class="page-item">
+					                        <a class="page-link" href="${pageContext.request.contextPath}/admin/list?type=product&pageNo=${i}">${i}</a>
+					                    </li>
+			                    	</c:if>
 		                    	</c:if>
-		                    		
-		                    	<c:if test="${pager.pageNo != i}" >
-		                    		<li class="page-item">
-				                        <a class="page-link" href="${pageContext.request.contextPath}/admin/list?type=product&pageNo=${i}">${i}</a>
+		                    	<c:if test="${isSearchPage}" >
+			                    	<c:if test="${pager.pageNo == i}" >
+			                    		<li class="page-item active">
+			                        		<a class="page-link" href="${pageContext.request.contextPath}/admin/searchProduct?type=${pager.searchType}&keyword=${pager.keyword}&pageNo=${i}">${i}</a>
+			                    		</li>
+			                    	</c:if>
+			                    		
+			                    	<c:if test="${pager.pageNo != i}" >
+			                    		<li class="page-item">
+					                        <a class="page-link" href="${pageContext.request.contextPath}/admin/searchProduct?type=${pager.searchType}&keyword=${pager.keyword}&pageNo=${i}">${i}</a>
+					                    </li>
+			                    	</c:if>
+		                    	</c:if>
+		                    	
+		                    </c:forEach>
+		                    <c:if test="${!isSearchPage}" >
+			                    <c:if test="${pager.groupNo<pager.totalGroupNo}" >
+				                    <li class="page-item">
+				                        <a class="page-link" href="${pageContext.request.contextPath}/admin/list?type=product&pageNo=${pager.endPageNo+1}">&raquo;</a>
+				                    </li>
+			                    </c:if>
+		                    	<c:if test="${pager.groupNo>=pager.totalGroupNo}" >
+				                    <li class="page-item disabled">
+				                        <a class="page-link" href="javascript:void(0)">&raquo;</a>
 				                    </li>
 		                    	</c:if>
-		                    </c:forEach>
-		                    
-							<c:if test="${pager.groupNo<pager.totalGroupNo}" >
-			                    <li class="page-item">
-			                        <a class="page-link" href="${pageContext.request.contextPath}/admin/list?type=product&pageNo=${pager.endPageNo+1}">&raquo;</a>
-			                    </li>
 		                    </c:if>
-	                    	<c:if test="${pager.groupNo>=pager.totalGroupNo}" >
-			                    <li class="page-item disabled">
-			                        <a class="page-link" href="javascript:void(0)">&raquo;</a>
-			                    </li>
-	                    	</c:if>
+		                    <c:if test="${isSearchPage}" >
+			                    <c:if test="${pager.groupNo<pager.totalGroupNo}" >
+				                    <li class="page-item">
+				                        <a class="page-link" href="${pageContext.request.contextPath}/admin/searchProduct?type=${pager.searchType}&keyword=${pager.keyword}&pageNo=${pager.endPageNo+1}">&raquo;</a>
+				                    </li>
+			                    </c:if>
+		                    	<c:if test="${pager.groupNo>=pager.totalGroupNo}" >
+				                    <li class="page-item disabled">
+				                        <a class="page-link" href="javascript:void(0)">&raquo;</a>
+				                    </li>
+		                    	</c:if>
+		                    </c:if>
+							
 		                </ul>
 		            </div>
 		            <div class="d-flex align-items-center">

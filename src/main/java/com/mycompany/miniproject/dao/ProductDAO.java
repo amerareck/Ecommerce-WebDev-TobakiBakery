@@ -55,4 +55,12 @@ public interface ProductDAO {
 	public int updateProduct(ProductDTO dto);
 
 	public int deleteProduct(ProductDTO dto);
+
+	public List<ProductDTO> selectResultSearchProductByName(Pager pager);
+	public List<ProductDTO> selectResultSearchProductByCategory(Pager pager);
+	public List<ProductDTO> selectResultSearchProductByProductState(Pager pager);
+
+	public int selectSearchCountByName(String keyword);
+	public int selectSearchCountByCategory(String keyword);
+	public int selectSearchCountByProductState(String keyword);
 }

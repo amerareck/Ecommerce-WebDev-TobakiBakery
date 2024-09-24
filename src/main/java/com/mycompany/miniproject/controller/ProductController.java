@@ -128,8 +128,6 @@ public class ProductController {
 		    }
 
 		    session.setAttribute("pager", pager);
-
-		
 	}
 	
 
@@ -270,7 +268,7 @@ public class ProductController {
 
 	}
 	
-	@GetMapping("getImageNames")
+	@GetMapping("/getImageNames")
 	public void getImageNames(ProductDTO dto, HttpServletResponse res) throws IOException {
 		log.info("실행");
 		List<ProductDTO> imageNames = productService.getImageNames(dto);
@@ -297,7 +295,7 @@ public class ProductController {
 		pw.close();
 	}
 	
-	@PostMapping("deleteImage")
+	@PostMapping("/deleteImage")
 	public void removeImage(ProductDTO dto, HttpServletResponse res) throws IOException {
 		log.info("실행");
 		JSONObject json = new JSONObject();
@@ -315,7 +313,7 @@ public class ProductController {
 		pw.close();
 	}
 	
-	@PostMapping("update")
+	@PostMapping("/update")
 	public String updateProduct(@Valid ProductForm form, Errors error, Model model) throws IOException {
 		log.info("실행");
 		log.info("productForm: "+form.toString());
@@ -382,7 +380,7 @@ public class ProductController {
 		return "common/alert";
 	}
 	
-	@PostMapping("delete")
+	@PostMapping("/delete")
 	public void removeProduct(ProductDTO dto, HttpServletResponse res) throws IOException {
 		log.info("실행");
 		
@@ -400,7 +398,7 @@ public class ProductController {
 		pw.close();
 	}
 	
-	@PostMapping("deleteList")
+	@PostMapping("/deleteList")
 	public void removeProductList(@RequestBody List<ProductDTO> list, HttpServletResponse res) throws IOException {
 		log.info("실행");
 		log.info(list.toString());
@@ -412,11 +410,12 @@ public class ProductController {
 			json.put("status", "fail");
 		}
 		
-		res.setContentType("application/json");
+		res.setContentType("application/json; charset=UTF-8");
 		PrintWriter pw = res.getWriter();
 		pw.println(json.toString());
 		pw.flush();
 		pw.close();
 	}
+	
 }
 
