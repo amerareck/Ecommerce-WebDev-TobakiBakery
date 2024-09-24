@@ -74,7 +74,7 @@
 									</td>
 									<!-- 상품명 -->
 									<td class="align-middle">
-										<a href="#" data-toggle="modal" data-target="#productDetailsModal-${element.productId}" >${element.productName}</a>
+										<a href="#" id="productName-${element.productId}" data-toggle="modal" data-target="#productDetailsModal-${element.productId}" >${element.productName}</a>
 									</td>
 									<!-- 상품가격 -->
 									<td class="align-middle">
@@ -144,7 +144,7 @@
 		                </ul>
 		            </div>
 		            <div class="d-flex align-items-center">
-		                <button type="submit" class="btn btn-secondary" id="productDelete">삭제</button>
+		                <button type="button" class="btn btn-secondary" id="productDelete">삭제</button>
 		            </div>
 		        </div>
 		        <%-- 게시판 페이지네이션 end --%>

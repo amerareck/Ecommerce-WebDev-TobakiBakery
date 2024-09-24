@@ -213,7 +213,7 @@
 						product_new,
 						product_best
 					FROM PRODUCT
-					ORDER BY product_id)
+					ORDER BY product_id DESC)
 				WHERE rownum <= #{endRowNo})
 			WHERE rnum >= #{startRowNo}
 			

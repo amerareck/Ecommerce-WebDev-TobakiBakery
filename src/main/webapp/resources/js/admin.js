@@ -1,16 +1,5 @@
 src="https://code.jquery.com/jquery-3.6.0.min.js"
 
-$('#productMainImagefile').change(function(event){
-    const file = event.target.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            $('#productMainImage').attr('src', e.target.result);
-        };
-        reader.readAsDataURL(file);
-    }
-});
-
 $('#totalProductSelect').change(function(event){
     const isChecked = $(this).is(':checked');
     
@@ -212,6 +201,7 @@ $('#orderUpdateSubmit').submit(function(event){
     });
 });
 
+/*
 $('#productTableForm').submit(function(event){
     event.preventDefault();
 
@@ -242,6 +232,7 @@ $('#productTableForm').submit(function(event){
     	}
     });
 });
+*/
 
 $('.product-delete-selector').on('click', function(event){
 	const productId = $(this).attr('id').split('-')[2];
@@ -429,6 +420,17 @@ $('.productUpdateModal').on('show.bs.modal', function (event) {
     });
 });
 
+$('#productMainImagefile').change(function(event){
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            $('#productMainImage').attr('src', e.target.result);
+        };
+        reader.readAsDataURL(file);
+    }
+});
+
 $('.thumbnail-image-controller').on('change', '.thumbnail-image-file', function(event){
 	const productId = $(this).attr('id').split('-')[1];
     const file = event.target.files[0];
@@ -441,5 +443,44 @@ $('.thumbnail-image-controller').on('change', '.thumbnail-image-file', function(
     }
 });
 
-
+$('#productDelete').on('click', function(event){
+	const list = [];
+	const removeTarget = [];
+	let str = '** 선택된 상품명 ** \n';
+	$('.product-select:checked').each(function(index){
+		let productId = $(this).attr('id').split('-')[2];
+		let productName = $(this).closest('tr').find('#productName-'+productId).text();
+		str += ' '+(index+1)+'. '+productName+'\n';
+		list.push({productId});
+		removeTarget.push($(this).closest('tr'));
+	});
+	console.log(list);
+	if(list.length == 0) {
+		alert('삭제할 상품을 선택하여 주십시오.');
+		return;
+	}
+	
+	if (confirm('정말로 선택한 상품을 삭제하시겠습니까?\n\n'+str)) {
+		$.ajax({
+			url: '../product/deleteList',
+			type: 'post',
+			contentType: 'application/json',
+			data: JSON.stringify(list),
+			success: function(data) {
+				if(data.status === 'ok') {
+					alert('선택한 상품을 삭제처리 하였습니다.');
+					$.each(removeTarget, function(index, target){
+						target.remove();
+					});
+				} else {
+					alert('서버로부터 문제가 발생하여 삭제 처리를 수행하지 못하였습니다.');
+				}
+			},
+			error: function(xhr, status, error) {
+		        console.log('에러 발생:', error);
+		    }
+		});
+	}
+	
+});
 

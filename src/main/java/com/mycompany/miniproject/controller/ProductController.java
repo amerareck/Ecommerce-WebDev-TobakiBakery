@@ -25,6 +25,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -347,6 +348,25 @@ public class ProductController {
 		}
 		
 		res.setContentType("application/json; charset=UTF-8");
+		PrintWriter pw = res.getWriter();
+		pw.println(json.toString());
+		pw.flush();
+		pw.close();
+	}
+	
+	@PostMapping("deleteList")
+	public void removeProductList(@RequestBody List<ProductDTO> list, HttpServletResponse res) throws IOException {
+		log.info("실행");
+		log.info(list.toString());
+		
+		JSONObject json = new JSONObject();
+		if(productService.removeProductList(list)) {
+			json.put("status", "ok");
+		} else {
+			json.put("status", "fail");
+		}
+		
+		res.setContentType("application/json");
 		PrintWriter pw = res.getWriter();
 		pw.println(json.toString());
 		pw.flush();

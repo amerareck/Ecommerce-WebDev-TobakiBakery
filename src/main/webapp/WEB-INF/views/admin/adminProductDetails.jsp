@@ -84,8 +84,7 @@
                                     <img src="../resources/image/no-thumbnail.png" class="rounded" id="productMainImage" width="300px" height="275px"/>
                                     <div class="input-group input-center text-left mt-2 mb-3">
                                         <div class="custom-file">
-                                          <input type="file" class="custom-file-input" id="productMainImagefile" multiple="multiple" name="productThumbnailImagefile" >
-                                          <label class="custom-file-label" for="productMainImagefile">상품 이미지 업로드</label>
+                                          <input type="file" class="form-control-file mt-1" id="productMainImagefile" multiple="multiple" name="productThumbnailImagefile" style="margin-left: 9%;" >
                                         </div>
                                     </div>
                                 </div>

@@ -148,4 +148,14 @@ public class ProductService {
 		}
 		return check;
 	}
+
+	public boolean removeProductList(List<ProductDTO> list) {
+		// 트랜잭션 처리는 removeProduct 메소드에 위임.
+		for(ProductDTO dto : list) {
+			if(!removeProduct(dto)) {
+				return false;
+			}
+		}
+		return true;
+	}
 } 

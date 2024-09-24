@@ -32,7 +32,7 @@ public class ProductValidator implements Validator{
 		String category = form.getCategoryName();
 		if (category == null || category.trim().isEmpty()) {
 			log.info("오류 검출");
-			errors.rejectValue("category", "errors.category.empty", "카테고리를 선택하십시오.");
+			errors.rejectValue("ProdCategory", "errors.category.empty", "카테고리를 선택하십시오.");
 		}
 		
 		//상품가격
