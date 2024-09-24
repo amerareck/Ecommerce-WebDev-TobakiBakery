@@ -50,8 +50,6 @@
                             <td>
                                 <div class="input-group-append">
                                     <input type="text" class="form-control input-small" disabled="disabled" value="${memberInfo.memberId}" name="memberId" id="username" required>
-                                    &nbsp;
-                                    <button class="btn btn-secondary" type="button" id="checkId">중복확인</button>
                                 </div>
                                 <div class="text-danger">${errorMsg}</div>
                             </td>
@@ -123,7 +121,7 @@
                                 <div class="form-row">
                                     <div class="col">
                                         <select class="form-control" id="phone_prefix"  required>
-                                            <option>${fn:substring(memberInfo.phoneNum, 0, 3)} </option>
+                                            <option selected value="${fn:substring(memberInfo.phoneNum, 0, 3)}">${fn:substring(memberInfo.phoneNum, 0, 3)} </option>
                                             <option>010</option>
                                             <option>011</option>
                                             <option>012</option>
@@ -150,7 +148,7 @@
                                     <span class="input-group-text" id="email_dat">@</span>
                                     <input type="text" class="form-control" value="${fn:substringAfter(memberInfo.memberEmail, '@')}"  id="email_domain" style="width: 150px;" required>
                                     <div class="input-group-append">
-                                        <select class="form-control"  id="email_select" required onchange="setEmailDomain()">
+                                        <select class="form-control"  id="email_select" onchange="setEmailDomain()">
                                             <option value="">직접입력</option>
                                             <option value="naver.com">naver.com</option>
                                             <option value="daum.net">daum.net</option>

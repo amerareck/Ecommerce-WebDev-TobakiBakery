@@ -74,7 +74,7 @@ function validateForm() {
     let phone_num = $("#phone_prefix").val() + $("#phone_middle_number").val() + $("#phone_last_number").val();
     $("#member_birthday").val(member_birthday);
     $("#phone_num").val(phone_num);
-    
+
     return true;
 }
 
@@ -154,7 +154,10 @@ $(document).ready(function() {
         });
     });	
     
-    function finalCheck(e) {
+
+    
+    //회원가입 최종
+    $("#signupForm").submit(function(e) {
         // 아이디 중복 체크 검사
         if (!userCheck) {
             alert("아이디 중복 체크를 해주세요.");
@@ -168,7 +171,7 @@ $(document).ready(function() {
             e.preventDefault();
             return false;
         }
-
+    	
         // 추가적인 폼 검증
         if (validateForm()) {
             alert("회원가입이 완료되었습니다!");
@@ -178,17 +181,26 @@ $(document).ready(function() {
             e.preventDefault();
             return false; // 폼 제출 방지
         }
-    }
-
-    
-    //회원가입 최종
-    $("#signupForm").submit(function(e) {
-    		finalCheck(e);
     });
     
     //회원정보 수정
     $("#editForm").submit(function(e) {
-    		finalCheck(e);    
+    		 // 이메일 중복 체크 검사
+            if (!emailCheck) {
+                alert("이메일 중복 체크를 해주세요.");
+                e.preventDefault();
+                return false;
+            }
+        	
+            // 추가적인 폼 검증
+            if (validateForm()) {
+                alert("회원수정이 완료되었습니다!");
+                return true; // 폼 제출 진행
+            } else {
+                alert("회원수정에 실패했습니다.");
+                e.preventDefault();
+                return false; // 폼 제출 방지
+            }
     });
     
   
