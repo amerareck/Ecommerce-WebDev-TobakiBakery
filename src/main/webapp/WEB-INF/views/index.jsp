@@ -52,7 +52,7 @@
 			<c:forEach items="${bestProductList}" var="bestProd">
 				<dl class="item_elem">
 					<c:if test="${bestProd.productBest==1}">
-						<div class="badge">BEST</div>
+						<h2><div class="badge">BEST</div></h2>
 					</c:if>
 					<dt class="thumb">
 						<a href="product/productDetail?productId=${bestProd.productId}">
@@ -95,7 +95,7 @@
 			<c:forEach items="${newProdList}" var="prod">
 				<dl class="item_elem">
 					<c:if test="${prod.productNew == 1}">
-						<div class="badge">NEW</div>
+						<h2><div class="badge">NEW</div></h2>
 					</c:if>
 					<dt class="thumb">
 						<a href="product/productDetail?productId=${prod.productId}">
