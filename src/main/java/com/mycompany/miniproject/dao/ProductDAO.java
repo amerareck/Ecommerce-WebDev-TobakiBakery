@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.mycompany.miniproject.dto.CartDTO;
 import com.mycompany.miniproject.dto.Pager;
 import com.mycompany.miniproject.dto.ProductDTO;
 
@@ -13,9 +14,9 @@ public interface ProductDAO {
 
 	public ProductDTO selectProductImage(ProductDTO dto);
 
-	public List<ProductDTO> selectNewProduct();
+	public List<ProductDTO> selectNewProduct(Pager pager);
 
-	public List<ProductDTO> selectBestProduct();
+	public List<ProductDTO> selectBestProduct(Pager pager);
 	
 	public List<ProductDTO> selectRecomProduct(Pager pager);
 
@@ -55,4 +56,22 @@ public interface ProductDAO {
 	public int updateProduct(ProductDTO dto);
 
 	public int deleteProduct(ProductDTO dto);
+
+	public List<ProductDTO> selectResultSearchProductByName(Pager pager);
+	public List<ProductDTO> selectResultSearchProductByCategory(Pager pager);
+	public List<ProductDTO> selectResultSearchProductByProductState(Pager pager);
+
+	public int selectSearchCountByName(String keyword);
+	public int selectSearchCountByCategory(String keyword);
+	public int selectSearchCountByProductState(String keyword);
+
+	public int selectTotalPrice(CartDTO dto);
+	
+	public int updateNewProduct();
+
+	public int resetProductNew();
+
+	public int updateBestProduct();
+
+	public void resetProductBest();
 }

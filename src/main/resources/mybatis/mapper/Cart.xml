@@ -44,20 +44,23 @@
 		
 	</select>
 	
-	<update id="updateProductQty" parameterType="Cart">
+	<update id="updateCartCount" parameterType="Cart">
 		<![CDATA[
-		UPDATE CART
-		SET cart_count = cart_count + 1
-		WHERE 
-			member_id = #{memberId}
-		AND product_id = #{productId}
+			UPDATE CART
+			SET cart_count = #{countHandler}
+			WHERE 
+				member_id = #{memberId}
+			AND product_id = #{productId}
 		]]>
 	</update>
 	
 	<delete id="deleteCartItem" parameterType="Cart">
-		DELETE FROM CART
-		WHERE member_id = #{memberId}
-		AND product_id = #{productId}
+		<![CDATA[
+			DELETE FROM CART
+			WHERE member_id = #{memberId}
+			AND product_id = #{productId}
+		]]>
+
 	</delete>
 	
 	<select id="countCartItem" resultType="int">

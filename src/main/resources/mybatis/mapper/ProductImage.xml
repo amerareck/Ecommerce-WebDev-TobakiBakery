@@ -76,7 +76,7 @@
 		]]>
 	</delete>
 	
-	<select id="selectProductAllImages" parameterType="Product" resultType="int" >
+	<select id="selectProductAllImagesCount" parameterType="Product" resultType="int" >
 		<![CDATA[
 			SELECT COUNT(*)
 			FROM PRODUCT_IMAGE

@@ -18,6 +18,10 @@ public class Pager {
 	   private int endRowNo;      //페이지의 마지막 행 번호
 	   private int endRowIndex;   //페이지의 마지막 행 인덱스
 	   private String categoryName; // 카테고리 별 페이징 처리 용
+	   private String listName;
+	   // 검색 결과 페이징 처리
+	   private String searchType;
+	   private String keyword; 
 	   
 	   public Pager(int rowsPerPage, int pagesPerGroup, int totalRows, int pageNo) {
 	      this.rowsPerPage = rowsPerPage;

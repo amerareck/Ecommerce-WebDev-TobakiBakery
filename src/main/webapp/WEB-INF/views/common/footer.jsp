@@ -23,6 +23,7 @@
     <script src="${pageContext.request.contextPath}/resources/js/center.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/member.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/mypage.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/cart.js"></script>
     <%@include file="/WEB-INF/views/common/alert.jsp" %>
 </body>
 </html>

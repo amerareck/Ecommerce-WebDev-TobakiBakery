@@ -21,6 +21,6 @@ public interface ProductImageDAO {
 
 	public int deleteAllProductImage(ProductDTO dto);
 
-	public int selectProductAllImages(ProductDTO dto);
+	public int selectProductAllImagesCount(ProductDTO dto);
 	
 }

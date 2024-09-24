@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.mycompany.miniproject.dao.CartDAO;
 import com.mycompany.miniproject.dao.OrderDAO;
+import com.mycompany.miniproject.dao.ProductDAO;
 import com.mycompany.miniproject.dto.CartDTO;
 import com.mycompany.miniproject.dto.OrderDTO;
 import com.mycompany.miniproject.dto.Pager;
@@ -21,6 +22,8 @@ public class OrderService {
 	private CartDAO cartDAO;
 	@Autowired
 	private OrderDAO orderDAO;
+	@Autowired
+	private ProductDAO productDAO;
 	
 	public List<ProductDTO> getCartItemsByMemberId(CartDTO cartDto) {
 		log.info("장바구니 로딩");
@@ -33,7 +36,8 @@ public class OrderService {
 		if (dto==null) {
 			return cartDAO.insertCartItem(cartDto) == 1;
 		} else {
-			return cartDAO.updateProductQty(cartDto) == 1;
+			cartDto.setCountHandler(cartDto.getCartCount()+1);
+			return cartDAO.updateCartCount(cartDto) == 1;
 		}
 		
 	}
@@ -42,9 +46,8 @@ public class OrderService {
 		return cartDAO.checkCartProduct(cartDto);
 	}
 	
-	public void updateQty(CartDTO cartDto) {
-		cartDAO.updateProductQty(cartDto);
-		
+	public boolean updateCartCount(CartDTO cartDto) {
+		return cartDAO.updateCartCount(cartDto) == 1;
 	}
 
 	public void deleteItem(CartDTO cartDto) {
@@ -74,6 +77,19 @@ public class OrderService {
 
 	
 	
+
+	public boolean removeCartItems(List<CartDTO> list) {
+		for(CartDTO dto : list) {
+			if(!removeCartItem(dto)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	public int getSingleProductTotalPrice(CartDTO dto) {
+		return productDAO.selectTotalPrice(dto);
+	}
 
 	 
 	   

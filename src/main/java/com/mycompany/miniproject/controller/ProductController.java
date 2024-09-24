@@ -61,74 +61,93 @@ public class ProductController {
 			@RequestParam(defaultValue="1")int pageNo, 
 			@RequestParam(name = "listName", defaultValue = "") String listName,
 			HttpSession session) { 
+		
 		log.info("categoryName: " + categoryName);
 		log.info("listName: " + listName);
 	    
-		int totalRows = 0;
-		
-		Pager pager = new Pager(8, 5, totalRows, pageNo);
-		pager.setCategoryName(categoryName);
-		getCategoryProductList(categoryName, model, pageNo, session);
+
 
 		log.info("상품목록 실행");
 		log.info("categoryName: " + categoryName);
 		log.info("pageNo: " + pageNo);
-			
+		int totalRows = 0;
+		Pager pager = new Pager(8, 5, totalRows, pageNo);
+		pager.setCategoryName(categoryName);
+		pager.setListName(listName);
+		getProductListPager(listName, categoryName, model, pageNo, session);
 		
-		 List<ProductDTO> productList = new ArrayList<>();
-		    String listTitle = "";
-		    int prodCount = 0;
-
-		    if (listName !=null && "best".equals(listName)) {
-		        productList = productService.getBestProductList();
-		        prodCount = productService.getProductBestCount();
-		        listTitle = "BEST 상품";
-		    } else if (listName !=null && "new".equals(listName)) {
-		        productList = productService.getNewProductList();
-		        prodCount = productService.getProductNewCount();
-		        listTitle = "신상품";
-		    } else if (listName !=null && "recom".equals(listName)) {
-		        productList = productService.getRecomProductList(pager);
-		        prodCount = productService.getProductRecomCount();
-		        listTitle = "추천 상품";
-		    } else if (categoryName !=null && "BREAD".equalsIgnoreCase(categoryName)) {
-		        productList = productService.getCategoryProductList(categoryName, pager);
-		        prodCount = productService.getCategoryProductCount(categoryName);
-		        listTitle = "빵";
-		    } else if (categoryName !=null && "CAKE".equalsIgnoreCase(categoryName)) {
-		        productList = productService.getCategoryProductList(categoryName, pager);
-		        prodCount = productService.getCategoryProductCount(categoryName);
-		        listTitle = "케이크";
-		    } else if (categoryName !=null && "DESSERT".equalsIgnoreCase(categoryName)) {
-		        productList = productService.getCategoryProductList(categoryName, pager);
-		        prodCount = productService.getCategoryProductCount(categoryName);
-		        listTitle = "디저트";
-		    } else {
-		        productList = productService.getAllProductList(pager);
-		        prodCount = productService.getProductAllCount();
-		        listTitle = "전체 상품";
-		    }
-
-		    
-		    model.addAttribute("prodCount", prodCount);
-		    model.addAttribute("productList", productList);
-		    model.addAttribute("listTitle", listTitle);
+	 	List<ProductDTO> productList = new ArrayList<>();
+	    String listTitle = "";
+	    int prodCount = 0;
+	    
+	    if ("best".equals(listName)) {
+	    		productService.updateBestProductList();
+	        productList = productService.getBestProductList(pager);
+	        prodCount = productService.getProductBestCount();
+	        pager.setTotalRows(prodCount);
+	        listTitle = "BEST 상품";
+	    } else if ("new".equals(listName)) {
+	    		productService.updateNewProductList();
+	        productList = productService.getNewProductList(pager);
+	        prodCount = productService.getProductNewCount();
+	        pager.setTotalRows(prodCount);
+	        listTitle = "신상품";
+	    } else if ("recom".equals(listName)) {
+	        productList = productService.getRecomProductList(pager);
+	        prodCount = productService.getProductRecomCount();
+	        pager.setTotalRows(prodCount);
+	        listTitle = "추천 상품";
+	    } else if (categoryName !=null && "BREAD".equals(categoryName)) {
+	        productList = productService.getCategoryProductList(categoryName, pager);
+	        prodCount = productService.getCategoryProductCount(categoryName);
+	        pager.setTotalRows(prodCount);
+	        listTitle = "빵";
+	    } else if (categoryName !=null && "CAKE".equals(categoryName)) {
+	        productList = productService.getCategoryProductList(categoryName, pager);
+	        prodCount = productService.getCategoryProductCount(categoryName);
+	        pager.setTotalRows(prodCount);
+	        listTitle = "케이크";
+	    } else if (categoryName !=null && "DESSERT".equals(categoryName)) {
+	        productList = productService.getCategoryProductList(categoryName, pager);
+	        prodCount = productService.getCategoryProductCount(categoryName);
+	        pager.setTotalRows(prodCount);
+	        listTitle = "디저트";
+	    } else {
+	        productList = productService.getAllProductList(pager);
+	        prodCount = productService.getProductAllCount();
+	        pager.setTotalRows(prodCount);
+	        listTitle = "전체 상품";
+	    }
+	   
+	    model.addAttribute("prodCount", prodCount);
+	    model.addAttribute("productList", productList);
+	    model.addAttribute("listTitle", listTitle);
 
 		
 		return "/product/productListAll";
 	}
 	
-	public void getCategoryProductList( String categoryName, Model model,int pageNo, HttpSession session) {
-		log.info("실행");
-		 int totalRows;
-		    if (categoryName == null || categoryName.isEmpty()) {
-		        totalRows = productService.getProductAllCount(); 
-		    } else {
+	public void getProductListPager( String listName, String categoryName, Model model,int pageNo, HttpSession session) {
+		 int totalRows=0;
+		 
+		    if ((listName == null || listName.trim().isEmpty()) && (categoryName == null || categoryName.trim().isEmpty())) {
+		        totalRows = productService.getProductAllCount();
+		    } else if ("best".equals(listName)) {
+		        totalRows = productService.getProductBestCount();
+		    } else if ("new".equals(listName)) {
+		        totalRows = productService.getProductNewCount();
+		    } else if ("recom".equals(listName)) {
+		        totalRows = productService.getProductRecomCount();
+		    } else if (categoryName != null && !categoryName.trim().isEmpty()) {
 		        totalRows = productService.getCategoryProductCount(categoryName);
 		    }
+		    
 		    Pager pager = new Pager(8, 5, totalRows, pageNo);
 		    if (categoryName != null && !categoryName.isEmpty()) {
 		        pager.setCategoryName(categoryName);
+		    }
+		    if (listName != null && !listName.isEmpty()) {
+		        pager.setListName(listName);
 		    }
 
 		    session.setAttribute("pager", pager);
@@ -274,7 +293,7 @@ public class ProductController {
 
 	}
 	
-	@GetMapping("getImageNames")
+	@GetMapping("/getImageNames")
 	public void getImageNames(ProductDTO dto, HttpServletResponse res) throws IOException {
 		log.info("실행");
 		List<ProductDTO> imageNames = productService.getImageNames(dto);
@@ -301,7 +320,7 @@ public class ProductController {
 		pw.close();
 	}
 	
-	@PostMapping("deleteImage")
+	@PostMapping("/deleteImage")
 	public void removeImage(ProductDTO dto, HttpServletResponse res) throws IOException {
 		log.info("실행");
 		JSONObject json = new JSONObject();
@@ -319,7 +338,7 @@ public class ProductController {
 		pw.close();
 	}
 	
-	@PostMapping("update")
+	@PostMapping("/update")
 	public String updateProduct(@Valid ProductForm form, Errors error, Model model) throws IOException {
 		log.info("실행");
 		log.info("productForm: "+form.toString());
@@ -386,7 +405,7 @@ public class ProductController {
 		return "common/alert";
 	}
 	
-	@PostMapping("delete")
+	@PostMapping("/delete")
 	public void removeProduct(ProductDTO dto, HttpServletResponse res) throws IOException {
 		log.info("실행");
 		
@@ -404,7 +423,7 @@ public class ProductController {
 		pw.close();
 	}
 	
-	@PostMapping("deleteList")
+	@PostMapping("/deleteList")
 	public void removeProductList(@RequestBody List<ProductDTO> list, HttpServletResponse res) throws IOException {
 		log.info("실행");
 		log.info(list.toString());
@@ -416,13 +435,11 @@ public class ProductController {
 			json.put("status", "fail");
 		}
 		
-		res.setContentType("application/json");
+		res.setContentType("application/json; charset=UTF-8");
 		PrintWriter pw = res.getWriter();
 		pw.println(json.toString());
 		pw.flush();
 		pw.close();
 	}
-	
-	
 }
 

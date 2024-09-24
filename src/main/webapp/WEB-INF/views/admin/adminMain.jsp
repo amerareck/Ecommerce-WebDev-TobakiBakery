@@ -16,10 +16,18 @@
                         <p>관리자님 환영합니다.</p>
                         <p>마지막 로그인: YYYY-MM-DD hh:mi:ss</p>
                     </div>
-                    <div class="flex-fill text-center">
-                        <p>총 상품 갯수</p>
-                        <p><strong>${allCount}</strong> 개</p>
-                    </div>
+                    <c:if test="${isSearchPage}" >
+                    	<div class="flex-fill text-center">
+	                        <p>총 검색 갯수</p>
+	                        <p><strong>${searchProductCount}</strong> 개</p>
+                    	</div>
+                    </c:if>
+                    <c:if test="${!isSearchPage}">
+                    	<div class="flex-fill text-center">
+	                        <p>총 상품 갯수</p>
+	                        <p><strong>${allCount}</strong> 개</p>
+	                    </div>
+                    </c:if>
                     <div class="flex-fill text-center">
                         <p>총 주문 갯수</p>
                         <p><strong>4</strong> 개</p>
