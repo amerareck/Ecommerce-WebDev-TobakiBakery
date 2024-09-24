@@ -57,7 +57,7 @@
                             <td>* 비밀번호</td>
                             <td>
                                 <input type="password" class="form-control input-small" name="memberPassword" id="password"  required>
-                                <small class="form-text text-muted">영어 대문자,소문자,숫자,특수문자 중 두가지 이상을 포함 8-16자를 입력해주세요.</small>
+                                <small class="form-text text-muted">비밀번호는 영문자와 숫자  포함 8-16자를 입력해주세요.</small>
                             </td>
                         </tr>
                         <!-- 비밀번호 입력 필드 끝 -->
