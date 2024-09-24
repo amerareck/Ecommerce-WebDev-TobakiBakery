@@ -136,60 +136,21 @@
 							</div>
 							<div class="row">
 								<!-- 추천 상품1 -->
+								<c:forEach items="${prodSmart}" var="prodSmart">
 								<div class="col-md-3">
 									<div class="card">
 										<a href="../product/itemDetail-static"> <img
-											src="${pageContext.request.contextPath}/resources/image/bread/팡도르.jpg" class="card-img-top"
-											alt="팡도르">
+											src="productImage?productId=${prodSmart.productId}&productUsecase=THUMBNAIL"
+											 class="card-img-top"
+											>
 										</a>
 										<div class="card-body">
-											<h5 class="card-title">팡도르</h5>
-											<p class="card-text">22,000원</p>
+											<h5 class="card-title">${prodSmart.productName}</h5>
+											<p class="card-text"><fmt:formatNumber value="${prodSmart.productPrice}" pattern="#,##0" />원</p>
 										</div>
 									</div>
 								</div>
-
-								<!-- 추천 상품2 -->
-								<div class="col-md-3">
-									<div class="card">
-										<a href="../product/itemDetail-static"> <img
-											src="${pageContext.request.contextPath}/resources/image/bread/파네토네.jpg" class="card-img-top"
-											alt="파네토네">
-										</a>
-										<div class="card-body">
-											<h5 class="card-title">파네토네</h5>
-											<p class="card-text">9,500원</p>
-										</div>
-									</div>
-								</div>
-
-								<!-- 추천 상품3 -->
-								<div class="col-md-3">
-									<div class="card">
-										<a href="../product/itemDetail-static"> <img
-											src="${pageContext.request.contextPath}/resources/image/bread/자연효모빵.jpg" class="card-img-top"
-											alt="자연효모빵">
-										</a>
-										<div class="card-body">
-											<h5 class="card-title">자연효모빵</h5>
-											<p class="card-text">4,600원</p>
-										</div>
-									</div>
-								</div>
-
-								<!-- 추천 상품4 -->
-								<div class="col-md-3">
-									<div class="card">
-										<a href="../product/itemDetail-static"> <img
-											src="${pageContext.request.contextPath}/resources/image/bread/유산균 발효 식빵.jpg"
-											class="card-img-top" alt="유산균 발효 식빵">
-										</a>
-										<div class="card-body">
-											<h5 class="card-title">유산균 발효 식빵</h5>
-											<p class="card-text">4,000원</p>
-										</div>
-									</div>
-								</div>
+							</c:forEach>
 							</div>
 						</div>
 

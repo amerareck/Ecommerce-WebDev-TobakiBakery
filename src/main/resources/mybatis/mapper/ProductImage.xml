@@ -1,3 +1,87 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.mycompany.miniproject.dao.ProductImageDAO"/>
+<mapper namespace="com.mycompany.miniproject.dao.ProductImageDAO">
+
+	<select id="selectProductName" parameterType="Product" resultType="Product" >
+		<![CDATA[
+			SELECT 
+				product_usecase,
+				image_original_name
+			FROM PRODUCT_IMAGE
+			WHERE product_id = #{productId}
+		]]>
+	</select>
+	
+	<select id="selectProductImage" resultType="Product" parameterType="Product">
+		<![CDATA[
+			SELECT
+				product_id,
+				product_usecase,
+				image_original_name,
+				image_type,
+				image_data
+			FROM
+				PRODUCT_IMAGE
+			WHERE
+				product_id = #{productId}
+			AND product_usecase = #{productUsecase}
+		]]>
+	</select>
+	
+	<insert id="insertProductImage" parameterType="Product">
+		<![CDATA[
+			INSERT INTO PRODUCT_IMAGE(
+				product_id,
+				product_usecase,
+				image_original_name,
+				image_type,
+				image_data
+			) VALUES (
+				#{productId},
+				#{productUsecase},
+				#{imageOriginalName},
+				#{imageType},
+				#{imageData}
+			)
+		]]>
+	</insert>
+	
+	<update id="updateProductImage">
+		<![CDATA[
+			UPDATE PRODUCT_IMAGE
+			SET 
+				image_original_name = #{imageOriginalName},
+				image_type = #{imageType},
+				image_data = #{imageData}
+			WHERE
+				product_id = #{productId}
+			AND product_usecase = #{productUsecase}
+		]]>
+	</update>
+	
+	<delete id="deleteImage" parameterType="Product" >
+		<![CDATA[
+			DELETE FROM PRODUCT_IMAGE
+			WHERE
+				product_id = #{productId}
+			AND product_usecase = #{productUsecase}
+			AND image_original_name = #{imageOriginalName}
+		]]>
+	</delete>
+
+	<delete id="deleteAllProductImage" parameterType="Product" >
+		<![CDATA[
+			DELETE FROM PRODUCT_IMAGE
+			WHERE product_id = #{productId}
+		]]>
+	</delete>
+	
+	<select id="selectProductAllImages" parameterType="Product" resultType="int" >
+		<![CDATA[
+			SELECT COUNT(*)
+			FROM PRODUCT_IMAGE
+			WHERE product_id = #{productId}
+		]]>
+	</select>
+
+</mapper>

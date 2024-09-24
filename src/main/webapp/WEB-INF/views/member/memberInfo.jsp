@@ -166,7 +166,7 @@
                                     <span class="input-group-text" id="email_dat">@</span>
                                     <input type="text" class="form-control"  id="email_domain" style="width: 150px;" required>
                                     <div class="input-group-append">
-                                        <select class="form-control"  id="email_select" required onchange="setEmailDomain()">
+                                        <select class="form-control"  id="email_select" onchange="setEmailDomain()">
                                             <option value="">직접입력</option>
                                             <option value="naver.com">naver.com</option>
                                             <option value="daum.net">daum.net</option>

@@ -17,16 +17,6 @@
         ]]>
     </select>
     
-
-    
-    <delete id="deleteCartItem">
-    	<![CDATA[
-    	DELETE FROM CART
-    	WHERE 
-    		product_id = #{productId}
-    	]]>
-    </delete>
-    
     <insert id="insertCartItem" parameterType="Cart">
     	<![CDATA[
     		INSERT INTO CART(
@@ -43,11 +33,10 @@
 
 	</insert>
 	
-	<select id="checkCartProduct" resultType="int" parameterType="Cart">
+	<select id="checkCartProduct" resultType="Cart" parameterType="Cart">
 		<![CDATA[
 		SELECT member_id, 
-			   product_id, 
-			   cart_count
+			   product_id
 		FROM CART
 		WHERE member_id = #{memberId}
 		AND product_id = #{productId}
@@ -58,13 +47,14 @@
 	<update id="updateProductQty" parameterType="Cart">
 		<![CDATA[
 		UPDATE CART
-		SET cart_count = #{cartCount}
-		WHERE member_id = #{memberId}
+		SET cart_count = cart_count + 1
+		WHERE 
+			member_id = #{memberId}
 		AND product_id = #{productId}
 		]]>
 	</update>
 	
-	<delete id="deleteCartProduct" parameterType="Cart">
+	<delete id="deleteCartItem" parameterType="Cart">
 		DELETE FROM CART
 		WHERE member_id = #{memberId}
 		AND product_id = #{productId}

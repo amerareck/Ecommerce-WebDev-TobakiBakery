@@ -54,13 +54,15 @@
                     </tr>
                 </thead>
                 <tbody>
-                <div id="productList">
+                
                     <c:forEach items="${cartItemList}" var="cartItem">
                         <tr>
+                        	<div id="allchk">
                             <td><input type="checkbox" /></td>
+                            </div>
                             <td>
                                 <a href="${pageContext.request.contextPath}/product/productDetail?productId=${cartItem.productId}">
-                                    <img src="${pageContext.request.contextPath}/productImage?productId=${cartItem.productId}&productUsecase=THUMBNAIL" width="100px" height="100px" />
+                                    <img src="${pageContext.request.contextPath}/product/productImage?productId=${cartItem.productId}&productUsecase=THUMBNAIL" width="100px" height="100px" />
                                 </a>
                             </td>
                             <td>
@@ -71,16 +73,16 @@
                                 <td>
                                 	<div class="quantity-control">
                                 		<button class="quantity-minus">-</button>
-                                		<input type="text" value="${1}" min="1" max="10"/>
+                                		<input type="text" value="${cartItem.cartCount}" min="1" max="10"/>
                                 		<button class="quantity-plus">+</button>
                                		</div>
                            		</td>
                                 <td><span class="currentPrice" data-unit-price="${cartItem.productPrice}"><fmt:formatNumber value="${cartItem.productPrice}" pattern="#,##0" />원</span></td>
 
                                 <td>
-                                	<form action="${pageContext.request.contextPath}/order/deleteCartItem" method="get">
+                                	<form action="${pageContext.request.contextPath}/order/deleteCartItem" method="post">
                                 		<input type="hidden" name="productId" value="${cartItem.productId}">
-                                		<button type="button" class="btn-danger btn-sm">삭제</button>
+                                		<button type="submit" class="btn-danger btn-sm">삭제</button>
                                 		
                                		</form>
                                </td>
@@ -88,7 +90,7 @@
                             </tr>
                             
                        </c:forEach>
-                	</div>
+                
                 </tbody>
                 <tfoot>
                     <tr>

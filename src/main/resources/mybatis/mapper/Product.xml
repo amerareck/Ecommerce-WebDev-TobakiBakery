@@ -312,6 +312,7 @@
 			product_recom = 1	
 			]]>	
 	</select>
+	
 	<select id="selectProductAllCount" resultType="int" >
 	<![CDATA[
 		SELECT COUNT(*)

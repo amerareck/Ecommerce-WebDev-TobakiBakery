@@ -17,31 +17,59 @@
 			</ol>
 		</nav>
 		<!-- 상품 목록 내용 -->
-		<div id="contentWrap">
-			<div id="top_category">
-				<ul>
-					<li id="bread_all" class="category_click"><a
-						href="${pageContext.request.contextPath}/product/productListAll?categoryName=">전체</a></li>
-					<li id="bread"><a href="${pageContext.request.contextPath}/product/productListAll?categoryName=BREAD">빵</a></li>
-					<li id="cake"><a href="${pageContext.request.contextPath}/product/productListAll?categoryName=CAKE">케이크</a></li>
-					<li id="desert"><a href="${pageContext.request.contextPath}/product/productListAll?categoryName=DESSERT">디저트</a></li>
-				</ul>
-			</div>
+		<div id="contentWrap">		
+			<!-- listTitle이 있고 categoryName이 없을 때 제목을 표시 -->
+			<c:if test="${listTitle != null && !listTitle.isEmpty() && (categoryName == null || categoryName.isEmpty())}">
+			    <c:if test="${listTitle == 'BEST 상품'}">
+			        <h1 style="color: #D9534F; -webkit-text-stroke: 1px #D9534F;">BEST 상품</h1>
+			    </c:if>
+			    <c:if test="${listTitle == '신상품'}">
+			        <h1 style="color: #D9534F; -webkit-text-stroke: 1px #D9534F;">신상품</h1>
+			    </c:if>
+			    <c:if test="${listTitle == '추천 상품'}">
+			        <h1 style="color: #D9534F; -webkit-text-stroke: 1px #D9534F;">추천 상품</h1>
+			    </c:if>
+    			    <c:if test="${listTitle == '검색 상품'}">
+			        <h1 style="color: #D9534F; -webkit-text-stroke: 1px #D9534F;">총 개의 상품이 검색되었습니다.</h1>
+			    </c:if>
+			</c:if>
+
+			<!-- listTitle이 없고 categoryName이 없을 때 전체 상품 표시 및 카테고리 메뉴 활성화 -->
+			<c:if test="${listTitle == '전체 상품' ||  listTitle == '빵' || listTitle == '케이크' || listTitle == '디저트'}">
+			    <div id="top_category">
+			        <ul>
+			            <li id="bread_all" class="category_click">
+			                <a href="${pageContext.request.contextPath}/product/productListAll?">전체</a>
+			            </li>
+			            <li id="bread">
+			                <a href="${pageContext.request.contextPath}/product/productListAll?categoryName=BREAD">빵</a>
+			            </li>
+			            <li id="cake">
+			                <a href="${pageContext.request.contextPath}/product/productListAll?categoryName=CAKE">케이크</a>
+			            </li>
+			            <li id="desert">
+			                <a href="${pageContext.request.contextPath}/product/productListAll?categoryName=DESSERT">디저트</a>
+			            </li>
+			        </ul>
+			    </div>
+			</c:if>
+
+			
 			<div class="item_info">
 				<div class="item_total">
 					총 <b>${prodCount}</b> 개의 상품이 있습니다
 				</div>
 			</div>
 			<div class="item_wrap">
-				<c:forEach items="${prodListAll}" var="allProd">
+				<c:forEach items="${productList}" var="prod">
 					<dl class="item_elem">
 						<dt class="thumb">
-							<a href="productDetail?productId=${allProd.productId}"> <img class="prd_img"
-								src="productImage?productId=${allProd.productId}&productUsecase=THUMBNAIL" />
+							<a href="productDetail?productId=${prod.productId}"> <img class="prd_img"
+								src="productImage?productId=${prod.productId}&productUsecase=THUMBNAIL" />
 							</a>
 							<div class="cart-overlay">
 								<a
-									href="${pageContext.request.contextPath}/order/orderCart?productId=${allProd.productId}">
+									href="${pageContext.request.contextPath}/order/orderCart?productId=${prod.productId}">
 									<img
 									src="https://cdn-icons-png.flaticon.com/512/1170/1170678.png" />
 								</a>
@@ -50,10 +78,10 @@
 						<dd>
 							<ul>
 								<li class="prd_title">
-								<a href="productDetail?productId=${allProd.productId}">${allProd.productName}</a>
+								<a href="productDetail?productId=${prod.productId}">${prod.productName}</a>
 								</li>
 								<li class="prd_price"><fmt:formatNumber
-										value="${allProd.productPrice}" pattern="#,##0" />원</li>
+										value="${prod.productPrice}" pattern="#,##0" />원</li>
 								<%-- 상품후기는 아직 데이터가 없으므로 건너뜁니다. --%>
 								<li class="prd_review"><em>상품후기</em> (8)</li>
 							</ul>

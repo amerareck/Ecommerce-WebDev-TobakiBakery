@@ -240,6 +240,7 @@ public class ProductController {
 				//상품 섬네일 이미지 처리
 				for(MultipartFile mf : form.getProductThumbnailImagefile()) {
 					if(!mf.isEmpty()) {
+						dto.setProductUsecase(ProductUsecase.fromValue("THUMBNAIL"));
 						dto.setImageOriginalName(mf.getOriginalFilename());
 						dto.setImageType(mf.getContentType());
 						dto.setImageData(mf.getBytes());
@@ -268,19 +269,24 @@ public class ProductController {
 
 	}
 	
-	public void getImageNames(@RequestParam(required=true) int productId, HttpServletResponse res) throws IOException {
-		List<String> imageNames = productService.getImageNames(productId);
-		JSONArray arr = new JSONArray();
+	@GetMapping("getImageNames")
+	public void getImageNames(ProductDTO dto, HttpServletResponse res) throws IOException {
+		log.info("실행");
+		List<ProductDTO> imageNames = productService.getImageNames(dto);
+		JSONArray names = new JSONArray();
 		JSONObject json = new JSONObject();
 		
 		if(imageNames.isEmpty()) {
 			json.put("status", "no-data");
 		} else {
-			for(String str : imageNames) {
-				arr.put(str);
+			for(ProductDTO namesDTO : imageNames) {
+				JSONObject name = new JSONObject();
+				name.put("imageName", namesDTO.getImageOriginalName());
+				name.put("productUsecase", namesDTO.getProductUsecase());
+				names.put(name);
 			}
 			json.put("status", "ok");
-			json.put("imageNames", arr);
+			json.put("imageNames", names);
 		}
 		
 		res.setContentType("application/json; charset=UTF-8");
@@ -290,5 +296,107 @@ public class ProductController {
 		pw.close();
 	}
 	
+	@PostMapping("deleteImage")
+	public void removeImage(ProductDTO dto, HttpServletResponse res) throws IOException {
+		log.info("실행");
+		JSONObject json = new JSONObject();
+		
+		if(productService.removeImage(dto)) {
+			json.put("status", "ok");
+		} else {
+			json.put("status", "error");
+		}
+		
+		res.setContentType("application/json; charset=UTF-8");
+		PrintWriter pw = res.getWriter();
+		pw.println(json.toString());
+		pw.flush();
+		pw.close();
+	}
+	
+	@PostMapping("update")
+	public String updateProduct(@Valid ProductForm form, Errors error, Model model) throws IOException {
+		log.info("실행");
+		log.info("productForm: "+form.toString());
+		
+		//유효성 검사 시작
+		if(error.hasErrors()) {
+			log.info("유효성 검사 실패");
+			
+			for(FieldError e : error.getFieldErrors()) {
+				model.addAttribute("isAlert", true);
+				model.addAttribute("alert", e.getDefaultMessage());
+				model.addAttribute("redirect", "../admin/main");
+				return "common/alert";
+			}
+		}
+		
+		//유효성 검사 통과
+		ProductDTO dto = new ProductDTO();
+		dto.setProductId(form.getProductId());
+		dto.setProductName(form.getProductName());
+		dto.setProductDetail(form.getProductDetail());
+		dto.setCategoryName(Category.fromValue(form.getCategoryName()));
+		dto.setProductPrice(form.getProductPrice());
+		dto.setProductStock(form.getProductCount());
+		dto.setProductState(ProductState.fromValue(form.getProductState()));
+		dto.setProductRecom(form.isProductRecom() ? 1 : 0);
+		boolean productUpdate = productService.updateProduct(dto);
+		
+		if(productUpdate) {
+			MultipartFile mf = form.getProductDetailImagefile();
+			if(!mf.isEmpty()) {
+				dto.setImageOriginalName(mf.getOriginalFilename());
+				dto.setImageType(mf.getContentType());
+				dto.setImageData(mf.getBytes());
+				dto.setProductUsecase(ProductUsecase.DETAIL);
+				
+				productUpdate = productService.updateDetailImage(dto);
+			}
+		}
+		
+		for(MultipartFile mf : form.getProductThumbnailImagefile()) {
+			if (!mf.isEmpty() && productUpdate) {
+				dto.setImageOriginalName(mf.getOriginalFilename());
+				dto.setImageType(mf.getContentType());
+				dto.setImageData(mf.getBytes());
+				dto.setProductUsecase(ProductUsecase.THUMBNAIL);
+				
+				//섬네일 이미지는 다중 이미지 허용이므로, 업데이트가 아닌 이미지 추가.
+				//이미지 삭제는 별도 요청을 통해서 이루어져야 함.
+				productUpdate = productService.insertProductImage(dto);
+			}
+		}
+		
+		// 트랜잭션 처리 필요!
+		if(!productUpdate) {
+			model.addAttribute("isAlert", true);
+			model.addAttribute("alert", "상품 수정에 있어 오류가 발생했습니다.");
+			model.addAttribute("redirect", "../admin/main?pageNo="+form.getPageNo());
+		} else {
+			model.addAttribute("isAlert", true);
+			model.addAttribute("alert", "상품 수정이 완료되었습니다.");
+			model.addAttribute("redirect", "../admin/main?pageNo="+form.getPageNo());
+		}
+		return "common/alert";
+	}
+	
+	@PostMapping("delete")
+	public void removeProduct(ProductDTO dto, HttpServletResponse res) throws IOException {
+		log.info("실행");
+		
+		JSONObject json = new JSONObject();
+		if(productService.removeProduct(dto)) {
+			json.put("status", "ok");
+		} else {
+			json.put("status", "fail");
+		}
+		
+		res.setContentType("application/json; charset=UTF-8");
+		PrintWriter pw = res.getWriter();
+		pw.println(json.toString());
+		pw.flush();
+		pw.close();
+	}
 }
 

@@ -10,10 +10,11 @@ import com.mycompany.miniproject.dto.ProductDTO;
 @Mapper
 public interface ProductDAO {
 
+
 	public ProductDTO selectProductImage(ProductDTO dto);
 
 	public List<ProductDTO> selectNewProduct();
-	
+
 	public List<ProductDTO> selectBestProduct();
 	
 	public List<ProductDTO> selectRecomProduct(Pager pager);
@@ -29,8 +30,6 @@ public interface ProductDAO {
 	public ProductDAO getProductById(int productId);
 
 	public int insertProduct(ProductDTO dto);
-
-	public int insertProductImage(ProductDTO dto);
 
 	public ProductDTO selectRecentProductId(String productName);
 
@@ -52,4 +51,8 @@ public interface ProductDAO {
 
 	public String selectProductCategory(int productId);
 	
+
+	public int updateProduct(ProductDTO dto);
+
+	public int deleteProduct(ProductDTO dto);
 }

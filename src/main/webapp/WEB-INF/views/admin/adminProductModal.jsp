@@ -84,7 +84,7 @@
                 
             <!-- Modal body -->
             <div class="modal-body">
-                <form action="#" id="productUpdateForm-${element.productId}">
+                <form action="../product/update" method="post" enctype="multipart/form-data" >
                     <div class="product-container">
                         <div class="block-left flex-grow-1">
                             <div class="form-group flex-column">
@@ -95,8 +95,9 @@
                             <div class="form-group">
                                 <label for="updateDetails-${element.productId}"><b>상품상세</b></label>
                                 <textarea class="form-control" id="updateDetails-${element.productId}" name="productDetail" rows="5">${element.productDetail}</textarea>
-                                <div></div>
-                                <input type="file" class="form-control-file mt-1" id="updateDetailsImage-${element.productId}">
+                                <div id="updateModalDetailImageNames-${element.productId}" class="mb-1">
+                                </div>
+                                <input type="file" class="form-control-file mt-1" id="updateDetailsImage-${element.productId}" name="productDetailImagefile" >
                             </div>
 
                             <div class="form-group">
@@ -122,7 +123,7 @@
                             <div class="d-flex justify-content-between w-100" style="width: 95%;">
                                 <div class="form-group w-50">
                                     <label for="updateProductState-${element.productId}"><b>상품상태</b></label>
-                                    <select class="form-control form-select" id="updateProductState-${element.productId}" style="width: 85%;">
+                                    <select class="form-control form-select" id="updateProductState-${element.productId}" style="width: 85%;" name="productState" >
                                         <option value="ON_SALE" <c:if test="${element.productState == 'ON_SALE'}">selected</c:if> >판매중</option>
                                         <option value="NOT_SALE" <c:if test="${element.productState == 'NOT_SALE'}">selected</c:if> >판매중단</option>
                                         <option value="SOLD_OUT" <c:if test="${element.productState == 'SOLD_OUT'}">selected</c:if> >매진</option>
@@ -130,7 +131,7 @@
                                 </div>
                                 <div class="flex-sort d-flex align-items-center w-50">
                                     <div class="custom-control custom-switch mt-2">
-                                        <input type="checkbox" class="custom-control-input" id="updateRecommendedProduct-${element.productId}" <c:if test="${element.productRecom == 1 }">checked="checked"</c:if> />
+                                        <input type="checkbox" class="custom-control-input" id="updateRecommendedProduct-${element.productId}" <c:if test="${element.productRecom == 1 }">checked="checked"</c:if> name="productRecom" />
                                         <label class="custom-control-label" for="updateRecommendedProduct-${element.productId}"><b>추천상품 설정</b></label>
                                     </div>
                                 </div>
@@ -138,18 +139,21 @@
                         </div>
 
                         <div class="block-right flex-grow-1 h-100">
-                            <div class="form-group">
+                            <div class="form-group thumbnail-image-controller">
                                 <div class="text-left">
                                   <label for="updateProductImagefile-${element.productId}"><b>상품 썸네일</b></label>
                                 </div>
-                                <img src="${pageContext.request.contextPath}/product/productImage?productId=${element.productId}&productUsecase=THUMBNAIL" class="rounded" id="updateProductImagefile-${element.productId}" width="300px" height="275px"/>
-                                <input type="file" class="form-control-file mt-1" id="updateImagefileUpload-${element.productId}">
+                                <img src="${pageContext.request.contextPath}/product/productImage?productId=${element.productId}&productUsecase=THUMBNAIL" class="rounded" id="updateProductImagefile-${element.productId}" width="300px" height="275px" />
+						       	<div id="updateModalthumbnailImageNames-${element.productId}" class="mb-1">
+                                </div>
+                                <input type="file" class="form-control-file mt-1 thumbnail-image-file" id="updateImagefileUpload-${element.productId}" multiple="multiple" name="productThumbnailImagefile" >
                             </div>
 
                             <div class="d-flex justify-content-end align-items-end ml-3" style="width: 95%; margin-top: 150px;">
                                 <button type="submit" class="btn btn-secondary" id="updateSubmit-${element.productId}">수정하기</button>
                             </div>
-
+                            <input type="hidden" value="${element.productId}" name="productId" />
+                            <input type="hidden" value="${pager.pageNo}" name="pageNo" />
                         </div>
                     </div>
                 </form>

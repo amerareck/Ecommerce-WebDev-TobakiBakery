@@ -94,7 +94,7 @@
 									</td>
 									<!-- 상품삭제 -->
 								    <td class="align-middle">
-								        <a href="#" class="product-delete-selector"><i class="far fa-trash-alt tm-product-delete-icon"></i></a>
+								        <a href="#" id="product-delete-${element.productId}" class="product-delete-selector"><i class="far fa-trash-alt tm-product-delete-icon"></i></a>
 								    </td>
 								</tr>
 		                	</c:forEach>
@@ -108,13 +108,14 @@
 		                <ul class="pagination justify-content-center mt-3 mb-2">
 	                    	<c:if test="${pager.groupNo>1}" >
 			                    <li class="page-item">
-				                        <a class="page-link" href="${pageContext.request.contextPath}/admin/list?type=product&pageNo=${pager.startPageNo-1}" >&laquo;</a>
+				                	<a class="page-link" href="${pageContext.request.contextPath}/admin/list?type=product&pageNo=${pager.startPageNo-1}" >&laquo;</a>
+		                    	</li>
 		                    </c:if>
 		                    <c:if test="${pager.groupNo<=1}" >
 		                    	<li class="page-item disabled" >
 			                        <a class="page-link" href="javascript:void(0);" >&laquo;</a>
+			                    </li>
 		                    </c:if>
-		                    </li>
 		                    
 		                    <c:forEach begin="${pager.startPageNo}" end="${pager.endPageNo}" var="i">
 		                    	<c:if test="${pager.pageNo == i}" >
@@ -133,12 +134,13 @@
 							<c:if test="${pager.groupNo<pager.totalGroupNo}" >
 			                    <li class="page-item">
 			                        <a class="page-link" href="${pageContext.request.contextPath}/admin/list?type=product&pageNo=${pager.endPageNo+1}">&raquo;</a>
+			                    </li>
 		                    </c:if>
 	                    	<c:if test="${pager.groupNo>=pager.totalGroupNo}" >
 			                    <li class="page-item disabled">
 			                        <a class="page-link" href="javascript:void(0)">&raquo;</a>
+			                    </li>
 	                    	</c:if>
-		                    </li>
 		                </ul>
 		            </div>
 		            <div class="d-flex align-items-center">

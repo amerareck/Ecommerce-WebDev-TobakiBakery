@@ -15,8 +15,10 @@ public interface CartDAO {
 	
 	public int insertCartItem(CartDTO cartDto);
 	
-	public int checkCartProduct(CartDTO cartDto);
+	public CartDTO checkCartProduct(CartDTO cartDto);
 	public int updateProductQty(CartDTO cartDto);
 	public int deleteCartProduct(CartDTO cartDto);
+
+	public int deleteCartItem(CartDTO cartDto);
 	
 }
