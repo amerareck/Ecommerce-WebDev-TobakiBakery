@@ -4,6 +4,7 @@ import java.io.PrintWriter;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.mycompany.miniproject.dto.CartDTO;
+import com.mycompany.miniproject.dto.OrderDTO;
 import com.mycompany.miniproject.dto.ProductDTO;
 import com.mycompany.miniproject.service.OrderService;
 
@@ -31,9 +33,30 @@ public class OrderController {
 	@Autowired
 	private OrderService orderService;
 	
-	@RequestMapping("/orderDetail")	
-	public String getorderDetail() {
+	@PostMapping("/sendCart")
+	public void receiveCart(@RequestBody List<OrderDTO> dto, HttpSession session, HttpServletResponse res) throws IOException {
 		log.info("실행");
+		log.info(dto.toString());
+		
+		JSONObject json = new JSONObject();
+		session.setAttribute("cartList", dto);
+		json.put("status", "ok");
+		json.put("redirect", "payment");
+		
+		res.setContentType("application/json; charset=UTF-8");
+		PrintWriter pw = res.getWriter();
+		pw.println(json.toString());
+		pw.flush();
+		pw.close();
+	}
+	
+	@GetMapping("/payment")
+	@SuppressWarnings("unchecked")
+	public String getOrderDetail(HttpSession session, Model model) {
+		log.info("실행");
+		List<OrderDTO> list = (List<OrderDTO>) session.getAttribute("cartList");
+		log.info(list.toString());
+		
 		return "order/orderDetail";
 	}
 	

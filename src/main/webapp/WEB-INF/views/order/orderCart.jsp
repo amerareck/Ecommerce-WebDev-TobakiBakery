@@ -78,12 +78,12 @@
 									<td class="align-middle">
 										<div class="quantity-control">
 											<button class="quantity-minus" id="quantityMinusButton-${cartItem.productId}" >-</button>
-											<input type="text" value="${cartItem.cartCount}" min="1" max="10"/>
+											<input type="text" id="productQuantity-${cartItem.productId}" value="${cartItem.cartCount}" min="1" max="10" />
 											<button class="quantity-plus" id="quantityPlusButton-${cartItem.productId}" >+</button>
 										</div>
 									</td>
 									<td class="align-middle">
-										<span class="currentPrice" id="productPriceNumber-${cartItem.productId}" ><fmt:formatNumber value="${cartItem.productPrice}" pattern="#,##0" />원</span>
+										<span class="currentPrice" id="productPriceNumber-${cartItem.productId}" data-product-price="${cartItem.productPrice}" ><fmt:formatNumber value="${cartItem.productPrice}" pattern="#,##0" />원</span>
 									</td>
 									<td class="align-middle">
 										<form action="${pageContext.request.contextPath}/order/deleteCartItem" method="post">
@@ -120,7 +120,7 @@
 					<button type="button" class="btn btn-outline-secondary" id="selectRemover" >선택삭제</button>
 					<button type="button" class="btn btn-outline-secondary">계속 쇼핑하기</button>
 					<button type="button" class="btn btn-outline-secondary" id="emptyCart">장바구니 비우기</button>
-					<button type="button" class="btn btn-outline-danger">선택상품 주문하기</button>
+					<button type="button" class="btn btn-outline-danger" id="orderProcess">선택상품 주문하기</button>
 				</div>
 			</div>		
 		</section>

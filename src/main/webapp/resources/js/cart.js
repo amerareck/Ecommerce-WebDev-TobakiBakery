@@ -130,3 +130,31 @@ $('#emptyCart').on('click', function(){
 	    }
 	});
 });
+
+$('#orderProcess').on('click', function(){
+	const list = [];
+	$('.item-select').each(function(){
+		const target = $(this).closest('tr');
+		const dto = {};
+		dto.productId = $(this).attr('id').split('-')[2];
+		dto.orderProductCount = target.find('#productQuantity-'+dto.productId).val();
+		dto.orderProductPrice = target.find('#productPriceNumber-'+dto.productId).data('product-price');
+		list.push(dto);
+	});
+	console.log(list);
+	
+	$.ajax({
+		url: 'sendCart',
+		method: 'post',
+		contentType: 'application/json; charset=UTF-8',
+		data: JSON.stringify(list),
+		success: function(data) {
+			if(data.status === 'ok') {
+				location.href=data.redirect;
+			}
+		},
+		error: function(xhr, status, error) {
+	        console.log('에러 발생:', error);
+	    }
+	});
+});
