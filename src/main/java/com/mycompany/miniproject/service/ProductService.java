@@ -61,21 +61,34 @@ public class ProductService {
 		return bestList;
 	}
 	
-	public List<ProductDTO> getRecomProductList(){
-		List<ProductDTO> recomList = productDAO.selectRecomProduct();
+	public List<ProductDTO> getRecomProductList(Pager pager){
+		List<ProductDTO> recomList = productDAO.selectRecomProduct(pager);
 		
 		return recomList;
 	}
 	
-	public List<ProductDTO> getProductListAll(String categoryName, Pager pager){
-		List<ProductDTO> prodList = productDAO.selectAll(pager);
+	public List<ProductDTO> getCategoryProductList(String categoryName, Pager pager){
+		List<ProductDTO> prodList = productDAO.selectCategoryProductList(pager);
 		
 		return prodList;
 	}
 	
-	public int getProductCount(String categoryName) {
-		int productCnt = productDAO.countProduct(categoryName);
+	public int getCategoryProductCount(String categoryName) {
+		int productCnt = productDAO.countCategoryProduct(categoryName);
 		return productCnt;
+	}
+	
+	public int getProductBestCount() {
+		int countBest = productDAO.selectProductBestCount();
+		return countBest;
+	}
+	public int getProductNewCount() {
+		int countNew = productDAO.selectProductNewCount();
+		return countNew;
+	}
+	public int getProductRecomCount() {
+		int countRecom = productDAO.selectProductRecomCount();
+		return countRecom;
 	}
 	
 	public int getTotalRows() {
@@ -121,4 +134,12 @@ public class ProductService {
 	public List<String> getImageNames(int productId) {
 		return productDAO.selectImageNamesWithProductId(productId);
 	}
+
+	public List<ProductDTO> getProductSmartRecom(String categoryName) {
+		return productDAO.selectSmartRecom(categoryName);
+	}
+	public String getProductCategoryName(int productId) {
+		return productDAO.selectProductCategory(productId);
+	}
+
 } 
