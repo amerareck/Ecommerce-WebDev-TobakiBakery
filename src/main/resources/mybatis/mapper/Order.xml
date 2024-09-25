@@ -20,5 +20,21 @@
 	
 	
 	</select>
+	
+	<select id="selectOrderListByMemberId" resultType="Order">
+	 	<![CDATA[
+	 		SELECT
+        o.ORDER_NUMBER,
+        o.ORDER_DATE,
+        p.PRODUCT_NAME,
+        op.ORDER_PRODUCT_PRICE
+    FROM
+        "order" o
+        LEFT OUTER JOIN ORDER_PRODUCT op ON o.ORDER_NUMBER = op.ORDER_NUMBER
+        LEFT OUTER JOIN PRODUCT p ON op.PRODUCT_ID = p.PRODUCT_ID
+    WHERE
+        o.MEMBER_ID = #{memberId}
+           ]]>
+     </select>
 
 </mapper>

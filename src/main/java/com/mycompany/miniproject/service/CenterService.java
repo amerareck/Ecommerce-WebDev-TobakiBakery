@@ -180,5 +180,9 @@ public class CenterService {
 			return null;
 		}
 	}
+	 public List<HelpdeskDTO> getInquiriesByMemberId(String memberId) {
+		 	log.info("이거 서비스인데 실행되나?");
+	        return helpdeskDAO.selectInquiriesByMemberId(memberId);
+	    }
 	
 }

@@ -437,5 +437,31 @@ public class ProductController {
 		pw.flush();
 		pw.close();
 	}
+	@GetMapping("/addReview")
+	public String addReview(String type, Model model) {
+		log.info("실행");
+		if(type == null) return "redirect:/product/productListAll";
+		
+		String[] elNames = {
+				"active", "title", "breadcrumb", "showCategory", "showReview",
+				"boardType", "formAction",
+				"author", "postTitle", "isSecret", "postContent", "postFile", "timestamp"
+		};
+
+		if(type.equals("helpdesk")) {
+			String[] data = {
+					"helpdesk", "문의사항", "문의사항", "none", "none",
+					"helpdesk", "submitHelpdesk",
+					"memberId", "title", "lockState", "content", "attach", "datetime"
+			};
+			
+			for(int i=0; i<elNames.length; i++) {
+				model.addAttribute(elNames[i], data[i]);
+			}
+		} 
+		
+		return "product/reviewInsert";
+	}
+	
 }
 

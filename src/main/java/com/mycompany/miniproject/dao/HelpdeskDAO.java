@@ -20,4 +20,7 @@ public interface HelpdeskDAO {
 	public int deleteBoard(int boardIndex);
 	public List<HelpdeskDTO> selectHelpdeskSubList(int helpdeskId);
 	public int updateHelpdeskViews(int boardNum);
+	public List<HelpdeskDTO> selectInquiriesByMemberId(String memberId);
+	
+
 }

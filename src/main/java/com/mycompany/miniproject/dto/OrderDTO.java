@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 public class OrderDTO {
-	private int orderNum;
+	private int orderNumber;
 	private Date orderDate; 
 	private String orderMemo;
 	private int deliveryNum;
@@ -20,9 +20,11 @@ public class OrderDTO {
 	private String deliveryStatus;
 	private int orderTotalPrice; 
 	private String memberId;
+	
 	private int productId;
 	private int orderProductCount;
 	private int orderProductPrice;
 	
+	private String productName; 
 
 }

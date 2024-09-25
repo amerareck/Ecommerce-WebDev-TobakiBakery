@@ -39,7 +39,7 @@
 						<th>제목</th>
 						<th>날짜</th>
 						<th>조회</th>
-						<th></th>
+						
 					</tr>
 				</thead>
 				<tbody>

@@ -150,4 +150,18 @@
 			WHERE helpdesk_id = #{helpdeskId}
 		]]>
 	</delete>
+	
+	 <select id="selectInquiriesByMemberId" parameterType="string" resultType="Helpdesk">
+	 	<![CDATA[
+	        SELECT 
+	            helpdesk_id, 
+	            helpdesk_title, 
+	            helpdesk_datetime
+	          
+	        FROM 
+	            HELPDESK 
+	        WHERE 
+	            member_id = #{memberId}
+           ]]>
+     </select>
 </mapper>

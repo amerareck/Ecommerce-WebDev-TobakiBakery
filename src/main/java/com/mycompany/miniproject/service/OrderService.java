@@ -1,6 +1,7 @@
 package com.mycompany.miniproject.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -90,6 +91,10 @@ public class OrderService {
 	public int getSingleProductTotalPrice(CartDTO dto) {
 		return productDAO.selectTotalPrice(dto);
 	}
+	public List<OrderDTO> getOrderListByMemberId(String memberId) {
+	 	log.info("이거 서비스인데 실행되나?");
+        return orderDAO.selectOrderListByMemberId(memberId);
+    }
 
 	 
 	   
