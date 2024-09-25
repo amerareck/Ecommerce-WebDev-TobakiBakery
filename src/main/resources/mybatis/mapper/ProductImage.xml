@@ -22,9 +22,12 @@
 				image_data
 			FROM
 				PRODUCT_IMAGE
+				LEFT OUTER JOIN PRODUCT USING(product_id)
 			WHERE
 				product_id = #{productId}
 			AND product_usecase = #{productUsecase}
+			ORDER BY product_datetime DESC
+            FETCH FIRST 1 ROWS ONLY
 		]]>
 	</select>
 	

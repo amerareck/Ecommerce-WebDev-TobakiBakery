@@ -3,38 +3,14 @@ $('.btns_order .btn-outline-secondary:nth-child(2)').on('click', function () {
     window.location.href = '../product/productListAll';
 });
 
-<<<<<<< HEAD
-
-// 장바구니 비우기 버튼 기능
-$('.btns_order .btn-outline-secondary:nth-child(3)').on('click', function () {
-    $('#cartTable tbody tr').each(function() {
-        $(this).remove();
-=======
 $('#selectAll').on('change', function(event){
 	const isChecked = $(this).is(':checked');
 	
 	$('.item-select').each(function(index){
         $(this).prop('checked', isChecked);
->>>>>>> branch 'master' of https://github.com/AnJungGeon/tobaki-bakery.git
     });
 });
 
-<<<<<<< HEAD
-
-
-
-    // 선택상품 주문하기 버튼 기능 & 유효성 체크
-    $('.btns_order .btn-outline-danger').on('click', function() {
-        console.log("Order button clicked");
-        const checkedItems = $('#cartTable tbody input[type="checkbox"]:checked');
-        
-        if (checkedItems.length > 0) {
-            window.location.href = '${pageContext.request.contextPath}/mypage/mypageOrder';
-        } else {
-            alert("선택된 제품이 없습니다.");
-        }
-    });
-=======
 $('#selectRemover').on('click', function(event){
 	if(!confirm('선택하신 장바구니 상품을 삭제할까요?')) return;
 	
@@ -64,10 +40,7 @@ $('#selectRemover').on('click', function(event){
 	    }
 	});
 });
->>>>>>> branch 'master' of https://github.com/AnJungGeon/tobaki-bakery.git
 
-<<<<<<< HEAD
-=======
 $('.quantity-minus').on('click', function(event){
 	let countHandler = $(this).parent().find('input').val();
 	if(countHandler <= 1) {
@@ -97,7 +70,6 @@ $('.quantity-minus').on('click', function(event){
 	    }
 	})
 });
->>>>>>> branch 'master' of https://github.com/AnJungGeon/tobaki-bakery.git
 
 $('.quantity-plus').on('click', function(event){
 	let countHandler = $(this).parent().find('input').val();

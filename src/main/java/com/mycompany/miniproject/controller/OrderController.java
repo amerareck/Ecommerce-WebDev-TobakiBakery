@@ -63,7 +63,7 @@ public class OrderController {
 	@RequestMapping("/orderPay")	
 	public String getorderPay() {
 		log.info("실행");
-		return "order/orderPay";
+		return "order/orderSheet";
 	}
 	
 	@PostMapping("/addCart")
