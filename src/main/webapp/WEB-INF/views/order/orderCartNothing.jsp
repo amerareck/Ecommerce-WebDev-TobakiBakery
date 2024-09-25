@@ -29,10 +29,9 @@
 		<!-- 장바구니 부분 -->
 		<section class="content">
 			<h2>장바구니</h2>
-		<img src="${pageContext.request.contextPath}/resources/image/cartIcon.png">
-		<h2>장바구니가 비어있어요.</h2>
-		<h3>장바구니를 새로운 상품으로 채워보세요.</h3>
-		<button type="button" class="btn btn-primary btn-lg">Large button</button>
+			<img style="margin: 0 auto;" src="${pageContext.request.contextPath}/resources/image/cartIcon.png">
+			<h3 class="text-center">장바구니가 비어있어요.</h3>
+			<h2>장바구니를 새로운 상품으로 채워보세요.</h2>
 		
 		</section>
 		 

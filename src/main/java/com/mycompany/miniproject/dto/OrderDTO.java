@@ -1,6 +1,9 @@
 package com.mycompany.miniproject.dto;
 
 import java.util.Date;
+import java.util.List;
+
+import com.mycompany.miniproject.type.DeliveryStatus;
 
 import lombok.Data;
 
@@ -15,10 +18,12 @@ public class OrderDTO {
 	private String deliveryAddressDetail;
 	private String receiverName;
 	private String receiverPhoneNum;
+	private String receiverEmail;
 	private String deliveryMemo;
 	private int deliveryPrice;
-	private String deliveryStatus;
-	private int orderTotalPrice; 
+	private DeliveryStatus deliveryStatus;
+	private int orderTotalPrice;
+	
 	private String memberId;
 	
 	private int productId;
@@ -26,5 +31,6 @@ public class OrderDTO {
 	private int orderProductPrice;
 	
 	private String productName; 
+	private List<ProductDTO> productList;
 
 }

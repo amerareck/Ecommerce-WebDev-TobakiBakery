@@ -1,10 +1,14 @@
 package com.mycompany.miniproject.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,16 +16,26 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.mycompany.miniproject.dto.CartDTO;
+import com.mycompany.miniproject.dto.MemberDTO;
 import com.mycompany.miniproject.dto.OrderDTO;
+import com.mycompany.miniproject.dto.OrderForm;
 import com.mycompany.miniproject.dto.ProductDTO;
+import com.mycompany.miniproject.service.MemberService;
 import com.mycompany.miniproject.service.OrderService;
+import com.mycompany.miniproject.service.ProductService;
+import com.mycompany.miniproject.type.DeliveryStatus;
+import com.mycompany.miniproject.type.ProductUsecase;
+import com.mycompany.miniproject.validator.OrderValidator;
 
 import lombok.extern.slf4j.Slf4j;
 @Controller
@@ -32,9 +46,13 @@ public class OrderController {
 	
 	@Autowired
 	private OrderService orderService;
+	@Autowired
+	private MemberService memberService;
+	@Autowired
+	private ProductService productService;
 	
 	@PostMapping("/sendCart")
-	public void receiveCart(@RequestBody List<OrderDTO> dto, HttpSession session, HttpServletResponse res) throws IOException {
+	public void receiveCart(@RequestBody List<CartDTO> dto, HttpSession session, HttpServletResponse res) throws IOException {
 		log.info("실행");
 		log.info(dto.toString());
 		
@@ -52,18 +70,49 @@ public class OrderController {
 	
 	@GetMapping("/payment")
 	@SuppressWarnings("unchecked")
-	public String getOrderDetail(HttpSession session, Model model) {
+	public String getOrderDetail(HttpSession session, Model model, Authentication auth) {
 		log.info("실행");
-		List<OrderDTO> list = (List<OrderDTO>) session.getAttribute("cartList");
-		log.info(list.toString());
 		
-		return "order/orderDetail";
+		List<CartDTO> cartList = (List<CartDTO>) session.getAttribute("cartList");
+		if(cartList == null) return "redirect:/order/cart";
+		
+		OrderDTO dto = new OrderDTO();
+		MemberDTO user = memberService.getMemberInfo();
+		List<ProductDTO> productList = new ArrayList<>();
+		
+		for(CartDTO cart : cartList) {
+			ProductDTO prod = productService.getProductDetail(cart.getProductId());
+			for(ProductDTO ele : productService.getImageNames(prod)) {
+				if(ele.getProductUsecase() == ProductUsecase.THUMBNAIL) {
+					prod.setImageOriginalName(ele.getImageOriginalName());
+					break;
+				}
+			}
+			prod.setCartCount(cart.getCartCount());
+			prod.setProductPrice(prod.getProductPrice()*prod.getCartCount());
+			productList.add(prod);
+			dto.setOrderTotalPrice(dto.getOrderTotalPrice()+prod.getProductPrice());
+		}
+		dto.setProductList(productList);
+		dto.setMemberId(user.getMemberId());
+		dto.setReceiverName(user.getMemberName());
+		dto.setReceiverEmail(user.getMemberEmail());
+		dto.setReceiverPhoneNum(user.getPhoneNum());
+		dto.setDeliveryPostNum(user.getPostNum());
+		dto.setDeliveryAddress(user.getAddress());
+		dto.setDeliveryAddressDetail(user.getAddressDetail());
+		
+		log.info(dto.toString());
+		//session.removeAttribute("cartList");
+		model.addAttribute("orderData", dto);
+		
+		return "order/orderSheet";
 	}
 	
 	@RequestMapping("/orderPay")	
 	public String getorderPay() {
 		log.info("실행");
-		return "order/orderSheet";
+		return "order/orderPay";
 	}
 	
 	@PostMapping("/addCart")
@@ -101,6 +150,8 @@ public class OrderController {
 		cartDto.setMemberId(authentication.getName());
 		
 		List<ProductDTO> cartItemList = orderService.getCartItemsByMemberId(cartDto);
+		if(cartItemList.isEmpty()) return "order/orderCartNothing";
+		
 		int totalPrice = 0;
         for (ProductDTO item : cartItemList) {
         	cartDto.setProductId(item.getProductId());
@@ -187,5 +238,87 @@ public class OrderController {
 		pw.println(json.toString());
 		pw.flush();
 		pw.close();
+	}
+	
+	@InitBinder("orderForm")
+	public void orderFormBinder(WebDataBinder binder) {
+		log.info("유효성 검증 실행");
+		binder.setValidator(new OrderValidator());
+	}
+	
+	@SuppressWarnings("unchecked")
+	@PostMapping("/submitOrder")
+	public void submitOrder(@RequestBody @Valid OrderForm orderForm, Errors error, HttpSession session, HttpServletResponse res) throws IOException {
+		log.info("실행");
+		JSONObject response = new JSONObject();
+		
+		if(error.hasErrors()) {
+			Map<String, String> errorMap = new HashMap<>();
+            error.getFieldErrors().forEach(fieldError -> 
+            	errorMap.put(fieldError.getField(), fieldError.getDefaultMessage())
+            );
+            response.put("status", "fail");
+            response.put("errors", errorMap);
+            res.setContentType("application/json; charset=UTF-8");
+            PrintWriter pw = res.getWriter();
+            pw.println(response.toString());
+            pw.flush();
+            pw.close();
+            return;
+		}
+		
+		OrderDTO dto = new OrderDTO();
+		MemberDTO user = memberService.getMemberInfo();
+		dto.setMemberId(user.getMemberId());
+		dto.setDeliveryPostNum(orderForm.getDeliveryPostNum());
+		dto.setDeliveryAddress(orderForm.getDeliveryAddress());
+		dto.setDeliveryAddressDetail(orderForm.getDeliveryAddressDetail());
+		dto.setReceiverName(orderForm.getReceiverName());
+		dto.setReceiverPhoneNum(orderForm.getReceiverPhoneNum());
+		dto.setDeliveryMemo(orderForm.getDeliveryMemo());
+		dto.setDeliveryStatus(DeliveryStatus.DELIVERY_STAY);
+		dto.setOrderTotalPrice(orderForm.getOrderTotalPrice());
+		dto.setProductList(orderForm.getProductList());
+		
+		boolean complete = true;
+		int orderNumber = orderService.addOrder(dto);
+		if(orderNumber == 0 ) {
+			log.info("상품 주문 프로세스에 오류가 발생.");
+			response.put("status", "not-add-order");
+			response.put("redirect", "payment");
+			complete = false;
+		}
+		
+		List<CartDTO> cart = (List<CartDTO>) session.getAttribute("cartList");
+		for(CartDTO ele : cart) {
+			ele.setMemberId(dto.getMemberId());
+		}
+		if(!orderService.removeCartItems(cart)) {
+			log.info("상품 주문 프로세스에 오류가 발생.");
+			response.put("status", "not-remove-cart");
+			response.put("redirect", "cart");
+			complete = false;
+		}
+		
+		if(complete) {
+			session.removeAttribute("cartList");
+			response.put("status", "ok");
+			response.put("orderNumber", orderNumber);
+			response.put("redirect", "complete");
+		}
+		
+		res.setContentType("application/json; charset=UTF-8");
+        PrintWriter pw = res.getWriter();
+        pw.println(response.toString());
+        pw.flush();
+        pw.close();
+	}
+	
+	@GetMapping("/complete")
+	public String orderComplete(String orderNumber, Model model) {
+		log.info("실행");
+		model.addAttribute("orderNumber", orderNumber);
+		
+		return "order/orderPay";
 	}
 }
