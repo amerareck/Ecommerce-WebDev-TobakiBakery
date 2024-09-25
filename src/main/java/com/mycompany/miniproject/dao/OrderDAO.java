@@ -11,10 +11,14 @@ import com.mycompany.miniproject.dto.Pager;
 @Mapper
 public interface OrderDAO {
 
-	int selectAllCount();
+	public int selectAllCount();
 
-	List<OrderDTO> selectAllOrderList(Pager pager);
+	public List<OrderDTO> selectAllOrderList(Pager pager);
 
 	public CartDTO getSelectedProduct(CartDTO cartDto);
+
+	public int insertOrder(OrderDTO dto);
+
+	public int selectRecentOrderNumber(OrderDTO dto);
 
 }

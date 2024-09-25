@@ -99,7 +99,7 @@
 								<td colspan="6">
 									<div class="basket_totalprice">
 										<span>총 구매 금액: &nbsp;</span>
-										<strong id="orderTotalPrice" ><fmt:formatNumber value="${totalPrice}" pattern="#,##0" />원</strong>
+										<strong id="orderTotalPrice" data-total-price="${totalPrice}" }><fmt:formatNumber value="${totalPrice}" pattern="#,##0" />원</strong>
 									</div>
 								</td>
 							</tr>

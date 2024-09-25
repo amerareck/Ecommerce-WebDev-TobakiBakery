@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.mycompany.miniproject.dao.CartDAO;
 import com.mycompany.miniproject.dao.OrderDAO;
+import com.mycompany.miniproject.dao.OrderProductDAO;
 import com.mycompany.miniproject.dao.ProductDAO;
 import com.mycompany.miniproject.dto.CartDTO;
 import com.mycompany.miniproject.dto.OrderDTO;
@@ -22,6 +23,8 @@ public class OrderService {
 	private CartDAO cartDAO;
 	@Autowired
 	private OrderDAO orderDAO;
+	@Autowired
+	private OrderProductDAO orderProductDAO;
 	@Autowired
 	private ProductDAO productDAO;
 	
@@ -75,9 +78,6 @@ public class OrderService {
 		return cartDAO.countCartItem(memberId);
 	}
 
-	
-	
-
 	public boolean removeCartItems(List<CartDTO> list) {
 		for(CartDTO dto : list) {
 			if(!removeCartItem(dto)) {
@@ -89,6 +89,24 @@ public class OrderService {
 
 	public int getSingleProductTotalPrice(CartDTO dto) {
 		return productDAO.selectTotalPrice(dto);
+	}
+
+	public int addOrder(OrderDTO dto) {
+		//트랜잭션 요망
+		int result = 0;
+		if(orderDAO.insertOrder(dto) == 1) {
+			int orderNumber = orderDAO.selectRecentOrderNumber(dto);
+			for(ProductDTO prodDTO : dto.getProductList()) {
+				dto.setOrderNumber(orderNumber);
+				dto.setOrderProductCount(prodDTO.getCartCount());
+				dto.setOrderProductPrice(prodDTO.getProductPrice());
+				dto.setProductId(prodDTO.getProductId());
+				if(orderProductDAO.insertOrderProduct(dto) == 1) {
+					result = orderNumber;
+				}
+			}
+		}
+		return result;
 	}
 
 	 

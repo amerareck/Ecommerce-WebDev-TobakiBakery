@@ -29,8 +29,8 @@
 							<tr class="table-secondary text-center">
 								<th style="width: 30px;">NO.</th>
 								<th>상태</th>
-								<th>주문 상품</th>
 								<th>주문 수량</th>
+								<th>주문 상품</th>
 								<th>주문 금액</th>
 								<th>주문 일자</th>
 								<th>구매자</th>

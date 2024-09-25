@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mycompany.miniproject.dto.Pager;
 import com.mycompany.miniproject.dto.ProductDTO;
@@ -213,7 +214,7 @@ public class ProductController {
 	}
 	
 	@PostMapping("/addProduct")
-	public String submitProduct(@Valid ProductForm form, Errors error, Model model) throws IOException {
+	public String submitProduct(@Valid ProductForm form, Errors error, Model model, RedirectAttributes redi) throws IOException {
 		log.info("실행");
 		log.info("productForm: "+form.toString());
 		
@@ -222,10 +223,10 @@ public class ProductController {
 			log.info("유효성 검사 실패");
 			
 			for(FieldError e : error.getFieldErrors()) {
-				model.addAttribute("isAlert", true);
-				model.addAttribute("alert", e.getDefaultMessage());
-				model.addAttribute("reform", form);
-				return "admin/adminProductDetails";
+				redi.addFlashAttribute("isAlert", true);
+				redi.addFlashAttribute("alert", e.getDefaultMessage());
+				redi.addFlashAttribute("reform", form);
+				return "redirect:/admin/addProduct";
 			}
 		}
 		

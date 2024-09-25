@@ -137,8 +137,8 @@ $('#orderProcess').on('click', function(){
 		const target = $(this).closest('tr');
 		const dto = {};
 		dto.productId = $(this).attr('id').split('-')[2];
-		dto.orderProductCount = target.find('#productQuantity-'+dto.productId).val();
-		dto.orderProductPrice = target.find('#productPriceNumber-'+dto.productId).data('product-price');
+		dto.cartCount = target.find('#productQuantity-'+dto.productId).val();
+		dto.productCurrentPrice = target.find('#productPriceNumber-'+dto.productId).data('product-price');
 		list.push(dto);
 	});
 	console.log(list);

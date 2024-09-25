@@ -26,10 +26,8 @@ public class ProductService {
 	
 	public List<ProductDTO> getNewProductList(Pager pager) {
 		List<ProductDTO> list = productDAO.selectNewProduct(pager);
-		
 		return list;
 	}
-	
 	
 	public ProductDTO getProductImage(ProductDTO dto) {
 		return imageDAO.selectProductImage(dto);
@@ -77,14 +75,9 @@ public class ProductService {
 		return totalRows;
 	}
 	
-	public  ProductDTO getProductDetail(int productId) {
+	public ProductDTO getProductDetail(int productId) {
 		 ProductDTO prodDetail = productDAO.selectProductDetail(productId);
 	    return prodDetail;
-	}
-
-	public static List<ProductDAO> getProductsByIds(String[] productIdArray) {
-		
-		return null;
 	}
 
 	public boolean insertProduct(ProductDTO dto) {
