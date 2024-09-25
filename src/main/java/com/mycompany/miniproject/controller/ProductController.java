@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mycompany.miniproject.dto.Pager;
 import com.mycompany.miniproject.dto.ProductDTO;
@@ -60,7 +61,7 @@ public class ProductController {
 		
 		log.info("categoryName: " + categoryName);
 		log.info("listName: " + listName);
-	    
+	   
 
 
 		log.info("상품목록 실행");
@@ -151,7 +152,35 @@ public class ProductController {
 		
 	}
 	
+	
+	@GetMapping("/searchProduct")
+	public String getProductSearch(
+			@RequestParam(name = "type", defaultValue = "productName")String type,
+			@RequestParam(value="keyword", required=true) String keyword,
+			Model model,
+			@RequestParam(defaultValue="1") int pageNo, 
+			RedirectAttributes redi) {
+		log.info("실햄");
+		log.info("type: " + type);
+		int searchProductCount = productService.getSearchProductCount(type, keyword);
+		if(searchProductCount < 1 || keyword.isEmpty() || keyword==null) {
+			redi.addFlashAttribute("isAlert", true);
+			redi.addFlashAttribute("alert", "검색 결과가 존재하지 않습니다.\\n다른 키워드를 검색해 해주세요.");
+			
 
+			return "redirect:/product/productListAll?";
+		}
+		Pager pager = new Pager(8, 5, searchProductCount, pageNo);
+		pager.setKeyword(keyword);
+		pager.setSearchType("productName");
+		List<ProductDTO> searchList = productService.getResultSearchProduct(pager);
+		model.addAttribute("productList",searchList);
+		model.addAttribute("prodCount", searchProductCount);
+		model.addAttribute("pager", pager);
+		model.addAttribute("listTitle", "상품 검색");
+		
+		return "/product/productListAll";
+	}
 	
 	
 	@GetMapping("/productDetail")
