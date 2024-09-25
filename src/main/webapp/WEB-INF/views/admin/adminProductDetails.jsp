@@ -25,7 +25,7 @@
                                 <!-- 상품 상세 -->
                                 <div class="form-group">
                                     <label for="product-details"><b>상품상세</b></label>
-                                    <textarea class="form-control" id="product-details" name="productDetail" rows="5" required></textarea>
+                                    <textarea class="form-control" id="product-details" name="productDetail" rows="5" ></textarea>
                                     <input type="file" class="form-control-file mt-1" id="product-details-imagefile" aria-describedby="details-imagefile" name="productDetailImagefile" >
                                 </div>
                                 <!-- 카테고리 선택 -->
@@ -48,7 +48,7 @@
                                     <div class="form-group">
                                         <label for="product-amount"><b>상품수량</b></label>
                                         <input type="number" class="form-control" id="product-amount" name="productCount" 
-                                        	placeholder="수량 설정" value="${not empty reform ? reform.productAmount : ''}" required>
+                                        	placeholder="수량 설정" value="${not empty reform ? reform.productCount : ''}" required>
                                     </div>
                                 </div>
                                 <!-- 상품 상태 및 추천 설정 -->

@@ -22,38 +22,38 @@ public class ProductValidator implements Validator{
 		ProductForm form = (ProductForm) target;
 		
 		//상품제목
-		String prodName = form.getProductName();
-		if (prodName == null || prodName.trim().isEmpty()) {
+		String productName = form.getProductName();
+		if (productName == null || productName.trim().isEmpty()) {
 			log.info("오류 검출");
-			errors.rejectValue("prodName", "errors.prodName.required", "상품 제목을 기입하십시오.");
+			errors.rejectValue("productName", "errors.productName.required", "상품 제목을 기입하십시오.");
 		}
 		
 		//카테고리
-		String category = form.getCategoryName();
-		if (category == null || category.trim().isEmpty()) {
+		String categoryName = form.getCategoryName();
+		if (categoryName == null || categoryName.trim().isEmpty()) {
 			log.info("오류 검출");
-			errors.rejectValue("ProdCategory", "errors.category.empty", "카테고리를 선택하십시오.");
+			errors.rejectValue("categoryName", "errors.categoryName.empty", "카테고리를 선택하십시오.");
 		}
 		
 		//상품가격
-		int prodPrice = form.getProductPrice();
-		if (prodPrice < 0) {
+		int productPrice = form.getProductPrice();
+		if (productPrice < 0) {
 			log.info("오류 검출");
-			errors.rejectValue("prodPrice", "errors.prodPrice.minus", "상품가격은 음수일 수 없습니다.");
+			errors.rejectValue("productPrice", "errors.productPrice.minus", "상품가격은 음수일 수 없습니다.");
 		}
 		
 		//상품수량
-		int prodAmount = form.getProductCount();
-		if (prodAmount < 0) {
+		int productCount = form.getProductCount();
+		if (productCount < 0) {
 			log.info("오류 검출");
-			errors.rejectValue("prodAmount", "errors.prodAmount.minus", "상품수량은 음수일 수 없습니다.");
+			errors.rejectValue("productCount", "errors.productCount.minus", "상품수량은 음수일 수 없습니다.");
 		}
 		
 		//상품상태
-		String prodState = form.getProductState();
-		if (prodState == null || prodState.trim().isEmpty()) {
+		String productState = form.getProductState();
+		if (productState == null || productState.trim().isEmpty()) {
 			log.info("오류 검출");
-			errors.rejectValue("prodState", "errors.prodState.empty", "상품상태를 설정하십시오.");
+			errors.rejectValue("productState", "errors.productState.empty", "상품상태를 설정하십시오.");
 		}
 	}
 }

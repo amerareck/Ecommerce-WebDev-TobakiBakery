@@ -242,7 +242,7 @@ public class ProductController {
 	}
 	
 	@PostMapping("/addProduct")
-	public String submitProduct(@Valid ProductForm form, Errors error, Model model) throws IOException {
+	public String submitProduct(@Valid ProductForm form, Errors error, Model model, RedirectAttributes redi) throws IOException {
 		log.info("실행");
 		log.info("productForm: "+form.toString());
 		
@@ -251,10 +251,10 @@ public class ProductController {
 			log.info("유효성 검사 실패");
 			
 			for(FieldError e : error.getFieldErrors()) {
-				model.addAttribute("isAlert", true);
-				model.addAttribute("alert", e.getDefaultMessage());
-				model.addAttribute("reform", form);
-				return "admin/adminProductDetails";
+				redi.addFlashAttribute("isAlert", true);
+				redi.addFlashAttribute("alert", e.getDefaultMessage());
+				redi.addFlashAttribute("reform", form);
+				return "redirect:/admin/addProduct";
 			}
 		}
 		
@@ -466,5 +466,31 @@ public class ProductController {
 		pw.flush();
 		pw.close();
 	}
+	@GetMapping("/addReview")
+	public String addReview(String type, Model model) {
+		log.info("실행");
+		if(type == null) return "redirect:/product/productListAll";
+		
+		String[] elNames = {
+				"active", "title", "breadcrumb", "showCategory", "showReview",
+				"boardType", "formAction",
+				"author", "postTitle", "isSecret", "postContent", "postFile", "timestamp"
+		};
+
+		if(type.equals("helpdesk")) {
+			String[] data = {
+					"helpdesk", "문의사항", "문의사항", "none", "none",
+					"helpdesk", "submitHelpdesk",
+					"memberId", "title", "lockState", "content", "attach", "datetime"
+			};
+			
+			for(int i=0; i<elNames.length; i++) {
+				model.addAttribute(elNames[i], data[i]);
+			}
+		} 
+		
+		return "product/reviewInsert";
+	}
+	
 }
 

@@ -8,4 +8,6 @@ public class CartDTO {
 	private int productId;
 	private int cartCount;
 	private int countHandler;
+	private int productCurrentPrice;
+	private int orderTotalPrice;
 }

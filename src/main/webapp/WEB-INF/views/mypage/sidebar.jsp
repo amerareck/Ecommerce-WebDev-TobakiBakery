@@ -14,7 +14,7 @@
 	<ul class="nav nav-pills flex-column">
 
 		<li class="nav-item"><a class="nav-link"
-			href="${pageContext.request.contextPath}/order/orderCart">장바구니</a></li>
+			href="${pageContext.request.contextPath}/order/cart">장바구니</a></li>
 		<li class="nav-item"><a class="nav-link"
 			href="${pageContext.request.contextPath}/mypage/mypageReview">나의
 				상품 후기</a></li>

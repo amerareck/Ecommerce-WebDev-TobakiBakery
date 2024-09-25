@@ -20,5 +20,109 @@
 	
 	
 	</select>
+	
+	<select id="selectOrderListByMemberId" resultType="Order">
+	 	<![CDATA[
+	 		SELECT
+        o.ORDER_NUMBER,
+        o.ORDER_DATE,
+        p.PRODUCT_NAME,
+        op.ORDER_PRODUCT_PRICE
+    FROM
+        "order" o
+        LEFT OUTER JOIN ORDER_PRODUCT op ON o.ORDER_NUMBER = op.ORDER_NUMBER
+        LEFT OUTER JOIN PRODUCT p ON op.PRODUCT_ID = p.PRODUCT_ID
+    WHERE
+        o.MEMBER_ID = #{memberId}
+           ]]>
+     </select>
+
+	<select id="selectAllCount" resultType="int">
+		<![CDATA[
+			SELECT COUNT(*)
+			FROM "order"
+			ORDER BY order_date DESC
+		]]>
+	</select>
+	
+	<select id="selectAllOrderList" parameterType="Pager" resultType="Order">
+		<![CDATA[
+			SELECT
+			    order_number,
+			    order_date,
+			    order_memo,
+			    delivery_num,
+			    delivery_post_num,
+			    delivery_address,
+			    delivery_address_detail,
+			    receiver_name,
+			    receiver_phone_num,
+			    delivery_memo,
+			    delivery_price,
+			    delivery_status,
+			    order_total_price,
+			    member_id,
+			    product_id,
+			    order_product_count,
+			    order_product_price
+			FROM (
+			    SELECT
+				    order_number,
+				    order_date,
+				    order_memo,
+				    delivery_num,
+				    delivery_post_num,
+				    delivery_address,
+				    delivery_address_detail,
+				    receiver_name,
+				    receiver_phone_num,
+				    delivery_memo,
+				    delivery_price,
+				    delivery_status,
+				    order_total_price,
+				    member_id,
+				    product_id,
+				    order_product_count,
+				    order_product_price,
+			        ROW_NUMBER() OVER (ORDER BY order_number DESC) AS rnum
+			    FROM 
+			    	"order"
+			    	LEFT OUTER JOIN ORDER_PRODUCT USING(order_number)
+			)
+			WHERE rnum BETWEEN #{startRowNo} AND #{endRowNo}
+		]]>
+	</select>
+	
+	<insert id="insertOrder" parameterType="Order" >
+		<![CDATA[
+			INSERT INTO "order"
+			VALUES (
+				seq_order_number.nextval,
+				sysdate,
+				#{orderMemo},
+				seq_delivery_num.nextval,
+				#{deliveryPostNum},
+				#{deliveryAddress},
+				#{deliveryAddressDetail},
+				#{receiverName},
+				#{receiverPhoneNum},
+				#{deliveryMemo},
+				#{deliveryPrice},
+				#{deliveryStatus},
+				#{orderTotalPrice},
+				#{memberId}
+			)
+		]]>	
+	</insert>
+	
+	<select id="selectRecentOrderNumber" parameterType="Order" resultType="int">
+		<![CDATA[
+			SELECT order_number
+			FROM "order"
+			WHERE member_id = #{memberId}
+			ORDER BY order_date DESC
+			FETCH FIRST 1 ROWS ONLY
+		]]>
+	</select>
 
 </mapper>

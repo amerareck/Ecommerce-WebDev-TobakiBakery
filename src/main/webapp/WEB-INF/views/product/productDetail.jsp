@@ -193,7 +193,7 @@
 										<br>
 										<!-- 후기 작성 버튼 -->
 										<div class="text-right mb-3">
-											<button type="button" class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/product/reviewInsert?productId=${prodDetail.productId}'">후기 작성하기</button>
+											<a class="btn btn-secondary float-right btn-bottom" href="${pageContext.request.contextPath}/product/addReview?type=${boardType}">후기작성하기</a>
 										</div>
 										
 										<div class="accordion" id="accordionExample">
@@ -213,7 +213,7 @@
 													<tr>
 														<td>5</td>
 														<td><div class="card">
-																<div class="card-header" id="headingOne">
+																<div class="card-header" id="headingThree">
 																	<h2 class="mb-0">
 																		<button class="btn text-left" type="button"
 																			data-toggle="collapse" data-target="#collapseOne"
@@ -223,8 +223,8 @@
 																		</button>
 																	</h2>
 																</div>
-																<div id="collapseOne" class="collapse show"
-																	aria-labelledby="headingOne"
+																<div id="collapseOne" class="collapse"
+																	aria-labelledby="headingThree"
 																	data-parent="#accordionExample">
 																	<div class="card-body">
 																		<a href="https://imgbb.com/"><img
@@ -242,7 +242,7 @@
 													<tr>
 														<td>4</td>
 														<td><div class="card">
-																<div class="card-header" id="headingOne">
+																<div class="card-header" id="headingThree">
 																	<h2 class="mb-0">
 																		<button class="btn text-left" type="button"
 																			data-toggle="collapse" data-target="#collapseOne"
@@ -252,8 +252,8 @@
 																		</button>
 																	</h2>
 																</div>
-																<div id="collapseOne" class="collapse show"
-																	aria-labelledby="headingOne"
+																<div id="collapseOne" class="collapse"
+																	aria-labelledby="headingThree"
 																	data-parent="#accordionExample">
 																	<div class="card-body">
 																		<a href="https://imgbb.com/"><img
@@ -271,7 +271,7 @@
 													<tr>
 														<td>3</td>
 														<td><div class="card">
-																<div class="card-header" id="headingOne">
+																<div class="card-header" id="headingThree">
 																	<h2 class="mb-0">
 																		<button class="btn text-left" type="button"
 																			data-toggle="collapse" data-target="#collapseOne"
@@ -282,8 +282,8 @@
 																	</h2>
 																</div>
 
-																<div id="collapseOne" class="collapse show"
-																	aria-labelledby="headingOne"
+																<div id="collapseOne" class="collapse"
+																	aria-labelledby="headingThree"
 																	data-parent="#accordionExample">
 																	<div class="card-body">
 																		<a href="https://imgbb.com/"><img
@@ -301,7 +301,7 @@
 													<tr>
 														<td>2</td>
 														<td><div class="card">
-																<div class="card-header" id="headingTwo">
+																<div class="card-header" id="headingThree">
 																	<h2 class="mb-0">
 																		<button class="btn text-left collapsed" type="button"
 																			data-toggle="collapse" data-target="#collapseTwo"
@@ -312,7 +312,7 @@
 																	</h2>
 																</div>
 																<div id="collapseTwo" class="collapse"
-																	aria-labelledby="headingTwo"
+																	aria-labelledby="headingThree"
 																	data-parent="#accordionExample">
 																	<div class="card-body">생각보다 더 맛있네요. 선물용으로도 좋을 듯
 																		해요~</div>
