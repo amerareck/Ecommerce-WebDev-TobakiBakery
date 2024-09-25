@@ -147,10 +147,10 @@
                                         </select>
                                     </div>
                                     <div class="col">
-                                        <input type="text" class="form-control" id="phone_middle_number"  required>
+                                        <input type="text" class="form-control" id="phone_middle_number" maxlength="4"  required>
                                     </div>
                                     <div class="col">
-                                        <input type="text" class="form-control" id="phone_last_number"  required>
+                                        <input type="text" class="form-control" id="phone_last_number" maxlength="4"  required>
                                     </div>
                                 </div>
                             </td>
@@ -197,7 +197,7 @@
                         </tr>
                         <tr>
                             <td>* 본인확인 답변</td>
-                            <td><input type="text" class="form-control input-small" name="memberAnswer" id="member_a" required></td>
+                            <td><input type="text" class="form-control input-small" name="memberAnswer" id="member_a"></td>
                         </tr>
                         <!-- 본인확인 질문 및 답변 필드 끝 -->
 

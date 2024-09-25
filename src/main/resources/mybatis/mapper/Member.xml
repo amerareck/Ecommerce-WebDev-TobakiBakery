@@ -175,4 +175,23 @@
 			]]>		
 	</select>
 	
+	<select id="searchMemberForPw" parameterType="Member" resultType="Member">
+		<![CDATA[
+			SELECT
+				member_id,
+				member_name,
+				member_email
+			FROM
+				MEMBER
+			WHERE
+				member_id = #{memberId}
+			AND
+				member_name = #{memberName}
+			AND
+				member_question = #{memberQuestion}
+			AND
+				member_answer = #{memberAnswer}	
+			]]>		
+	</select>
+	
 </mapper>

@@ -164,7 +164,12 @@ public class MemberController {
 			model.addAttribute(elNames[i], data[i]);
 			
 		}
-	    model.addAttribute("searchMemberId", searchMemberId);
+		log.info(searchMemberId);
+	    if(searchMemberId == null || searchMemberId.equals("")) {
+	        model.addAttribute("searchMemberId", "NO");
+	    } else {
+	        model.addAttribute("searchMemberId", searchMemberId);
+	    }
 	    
 	    return "/member/memberSearchForm";
 	}
@@ -188,10 +193,18 @@ public class MemberController {
 			model.addAttribute(elNames[i], data[i]);
 			
 		}
-		String memberToken = memberService.memberTokne();
-		memberService.getMemberPwSearch(member, memberToken);
+
 		
-		model.addAttribute("pwToken", memberToken);
+		String resultSearch = memberService.searchMemberForPwSearch(member);
+		if(resultSearch == null || resultSearch.equals("")) {
+	        model.addAttribute("resultSearch", "NO");
+	    } else {
+			String memberToken = memberService.memberTokne();
+			memberService.getMemberPwSearch(member, memberToken);
+	    		model.addAttribute("pwToken", memberToken);
+	    }
+		
+		
 		
 		
 		return "/member/memberSearchForm";

@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/search-style.css">
 
 <br>
@@ -6,6 +8,10 @@
 <!-- 아이디 찾기 폼 컨테이너 시작 -->
 <div class="form-container">
     <form>
+    		<c:if test="${resultSearch == 'NO'}">
+    			<h1 class="text-danger">일치하는 정보가 없습니다!</h1>
+    		</c:if>
+    		<c:if test="${resultSearch != 'NO'}">
         <!-- 안내 문구 시작 -->
         <h2>임시 비밀번호를 발급해드립니다.</h2>
         <!-- 안내 문구 끝 -->
@@ -17,7 +23,7 @@
             <h1 id="pwToken">${pwToken}</h1>
         </div>
         <!-- 아이디 공개 끝 끝 -->
-
+		</c:if>
         <br><br>
 
         <!-- 추가 안내 문구 시작 -->

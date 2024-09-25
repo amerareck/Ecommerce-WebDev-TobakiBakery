@@ -36,51 +36,89 @@ function setEmailDomain() {
 }
 
 
-// 회원가입
-function validateForm() {
-	
-    var password = document.getElementById("password").value;
-    var passwordConfirm = document.getElementById("password_confirm").value;
-    var passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,16}$/;
-   
-
-    
-    // 비밀번호 패턴 검사
-    
-    if (!passwordRegex.test(password)) {
-        alert("비밀번호는 영문자와 숫자  포함 8-16자를 입력해주세요.");
-        return false;
-    }
-
-    // 비밀번호 일치 여부 검사
-    if (password !== passwordConfirm) {
-        alert("비밀번호가 일치하지 않습니다.");
-        return false;
-    }
-
-    // 모든 조건이 통과되면 폼이 제출됩니다.
-    let birthMonth = $("#birth_month").val();
-    let birthDay = $("#birth_day").val();
-    
-    if(birthMonth.length < 2){
-    		birthMonth = "0" + birthMonth;
-    }
-    
-    if(birthDay.length < 2){
-		birthDay = "0" + birthDay;
-    }
-    
-    let member_birthday = $("#birth_year").val()+ birthMonth + birthDay;
-    let phone_num = $("#phone_prefix").val() + $("#phone_middle_number").val() + $("#phone_last_number").val();
-    $("#member_birthday").val(member_birthday);
-    $("#phone_num").val(phone_num);
-
-    return true;
-}
-
-//화원가입 완료시 ajax에  정보 담기
 
 $(document).ready(function() {
+
+	// 회원가입 폼 유효성 검사 함수
+	function validateForm() {
+	    // 비밀번호 유효성 검사
+	    var password = document.getElementById("password").value;
+	    var passwordConfirm = document.getElementById("password_confirm").value;
+	    var passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,16}$/;
+
+	    if (!passwordRegex.test(password)) {
+	        alert("비밀번호는 영문자와 숫자 포함 8-16자를 입력해주세요.");
+	        return false;
+	    }
+
+	    if (password !== passwordConfirm) {
+	        alert("비밀번호가 일치하지 않습니다.");
+	        return false;
+	    }
+
+	    // 핸드폰 번호 유효성 검사
+        let prefix = $("#phone_prefix").val();
+        let middleNumber = $("#phone_middle_number").val();
+        let lastNumber = $("#phone_last_number").val();
+        
+        let memberAnswer = $("#member_a").val();
+        
+        
+        
+        if (prefix === "선택" || middleNumber.length !== 4 || lastNumber.length !== 4) {
+            alert("유효한 핸드폰 번호를 입력해주세요.");
+            return false;
+        }
+
+        let PhoneNumber = prefix + middleNumber + lastNumber;
+        let phoneRegex = /^(01[016789]{1})[0-9]{4}[0-9]{4}$/;
+
+        if (!phoneRegex.test(PhoneNumber)) {
+            alert("유효하지 않은 핸드폰 번호입니다.");
+            return false;
+        }
+        
+        if(memberAnswer === '' || memberAnswer === null){
+        		alert("본인확인 답변을 입력해 주세요.");
+        		return false;
+        }
+
+	    // 생년월일 및 핸드폰 번호 통합 처리
+	    let birthMonth = $("#birth_month").val();
+	    let birthDay = $("#birth_day").val();
+
+	    if (birthMonth.length < 2) {
+	        birthMonth = "0" + birthMonth;
+	    }
+
+	    if (birthDay.length < 2) {
+	        birthDay = "0" + birthDay;
+	    }
+		let member_email = $("#email_local").val() + "@" + $("#email_domain").val();
+		$("#member_email").val(member_email);
+		let userEmail = $("#member_email").val();  
+		
+		if ($("#email_local").val().trim() === '') {
+		    alert("이메일을 입력하세요");
+		    return false;
+		}else if($("#email_domain").val().trim()=== ''){
+				alert("이메일 주소를 입력하세요");
+		    return false;
+		}
+	    
+	    
+	    let member_birthday = $("#birth_year").val() + birthMonth + birthDay;
+	    $("#member_birthday").val(member_birthday);
+	    $("#phone_num").val(PhoneNumber);
+
+	    return true; // 모든 검사를 통과한 경우
+	}
+	
+	
+	
+	
+	
+	
 	let userCheck = false;
 	
 	$("#checkId").click(function() {
@@ -88,7 +126,7 @@ $(document).ready(function() {
         
         if (username.length < 5) {
             alert("아이디는 5글자 이상이어야 합니다.");
-            return;
+            return false;
         }
 
 
@@ -115,21 +153,11 @@ $(document).ready(function() {
         });
     });	
 	
-	
+
 	let emailCheck = false;
 	
     $("#emailCheck").click(function() {
-    		let member_email = $("#email_local").val() + "@" + $("#email_domain").val();
-    		$("#member_email").val(member_email);
-        let userEmail = $("#member_email").val();  
-        
-        if ($("#email_local").val().trim() === '') {
-            alert("이메일을 입력하세요");
-            return false;
-        }else if($("#email_domain").val().trim()=== ''){
-        		alert("이메일 주소를 입력하세요");
-            return false;
-        }
+
         console.log(userEmail);
         $.ajax({
             url: '../member/checkEmail',  
@@ -185,13 +213,7 @@ $(document).ready(function() {
     
     //회원정보 수정
     $("#editForm").submit(function(e) {
-    		 // 이메일 중복 체크 검사
-            if (!emailCheck) {
-                alert("이메일 중복 체크를 해주세요.");
-                e.preventDefault();
-                return false;
-            }
-        	
+
             // 추가적인 폼 검증
             if (validateForm()) {
                 alert("회원수정이 완료되었습니다!");
@@ -248,11 +270,55 @@ $(document).ready(function() {
     });
     
     
+    //아이디 찾기 폼 제출 시
+    $('#idSearchForm').submit(function(e) {
+        // 이름 필드 검사
+        let memberName = $("#memberName").val().trim();
+        if (memberName === "") {
+            alert("이름을 입력해 주세요.");
+            e.preventDefault(); 
+            return false;
+        }
+
+        // 답변 필드 검사
+        let memberAnswer = $("#memberA").val().trim();
+        if (memberAnswer === "") {
+            alert("답변을 입력해 주세요.");
+            e.preventDefault(); 
+            return false;
+        }
+        		return true;
+        
+	});
     
+    //비밀번호 찾기 폼 제출 시
+    $('#pwSearchForm').submit(function(e) {
+        // 아이디 필드 검사
+        let memberId = $("#memberId").val().trim();
+        let memberName = $("#memberName").val().trim();
+        let memberAnswer = $("#memberA").val().trim();
+
+        if(memberId.length < 5) {
+            alert("아이디는 5글자 이상이어야 합니다.");
+            e.preventDefault(); 
+            return false;
+        } 
+        if (memberName === "") {
+            alert("이름을 입력해 주세요.");
+            e.preventDefault(); 
+            return false;
+        }
+        // 답변 필드 검사
+        if (memberAnswer === "") {
+            alert("답변을 입력해 주세요.");
+            e.preventDefault(); 
+            return false;
+        }
+        		return true;
+        
+	});
     
 });
-
-
 function showJoinAlert() {
     if (validateForm == true) {
         window.location.href = '../index.html';

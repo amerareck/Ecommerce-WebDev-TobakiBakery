@@ -14,12 +14,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.mycompany.miniproject.dao.MemberDAO;
-import com.mycompany.miniproject.dao.ProductReviewDAO;
 import com.mycompany.miniproject.dto.MemberDTO;
-import com.mycompany.miniproject.dto.ProductReviewDTO;
-import com.mycompany.miniproject.dto.ProductReviewForm;
 import com.mycompany.miniproject.type.JoinResult;
-import com.mycompany.miniproject.type.LoginResult;
 import com.mycompany.miniproject.type.MemberRole;
 
 import lombok.extern.slf4j.Slf4j;
@@ -90,7 +86,7 @@ public class MemberService {
 		int memberEdit = memberDao.updateMember(member);
 		return memberEdit;
 	}
-	
+	/*
 	public LoginResult login(MemberDTO member) {
 		log.info("실행");
 		MemberDTO memberLogin = memberDao.selectMemberForLogin(member.getMemberId());		
@@ -105,12 +101,25 @@ public class MemberService {
 		}
 		return LoginResult.SUCCESS;
 	}
-	
+	*/
 	public String getMemberIdSearch(MemberDTO member) {
 		log.info("실행");
 		String memberSearchId = memberDao.searchMemberId(member);
-		
-		return memberSearchId;
+		if(memberSearchId==null || memberSearchId.equals("")) {
+			return null;
+		}else {
+			return memberSearchId;
+		}
+	}
+	
+	public String searchMemberForPwSearch(MemberDTO member) {
+		log.info("실행");
+		String memberSearchForPw = memberDao.searchMemberForPw(member);
+		if(memberSearchForPw==null || memberSearchForPw.equals("")) {
+			return null;
+		}else {
+			return memberSearchForPw;
+		}
 	}
 	
 	

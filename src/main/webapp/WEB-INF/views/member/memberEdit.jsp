@@ -155,8 +155,6 @@
                                             <option value="gmail.com">gmail.com</option>
                                         </select>
                                     </div>
-                                    &nbsp;
-                                    <button class="btn btn-secondary" type="button" id="emailCheck">이메일 중복확인</button>
                                 </div>
                             </td>
                         </tr>
@@ -179,7 +177,7 @@
                         </tr>
                         <tr>
                             <td>* 본인확인 답변</td>
-                            <td><input type="text" class="form-control input-small" name="memberAnswer" id="member_a" required></td>
+                            <td><input type="text" class="form-control input-small" name="memberAnswer" id="member_a"></td>
                         </tr>
                         <!-- 본인확인 질문 및 답변 필드 끝 -->
 

@@ -7,7 +7,7 @@
 
 <!-- 비밀번호 찾기 폼 컨테이너 시작 -->
 <div class="form-container">
-    <form method="post" action="memberPwSearch">
+    <form method="post" action="memberPwSearch" id="pwSearchForm">
      <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
         <!-- 비밀번호 찾기 입력 테이블 시작 -->
         <table class="table" style="width: 500px;">
@@ -15,14 +15,14 @@
                 <!-- 아이디 입력 필드 시작 -->
                 <tr>
                     <td>아이디</td>
-                    <td><input type="text" class="form-control input-small" name="memberId" required></td>
+                    <td><input type="text" class="form-control input-small" name="memberId" id="memberId"></td>
                 </tr>
                 <!-- 아이디 입력 필드 끝 -->
 
                 <!-- 이름 입력 필드 시작 -->
                 <tr>
                     <td>이름</td>
-                    <td><input type="text" class="form-control input-small" name="memberName" required></td>
+                    <td><input type="text" class="form-control input-small" name="memberName" id="memberName"></td>
                 </tr>
                 <!-- 이름 입력 필드 끝 -->
 
@@ -30,7 +30,7 @@
                 <tr>
                     <td>질문</td>
                     <td>
-                        <select class="form-control input-small" name="memberQuestion" required>
+                        <select class="form-control input-small" name="memberQuestion" id="memberQ">
                             <option value="1">가장 좋아하는 색깔은?</option>
                             <option value="2">가장 좋아하는 동물은?</option>
                             <option value="3">내가 다녔던 초등학교는?</option>
@@ -44,7 +44,7 @@
                 <!-- 답변 입력 필드 시작 -->
                 <tr>
                     <td>답변</td>
-                    <td><input type="text" class="form-control input-small" name="memberAnswer" required></td>
+                    <td><input type="text" class="form-control input-small" name="memberAnswer" id="memberA"></td>
                 </tr>
                 <!-- 답변 입력 필드 끝 -->
             </tbody>
