@@ -27,7 +27,7 @@
         <br>
 
         <!-- 확인 버튼 시작 -->
-        <a class="btn btn-dark" href="${pageContext.request.contextPath}/member/login">로그인</a>
+        <a class="btn btn-dark" href="${pageContext.request.contextPath}/member/loginForm">로그인</a>
         <!-- 확인 버튼 끝 -->
         
         <br>
