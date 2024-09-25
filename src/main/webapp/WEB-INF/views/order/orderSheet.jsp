@@ -8,20 +8,18 @@
 <div class="container">
 	<nav class="breadcrumb-container">
 		<ol class="breadcrumb">
-			<li class="breadcrumb-item"><a
-				href="${pageContext.request.contextPath}"><i class="fas fa-home"></i></a></li>
-			<li class="breadcrumb-item"><a
-				href="${pageContext.request.contextPath}//mypage/mypageOrder">주문서
-					작성</a></li>
-
+			<li class="breadcrumb-item">
+				<a href="${pageContext.request.contextPath}"><i class="fas fa-home"></i></a>
+			</li>
+			<li class="breadcrumb-item">
+				<a href="${pageContext.request.contextPath}//mypage/mypageOrder">주문서 작성</a>
+			</li>
 		</ol>
 	</nav>
+	
 	<div class="main-content">
-
 		<h1>주문서 작성</h1>
 		<br>
-		
-
 		<section class="order-products">
 			<h2>주문상품</h2>
 			<table>
@@ -35,88 +33,87 @@
 				<tbody>
 					<c:forEach var="product" items="${orderProducts}">
 						<tr>
-							<td><a
-							href="${pageContext.request.contextPath}/product/productDetail?productId=${product.productId}"><img
-								src="${pageContext.request.contextPath}/productImage?productId=${product.productId}&productUsecase=THUMBNAIL" width="100px" height="100px" />
-								 width=100px; height=100px;></a> <span>${product.productName}</span>
-						</td>
-						<td>1개</td>
-						<td><fmt:formatNumber value="${product.productPrice}" pattern="#,##0" />원</td>
-					</tr>
+							<td>
+								<a href="${pageContext.request.contextPath}/product/productDetail?productId=${product.productId}">
+									<img src="${pageContext.request.contextPath}/productImage?productId=${product.productId}&productUsecase=THUMBNAIL" width="100px" height="100px" />
+								</a>
+								<span>${product.productName}</span>
+							</td>
+							<td>1개</td>
+							<td><fmt:formatNumber value="${product.productPrice}" pattern="#,##0" />원</td>
+						</tr>
 					</c:forEach>
 				</tbody>
 			</table>
-			<div class="order-summary">총 금액: <fmt:formatNumber value="${totalPrice}" pattern="#,##0"/>
-				원</div>
+			
+			<div class="order-summary">
+				<span>총 금액:&nbsp;<fmt:formatNumber value="${totalPrice}" pattern="#,##0"/>원</span>
+			</div>
 		</section>
-
+		
 		<section class="order-info">
 			<h2>주문자 정보</h2>
 			<div class="section" style="width: 500px; margin-left: 20px;">
-				<label for="orderName">* 주문자 이름</label> <input type="text"
-					id="orderName" name="orderName" value="황망고">
+				<label for="orderName">* 주문자 이름</label>
+				<input type="text" id="orderName" name="orderName" value="황망고">
 			</div>
+			
 			<div class="section" style="width: 500px; margin-left: 20px;">
 				<label for="orderPhone">* 연락처</label>
 				<div class="phone-group">
-					<input type="text" id="phonePart1" value="010">_ <input
-						type="text" id="phonePart2" value="7658">_ <input
-						type="text" id="phonePart3" value="3716">
+					<input type="text" id="phonePart1" value="010"><span>_&nbsp;</span>
+					<input type="text" id="phonePart2" value="7658"><span>_&nbsp;</span>
+					<input type="text" id="phonePart3" value="3716">
 				</div>
 			</div>
+			
 			<div class="section" style="width: 500px; margin-left: 20px;">
 				<label for="orderEmail">* 이메일</label>
 				<div class="email-group">
-					<input type="text" id="emailPart1" value="backyang2121"> <span>@</span>
+					<input type="text" id="emailPart1" value="backyang2121">
+					<span>@</span>
 					<input type="text" id="emailPart2" value="naver.com">
 				</div>
 			</div>
 		</section>
-
+		
 		<section class="delivery-info">
 			<h2>배송지 정보</h2>
 			<div class="section" style="margin-left: 20px;">
-				<label>* 배송지 </label> <input type="radio" id="defaultAddress"
-					name="addressOption" checked> 기본 배송지 &nbsp;&nbsp; <input
-					type="radio" id="newAddress" name="addressOption"> 신규 배송지
-				&nbsp;&nbsp;
+				<label>* 배송지 </label>
+				<input type="radio" id="defaultAddress" name="addressOption" checked />&nbsp;기본 배송지&nbsp;&nbsp;
+				<input type="radio" id="newAddress" name="addressOption" />&nbsp;신규 배송지&nbsp;&nbsp;
+				
 				<div class="input-group">
-					<input type="text" id="postcode" name="postcode" placeholder="우편번호"
-						readonly required style="width: 300px;">
+					<input type="text" id="postcode" name="postcode" placeholder="우편번호" readonly required style="width: 300px;" />
 					<div class="input-group-append">
-						<button class="btn btn-secondary" type="button"
-							onclick="execDaumPostcode()">우편번호검색</button>
+						<button class="btn btn-secondary" type="button" onclick="execDaumPostcode()">우편번호검색</button>
 					</div>
 				</div>
-				<input type="text" id="address" name="address" placeholder="주소"
-					style="width: 400px; margin-top: 10px;" readonly> <input
-					type="text" id="address_detail" name="address_detail"
-					placeholder="상세주소" style="width: 400px; margin-top: 10px;">
-
+				<input type="text" id="address" name="address" placeholder="주소" style="width: 400px; margin-top: 10px;" readonly />
+				<input type="text" id="address_detail" name="address_detail" placeholder="상세주소" style="width: 400px; margin-top: 10px;" />
 			</div>
+			
 			<div class="section" style="width: 500px; margin-left: 20px;">
-				<label for="receiverName">* 받으시는 분</label> <input type="text"
-					id="receiverName" value="황망고">
+				<label for="receiverName">* 받으시는 분</label>
+				<input type="text" id="receiverName" value="황망고">
 			</div>
-			<div class="section" style="width: 500px; margin-left: 20px;">
-				<label for="address">* 배송지 주소</label> <input type="text"
-					id="address" value="(03077)서울 종로구 창경궁로 254, 402호">
-			</div>
+			
 			<div class="section" style="width: 500px; margin-left: 20px;">
 				<label for="phoneNumber">* 휴대폰</label>
 				<div class="phone-group">
-					<input type="text" id="phonePart1" value="010">_ <input
-						type="text" id="phonePart2" value="7658">_ <input
-						type="text" id="phonePart3" value="3716">
+					<input type="text" id="phonePart1" value="010">_&nbsp;
+					<input type="text" id="phonePart2" value="7658">_&nbsp;
+					<input type="text" id="phonePart3" value="3716">
 				</div>
 			</div>
+			
 			<div class="section" style="width: 500px; margin-left: 20px;">
 				<label for="deliveryMessage">주문 메시지</label>
-				<textarea id="deliveryMessage" placeholder="배송 메시지를 선택해주세요."></textarea>
+				<textarea id="deliveryMessage" placeholder="배송 메시지를 작성해 주세요."></textarea>
 			</div>
 		</section>
-
-
+		
 		<section class="final-payment-info">
 			<h2>최종결제정보</h2>
 			<div class="summary">
@@ -124,10 +121,9 @@
 				<div>총 배송비: 0원</div>
 				<div>최종금액: 31,200원</div>
 			</div>
-			<a href="${pageContext.request.contextPath}/order/orderPay"><button
-					type="submit">결제하기</button></a>
+			<button type="submit">결제하기</button>
 		</section>
-
+		
 		<section class="order-notice">
 			<h2>주문시 주의사항</h2>
 			<table>
@@ -150,12 +146,12 @@
 			</table>
 			<div class="agreement">
 				<input type="radio" id="agree" name="agreement" checked>
-				동의합니다. &nbsp;&nbsp; <input type="radio" id="disagree"
-					name="agreement"> 동의하지 않습니다.
+				동의합니다.&nbsp;&nbsp;&nbsp;
+				<input type="radio" id="disagree" name="agreement">
+				동의하지 않습니다.
 			</div>
 		</section>
 	</div>
-
 </div>
 
 <!-- content 부분 끝입니다. -->

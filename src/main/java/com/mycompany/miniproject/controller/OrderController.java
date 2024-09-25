@@ -57,13 +57,13 @@ public class OrderController {
 		List<OrderDTO> list = (List<OrderDTO>) session.getAttribute("cartList");
 		log.info(list.toString());
 		
-		return "order/orderDetail";
+		return "order/orderSheet";
 	}
 	
 	@RequestMapping("/orderPay")	
 	public String getorderPay() {
 		log.info("실행");
-		return "order/orderSheet";
+		return "order/orderPay";
 	}
 	
 	@PostMapping("/addCart")
