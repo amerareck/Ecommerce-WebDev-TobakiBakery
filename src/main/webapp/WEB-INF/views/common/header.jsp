@@ -116,11 +116,11 @@
 							</ul>
 						</div>
 						<!--상단네비 검색 및 장바구니-->
-						<form action="/product/search" id="headerSearch" method="post" >
+						<form action="${pageContext.request.contextPath}/product/searchProduct" id="headerSearch" method="get" >
 							<div class="top-menu-finder-cart align-self-end">
 								<div class="top-finder">
 									<div class="input-group">
-										<input class="form-control headerSearchInput" type="text" placeholder="상품 검색" id="search">
+										<input class="form-control headerSearchInput" type="text" placeholder="상품 검색" id="search" name="keyword">
 										<div class="input-group-append">
 											<button class="btn btn-secondary" type="submit"><i class="fa fa-search"></i></button>
 										</div>

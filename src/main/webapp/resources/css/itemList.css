@@ -123,7 +123,7 @@
         display: flex;
         flex-wrap: wrap;
         gap: 30px;
-        justify-content: space-between;
+        justify-content: flex-start;
     }
 
     .item_elem {
@@ -238,6 +238,9 @@
 	.breadcrumb {
 		border: hidden !important;
 		background-color: #fff;
-		margin-left: 30px
+		padding: 0;
 	}
-
+	#productKeyword{
+		-webkit-text-stroke: 1px #d9534f;
+		color:#d9534f !important;
+	}
