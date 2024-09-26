@@ -134,6 +134,8 @@ $('#emptyCart').on('click', function(){
 $('#orderProcess').on('click', function(){
 	const list = [];
 	$('.item-select').each(function(){
+		if (!$(this).is(':checked')) return;
+		
 		const target = $(this).closest('tr');
 		const dto = {};
 		dto.productId = $(this).attr('id').split('-')[2];
@@ -142,6 +144,10 @@ $('#orderProcess').on('click', function(){
 		list.push(dto);
 	});
 	console.log(list);
+	if(list.length < 1) {
+		alert('선택하신 상품이 존재하지 않습니다.');
+		return;
+	}
 	
 	$.ajax({
 		url: 'sendCart',
