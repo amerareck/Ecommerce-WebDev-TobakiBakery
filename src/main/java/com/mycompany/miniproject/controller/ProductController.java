@@ -9,6 +9,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -167,7 +168,6 @@ public class ProductController {
 			redi.addFlashAttribute("isAlert", true);
 			redi.addFlashAttribute("alert", "검색 결과가 존재하지 않습니다.\\n다른 키워드를 검색해 해주세요.");
 			
-
 			return "redirect:/product/productListAll?";
 		}
 		Pager pager = new Pager(8, 5, searchProductCount, pageNo);
@@ -184,22 +184,30 @@ public class ProductController {
 	
 	
 	@GetMapping("/productDetail")
-	public String getProductDetail(@RequestParam("productId") int productId, 
+	public String getProductDetail(
+			ProductDTO product,
+			@RequestParam("productId") int productId, 
 			Model model) {
 		getProdDetail(productId, model);
 		
 		String categoryName = productService.getProductCategoryName(productId);
-		log.info("cateName :  " + categoryName);
-		getProdSmartRecom(categoryName, model);
+		model.addAttribute("categoryName", categoryName);
+
+		
+		getProdSmartRecom(product, model);
 		
 		log.info("상품상세 실행");
 		return "/product/productDetail";
 	}
 	
-	public void getProdSmartRecom(String categoryName, Model model) {
-		List<ProductDTO> prodSmart = productService.getProductSmartRecom(categoryName);
+	public void getProdSmartRecom(ProductDTO product, Model model) {
+		ProductDTO prod = new ProductDTO();
+	    prod.setProductId(product.getProductId());
+
 		
+	    Set<ProductDTO> prodSmart = productService.getProductSmartRecom(prod);
 		model.addAttribute("prodSmart", prodSmart);
+		log.info(prodSmart.toString());
 	}
 
 	public void getProdDetail(int productId,  Model model) {

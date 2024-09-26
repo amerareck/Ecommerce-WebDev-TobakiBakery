@@ -1,7 +1,9 @@
 package com.mycompany.miniproject.service;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +12,7 @@ import com.mycompany.miniproject.dao.ProductDAO;
 import com.mycompany.miniproject.dao.ProductImageDAO;
 import com.mycompany.miniproject.dto.Pager;
 import com.mycompany.miniproject.dto.ProductDTO;
+import com.mycompany.miniproject.type.Category;
 import com.mycompany.miniproject.type.ProductUsecase;
 
 import lombok.extern.slf4j.Slf4j;
@@ -144,8 +147,32 @@ public class ProductService {
 		return true;
 	}
 
-	public List<ProductDTO> getProductSmartRecom(String categoryName) {
-		return productDAO.selectSmartRecom(categoryName);
+	public LinkedHashSet<ProductDTO> getProductSmartRecom(ProductDTO product) {
+		
+		ProductDTO prod = new ProductDTO();
+		Category category;
+		String cateName = getProductCategoryName(product.getProductId());
+		category = Category.fromValue(cateName);
+		
+		prod.setProductId(product.getProductId());
+		prod.setCategoryName(category);
+		log.info("prod:"+prod.toString());
+		int prodId = prod.getProductId();
+		LinkedHashSet<ProductDTO> smartList = productDAO.selectSmartRecom(prodId);
+		if(smartList.size()<4) {
+			List<ProductDTO> smartPlusList = productDAO.selectSmartRecomPlus(prod);
+			log.info("smartPlustList: "+smartPlusList.toString());
+			for (ProductDTO p : smartPlusList) {
+	            if (smartList.size() >= 4) {
+	                break; 
+	            }
+	            smartList.add(p); 
+	        }
+			return smartList;
+		}else {
+			return smartList;
+		}
+		
 	}
 	
 	public String getProductCategoryName(int productId) {
