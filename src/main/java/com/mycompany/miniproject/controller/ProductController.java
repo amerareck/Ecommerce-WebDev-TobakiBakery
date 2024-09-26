@@ -35,6 +35,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.mycompany.miniproject.dto.Pager;
 import com.mycompany.miniproject.dto.ProductDTO;
 import com.mycompany.miniproject.dto.ProductForm;
+import com.mycompany.miniproject.dto.ProductReviewDTO;
+import com.mycompany.miniproject.service.ProductReviewService;
 import com.mycompany.miniproject.service.ProductService;
 import com.mycompany.miniproject.type.Category;
 import com.mycompany.miniproject.type.ProductState;
@@ -50,6 +52,8 @@ public class ProductController {
 	
 	@Autowired
 	private ProductService productService;
+	@Autowired
+	private ProductReviewService productReviewService;
 
 	@GetMapping("/productListAll")
 	public String getProdutListAll(
@@ -193,6 +197,10 @@ public class ProductController {
 		getProdSmartRecom(categoryName, model);
 		
 		log.info("상품상세 실행");
+		
+		List<ProductReviewDTO> reviews = productReviewService.getReviewsByProductId(productId);
+		model.addAttribute("reviews", reviews);
+		log.info(""+reviews.toString());
 		return "/product/productDetail";
 	}
 	
