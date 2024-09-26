@@ -9,6 +9,9 @@
 	<head>
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/sandstone/bootstrap.min.css">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+		<%-- Tingle.js --%>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tingle/0.15.3/tingle.min.css">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/tingle/0.15.3/tingle.min.js"></script>
 	    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/common.css">
 	<meta charset="UTF-8"> 
 <%--  	<meta name="_csrf" content="${_csrf.token}"/>   
@@ -116,13 +119,13 @@
 							</ul>
 						</div>
 						<!--상단네비 검색 및 장바구니-->
-						<form action="${pageContext.request.contextPath}/product/searchProduct" id="headerSearch" method="get" >
+						<form  id="headerSearch" action="${pageContext.request.contextPath}/product/searchProduct" method="get" >
 							<div class="top-menu-finder-cart align-self-end">
 								<div class="top-finder">
 									<div class="input-group">
 										<input class="form-control headerSearchInput" type="text" placeholder="상품 검색" id="search" name="keyword">
 										<div class="input-group-append">
-											<button class="btn btn-secondary" type="submit"><i class="fa fa-search"></i></button>
+											<button class="btn btn-secondary" type="submit" ><i class="fa fa-search"></i></button>
 										</div>
 									</div>
 								</div>
@@ -133,6 +136,7 @@
 							</div>
 						</form>
 					</nav>
+					
 				</div>
 			</div>
 		</div>
