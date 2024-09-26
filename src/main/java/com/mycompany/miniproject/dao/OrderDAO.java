@@ -23,4 +23,6 @@ public interface OrderDAO {
 
 	public int selectRecentOrderNumber(OrderDTO dto);
 
+	public int updateOrder(OrderDTO dto);
+
 }

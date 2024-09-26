@@ -67,27 +67,22 @@ public class OrderValidator implements Validator{
 		}
 		
 		//휴대폰 번호
-		String receiverPhoneNum = form.getReceiverPhoneNum();
-
-		String firstNum = receiverPhoneNum.substring(0, 3);
+		String receiverPhoneNum = form.getReceiverPhoneNum().replaceAll("[^0-9]", "");
+		String firstNum = null;
 		String secondNum = null;
-		if(receiverPhoneNum.length() == 10) {
-			secondNum = receiverPhoneNum.substring(3, 6);
-		} else if(receiverPhoneNum.length() == 11) {
-			secondNum = receiverPhoneNum.substring(3, 7);
-		}
 		String thirdNum = null;
-		if(receiverPhoneNum.length() == 10) {
-			thirdNum = receiverPhoneNum.substring(6, receiverPhoneNum.length());
-		} else if(receiverPhoneNum.length() == 11) {
-			thirdNum = receiverPhoneNum.substring(7, receiverPhoneNum.length());
+		
+		if(receiverPhoneNum.length() > 9) {
+			firstNum = receiverPhoneNum.substring(0, 3);
+			secondNum = receiverPhoneNum.length() == 10 ? receiverPhoneNum.substring(3, 6) : receiverPhoneNum.substring(3, 7);
+			thirdNum = receiverPhoneNum.length() == 10 ? receiverPhoneNum.substring(6, receiverPhoneNum.length()) : receiverPhoneNum.substring(7, receiverPhoneNum.length());
 		}
 		
-		if(receiverPhoneNum.length() < 10 || receiverPhoneNum.length() > 11) {
+		if(form.getReceiverPhoneNum().length() < 10 || form.getReceiverPhoneNum().length() > 11) {
 			log.info("오류 검출");
 			errors.rejectValue("receiverPhoneNum", "errors.receiverPhoneNum.longPhoneNumber", 
 					"휴대 번호의 길이는 10자 혹은 11자만 입력 가능합니다.");
-		} else if(receiverPhoneNum.replaceAll("[0-9]", "").length() != 0) {
+		} else if(form.getReceiverPhoneNum().replaceAll("[0-9]", "").length() != 0) {
 			log.info("오류 검출");
 			errors.rejectValue("receiverPhoneNum", "errors.receiverPhoneNum.NaN", 
 					"휴대 번호는 숫자만 입력이 가능합니다.");

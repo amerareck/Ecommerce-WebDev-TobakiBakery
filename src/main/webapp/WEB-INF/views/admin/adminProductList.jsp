@@ -126,7 +126,7 @@
 		                    <c:if test="${isSearchPage}">
 		                    	<c:if test="${pager.groupNo>1}" >
 			                    	<li class="page-item">
-					                	<a class="page-link" href="${pageContext.request.contextPath}/admin/productSearch?type=${pager.searchType}&keyword=${pager.keyword}&pageNo=${pager.startPageNo-1}" >&laquo;</a>
+					                	<a class="page-link" href="${pageContext.request.contextPath}/admin/searchProduct?type=${pager.searchType}&keyword=${pager.keyword}&pageNo=${pager.startPageNo-1}" >&laquo;</a>
 			                    	</li>
 		                    	</c:if>
 		                    	<c:if test="${pager.groupNo<=1}" >

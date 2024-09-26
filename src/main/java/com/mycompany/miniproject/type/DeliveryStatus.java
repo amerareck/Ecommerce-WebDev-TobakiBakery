@@ -3,7 +3,8 @@ package com.mycompany.miniproject.type;
 public enum DeliveryStatus {
 	DELIVERY_STAY("DELIVERY_STAY"),
 	DELIVERY_ING("DELIVERY_ING"),
-	DELIVERY_CANCEL("DELIVERY_CANCEL");
+	DELIVERY_CANCEL("DELIVERY_CANCEL"),
+	DELIVERY_COMPLETE("DELIVERY_COMPLETE");
 	
 	private final String value;
 	
