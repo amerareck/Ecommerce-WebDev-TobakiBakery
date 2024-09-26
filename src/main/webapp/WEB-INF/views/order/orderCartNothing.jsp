@@ -29,9 +29,11 @@
 		<!-- 장바구니 부분 -->
 		<section class="content">
 			<h2>장바구니</h2>
-			<img style="margin: 0 auto;" src="${pageContext.request.contextPath}/resources/image/cartIcon.png">
-			<h3 class="text-center">장바구니가 비어있어요.</h3>
-			<h2>장바구니를 새로운 상품으로 채워보세요.</h2>
+			<div style="text-align:center;">
+			<img src="${pageContext.request.contextPath}/resources/image/cartIcon.png" >
+			</div>
+			<h2 class="text-center">장바구니가 비어있어요.</h2>
+			<h4 class="text-center"><a href="${pageContext.request.contextPath}/product/productListAll" >장바구니를 새로운 상품으로 채워보세요.</a></h4>
 		
 		</section>
 		 
