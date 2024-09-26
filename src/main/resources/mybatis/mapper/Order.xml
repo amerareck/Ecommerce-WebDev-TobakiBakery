@@ -61,10 +61,7 @@
 			    delivery_price,
 			    delivery_status,
 			    order_total_price,
-			    member_id,
-			    product_id,
-			    order_product_count,
-			    order_product_price
+			    member_id
 			FROM (
 			    SELECT
 				    order_number,
@@ -81,13 +78,9 @@
 				    delivery_status,
 				    order_total_price,
 				    member_id,
-				    product_id,
-				    order_product_count,
-				    order_product_price,
 			        ROW_NUMBER() OVER (ORDER BY order_number DESC) AS rnum
 			    FROM 
 			    	"order"
-			    	LEFT OUTER JOIN ORDER_PRODUCT USING(order_number)
 			)
 			WHERE rnum BETWEEN #{startRowNo} AND #{endRowNo}
 		]]>
@@ -124,5 +117,20 @@
 			FETCH FIRST 1 ROWS ONLY
 		]]>
 	</select>
+	
+	<update id="updateOrder" parameterType="Order" >
+		<![CDATA[
+			UPDATE "order"
+			SET 
+				order_memo = #{orderMemo},
+				receiver_name = #{receiverName},
+				receiver_phone_num = #{receiverPhoneNum},
+				delivery_post_num = #{deliveryPostNum},
+				delivery_address = #{deliveryAddress},
+				delivery_address_detail = #{deliveryAddressDetail},
+				delivery_status = #{deliveryStatus}
+			WHERE order_number = #{orderNumber}
+		]]>
+	</update>
 
 </mapper>

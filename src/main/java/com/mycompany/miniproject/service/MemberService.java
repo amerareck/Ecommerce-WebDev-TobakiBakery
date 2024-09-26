@@ -70,6 +70,10 @@ public class MemberService {
 		MemberDTO memberInfo = memberDao.selectMemberInfo(memberId);
 		return memberInfo;
 	}
+	
+	public MemberDTO getMember(String memberId) {
+		return memberDao.selectMemberInfo(memberId);
+	}
 
 	public int updateMember(MemberDTO member) {
 	    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

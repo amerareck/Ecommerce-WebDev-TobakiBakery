@@ -113,25 +113,35 @@ $('#orderSearchForm').submit(function(event){
 $('#searchOrderSelect').change(function(event){
     const selected = $('#searchOrderSelect option:selected').val();
     const targetTag = $('#orderSearchForm .input-group').children().eq(1);
+    const typeTag = $('#orderSearchForm .input-group').children().eq(2);
 
     if(selected =='orderId') {
-        targetTag.replaceWith(
-            `<input class="form-control mr-sm-0" type="number" placeholder="Search" id="orderSearchOrderNumber">`
-        );
+        targetTag.replaceWith(`
+            <input class="form-control mr-sm-0" type="number" placeholder="Search" id="orderSearchOrderNumber" name="orderNumber" />
+            `);
+        typeTag.replaceWith(`
+        	<input type="hidden" name="type" value="orderNumber" />
+        `);
     } else if(selected=='orderStatus') {
-        targetTag.replaceWith(
-            `<select class="form-control mr-sm-0" id="orderSearchOrderState">
+        targetTag.replaceWith(`
+        	<select class="form-control mr-sm-0" id="orderSearchOrderState" name="deliveryStatus" >
                 <option selected>배송상태</option>
-                <option value="1">배송대기</option>
-                <option value="2">배송중</option>
-                <option value="3">배송완료</option>
-                <option value="4">주문취소</option>
-            </select>`
-        );
+                <option value="DELIVERY_STAY">배송대기</option>
+                <option value="DELIVERY_ING">배송중</option>
+                <option value="DELIVERY_COMPLITE">배송완료</option>
+                <option value="DELIVERY_CANCEL">주문취소</option>
+            </select>
+        `);
+        typeTag.replaceWith(`
+            	<input type="hidden" name="type" value="deliveryStatus" />
+        `);
     } else {
-        $('#orderSearchOrderNumber, #orderSearchOrderState').replaceWith(
-            `<input class="form-control mr-sm-0" type="text" placeholder="Search" id="orderSearchKeyword">`
-        );
+        $('#orderSearchOrderNumber, #orderSearchOrderState').replaceWith(`
+        	<input class="form-control mr-sm-0" type="text" placeholder="Search" id="orderSearchKeyword" name="productName">
+        `);
+        typeTag.replaceWith(`
+        	<input type="hidden" name="type" value="productName" />
+        `);
     }
 });
 
@@ -419,3 +429,65 @@ $('#productDelete').on('click', function(event){
 	
 });
 
+$('.orderUpdateSubmit').on('submit', function(event){
+	event.preventDefault();
+	
+	const form = {};
+	const orderNumber = $(this).attr('id').split('-')[1];
+	form.orderNumber = orderNumber;
+	form.orderMemo = $('#orderMemo-'+orderNumber).val();
+	form.receiverName = $('#receiverName-'+orderNumber).val();
+	form.receiverPhoneNum = $('#receiverPhoneNum-'+orderNumber).val();
+	form.deliveryPostNum = $('#deliveryPostNum-'+orderNumber).val();
+	form.deliveryAddress = $('#deliveryAddress-'+orderNumber).val();
+	form.deliveryAddressDetail = $('#deliveryAddressDetail-'+orderNumber).val();
+	
+	const productId = $('.productList').eq(0).data('product-id');
+	form.deliveryStatus = $('#deliveryStatus-'+productId).val();
+	
+	console.log(form);
+	
+	$.ajax({
+		url: '../order/update',
+		method: 'post',
+		data: form,
+		success: function(data){
+			if (data.status === 'ok') {
+				location.href = 'list?type=order';
+			} else if (data.status === 'fail') {
+				console.log('유효성 검증 실패');
+				const errorMap = data.errors;
+				for (const field in errorMap) {
+	            	let target;
+	            	if (field == 'receiverName') {
+	            		target = $('#receiverName-error-message-'+orderNumber).empty();
+	            	} else if (field == 'receiverPhoneNum') {
+	            		target = $('#receiverPhoneNum-error-message-'+orderNumber).empty();
+	            	} else if (field == 'orderMemo') {
+	            		target = $('#orderMemo-error-message-'+orderNumber).empty();
+	            	} else {
+	            		target = $('#error-message-'+orderNumber).empty();
+	            	}
+	                $(`<strong id=${field}Error></strong>`).text(errorMap[field]).appendTo(target);
+	                target.append($('<br/>'));
+	                console.log(field + ': ' + errorMap[field]);
+	            }
+			}
+		},
+		error: function(xhr, status, error) {
+	        console.log('에러 발생:', error);
+	    }
+	});
+});
+
+$('.deliveryStatus').on('change', function() {
+	const selectedValue = $(this).val();
+	const productId = $(this).closest('tr').data('product-id');
+	console.log(selectedValue);
+	console.log(productId);
+	$('.deliveryStatus').each(function() {
+		if ($(this).closest('tr').data('product-id') != productId) {
+			$(this).val(selectedValue);
+		}
+	});
+});

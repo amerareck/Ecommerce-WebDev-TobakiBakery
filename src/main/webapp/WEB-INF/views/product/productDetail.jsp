@@ -109,7 +109,7 @@
 													<button type="button" class="btn btn-light"
 														 onclick="location.href='../mypage/mypageOrder?productId=${prodDetail.productId}'">구매하기</button>
 													<button type="button" class="btn btn-light"
-														onclick="location.href='../order/orderCart?productId=${prodDetail.productId}'">장바구니</button>
+														onclick="location.href='../order/cart?productId=${prodDetail.productId}'">장바구니</button>
 												</div>
 
 											</div>
@@ -187,173 +187,69 @@
 									<p>상품문의 내용</p>
 								</div>
 								<div class="tab-pane fade" id="product-reviews" role="tabpanel">
-									<!-- 상품후기 목록 및 내용을 볼 수 있는 부분입니다. -->
-									<div class="container mt-5">
-										<h2 style="text-align: center;">상품 후기</h2>
-										<br>
-										<!-- 후기 작성 버튼 -->
-										<div class="text-right mb-3">
-											<a class="btn btn-secondary float-right btn-bottom" href="${pageContext.request.contextPath}/product/addReview?type=${boardType}">후기작성하기</a>
-										</div>
-										
-										<div class="accordion" id="accordionExample">
-											<!-- 후기 리스트 테이블 -->
-											<table class="table table-bordered mt-3">
-												<thead class="thead-light">
-													<tr>
-														<th>번호</th>
-														<th>제목</th>
-														<th>작성자</th>
-														<th>작성일</th>
-														<th>평점</th>
-														<th>조회</th>
-													</tr>
-												</thead>
-												<tbody>
-													<tr>
-														<td>5</td>
-														<td><div class="card">
-																<div class="card-header" id="headingThree">
-																	<h2 class="mb-0">
-																		<button class="btn text-left" type="button"
-																			data-toggle="collapse" data-target="#collapseOne"
-																			aria-expanded="true" aria-controls="collapseOne"
-																			style="background-color: white; color: black;">
-																			<strong>다른 맛도 만들어주세요 ! 너무 맛있네요</strong>
-																		</button>
-																	</h2>
-																</div>
-																<div id="collapseOne" class="collapse"
-																	aria-labelledby="headingThree"
-																	data-parent="#accordionExample">
-																	<div class="card-body">
-																		<a href="https://imgbb.com/"><img
-																			src="https://i.ibb.co/fxN7Hmx/Qkd.jpg" alt="Qkd"
-																			border="0"></a> <br> 여기서 이걸 처음먹어보는데 너무 맛있어요 !
-																		다른 맛도 추가로 출시해주시면 좋겠 어요 ~ 역시 빵에죽고 빵에사는 빵생빵사에요 ㅎㅎ
-																	</div>
-																</div>
-															</div></td>
-														<td>ju*****</td>
-														<td>2024/08/18</td>
-														<td style="color: #c85855;">★★★★</td>
-														<td>16</td>
-													</tr>
-													<tr>
-														<td>4</td>
-														<td><div class="card">
-																<div class="card-header" id="headingThree">
-																	<h2 class="mb-0">
-																		<button class="btn text-left" type="button"
-																			data-toggle="collapse" data-target="#collapseOne"
-																			aria-expanded="true" aria-controls="collapseOne"
-																			style="background-color: white; color: black;">
-																			<strong>빵이 맛있긴 한데 좀 달아요</strong>
-																		</button>
-																	</h2>
-																</div>
-																<div id="collapseOne" class="collapse"
-																	aria-labelledby="headingThree"
-																	data-parent="#accordionExample">
-																	<div class="card-body">
-																		<a href="https://imgbb.com/"><img
-																			src="https://i.ibb.co/MGCW5CM/rnt.jpg" alt="rnt"
-																			border="0"></a> <br> 빵이 맛은 있는데 좀 많이 다네요~ 커피나
-																		우유없이 그냥은 먹기 힘들거 같아요 좀 덜 달게 해주세요~
-																	</div>
-																</div>
-															</div></td>
-														<td>yj*****</td>
-														<td>2024/08/16</td>
-														<td style="color: #c85855;">★★★</td>
-														<td>10</td>
-													</tr>
-													<tr>
-														<td>3</td>
-														<td><div class="card">
-																<div class="card-header" id="headingThree">
-																	<h2 class="mb-0">
-																		<button class="btn text-left" type="button"
-																			data-toggle="collapse" data-target="#collapseOne"
-																			aria-expanded="true" aria-controls="collapseOne"
-																			style="background-color: white; color: black;">
-																			<strong>빵이 엄청 쫄깃해요~</strong>
-																		</button>
-																	</h2>
-																</div>
-
-																<div id="collapseOne" class="collapse"
-																	aria-labelledby="headingThree"
-																	data-parent="#accordionExample">
-																	<div class="card-body">
-																		<a href="https://imgbb.com/"><img
-																			src="https://i.ibb.co/wKhQSSb/image.jpg" alt="image"
-																			class="img-fluid"></a> <br> 다음 날 먹어도 쫄깃하고
-																		부드럽네요~ 너무 맛있어서 아이들과 만들어먹기도 했어요
-																	</div>
-																</div>
-															</div></td>
-														<td>ba*****</td>
-														<td>2024/08/14</td>
-														<td style="color: #c85855;">★★★★★</td>
-														<td>16</td>
-													</tr>
-													<tr>
-														<td>2</td>
-														<td><div class="card">
-																<div class="card-header" id="headingThree">
-																	<h2 class="mb-0">
-																		<button class="btn text-left collapsed" type="button"
-																			data-toggle="collapse" data-target="#collapseTwo"
-																			aria-expanded="false" aria-controls="collapseTwo"
-																			style="background-color: white; color: black;">
-																			<strong>비주얼도 굿 맛도 굿!</strong>
-																		</button>
-																	</h2>
-																</div>
-																<div id="collapseTwo" class="collapse"
-																	aria-labelledby="headingThree"
-																	data-parent="#accordionExample">
-																	<div class="card-body">생각보다 더 맛있네요. 선물용으로도 좋을 듯
-																		해요~</div>
-																</div>
-															</div></td>
-														<td>ka********</td>
-														<td>2024/08/12</td>
-														<td style="color: #c85855;">★★★★★</td>
-														<td>14</td>
-													</tr>
-													<tr>
-														<td>1</td>
-														<td><div class="card">
-																<div class="card-header" id="headingThree">
-																	<h2 class="mb-0">
-																		<button class="btn text-left collapsed" type="button"
-																			data-toggle="collapse" data-target="#collapseThree"
-																			aria-expanded="false" aria-controls="collapseThree"
-																			style="background-color: white; color: black;">
-																			<strong>인생 빵집입니다</strong>
-																		</button>
-																	</h2>
-																</div>
-																<div id="collapseThree" class="collapse"
-																	aria-labelledby="headingThree"
-																	data-parent="#accordionExample">
-																	<div class="card-body">빵순이라서 여기저기 빵 많이 사러다녔지만 이렇게
-																		부드럽고 맛있는 빵집은 처음이에요 ㅜㅜ단골 될 거같아요</div>
-																</div>
-															</div></td>
-														<td>sj*******</td>
-														<td>2024/08/12</td>
-														<td style="color: #c85855;">★★★★★</td>
-														<td>22</td>
-													</tr>
-												</tbody>
-											</table>
-										</div>
-									</div>
-									<!-- 상품후기 목록 및 내용 끝입니다. -->
-								</div>
+							    <!-- 상품후기 목록 및 내용을 볼 수 있는 부분입니다. -->
+							    <div class="container mt-5">
+							        <h2 style="text-align: center;">상품 후기</h2>
+							        <br>
+							        <div class="accordion" id="accordionExample">
+							            <!-- 후기 리스트 테이블 -->
+							            <table class="table table-bordered mt-3">
+							                <thead class="thead-light">
+							                    <tr>
+							                        <th>번호</th>
+							                        <th>제목</th>
+							                        <th>작성자</th>
+							                        <th>작성일</th>
+							                        <th>평점</th>
+							                        <th>조회</th>
+							                    </tr>
+							                </thead>
+							                <tbody>
+							                    <c:forEach var="review" items="${reviews}">
+							                        <tr>
+							                            <td>${review.productReviewId}</td>
+							                            <td>
+							                                <div class="card">
+							                                    <div class="card-header" id="heading${review.productReviewId}">
+							                                        <h2 class="mb-0">
+							                                            <button class="btn text-left" type="button"
+							                                                data-toggle="collapse" data-target="#collapse${review.productReviewId}"
+							                                                aria-expanded="true" aria-controls="collapse${review.productReviewId}"
+							                                                style="background-color: white; color: black;">
+							                                                <strong>${review.reviewTitle}</strong>
+							                                            </button>
+							                                        </h2>
+							                                    </div>
+							                                    <div id="collapse${review.productReviewId}" class="collapse"
+							                                        aria-labelledby="heading${review.productReviewId}"
+							                                        data-parent="#accordionExample">
+							                                        <div class="card-body">
+							                                            <c:if test="${review.imageOriginalName != null}">
+							                                                <img src="data:image/${review.imageType};base64,${review.imageData}" class="img-fluid">
+							                                            </c:if>
+							                                            <p>${review.reviewContent}</p>
+							                                        </div>
+							                                    </div>
+							                                </div>
+							                            </td>
+							                            <td>${review.memberId}</td>
+							                            <td><fmt:formatDate value="${review.reviewDate}" pattern="yyyy-MM-dd"/></td>
+							                            <td>${review.reviewPoint}</td>
+							                            <td>${review.reviewViews}</td>
+							                        </tr>
+							                    </c:forEach>
+							                </tbody>
+							            </table>
+							        </div>
+							        <div class="text-right mb-3">
+							            <a class="btn btn-secondary float-right btn-bottom"
+							               href="${pageContext.request.contextPath}/product/addReview?type=${boardType}">후기작성하기</a>
+							        </div>
+							    </div>
+							    <!-- 상품후기 목록 및 내용 끝입니다. -->
+							</div>
+								
+								
 							</div>
 						</div>
 					</div>

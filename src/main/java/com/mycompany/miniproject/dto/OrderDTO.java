@@ -25,6 +25,7 @@ public class OrderDTO {
 	private int orderTotalPrice;
 	
 	private String memberId;
+	private String memberName;
 	
 	private int productId;
 	private int orderProductCount;
@@ -32,5 +33,6 @@ public class OrderDTO {
 	
 	private String productName; 
 	private List<ProductDTO> productList;
+	private int productListSize;
 
 }

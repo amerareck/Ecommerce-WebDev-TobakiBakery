@@ -275,7 +275,8 @@ public class OrderController {
 		dto.setDeliveryAddressDetail(orderForm.getDeliveryAddressDetail());
 		dto.setReceiverName(orderForm.getReceiverName());
 		dto.setReceiverPhoneNum(orderForm.getReceiverPhoneNum());
-		dto.setDeliveryMemo(orderForm.getDeliveryMemo());
+		dto.setOrderMemo(orderForm.getOrderMemo());
+		dto.setDeliveryMemo(orderForm.getOrderMemo());
 		dto.setDeliveryStatus(DeliveryStatus.DELIVERY_STAY);
 		dto.setOrderTotalPrice(orderForm.getOrderTotalPrice());
 		dto.setProductList(orderForm.getProductList());
@@ -321,4 +322,44 @@ public class OrderController {
 		
 		return "order/orderPay";
 	}
+	
+	@PostMapping("/update")
+	public void updateOrder(@Valid OrderForm form, Errors error, HttpServletResponse res) throws IOException {
+		log.info("실행");
+		JSONObject json = new JSONObject();
+		
+		if(error.hasErrors()) {
+			Map<String, String> errorMap = new HashMap<>();
+            error.getFieldErrors().forEach(fieldError -> 
+            	errorMap.put(fieldError.getField(), fieldError.getDefaultMessage())
+            );
+            json.put("status", "fail");
+            json.put("errors", errorMap);
+            res.setContentType("application/json; charset=UTF-8");
+            PrintWriter pw = res.getWriter();
+            pw.println(json.toString());
+            pw.flush();
+            pw.close();
+            return;
+		}
+		
+		OrderDTO dto = new OrderDTO();
+		dto.setOrderNumber(form.getOrderNumber());
+		dto.setDeliveryPostNum(form.getDeliveryPostNum());
+		dto.setDeliveryAddress(form.getDeliveryAddress());
+		dto.setDeliveryAddressDetail(form.getDeliveryAddressDetail());
+		dto.setDeliveryStatus(DeliveryStatus.fromValue(form.getDeliveryStatus()));
+		dto.setReceiverName(form.getReceiverName());
+		dto.setReceiverPhoneNum(form.getReceiverPhoneNum());
+		dto.setOrderMemo(form.getOrderMemo());
+		orderService.updateOrder(dto);
+		
+		json.put("status", "ok");
+		res.setContentType("application/json; charset=UTF-8");
+        PrintWriter pw = res.getWriter();
+        pw.println(json.toString());
+        pw.flush();
+        pw.close();
+	}
+	
 }

@@ -35,26 +35,26 @@ public class MypageController {
 	private OrderService orderService;
 	@Autowired
 	private ProductService productService;
-	@RequestMapping("/mypageMain")	
-			public String mypageMain(Model model) {
-			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-	        String memberId = authentication.getName();
-	        
-	        model.addAttribute("memberId", memberId);
+	@RequestMapping("/mypageMain")
+	public String mypageMain(Model model) {
+	    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+	    String memberId = authentication.getName();
+	    
+	    model.addAttribute("memberId", memberId);
 	   
-	        
-	        if(memberId.equals("yooni01")) {
-	        	List<HelpdeskDTO> inquiry = centerService.getInquiriesByMemberId(memberId);
-				log.info("memberId: "+memberId);	
-	        	model.addAttribute("inquiry", inquiry);
-	        	
-	        	List<OrderDTO> orders = orderService.getOrderListByMemberId(memberId);
-	        	model.addAttribute("orders", orders);
-	        	
-	        	log.info(""+orders.toString());
-		        }
-	        return "mypage/mypageMain";
-	    }
+	    // 현재 로그인한 사용자의 정보로 조회
+	    List<HelpdeskDTO> inquiry = centerService.getInquiriesByMemberId(memberId);
+	    model.addAttribute("inquiry", inquiry);
+	    
+	    List<OrderDTO> orders = orderService.getOrderListByMemberId(memberId);
+	    model.addAttribute("orders", orders);
+	    
+	    log.info("Member ID: " + memberId);
+	    log.info("Orders: " + orders.toString());
+
+	    return "mypage/mypageMain";
+	}
+
 	
 		
 	

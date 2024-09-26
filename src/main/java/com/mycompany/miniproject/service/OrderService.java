@@ -1,7 +1,6 @@
 package com.mycompany.miniproject.service;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -70,6 +69,10 @@ public class OrderService {
 	public List<OrderDTO> getAllOrderList(Pager pager) {
 		return orderDAO.selectAllOrderList(pager);
 	}
+	
+	public List<OrderDTO> getOrderProduct(OrderDTO dto) {
+		return orderProductDAO.getProductInfo(dto.getOrderNumber());
+	}
 
 	public boolean removeCartItem(CartDTO cartDto) {
 		return cartDAO.deleteCartItem(cartDto) == 1;
@@ -114,6 +117,8 @@ public class OrderService {
 		return result;
 	}
 
-	 
-	   
+	public boolean updateOrder(OrderDTO dto) {
+		return orderDAO.updateOrder(dto) == 1;
+	}
+
 }

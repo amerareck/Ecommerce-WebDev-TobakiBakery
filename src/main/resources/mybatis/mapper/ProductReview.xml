@@ -42,38 +42,37 @@
         ]]>
     </insert>
 
-    <!-- 특정 상품의 모든 후기 조회 -->
-    <select id="selectReviewsByProductId" parameterType="string" resultType="ProductReview">
-        <![CDATA[
+    <!-- 특정 상품의 리뷰리스트 조회 -->
+    <select id="getReviewsByProductId" parameterType="int" resultType="ProductReview">
+    	<![CDATA[
         SELECT 
-            pr.product_review_id,
-            pr.review_title,
-            pr.review_content,
-            pr.review_point,
-            pr.review_views,
-            pr.review_date,
-            pr.member_id,
-            pr.product_id,
-            ci.image_original_name,
-            ci.image_type,
-            ci.image_data
+	        PR.PRODUCT_REVIEW_ID, 
+	        PR.REVIEW_TITLE, 
+	        PR.REVIEW_CONTENT, 
+	        PR.REVIEW_POINT, 
+	        PR.REVIEW_VIEWS, 
+	        PR.REVIEW_DATE, 
+	        PR.MEMBER_ID,
+            CI.IMAGE_ORIGINAL_NAME, 
+            CI.IMAGE_TYPE, 
+            CI.IMAGE_DATA
         FROM 
-            PRODUCT_REVIEW pr
-            LEFT OUTER JOIN center_image ci ON pr.product_review_id = ci.product_review_id
+        	PRODUCT_REVIEW PR
+        LEFT 
+        	JOIN CENTER_IMAGE CI 
+       	ON 
+       		PR.PRODUCT_REVIEW_ID = CI.PRODUCT_REVIEW_ID
         WHERE 
-            pr.member_id = #{memberId}
-        ORDER BY 
-            pr.review_date DESC
-        ]]>
+        	PR.PRODUCT_ID = #{productId}
+       	]]>
     </select>
-    
    
-    
     <select id="selectReviewsByMemberId" resultType="ProductReview">
     SELECT * 
     FROM product_review 
     WHERE member_id = #{memberId}
 	</select>
+    
     
  
 </mapper>

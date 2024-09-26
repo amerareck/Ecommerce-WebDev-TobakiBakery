@@ -2,6 +2,7 @@ package com.mycompany.miniproject.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -20,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.mycompany.miniproject.dto.OrderDTO;
 import com.mycompany.miniproject.dto.Pager;
 import com.mycompany.miniproject.dto.ProductDTO;
+import com.mycompany.miniproject.service.MemberService;
 import com.mycompany.miniproject.service.OrderService;
 import com.mycompany.miniproject.service.ProductService;
 
@@ -34,6 +36,8 @@ public class AdminController {
 	ProductService productService;
 	@Autowired
 	OrderService orderService;
+	@Autowired
+	MemberService memberService;
 	
 	@GetMapping("/main")
 	public String mainPage(@RequestParam(value="pageNo", defaultValue="1") int pageNo, RedirectAttributes redi) {
@@ -67,23 +71,21 @@ public class AdminController {
 				@RequestParam(value="pageNo", defaultValue="1") int pageNo, Model model) {
 		log.info("실행");
 		
-		int allCount;
+		int productAllCount = productService.getProductAllCount();
+		int orderAllCount = orderService.getOrderAllCount();
 		Pager pager = null;
+		model.addAttribute("productAllCount", productAllCount);
+		model.addAttribute("orderAllCount", orderAllCount);
 		
 		if(type.equals("product")) {
-			allCount = productService.getProductAllCount();
-			model.addAttribute("allCount", allCount);
-			
-			pager = new Pager(10, 5, allCount, pageNo);
+			pager = new Pager(10, 5, productAllCount, pageNo);
 			model.addAttribute("pager", pager);
 			
 			return getProductList(pager, model);
 
 		} else if(type.equals("order")) {
-			allCount = orderService.getOrderAllCount();
-			model.addAttribute("allCount", allCount);
 			
-			pager = new Pager(10, 5, allCount, pageNo);
+			pager = new Pager(10, 5, orderAllCount, pageNo);
 			model.addAttribute("pager", pager);
 			
 			return getOrderList(pager, model);
@@ -104,6 +106,21 @@ public class AdminController {
 		log.info("실행");
 		
 		List<OrderDTO> list = orderService.getAllOrderList(pager);
+		for(OrderDTO dto : list) {
+			List<OrderDTO> orderProduct = orderService.getOrderProduct(dto);
+			log.info("orderProduct size: "+orderProduct.size());
+			List<ProductDTO> productList = new ArrayList<>();
+			for(OrderDTO ele : orderProduct) {
+				ProductDTO prod = productService.getProductDetail(ele.getProductId());
+				prod.setCartCount(ele.getOrderProductCount());
+				productList.add(prod);
+			}
+			log.info("productList size: "+productList.size());
+			dto.setMemberName(memberService.getMember(dto.getMemberId()).getMemberName());
+			dto.setProductList(productList);
+			dto.setProductListSize(dto.getProductList().size());
+			dto.setProductName(productService.getProductDetail(productList.get(0).getProductId()).getProductName());
+		}
 		model.addAttribute("orderList", list);
 		
 		return "admin/adminOrderList";

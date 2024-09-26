@@ -15,5 +15,8 @@ public class ProductReviewService {
 	public List<ProductReviewDTO> getReviewsByMemberId(String memberId) {
         return productReviewDAO.selectReviewsByMemberId(memberId);
     }
+	 public List<ProductReviewDTO> getReviewsByProductId(int productId) {
+	        return productReviewDAO.getReviewsByProductId(productId);
+	    }
 }
 

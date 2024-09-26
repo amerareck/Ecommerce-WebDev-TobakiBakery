@@ -6,12 +6,14 @@ import lombok.Data;
 
 @Data
 public class OrderForm {
+	private int orderNumber;
 	private int deliveryPostNum;
 	private String deliveryAddress;
 	private String deliveryAddressDetail;
 	private String receiverName;
 	private String receiverPhoneNum;
-	private String deliveryMemo;
+	private String orderMemo;
+	private String deliveryStatus;
 	
 	private int orderTotalPrice;
 	private List<ProductDTO> productList;
