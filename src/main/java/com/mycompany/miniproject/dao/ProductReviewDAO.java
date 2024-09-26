@@ -10,8 +10,8 @@ import com.mycompany.miniproject.dto.ProductReviewDTO;
 
 public interface ProductReviewDAO {
 	
-	String selectProductNameByProductId(int productId);
-	List<ProductReviewDTO> selectReviewsByMemberId(String memberId);
-	
+	public String selectProductNameByProductId(int productId);
+	public List<ProductReviewDTO> selectReviewsByMemberId(String memberId);
+	 public List<ProductReviewDTO> getReviewsByProductId(int productId); 
 	
 }

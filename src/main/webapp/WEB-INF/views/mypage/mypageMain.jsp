@@ -68,7 +68,7 @@
                         <tbody>
                         	<c:forEach var="inquiry" items="${inquiry}">
                          	<tr>
-                                <td>문의사항</td>
+                                <td>${inquiry.helpdeskId}</td>
                                 <td><a href="${pageContext.request.contextPath}/center/detail?type=helpdesk&boardNum=${inquiry.helpdeskId}" style=color:black;>${inquiry.helpdeskTitle}</a></td>
                                 <td><fmt:formatDate value="${inquiry.helpdeskDatetime}" pattern="yyyy-MM-dd"/></td>
                             </tr>
