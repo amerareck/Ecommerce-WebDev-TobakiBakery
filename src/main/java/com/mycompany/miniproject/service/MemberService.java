@@ -112,9 +112,9 @@ public class MemberService {
 		}
 	}
 	
-	public String searchMemberForPwSearch(MemberDTO member) {
+	public MemberDTO searchMemberForPwSearch(MemberDTO member) {
 		log.info("실행");
-		String memberSearchForPw = memberDao.searchMemberForPw(member);
+		MemberDTO memberSearchForPw = memberDao.searchMemberForPw(member);
 		if(memberSearchForPw==null || memberSearchForPw.equals("")) {
 			return null;
 		}else {
