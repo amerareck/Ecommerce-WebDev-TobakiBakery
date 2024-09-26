@@ -11,7 +11,7 @@ public class OrderForm {
 	private String deliveryAddressDetail;
 	private String receiverName;
 	private String receiverPhoneNum;
-	private String deliveryMemo;
+	private String orderMemo;
 	
 	private int orderTotalPrice;
 	private List<ProductDTO> productList;

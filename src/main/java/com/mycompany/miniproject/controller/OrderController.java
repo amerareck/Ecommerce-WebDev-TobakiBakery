@@ -275,7 +275,8 @@ public class OrderController {
 		dto.setDeliveryAddressDetail(orderForm.getDeliveryAddressDetail());
 		dto.setReceiverName(orderForm.getReceiverName());
 		dto.setReceiverPhoneNum(orderForm.getReceiverPhoneNum());
-		dto.setDeliveryMemo(orderForm.getDeliveryMemo());
+		dto.setOrderMemo(orderForm.getOrderMemo());
+		dto.setDeliveryMemo(orderForm.getOrderMemo());
 		dto.setDeliveryStatus(DeliveryStatus.DELIVERY_STAY);
 		dto.setOrderTotalPrice(orderForm.getOrderTotalPrice());
 		dto.setProductList(orderForm.getProductList());

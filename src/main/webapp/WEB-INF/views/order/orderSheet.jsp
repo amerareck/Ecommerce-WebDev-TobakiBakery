@@ -103,13 +103,13 @@
 				</div>
 				<input type="text" id="deliveryAddress" name="deliveryAddress" placeholder="주소" value="${orderData.deliveryAddress}" style="width: 400px; margin-top: 10px;" readonly />
 				<input type="text" id="deliveryAddressDetail" name="deliveryAddressDetail" placeholder="상세주소" value="${orderData.deliveryAddressDetail}" style="width: 400px; margin-top: 10px;" />
+				<div id="error-message" class="text-danger" style="font-size: 0.7rem"></div>
 			</div>
-			<div id="error-massage" class="text-danger" style="font-size: 0.7rem">
-            </div>
 			
 			<div class="section" style="width: 500px; margin-left: 20px;">
 				<label for="receiverName">* 받으시는 분</label>
 				<input type="text" id="receiverName" name="receiverName" value="${orderData.receiverName}">
+				<div id="receiverName-error-message" class="text-danger" style="font-size: 0.7rem"></div>
 			</div>
 			
 			<div class="section" style="width: 500px; margin-left: 20px;">
@@ -119,11 +119,13 @@
 					<input type="text" id="phonePart2" value="${fn:substring(orderData.receiverPhoneNum, 3, 7)}">_&nbsp;
 					<input type="text" id="phonePart3" value="${fn:substring(orderData.receiverPhoneNum, 7, 11)}">
 				</div>
+				<div id="receiverPhoneNum-error-message" class="text-danger" style="font-size: 0.7rem"></div>
 			</div>
 			
 			<div class="section" style="width: 500px; margin-left: 20px;">
-				<label for="deliveryMemo">주문 메시지</label>
-				<textarea id="deliveryMemo" name="deliveryMemo" placeholder="배송 메시지를 작성해 주세요."></textarea>
+				<label for="orderMemo">주문 메시지</label>
+				<textarea id="orderMemo" name="orderMemo" placeholder="배송 메시지를 작성해 주세요."></textarea>
+				<div id="orderMemo-error-message" class="text-danger" style="font-size: 0.7rem"></div>
 			</div>
 		</section>
 		
