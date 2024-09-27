@@ -57,9 +57,11 @@
 									<a class="nav-link" href="${pageContext.request.contextPath}/member/memberInfo">회원가입</a>
 								</li>
 								</sec:authorize>
+								<sec:authorize access="hasRole('ROLE_USER')">
 								<li class="nav-item">
 									<a class="nav-link" href="${pageContext.request.contextPath}/mypage/mypageMain">마이페이지</a>
 								</li>
+								</sec:authorize>
 								<li class="nav-item dropdown">
 									<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="${pageContext.request.contextPath}/center/getBoardList" role="button" aria-haspopup="true" aria-expanded="false">고객센터</a>
 									<div class="dropdown-menu">
@@ -93,6 +95,7 @@
 									<i class="fa fa-bars"></i>&emsp;카테고리&emsp;
 								</button>
 								<div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+									<a class="dropdown-item py-2" href="${pageContext.request.contextPath}/product/productListAll"><i class="fa-solid fa-list"></i></i> :: 전체</a>
 									<a class="dropdown-item py-2" href="${pageContext.request.contextPath}/product/productListAll?categoryName=BREAD"><i class="fa fa-bread-slice"></i> :: 빵</a>
 									<a class="dropdown-item py-2" href="${pageContext.request.contextPath}/product/productListAll?categoryName=CAKE"><i class="fa fa-birthday-cake"></i> :: 케이크</a>
 									<a class="dropdown-item py-2" href="${pageContext.request.contextPath}/product/productListAll?categoryName=DESSERT"><i class="fa fa-cookie"></i> :: 디저트</a>
