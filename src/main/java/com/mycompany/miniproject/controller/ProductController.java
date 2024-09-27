@@ -19,6 +19,7 @@ import javax.validation.Valid;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -257,6 +258,7 @@ public class ProductController {
 		binder.setValidator(new ProductValidator());
 	}
 	
+	@Secured("ROLE_ADMIN")
 	@PostMapping("/addProduct")
 	public String submitProduct(@Valid ProductForm form, Errors error, Model model, RedirectAttributes redi) throws IOException {
 		log.info("실행");
@@ -361,6 +363,7 @@ public class ProductController {
 		pw.close();
 	}
 	
+	@Secured("ROLE_ADMIN")
 	@PostMapping("/deleteImage")
 	public void removeImage(ProductDTO dto, HttpServletResponse res) throws IOException {
 		log.info("실행");
@@ -379,6 +382,7 @@ public class ProductController {
 		pw.close();
 	}
 	
+	@Secured("ROLE_ADMIN")
 	@PostMapping("/update")
 	public String updateProduct(@Valid ProductForm form, Errors error, Model model) throws IOException {
 		log.info("실행");
@@ -446,6 +450,7 @@ public class ProductController {
 		return "common/alert";
 	}
 	
+	@Secured("ROLE_ADMIN")
 	@PostMapping("/delete")
 	public void removeProduct(ProductDTO dto, HttpServletResponse res) throws IOException {
 		log.info("실행");
@@ -464,6 +469,7 @@ public class ProductController {
 		pw.close();
 	}
 	
+	@Secured("ROLE_ADMIN")
 	@PostMapping("/deleteList")
 	public void removeProductList(@RequestBody List<ProductDTO> list, HttpServletResponse res) throws IOException {
 		log.info("실행");
@@ -482,6 +488,7 @@ public class ProductController {
 		pw.flush();
 		pw.close();
 	}
+	
 	@GetMapping("/addReview")
 	public String addReview(String type, Model model) {
 		log.info("실행");

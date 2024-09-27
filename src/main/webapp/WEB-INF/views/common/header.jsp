@@ -63,8 +63,10 @@
 									<div class="dropdown-menu">
 										<a class="dropdown-item" href="${pageContext.request.contextPath}/center">공지사항</a>
 										<a class="dropdown-item" href="${pageContext.request.contextPath}/center/list?type=helpdesk">문의사항</a>
-										<div class="dropdown-divider"></div>
-										<a class="dropdown-item" href="${pageContext.request.contextPath}/admin/main">관리자 사이트</a>
+										<sec:authorize access="hasRole('ROLE_ADMIN')">
+											<div class="dropdown-divider"></div>
+											<a class="dropdown-item" href="${pageContext.request.contextPath}/admin/main">관리자 사이트</a>
+										</sec:authorize>
 									</div>
 								</li>
 							</ul>
@@ -131,7 +133,9 @@
 								</div>
 								<div class="top-cart">
 									<a href="${pageContext.request.contextPath}/order/cart"><i class="fas fa-shopping-cart icon-size"></i></a>									
-									<span class="cart-count">3</span>
+									<sec:authorize access="isAuthenticated()">
+										<span class="cart-count">${commonCartCount}</span>
+									</sec:authorize>
 								</div>
 							</div>
 						</form>
