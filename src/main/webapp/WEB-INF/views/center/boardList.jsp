@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@include file="/WEB-INF/views/common/header.jsp" %>
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/center.css">
 <body>
@@ -75,7 +76,7 @@
 	                		<tr>
 		                        <th scope="row">${element.helpdeskId}</th>
 		                        <td>
-		                        	<a href="${pageContext.request.contextPath}/center/detail?type=helpdesk&boardNum=${element.helpdeskId}" class="d-inline" >
+		                        	<a href="${pageContext.request.contextPath}/center/detail?type=helpdesk&boardNum=${element.helpdeskId}&pageNo=${pager.pageNo}" class="d-inline" >
 			                        	<c:if test="${element.lockState}">
 				                        	<i class="fas fa-lock fa-xs"></i>
 			                        	</c:if>
@@ -154,8 +155,15 @@
                 </ul>
             </div>
               <!-- 게시판 묶음 네비게이터 바 종료 -->
-    
-            <a class="btn btn-secondary float-right btn-bottom" href="${pageContext.request.contextPath}/center/addBoard?type=${boardType}">글쓰기</a>
+    		<sec:authorize access="hasRole('ROLE_ADMIN')">
+	            <a class="btn btn-secondary float-right btn-bottom" href="${pageContext.request.contextPath}/center/addBoard?type=${boardType}">글쓰기</a>
+    		</sec:authorize>
+    		<sec:authorize access="isAuthenticated() and !hasRole('ROLE_ADMIN')">
+    			<c:if test="${boardType=='helpdesk'}">
+		            <a class="btn btn-secondary float-right btn-bottom" href="${pageContext.request.contextPath}/center/addBoard?type=${boardType}">글쓰기</a>
+    			</c:if>
+    		</sec:authorize>
+    		
         </div>
     </section>
 	<%@include file="/WEB-INF/views/common/footer.jsp" %>
