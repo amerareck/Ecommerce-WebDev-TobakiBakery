@@ -1,8 +1,12 @@
 package com.mycompany.miniproject.controller;
 
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -10,8 +14,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.mycompany.miniproject.dto.HelpdeskDTO;
+import com.mycompany.miniproject.dto.MemberDTO;
 import com.mycompany.miniproject.dto.OrderDTO;
 import com.mycompany.miniproject.dto.ProductReviewDTO;
 import com.mycompany.miniproject.service.CenterService;
@@ -51,7 +57,8 @@ public class MypageController {
 	    
 	    log.info("Member ID: " + memberId);
 	    log.info("Orders: " + orders.toString());
-
+	    	
+	    
 	    return "mypage/mypageMain";
 	}
 
@@ -94,6 +101,50 @@ public class MypageController {
 		return "mypage/mypageMain";
 	}
 
+	@GetMapping("/mypageOrderDelivery")
+	public String getOrderDelivery(Model model) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String memberId = authentication.getName();
+         
+        log.info(memberId);
+		log.info("실행");
+		
+		List<OrderDTO> orderDelivery = orderService.getSelectOrderDelivery(memberId);
+		String memberName = memberService.getMemberInfo().getMemberName();
+		log.info("회원 이름: " + memberName);
+		log.info("주문 청보: " + orderDelivery.toString());
+		
+
+		model.addAttribute("orderDelivery", orderDelivery);
+		model.addAttribute("memberName", memberName);
+		
+		
+		return "mypage/mypageOrderDelivery";
+	}
+	
+	
+	@GetMapping("/searhOrderDate")
+	public String getOrderDateSearch(
+			OrderDTO order,
+			Model model) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String memberId = authentication.getName();
+        order.setMemberId(memberId);
+		List<OrderDTO> orderDateSearch = orderService.selectOrderDateSearch(order);
+		
+		if (orderDateSearch == null || orderDateSearch.isEmpty()) {
+	        model.addAttribute("showModal", true);
+	    } else {
+	        model.addAttribute("orderDelivery", orderDateSearch);
+	        model.addAttribute("showModal", false);
+	    }
+
+		String memberName = memberService.getMemberInfo().getMemberName();
+		model.addAttribute("memberName", memberName);
+		return "mypage/mypageOrderDelivery";
+	}
+	
+	
 	}
 	
 

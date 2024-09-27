@@ -34,5 +34,7 @@ public class OrderDTO {
 	private String productName; 
 	private List<ProductDTO> productList;
 	private int productListSize;
-
+	private int extraProdCount;//주문 내역에 ~외 몇 종 표현하기 위해 추가했습니다.
+	private String startDate;
+	private String endDate;
 }

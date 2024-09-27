@@ -123,6 +123,26 @@ public class OrderService {
 		return orderDAO.updateOrder(dto) == 1;
 	}
 
+	public List<OrderDTO> getSelectOrderDelivery(String memberId) {
+		
+		List<OrderDTO> orderDelivery = orderDAO.selectOrderDelivery(memberId);
+		if(orderDelivery == null) {
+			return null;
+		}else {
+		return orderDelivery;
+		}
+	}
+
+	public List<OrderDTO> selectOrderDateSearch(OrderDTO order) {
+		List<OrderDTO> orderDeliveryDate = orderDAO.selectOrderDeliveryDate(order);
+		if(orderDeliveryDate == null) {
+			return null;
+		}else {
+		return orderDeliveryDate;
+		}
+	}
+
+
 	public int getSearchOrderCount(String productName) {
 		Integer productId = productDAO.selectProductIdByProductName(productName);
 		if(productId != null) {
