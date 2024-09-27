@@ -68,7 +68,7 @@
 					<dd>
 						<ul>
 							<li class="prd_title">
-								<a href="${pageContext.request.contextPath}/product/productDetail">${bestProd.productName}</a>
+								<a href="product/productDetail?productId=${bestProd.productId}">${bestProd.productName}</a>
 							</li>
 							<li class="prd_price">
 								<fmt:formatNumber value="${bestProd.productPrice}" pattern="#,##0" />원
@@ -111,7 +111,7 @@
 					<dd>
 						<ul>
 							<li class="prd_title">
-								<a href="${pageContext.request.contextPath}/product/productDetail">${prod.productName}</a>
+								<a href="product/productDetail?productId=${prod.productId}">${prod.productName}</a>
 							</li>
 							<li class="prd_price">
 								<fmt:formatNumber value="${prod.productPrice}" pattern="#,##0" />원
