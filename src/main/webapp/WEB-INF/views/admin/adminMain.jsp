@@ -25,12 +25,12 @@
                     <c:if test="${!isSearchPage}">
                     	<div class="flex-fill text-center">
 	                        <p>총 상품 갯수</p>
-	                        <p><strong>${allCount}</strong> 개</p>
+	                        <p><strong>${productAllCount}</strong> 개</p>
 	                    </div>
                     </c:if>
                     <div class="flex-fill text-center">
                         <p>총 주문 갯수</p>
-                        <p><strong>4</strong> 개</p>
+                        <p><strong>${orderAllCount}</strong> 개</p>
                     </div>
                 </div>
                 <hr class="hr my-4"/>

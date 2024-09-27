@@ -14,6 +14,10 @@ import javax.validation.Valid;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.Authentication;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -79,10 +83,14 @@ public class CenterController {
 		return "center/boardList";
 	}
 	
+	@Secured("ROLE_USER")
 	@GetMapping("/addBoard")
-	public String addBoard(String type, Model model) {
+	public String addBoard(String type, Model model, Authentication auth) {
 		log.info("실행");
 		if(type == null) return "redirect:/center/list?type=notice";
+		
+		boolean hasAdminRole = auth.getAuthorities().stream().anyMatch(authority -> authority.getAuthority().equals("ROLE_ADMIN"));
+		if(type.equals("notice") && !hasAdminRole) return "redirect:/center/list?type=notice";
 		
 		String[] elNames = {
 				"active", "title", "breadcrumb", "showCategory", "showReview",
@@ -115,8 +123,11 @@ public class CenterController {
 		return "center/boardInsert";
 	}
 	
+	@Secured("ROLE_USER")
 	@GetMapping("/detail")
-	public String getDetail(String type, String boardNum, Model model) {
+	public String getDetail(String type, String boardNum,
+			@RequestParam(value="pageNo", defaultValue="1") int pageNo, 
+			Model model, RedirectAttributes redi, Authentication auth) {
 		log.info("실행");
 		if(boardNum == null) return "redirect:/center/list?type="+type;
 		
@@ -137,6 +148,14 @@ public class CenterController {
 			boardNum = boardNum.replaceAll("[^0-9]", "");
 			HelpdeskDTO dto = centerService.getHelpdeskPostByBoardNum(Integer.parseInt(boardNum));
 			if(dto != null) {
+				String memberId = auth.getName();
+				boolean admin = auth.getAuthorities().stream().anyMatch(authority -> authority.getAuthority().equals("ROLE_ADMIN"));
+				log.info("admin: "+admin+" memberId: "+memberId+" lockState: "+dto.isLockState()+" master: "+dto.getMemberId());
+				if(!admin && dto.isLockState() && !memberId.equals(dto.getMemberId())) {
+					redi.addFlashAttribute("isAlert", true);
+					redi.addFlashAttribute("alert", "본인이 아니면 읽을 수 없는 잠금된 게시글입니다.");
+					return "redirect:/center/list?type=helpdesk&pageNo="+pageNo;
+				}
 				centerService.increaseBoardViews("helpdesk", dto.getHelpdeskId());
 				map.put("title", dto.getHelpdeskTitle());
 				map.put("boardId", dto.getHelpdeskId());
@@ -208,6 +227,7 @@ public class CenterController {
 		return "center/boardDetail";
 	}
 	
+	@Secured("ROLE_USER")
 	@PostMapping("/removeBoard")
 	public void removeBoard(@RequestParam int boardIndex, String boardType, HttpServletResponse res) {
 		log.info("실행");
@@ -283,6 +303,7 @@ public class CenterController {
 		}
 	}
 	
+	@Secured("ROLE_USER")
 	@PostMapping("/addComment")
 	public void addComment(CommentDTO comment, HttpServletResponse res) {
 		log.info("실행");
@@ -306,6 +327,7 @@ public class CenterController {
 		binder.setValidator(new BoardValidator());
 	}
 	
+	@Secured("ROLE_ADMIN")
 	@PostMapping("/submitNotice")
 	public String submitNotice(@Valid BoardForm notice, Errors error, RedirectAttributes redi) throws IOException {
 		log.info("실행");
@@ -345,6 +367,7 @@ public class CenterController {
 		return "redirect:/center/detail?type=notice&boardNum="+noticeDTO.getNoticeId();
 	}
 	
+	@Secured("ROLE_USER")
 	@PostMapping("/submitHelpdesk")
 	public String submitHelpdesk(@Valid BoardForm form, Errors error, RedirectAttributes redi) throws IOException {
 		log.info("실행");
@@ -426,12 +449,13 @@ public class CenterController {
 		}
 	}
 	
+	@Secured("ROLE_USER")
 	@GetMapping("/update")
-	public String updateBoard(String type, String boardNum, Model model) {
+	public String updateBoard(String type, String boardNum, Model model, Authentication auth) {
 		log.info("실행");
 		if(type==null) return "redirect:/center/list?type=notice";
 		
-		String result = addBoard(type, model);
+		String result = addBoard(type, model, auth);
 		Map<String, Object> map = new HashMap<>();
 		boardNum = boardNum.replaceAll("[^0-9]", "");
 		
@@ -464,6 +488,7 @@ public class CenterController {
 		return result;
 	}
 	
+	@Secured("ROLE_USER")
 	@PostMapping("/updateSubmit")
 	public String updateSubmit(@Valid BoardForm form, Errors error, RedirectAttributes redi) throws IOException {
 		log.info("실행");
@@ -540,6 +565,7 @@ public class CenterController {
 		return "redirect:/center/detail?type="+form.getBoardType()+"&boardNum="+form.getBoardId();
 	}
 	
+	@Secured("ROLE_USER")
 	@PostMapping("/removeImage")
 	public void deleteImageForAjax(
 			@RequestParam String imageName, 

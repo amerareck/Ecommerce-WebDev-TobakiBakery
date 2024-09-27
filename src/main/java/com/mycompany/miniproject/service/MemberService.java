@@ -70,6 +70,10 @@ public class MemberService {
 		MemberDTO memberInfo = memberDao.selectMemberInfo(memberId);
 		return memberInfo;
 	}
+	
+	public MemberDTO getMember(String memberId) {
+		return memberDao.selectMemberInfo(memberId);
+	}
 
 	public int updateMember(MemberDTO member) {
 	    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -112,9 +116,9 @@ public class MemberService {
 		}
 	}
 	
-	public String searchMemberForPwSearch(MemberDTO member) {
+	public MemberDTO searchMemberForPwSearch(MemberDTO member) {
 		log.info("실행");
-		String memberSearchForPw = memberDao.searchMemberForPw(member);
+		MemberDTO memberSearchForPw = memberDao.searchMemberForPw(member);
 		if(memberSearchForPw==null || memberSearchForPw.equals("")) {
 			return null;
 		}else {

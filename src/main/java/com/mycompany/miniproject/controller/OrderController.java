@@ -10,8 +10,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -38,9 +40,10 @@ import com.mycompany.miniproject.type.ProductUsecase;
 import com.mycompany.miniproject.validator.OrderValidator;
 
 import lombok.extern.slf4j.Slf4j;
-@Controller
 
 @Slf4j
+@Controller
+@Secured("ROLE_USER")
 @RequestMapping("/order")
 public class OrderController {
 	
@@ -56,10 +59,37 @@ public class OrderController {
 		log.info("실행");
 		log.info(dto.toString());
 		
+		boolean soldOut = false;
+		boolean notSale = false;
+		JSONArray soldOutProductId = new JSONArray();
+		JSONArray notSaleProductId = new JSONArray();
+		for(CartDTO ele : dto) {
+			if(productService.isSoldOut(ele.getProductId())) {
+				soldOut = true;
+				soldOutProductId.put(ele.getProductId());
+				continue;
+			}
+			if(!orderService.checkProductStock(ele)) {
+				notSale = true;
+				notSaleProductId.put(ele.getProductId());
+			}
+		}
+		
 		JSONObject json = new JSONObject();
-		session.setAttribute("cartList", dto);
-		json.put("status", "ok");
-		json.put("redirect", "payment");
+		if(soldOut || notSale) {
+			if(soldOut) {
+				json.put("status", "sold_out");
+				json.put("soldOutProductId", soldOutProductId);
+			} else {
+				json.put("status", "out_of_stock");
+				json.put("notSaleProductId", notSaleProductId);
+			}
+		} else {
+			session.setAttribute("cartList", dto);
+			json.put("status", "ok");
+			json.put("redirect", "payment");
+		}
+		
 		
 		res.setContentType("application/json; charset=UTF-8");
 		PrintWriter pw = res.getWriter();
@@ -116,7 +146,7 @@ public class OrderController {
 	}
 	
 	@PostMapping("/addCart")
-	public void addItemCart(CartDTO cartDto, HttpServletResponse res) throws IOException{
+	public void addItemCart(CartDTO cartDto, HttpSession session, HttpServletResponse res) throws IOException{
 		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 	    String memberId = authentication.getName(); 
@@ -128,6 +158,7 @@ public class OrderController {
 			
 			if(orderService.addItemToCart(cartDto)) {
 				json.put("status", "ok");
+				session.setAttribute("commonCartCount", orderService.getCartItemCount(memberId));
 			} else {
 				json.put("status", "fail");
 			}
@@ -166,7 +197,7 @@ public class OrderController {
 	
 	
 	@PostMapping("/updateQty")
-	public void updateQty(CartDTO dto, Authentication authentication, HttpServletResponse res) throws IOException {
+	public void updateQty(CartDTO dto, Authentication authentication, HttpSession session, HttpServletResponse res) throws IOException {
 		log.info("실행");
 		
 		JSONObject json = new JSONObject();
@@ -181,7 +212,7 @@ public class OrderController {
 	        for (ProductDTO item : cartItemList) {
 	            totalPrice += item.getProductPrice() * item.getCartCount();
 	        }
-	        
+	        session.setAttribute("commonCartCount", orderService.getCartItemCount(memberId));
 			json.put("status", "ok");
 			json.put("productPrice", productPrice);
 			json.put("totalPrice", totalPrice);
@@ -200,15 +231,16 @@ public class OrderController {
 	@PostMapping("/deleteCartItem")
 	public String removeItem(
 			@RequestParam(value="productId", required=true) int productId,
-			Authentication authentication) {
+			Authentication authentication,
+			HttpSession session) {
 		
 		log.info("productId: "+productId);
 		CartDTO cartDto = new CartDTO();
-		authentication = SecurityContextHolder.getContext().getAuthentication();
 		cartDto.setMemberId(authentication.getName());
 		cartDto.setProductId(productId);
 		
 		orderService.removeCartItem(cartDto);
+		session.setAttribute("commonCartCount", orderService.getCartItemCount(cartDto.getMemberId()));
 		
 		return "redirect:/order/cart";
 	}
@@ -216,11 +248,11 @@ public class OrderController {
 	@PostMapping("/deleteCartItems")
 	public void removeItems(
 			@RequestBody List<CartDTO> list, 
-			//@AuthenticationPrincipal UserDetails user,
+			Authentication authentication,
+			HttpSession session,
 			HttpServletResponse res) throws IOException {
 		log.info("실행");
 		JSONObject json = new JSONObject();
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		
 		String member = authentication.getName();
 		if (member != null) {
@@ -228,6 +260,8 @@ public class OrderController {
 				dto.setMemberId(member);
 			}
 			orderService.removeCartItems(list);
+			session.setAttribute("commonCartCount", orderService.getCartItemCount(member));
+			
 			json.put("status", "ok");
 		} else {
 			json.put("status", "not-found-user");
@@ -275,7 +309,8 @@ public class OrderController {
 		dto.setDeliveryAddressDetail(orderForm.getDeliveryAddressDetail());
 		dto.setReceiverName(orderForm.getReceiverName());
 		dto.setReceiverPhoneNum(orderForm.getReceiverPhoneNum());
-		dto.setDeliveryMemo(orderForm.getDeliveryMemo());
+		dto.setOrderMemo(orderForm.getOrderMemo());
+		dto.setDeliveryMemo(orderForm.getOrderMemo());
 		dto.setDeliveryStatus(DeliveryStatus.DELIVERY_STAY);
 		dto.setOrderTotalPrice(orderForm.getOrderTotalPrice());
 		dto.setProductList(orderForm.getProductList());
@@ -302,6 +337,13 @@ public class OrderController {
 		
 		if(complete) {
 			session.removeAttribute("cartList");
+			session.setAttribute("commonCartCount", orderService.getCartItemCount(user.getMemberId()));
+			for(CartDTO ele : cart) {
+				ProductDTO product = new ProductDTO();
+				product.setProductId(ele.getProductId());
+				product.setCartCount(ele.getCartCount());
+				productService.decreaseProductStock(product);
+			}
 			response.put("status", "ok");
 			response.put("orderNumber", orderNumber);
 			response.put("redirect", "complete");
@@ -321,4 +363,44 @@ public class OrderController {
 		
 		return "order/orderPay";
 	}
+	
+	@PostMapping("/update")
+	public void updateOrder(@Valid OrderForm form, Errors error, HttpServletResponse res) throws IOException {
+		log.info("실행");
+		JSONObject json = new JSONObject();
+		
+		if(error.hasErrors()) {
+			Map<String, String> errorMap = new HashMap<>();
+            error.getFieldErrors().forEach(fieldError -> 
+            	errorMap.put(fieldError.getField(), fieldError.getDefaultMessage())
+            );
+            json.put("status", "fail");
+            json.put("errors", errorMap);
+            res.setContentType("application/json; charset=UTF-8");
+            PrintWriter pw = res.getWriter();
+            pw.println(json.toString());
+            pw.flush();
+            pw.close();
+            return;
+		}
+		
+		OrderDTO dto = new OrderDTO();
+		dto.setOrderNumber(form.getOrderNumber());
+		dto.setDeliveryPostNum(form.getDeliveryPostNum());
+		dto.setDeliveryAddress(form.getDeliveryAddress());
+		dto.setDeliveryAddressDetail(form.getDeliveryAddressDetail());
+		dto.setDeliveryStatus(DeliveryStatus.fromValue(form.getDeliveryStatus()));
+		dto.setReceiverName(form.getReceiverName());
+		dto.setReceiverPhoneNum(form.getReceiverPhoneNum());
+		dto.setOrderMemo(form.getOrderMemo());
+		orderService.updateOrder(dto);
+		
+		json.put("status", "ok");
+		res.setContentType("application/json; charset=UTF-8");
+        PrintWriter pw = res.getWriter();
+        pw.println(json.toString());
+        pw.flush();
+        pw.close();
+	}
+	
 }

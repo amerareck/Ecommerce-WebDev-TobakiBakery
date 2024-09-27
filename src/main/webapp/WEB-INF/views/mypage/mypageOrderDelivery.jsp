@@ -23,7 +23,7 @@
 				<h2>주문내역</h2>
 				<div class="orderdelivery-summary">
 					<p>
-						<span>황망고</span>님이 쇼핑몰에서 주문한 내역입니다.
+						<span>${memberName}</span>님이 쇼핑몰에서 주문한 내역입니다.
 					</p>
 				</div>
 				<div class="orderdelivery-filter">
@@ -41,9 +41,14 @@
 						onclick="setDateRange('year')">1년</button>
 				</div>
 				<div class="orderdelivery-search">
-					<input type="date" id="start-date" value=""> ~ <input
-						type="date" id="end-date" value="">
-					<button type="button" class="btn btn-secondary">조회</button>
+					<input type="date" id="startDate" value=""> ~ <input
+						type="date" id="endDate" value="">
+					<button id="date-search-button" class="btn btn-secondary">조회</button>
+					       <div id="orderDeliveryData" 
+					             data-show-modal="${showModal}" 
+					             data-modal-title="${modalTitle}" 
+					             data-modal-message="${modalMessage}">
+					        </div>
 				</div>
 				<table class="orderdelivery-table">
 					<thead>
@@ -55,43 +60,28 @@
 							<th style="text-align: center;">주문상세</th>
 						</tr>
 					</thead>
+					 <c:if test="${not empty orderDelivery}">
 					<tbody>
+					<c:forEach items="${orderDelivery}" var="orderDelivery">
 						<tr>
-							<td style="text-align: center;">2024-08-16</td>
-							<td style="text-align: center;">자연효모빵 외 1종</td>
-							<td style="text-align: center;">31,200원</td>
-							<td style="text-align: center;">배송중</td>
+							<td style="text-align: center;"><fmt:formatDate value="${orderDelivery.orderDate}" pattern="yyyy-MM-dd"/></td>
+							<td style="text-align: center;">${orderDelivery.productName} <c:if test="${orderDelivery.extraProdCount>0}">외 ${orderDelivery.extraProdCount} 종</c:if></td>
+							<td style="text-align: center;"><fmt:formatNumber value="${orderDelivery.orderTotalPrice}" pattern="#,##0" />원</td>
+							<td style="text-align: center;">
+							<c:if test="${orderDelivery.deliveryStatus =='DELIVERY_ING'}">배송중</c:if>
+							<c:if test="${orderDelivery.deliveryStatus =='DELIVERY_STAY'}">배송 대기</c:if>
+							<c:if test="${orderDelivery.deliveryStatus =='DELIVERY_CANCEL'}">배송 취소</c:if>
+							<c:if test="${orderDelivery.deliveryStatus =='DELIVERY_COMPLETE'}">배송 완료</c:if>
+							</td>
 							<td style="text-align: center;">
 								<a href="${pageContext.request.contextPath}/order/orderDetail">
-								<button type="button" class="btn btn-secondary">조회</button>
+								<button type="button" id="order-search-button" class="btn btn-secondary">조회</button>
 								</a>
 							</td>
 						</tr>
-
-						<tr>
-							<td style="text-align: center;">2024-08-04</td>
-							<td style="text-align: center;">팡도르 외 3종</td>
-							<td style="text-align: center;">28,400원</td>
-							<td style="text-align: center;">배송완료</td>
-							<td style="text-align: center;">
-								<a href="${pageContext.request.contextPath}/order/orderDetail">
-								<button type="button" class="btn btn-secondary">조회</button>
-								</a>
-							</td>
-						</tr>
-
-						<tr>
-							<td style="text-align: center;">2024-07-23</td>
-							<td style="text-align: center;">걀렛뜨 데로와 푀유떼 외 4종</td>
-							<td style="text-align: center;">78,900원</td>
-							<td style="text-align: center;">배송완료</td>
-							<td style="text-align: center;">
-								<a href="${pageContext.request.contextPath}/order/orderDetail">
-								<button type="button" class="btn btn-secondary">조회</button>
-								</a>
-							</td>
-						</tr>
+					</c:forEach>
 					</tbody>
+					</c:if>
 				</table>
 				<br> <br> <br>
 				<div class="orderdelivery-notice">

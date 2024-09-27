@@ -10,37 +10,14 @@ $('#orderSubmitButton').on('click', function(event){
 	orderForm.deliveryPostNum = $('#deliveryPostNum').val();
 	orderForm.deliveryAddress = $('#deliveryAddress').val();
 	orderForm.deliveryAddressDetail = $('#deliveryAddressDetail').val();
-	orderForm.deliveryMemo = $('#deliveryMemo').text().replace(/\n/g, "<br>");
+	orderForm.orderMemo = $('#orderMemo').val().replace(/\n/g, '<br>');
 	orderForm.orderTotalPrice = $('#orderTotalPrice').val();
 	
-	let stopSubmit = false;
 	orderForm.receiverPhoneNum = '';
 	$('#receiverPhoneNumber').find('input').each(function(index){
 		const number = $(this).val().replace(/\./g, '');
-		if(index == 0) {
-			const startNumber = '01';
-			const compare = number.split('')[0]+number.split('')[1];
-			if(startNumber !== compare) {
-				alert(`휴대번호는 '01X'으로 시작되어야만 합니다.`);
-				stopSubmit = true;
-				return;
-			} else if(number.length != 3){
-				alert(`휴대번호 앞 3자리를 정확히 입력해주십시오.`);
-				stopSubmit = true;
-				return;
-			}
-		} else if (!/^\d+$/.test(number)) {
-			alert(`휴대번호는 숫자만 입력하여 주십시오.`);
-			stopSubmit = true;
-			return;
-		} else if (index != 0 && number.length != 4) {
-			alert(`휴대번호 중간 혹은 끝 자리는 정확히 4자의 숫자만을 입력해 주십시오.`);
-			stopSubmit = true;
-			return;
-		}
 		orderForm.receiverPhoneNum += number;
 	});
-	if(stopSubmit) return;
 	
 	orderForm.productList = [];
 	$('.product-set').each(function(){
@@ -73,12 +50,27 @@ $('#orderSubmitButton').on('click', function(event){
 				location.href = response.redirect;
 				
 			} else if (response.status === 'fail') {
-				const errorMap = response.errorMap;
-				for (const field in errorMap) {
-					const target = $('#error-massage');
-                    $(`<span id=${field}Error></span>`).text(errors[field]).appendTo(target);
-                    target.append($('<br/>'));
-                }
+				console.log('유효성 검증 실패');
+				$('#receiverPhoneNum-error-message').empty();
+				$('#orderMemo-error-message').empty();
+				$('#error-message').empty();
+				
+	            const errorMap = response.errors;
+	            for (const field in errorMap) {
+	            	let target;
+	            	if (field == 'receiverName') {
+	            		target = $('#receiverName-error-message');
+	            	} else if (field == 'receiverPhoneNum') {
+	            		target = $('#receiverPhoneNum-error-message');
+	            	} else if (field == 'orderMemo') {
+	            		target = $('#orderMemo-error-message');
+	            	} else {
+	            		target = $('#error-message');
+	            	}
+	                $(`<strong id=${field}Error></strong>`).text(errorMap[field]).appendTo(target);
+	                target.append($('<br/>'));
+	                console.log(field + ': ' + errorMap[field]);
+	            }
 			}
 		},
 		error: function(xhr, status, error) {

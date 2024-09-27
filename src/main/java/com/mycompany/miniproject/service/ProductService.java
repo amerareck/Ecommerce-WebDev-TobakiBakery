@@ -1,6 +1,7 @@
 package com.mycompany.miniproject.service;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,8 @@ import com.mycompany.miniproject.dao.ProductDAO;
 import com.mycompany.miniproject.dao.ProductImageDAO;
 import com.mycompany.miniproject.dto.Pager;
 import com.mycompany.miniproject.dto.ProductDTO;
+import com.mycompany.miniproject.type.ProductState;
+import com.mycompany.miniproject.type.Category;
 import com.mycompany.miniproject.type.ProductUsecase;
 
 import lombok.extern.slf4j.Slf4j;
@@ -144,8 +147,32 @@ public class ProductService {
 		return true;
 	}
 
-	public List<ProductDTO> getProductSmartRecom(String categoryName) {
-		return productDAO.selectSmartRecom(categoryName);
+	public LinkedHashSet<ProductDTO> getProductSmartRecom(ProductDTO product) {
+		
+		ProductDTO prod = new ProductDTO();
+		Category category;
+		String cateName = getProductCategoryName(product.getProductId());
+		category = Category.fromValue(cateName);
+		
+		prod.setProductId(product.getProductId());
+		prod.setCategoryName(category);
+		log.info("prod:"+prod.toString());
+		int prodId = prod.getProductId();
+		LinkedHashSet<ProductDTO> smartList = productDAO.selectSmartRecom(prodId);
+		if(smartList.size()<4) {
+			List<ProductDTO> smartPlusList = productDAO.selectSmartRecomPlus(prod);
+			log.info("smartPlustList: "+smartPlusList.toString());
+			for (ProductDTO p : smartPlusList) {
+	            if (smartList.size() >= 4) {
+	                break; 
+	            }
+	            smartList.add(p); 
+	        }
+			return smartList;
+		}else {
+			return smartList;
+		}
+		
 	}
 	
 	public String getProductCategoryName(int productId) {
@@ -204,5 +231,25 @@ public class ProductService {
 		 productDAO.resetProductBest();
 		 int prodBestUpdate = productDAO.updateBestProduct();
 		return prodBestUpdate;
+	}
+	
+	public boolean decreaseProductStock(ProductDTO dto) {
+		boolean result = productDAO.updateProductStock(dto) == 1;
+		if(result) {
+			if(productDAO.selectProductStock(dto.getProductId()) == 0) {
+				productDAO.updateProductState(dto);
+			}
+		}
+		
+		return result;
+	}
+	
+	public boolean isSoldOut(int productId) {
+		log.info("실행");
+		return getProductSingleRow(productId).getProductState() == ProductState.SOLD_OUT;
+	}
+	
+	public ProductDTO getProductSingleRow(int productId) {
+		return productDAO.selectProductSingleRow(productId);
 	}
 } 

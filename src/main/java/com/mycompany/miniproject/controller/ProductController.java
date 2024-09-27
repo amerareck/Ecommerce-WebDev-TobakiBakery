@@ -10,7 +10,11 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
 import java.util.Map;
+
+import java.util.Set;
+
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,8 +24,12 @@ import javax.validation.Valid;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+
+import org.springframework.security.access.annotation.Secured;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -180,7 +188,6 @@ public class ProductController {
 			redi.addFlashAttribute("isAlert", true);
 			redi.addFlashAttribute("alert", "검색 결과가 존재하지 않습니다.\\n다른 키워드를 검색해 해주세요.");
 			
-
 			return "redirect:/product/productListAll?";
 		}
 		Pager pager = new Pager(8, 5, searchProductCount, pageNo);
@@ -197,13 +204,17 @@ public class ProductController {
 	
 	
 	@GetMapping("/productDetail")
-	public String getProductDetail(@RequestParam("productId") int productId, 
+	public String getProductDetail(
+			ProductDTO product,
+			@RequestParam("productId") int productId, 
 			Model model) {
 		getProdDetail(productId, model);
 		
 		String categoryName = productService.getProductCategoryName(productId);
-		log.info("cateName :  " + categoryName);
-		getProdSmartRecom(categoryName, model);
+		model.addAttribute("categoryName", categoryName);
+
+		
+		getProdSmartRecom(product, model);
 		
 		log.info("상품상세 실행");
 		
@@ -211,10 +222,14 @@ public class ProductController {
 		return "/product/productDetail";
 	}
 	
-	public void getProdSmartRecom(String categoryName, Model model) {
-		List<ProductDTO> prodSmart = productService.getProductSmartRecom(categoryName);
+	public void getProdSmartRecom(ProductDTO product, Model model) {
+		ProductDTO prod = new ProductDTO();
+	    prod.setProductId(product.getProductId());
+
 		
+	    Set<ProductDTO> prodSmart = productService.getProductSmartRecom(prod);
 		model.addAttribute("prodSmart", prodSmart);
+		log.info(prodSmart.toString());
 	}
 
 	public void getProdDetail(int productId,  Model model) {
@@ -259,6 +274,7 @@ public class ProductController {
 		binder.setValidator(new ProductValidator());
 	}
 	
+	@Secured("ROLE_ADMIN")
 	@PostMapping("/addProduct")
 	public String submitProduct(@Valid ProductForm form, Errors error, Model model, RedirectAttributes redi) throws IOException {
 		log.info("실행");
@@ -363,6 +379,7 @@ public class ProductController {
 		pw.close();
 	}
 	
+	@Secured("ROLE_ADMIN")
 	@PostMapping("/deleteImage")
 	public void removeImage(ProductDTO dto, HttpServletResponse res) throws IOException {
 		log.info("실행");
@@ -381,6 +398,7 @@ public class ProductController {
 		pw.close();
 	}
 	
+	@Secured("ROLE_ADMIN")
 	@PostMapping("/update")
 	public String updateProduct(@Valid ProductForm form, Errors error, Model model) throws IOException {
 		log.info("실행");
@@ -448,6 +466,7 @@ public class ProductController {
 		return "common/alert";
 	}
 	
+	@Secured("ROLE_ADMIN")
 	@PostMapping("/delete")
 	public void removeProduct(ProductDTO dto, HttpServletResponse res) throws IOException {
 		log.info("실행");
@@ -466,6 +485,7 @@ public class ProductController {
 		pw.close();
 	}
 	
+	@Secured("ROLE_ADMIN")
 	@PostMapping("/deleteList")
 	public void removeProductList(@RequestBody List<ProductDTO> list, HttpServletResponse res) throws IOException {
 		log.info("실행");
@@ -484,6 +504,34 @@ public class ProductController {
 		pw.flush();
 		pw.close();
 	}
+
+	
+	@GetMapping("/addReview")
+	public String addReview(String type, Model model) {
+		log.info("실행");
+		if(type == null) return "redirect:/product/productListAll";
+		
+		String[] elNames = {
+				"active", "title", "breadcrumb", "showCategory", "showReview",
+				"boardType", "formAction",
+				"author", "postTitle", "isSecret", "postContent", "postFile", "timestamp"
+		};
+
+		if(type.equals("helpdesk")) {
+			String[] data = {
+					"helpdesk", "문의사항", "문의사항", "none", "none",
+					"helpdesk", "submitHelpdesk",
+					"memberId", "title", "lockState", "content", "attach", "datetime"
+			};
+			
+			for(int i=0; i<elNames.length; i++) {
+				model.addAttribute(elNames[i], data[i]);
+			}
+		} 
+		
+		return "product/reviewInsert";
+	}
+
 	
 	
 	// 리뷰 작성 폼 페이지로 이동

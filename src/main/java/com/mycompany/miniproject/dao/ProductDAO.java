@@ -1,5 +1,6 @@
 package com.mycompany.miniproject.dao;
 
+import java.util.LinkedHashSet;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -48,7 +49,7 @@ public interface ProductDAO {
 
 	public int selectProductRecomCount();
 
-	public List<ProductDTO> selectSmartRecom(String categoryName);
+	public LinkedHashSet<ProductDTO> selectSmartRecom(int productId);
 
 	public String selectProductCategory(int productId);
 	
@@ -66,12 +67,18 @@ public interface ProductDAO {
 	public int selectSearchCountByProductState(String keyword);
 
 	public int selectTotalPrice(CartDTO dto);
-	
 	public int updateNewProduct();
-
 	public int resetProductNew();
-
 	public int updateBestProduct();
-
 	public void resetProductBest();
+	
+	public Integer selectProductIdByProductName(String productName);
+	public Integer selectProductStock(int productId);
+
+	public int updateProductStock(ProductDTO dto);
+	public int updateProductState(ProductDTO dto);
+
+	public ProductDTO selectProductSingleRow(int productId);
+
+	public List<ProductDTO> selectSmartRecomPlus(ProductDTO product);
 }

@@ -61,10 +61,7 @@
 			    delivery_price,
 			    delivery_status,
 			    order_total_price,
-			    member_id,
-			    product_id,
-			    order_product_count,
-			    order_product_price
+			    member_id
 			FROM (
 			    SELECT
 				    order_number,
@@ -81,13 +78,9 @@
 				    delivery_status,
 				    order_total_price,
 				    member_id,
-				    product_id,
-				    order_product_count,
-				    order_product_price,
 			        ROW_NUMBER() OVER (ORDER BY order_number DESC) AS rnum
 			    FROM 
 			    	"order"
-			    	LEFT OUTER JOIN ORDER_PRODUCT USING(order_number)
 			)
 			WHERE rnum BETWEEN #{startRowNo} AND #{endRowNo}
 		]]>
@@ -122,6 +115,164 @@
 			WHERE member_id = #{memberId}
 			ORDER BY order_date DESC
 			FETCH FIRST 1 ROWS ONLY
+		]]>
+	</select>
+	
+	<update id="updateOrder" parameterType="Order" >
+		<![CDATA[
+			UPDATE "order"
+			SET 
+				order_memo = #{orderMemo},
+				receiver_name = #{receiverName},
+				receiver_phone_num = #{receiverPhoneNum},
+				delivery_post_num = #{deliveryPostNum},
+				delivery_address = #{deliveryAddress},
+				delivery_address_detail = #{deliveryAddressDetail},
+				delivery_status = #{deliveryStatus}
+			WHERE order_number = #{orderNumber}
+		]]>
+	</update>
+	
+	<select id="searchOrderCountByDeliveryStatus" parameterType="String" resultType="int" >
+		<![CDATA[
+			SELECT COUNT(*)
+			FROM "order"
+			WHERE delivery_status = #{delivery_status}
+		]]>
+	</select>
+	
+	<select id="searchOrderByOrderNumber" parameterType="int" resultType="Order">
+		<![CDATA[
+			SELECT
+			    order_number,
+			    order_date,
+			    order_memo,
+			    delivery_num,
+			    delivery_post_num,
+			    delivery_address,
+			    delivery_address_detail,
+			    receiver_name,
+			    receiver_phone_num,
+			    delivery_memo,
+			    delivery_price,
+			    delivery_status,
+			    order_total_price,
+			    member_id
+		    FROM "order"
+		    WHERE order_number = #{keyword}
+		]]>
+	</select>
+	
+	<select id="searchOrderByDeliveryStatus" parameterType="Pager" resultType="Order">
+		<![CDATA[
+			SELECT
+			    order_number,
+			    order_date,
+			    order_memo,
+			    delivery_num,
+			    delivery_post_num,
+			    delivery_address,
+			    delivery_address_detail,
+			    receiver_name,
+			    receiver_phone_num,
+			    delivery_memo,
+			    delivery_price,
+			    delivery_status,
+			    order_total_price,
+			    member_id
+			FROM (
+			    SELECT
+				    order_number,
+				    order_date,
+				    order_memo,
+				    delivery_num,
+				    delivery_post_num,
+				    delivery_address,
+				    delivery_address_detail,
+				    receiver_name,
+				    receiver_phone_num,
+				    delivery_memo,
+				    delivery_price,
+				    delivery_status,
+				    order_total_price,
+				    member_id,
+			        ROW_NUMBER() OVER (ORDER BY order_number DESC) AS rnum
+			    FROM "order"
+			    WHERE delivery_status = #{keyword}
+			    ORDER BY order_number DESC
+			)
+			WHERE rnum BETWEEN #{startRowNo} AND #{endRowNo}
+		]]>
+	</select>
+
+	<select id="selectOrderDelivery" parameterType="Order" resultType="Order">
+		<![CDATA[
+			 SELECT
+			    order_number,
+			    order_date,
+			    product_name,
+			    extraProdCount,
+			    order_total_price,
+			    delivery_status,
+			    member_name
+			FROM (
+			    SELECT
+			        o.order_number,
+			        o.order_date,
+			        p.product_name,
+			        o.order_total_price,
+			        o.delivery_status,
+			        m.member_name,
+			        ROW_NUMBER() OVER (PARTITION BY o.order_number ORDER BY op.product_id) AS rn, 
+			        COUNT(op.product_id) OVER (PARTITION BY o.order_number) - 1 AS extraProdCount
+			    FROM
+			        "order" o
+			        LEFT OUTER JOIN member m ON o.member_id = m.member_id
+			        LEFT OUTER JOIN order_product op ON o.order_number = op.order_number
+			        LEFT OUTER JOIN product p ON op.product_id = p.product_id
+			    WHERE
+			        o.member_id = #{memberId}
+			)
+			WHERE 
+				rn = 1
+			ORDER BY 
+				order_date DESC
+		]]>
+	</select>
+	
+		<select id="selectOrderDeliveryDate" parameterType="string" resultType="Order">
+		<![CDATA[
+			 SELECT
+			    order_number,
+			    order_date,
+			    product_name,
+			    extraProdCount,
+			    order_total_price,
+			    delivery_status,
+			    member_name
+			FROM (
+			    SELECT
+			        o.order_number,
+			        o.order_date,
+			        p.product_name,
+			        o.order_total_price,
+			        o.delivery_status,
+			        m.member_name,
+			        ROW_NUMBER() OVER (PARTITION BY o.order_number ORDER BY op.product_id) AS rn, 
+			        COUNT(op.product_id) OVER (PARTITION BY o.order_number) - 1 AS extraProdCount
+			    FROM
+			        "order" o
+			        LEFT OUTER JOIN member m ON o.member_id = m.member_id
+			        LEFT OUTER JOIN order_product op ON o.order_number = op.order_number
+			        LEFT OUTER JOIN product p ON op.product_id = p.product_id
+			    WHERE
+			        o.member_id = #{memberId}
+			    AND o.order_date BETWEEN TO_DATE(#{startDate}, 'YYYY-MM-DD') AND TO_DATE(#{endDate}, 'YYYY-MM-DD')+1    
+			)
+			WHERE 
+				rn = 1
+			ORDER BY 
+				order_date DESC
 		]]>
 	</select>
 

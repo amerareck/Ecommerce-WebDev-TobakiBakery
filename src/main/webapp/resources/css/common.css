@@ -250,3 +250,42 @@ footer {
     text-transform : none !important;
     font-size: 13.3333px !important;
 }
+.tingle-modal{
+	background: none;
+    backdrop-filter: none ; 
+    filter: none ; 
+    border-color: black;
+    width: 100%;
+    text-align: center;
+    top: -45%;
+    cursor: default;
+    z-index: 1100 !important;
+    
+}
+svg {
+	display: none;
+}
+body .tingle-modal::before {
+    -webkit-backdrop-filter: none !important; /* 흐림 효과 제거 */
+    backdrop-filter: none !important; /* 흐림 효과 제거 */
+   
+    
+}
+
+.tingle-modal-box{
+	 border: 2px solid black ;
+ 	 width: 480px !important;
+ 	 text-align: left;
+ 	 
+}
+.tingle-modal-box h2{
+	border-bottom: none !important; 
+	margin-bottom: 20px;
+	bodder: none;
+}
+.tingle-modal-box__content {
+	padding-bottom: 10px;
+}
+.tingle-modal-box__footer {
+	background-color: #fff !important;
+}	

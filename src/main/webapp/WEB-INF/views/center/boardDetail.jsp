@@ -53,8 +53,16 @@
                     </div>
                     
                     <a href="${pageContext.request.contextPath}/center/list?type=${boardType}" class="btn btn-outline-secondary float-right mr-1" id="redirectPage">목록</a>
-                    <button type="button" id="removeBoardBotton" class="btn btn-outline-secondary float-right mr-1">삭제</button>
-                    <a href="${pageContext.request.contextPath}/center/update?type=${boardType}&boardNum=${board.boardId}" class="btn btn-outline-secondary float-right mr-1">수정</a>
+                    <c:if test="${boardType=='notice'}">
+                    	<sec:authorize access="hasRole('ROLE_ADMIN')">
+		                    <button type="button" id="removeBoardBotton" class="btn btn-outline-secondary float-right mr-1">삭제</button>
+		                    <a href="${pageContext.request.contextPath}/center/update?type=${boardType}&boardNum=${board.boardId}" class="btn btn-outline-secondary float-right mr-1">수정</a>
+                    	</sec:authorize>
+                    </c:if>
+                    <c:if test="${boardType=='helpdesk'}">
+	                    <button type="button" id="removeBoardBotton" class="btn btn-outline-secondary float-right mr-1">삭제</button>
+	                    <a href="${pageContext.request.contextPath}/center/update?type=${boardType}&boardNum=${board.boardId}" class="btn btn-outline-secondary float-right mr-1">수정</a>
+                    </c:if>
                 </div>
             </div>
             <!-- 게시글 섹션 종료-->
@@ -100,7 +108,7 @@
                             <div class="form-input-wrapper d-flex justify-content-center">
                                 <div class="form-input-wrapper d-flex align-items-center">
                                     <label class="control-label mb-0 mr-3" for="memberName">아이디</label>
-                                    <input class="form-control" id="memberName" type="text" style="margin-right: 0;" value="umsangsik" disabled>
+                                    <input class="form-control" id="memberName" type="text" style="margin-right: 0;" value="<sec:authentication property="principal.username"/>" disabled>
                                 </div>
                             </div>
                             <input type="hidden" id="boardType" value="${boardType}" />

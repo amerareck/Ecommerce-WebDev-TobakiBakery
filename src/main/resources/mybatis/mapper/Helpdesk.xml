@@ -32,6 +32,7 @@
 				helpdesk_datetime,
 				helpdesk_content,
 				helpdesk_views,
+				lock_state,
 				member_id
 			FROM HELPDESK
 			WHERE helpdesk_id = #{boardNum}

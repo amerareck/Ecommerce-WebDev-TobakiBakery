@@ -23,4 +23,18 @@ public interface OrderDAO {
 
 	public int selectRecentOrderNumber(OrderDTO dto);
 
+	public int updateOrder(OrderDTO dto);
+
+
+	public List<OrderDTO> selectOrderDelivery(String memberId);
+
+	public List<OrderDTO> selectOrderDeliveryDate(OrderDTO order);
+	
+	public int searchOrderCountByDeliveryStatus(String string);
+
+	public OrderDTO searchOrderByOrderNumber(int orderNumber);
+
+	public List<OrderDTO> searchOrderByDeliveryStatus(Pager pager);
+
+
 }

@@ -133,7 +133,30 @@ $('#emptyCart').on('click', function(){
 
 $('#orderProcess').on('click', function(){
 	const list = [];
+	$('#out-of-stock-row').remove();
+	$('#sold-out-row').remove();
+	const outOfStock = $(`
+		<tr id="out-of-stock-row">
+			<td colspan="6" class="pl-4">
+				<div id="out-of-stock-message" class="text-danger" style="font-size: 0.7rem">
+					<strong>죄송합니다. 현재 해당 상품은 재고가 부족하여 주문 처리를 수행할 수 없습니다.</strong>
+				</div>
+			</td>
+		</tr>
+	`);
+	const soldOut = $(`
+		<tr id="sold-out-row">
+			<td colspan="6">
+				<div id="sold-out-message" class="text-danger" style="font-size: 0.7rem">
+					<strong>죄송합니다. 현재 상품은 품절되었습니다. 빠르게 준비하도록 하겠습니다.</strong>
+				</div>
+			</td>
+		</tr>
+	`);
+	
 	$('.item-select').each(function(){
+		if (!$(this).is(':checked')) return;
+		
 		const target = $(this).closest('tr');
 		const dto = {};
 		dto.productId = $(this).attr('id').split('-')[2];
@@ -142,6 +165,10 @@ $('#orderProcess').on('click', function(){
 		list.push(dto);
 	});
 	console.log(list);
+	if(list.length < 1) {
+		alert('선택하신 상품이 존재하지 않습니다.');
+		return;
+	}
 	
 	$.ajax({
 		url: 'sendCart',
@@ -151,6 +178,17 @@ $('#orderProcess').on('click', function(){
 		success: function(data) {
 			if(data.status === 'ok') {
 				location.href=data.redirect;
+			} else if(data.status === 'out_of_stock') {
+				console.log('재고부족: '+data.notSaleProductId);
+				$.each(data.notSaleProductId, function(index, value){
+					$('#cartRow-'+value).after(outOfStock);
+				});
+			} else if(data.status === 'sold_out') {
+				console.log('상품매진: '+data.notSaleProductId);
+				$.each(data.soldOutProductId, function(index, value){
+					$('#cartRow-'+value).after(soldOut);
+				});
+				console.log(data.soldOutProductId);
 			}
 		},
 		error: function(xhr, status, error) {

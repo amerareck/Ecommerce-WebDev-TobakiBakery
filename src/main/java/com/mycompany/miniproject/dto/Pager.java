@@ -21,7 +21,7 @@ public class Pager {
 	   private String listName;
 	   // 검색 결과 페이징 처리
 	   private String searchType;
-	   private String keyword; 
+	   private String keyword;
 	   
 	   public Pager(int rowsPerPage, int pagesPerGroup, int totalRows, int pageNo) {
 	      this.rowsPerPage = rowsPerPage;
