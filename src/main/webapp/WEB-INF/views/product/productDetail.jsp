@@ -72,56 +72,6 @@
                                                 </tbody>
                                             </table>
 
-
-			<div id="contentWrap">
-				<nav class="breadcrumb-container">
-				<ol class="breadcrumb">
-	                <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}"><i class="fas fa-home"></i></a></li>
-	                <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/product/productListAll?${queryString}">${listTitle}</a></li>
-				</ol>
-				</nav>
-				<div id="productDetail" class="fixed_view">
-					<div class="page_body">
-						<!-- 상품 설명 상단 -->
-						<div class="thumb-info">
-							<!-- 상품 왼쪽 이미지 -->
-							<div class="thumb-wrap">
-								<img src="productImage?productId=${prodDetail.productId}&productUsecase=THUMBNAIL">
-							</div>
-							<!-- thumb-wrap -->
-							<!-- 상품 오른쪽 정보 -->
-							<div class="thumb-info-text">
-								<!-- 상품 정보 -->
-								<form>
-									<div class="info">
-										<div class="info_inner_outer">
-											<!-- 상품 정보단 -->
-											<div class="info_inner">
-												<!-- 상품 이름 출력 -->
-												<h3 class="tit-prd">${prodDetail.productName}</h3>
-												<br>
-												<!-- 상품 정보 테이블 나오는 곳 -->
-												<div class="table-opt">
-													<!-- 상품 테이블 -->
-													<table class="table">
-														<colgroup>
-															<col width="90">
-															<col width="*">
-														</colgroup>
-														<!-- 상품 테이블 입력단 -->
-														<tbody>
-															<!-- 판매가격 -->
-															<tr class="for_price">
-																<th scope="row">
-																	<div class="tb-left">판매가격</div>
-																</th>
-																<td class="price">
-																	<div class="tb-left">
-																		<b><fmt:formatNumber value="${prodDetail.productPrice}" pattern="#,##0" />원</b>
-																	</div>
-																</td>
-															</tr>
-
                                             <!-- 상품 수량 -->
                                             <div>
                                                 <label for="exampleSelect1" class="form-label mt-4" style="margin-right: 30px">상품 수량</label>
@@ -139,7 +89,6 @@
                                                 </select> 개
                                             </div>
                                         </div>
-
 
                                         <!-- 상품 구매정보 버튼 -->
                                         <div class="prd-btn">
