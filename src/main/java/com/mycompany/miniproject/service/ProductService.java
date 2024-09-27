@@ -3,7 +3,6 @@ package com.mycompany.miniproject.service;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +11,7 @@ import com.mycompany.miniproject.dao.ProductDAO;
 import com.mycompany.miniproject.dao.ProductImageDAO;
 import com.mycompany.miniproject.dto.Pager;
 import com.mycompany.miniproject.dto.ProductDTO;
+import com.mycompany.miniproject.type.ProductState;
 import com.mycompany.miniproject.type.Category;
 import com.mycompany.miniproject.type.ProductUsecase;
 
@@ -231,5 +231,25 @@ public class ProductService {
 		 productDAO.resetProductBest();
 		 int prodBestUpdate = productDAO.updateBestProduct();
 		return prodBestUpdate;
+	}
+	
+	public boolean decreaseProductStock(ProductDTO dto) {
+		boolean result = productDAO.updateProductStock(dto) == 1;
+		if(result) {
+			if(productDAO.selectProductStock(dto.getProductId()) == 0) {
+				productDAO.updateProductState(dto);
+			}
+		}
+		
+		return result;
+	}
+	
+	public boolean isSoldOut(int productId) {
+		log.info("실행");
+		return getProductSingleRow(productId).getProductState() == ProductState.SOLD_OUT;
+	}
+	
+	public ProductDTO getProductSingleRow(int productId) {
+		return productDAO.selectProductSingleRow(productId);
 	}
 } 

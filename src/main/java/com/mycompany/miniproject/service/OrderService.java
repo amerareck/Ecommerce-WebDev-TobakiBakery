@@ -1,5 +1,6 @@
 package com.mycompany.miniproject.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import com.mycompany.miniproject.dto.CartDTO;
 import com.mycompany.miniproject.dto.OrderDTO;
 import com.mycompany.miniproject.dto.Pager;
 import com.mycompany.miniproject.dto.ProductDTO;
+import com.mycompany.miniproject.type.DeliveryStatus;
 
 import lombok.extern.slf4j.Slf4j;
 @Slf4j
@@ -141,5 +143,52 @@ public class OrderService {
 	}
 
 
+	public int getSearchOrderCount(String productName) {
+		Integer productId = productDAO.selectProductIdByProductName(productName);
+		if(productId != null) {
+			return orderProductDAO.searchOrderCountByProductId(productId);
+		} else {
+			return 0;
+		}
+	}
+
+	public int getSearchOrderCount(DeliveryStatus deliveryStatus) {
+		return orderDAO.searchOrderCountByDeliveryStatus(deliveryStatus.toString());
+	}
+
+	public List<OrderDTO> getSearchOrderList(Pager pager) {
+		int start = pager.getStartRowNo();
+		int end = pager.getEndRowNo();
+		List<OrderDTO> list = new ArrayList<>();
+		
+		if(pager.getSearchType().equals("productName")) {
+			Integer productId = productDAO.selectProductIdByProductName(pager.getKeyword());
+			if(productId != null) {
+				for(Integer orderNumber : orderProductDAO.searchOrderNumberByProductId(productId)) {
+					if(start > end || orderNumber == null) break;
+					
+					OrderDTO dto = orderDAO.searchOrderByOrderNumber(orderNumber);
+					if(dto == null) break;
+					
+					list.add(dto);
+					start++;
+				}
+			}
+		} else if(pager.getSearchType().equals("orderNumber")) {
+			//단일 값 리턴
+			OrderDTO dto = orderDAO.searchOrderByOrderNumber(Integer.parseInt(pager.getKeyword()));
+			if(dto != null) list.add(dto);
+		} else if(pager.getSearchType().equals("deliveryStatus")) {
+			list = orderDAO.searchOrderByDeliveryStatus(pager);
+		}
+		
+		return list;
+	}
+
+	public boolean checkProductStock(CartDTO dto) {
+		log.info("실행");
+		int stock = productDAO.selectProductStock(dto.getProductId());
+		return stock - dto.getCartCount() >= 0;
+	}
 
 }

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -56,10 +57,37 @@ public class OrderController {
 		log.info("실행");
 		log.info(dto.toString());
 		
+		boolean soldOut = false;
+		boolean notSale = false;
+		JSONArray soldOutProductId = new JSONArray();
+		JSONArray notSaleProductId = new JSONArray();
+		for(CartDTO ele : dto) {
+			if(productService.isSoldOut(ele.getProductId())) {
+				soldOut = true;
+				soldOutProductId.put(ele.getProductId());
+				continue;
+			}
+			if(!orderService.checkProductStock(ele)) {
+				notSale = true;
+				notSaleProductId.put(ele.getProductId());
+			}
+		}
+		
 		JSONObject json = new JSONObject();
-		session.setAttribute("cartList", dto);
-		json.put("status", "ok");
-		json.put("redirect", "payment");
+		if(soldOut || notSale) {
+			if(soldOut) {
+				json.put("status", "sold_out");
+				json.put("soldOutProductId", soldOutProductId);
+			} else {
+				json.put("status", "out_of_stock");
+				json.put("notSaleProductId", notSaleProductId);
+			}
+		} else {
+			session.setAttribute("cartList", dto);
+			json.put("status", "ok");
+			json.put("redirect", "payment");
+		}
+		
 		
 		res.setContentType("application/json; charset=UTF-8");
 		PrintWriter pw = res.getWriter();
@@ -303,6 +331,12 @@ public class OrderController {
 		
 		if(complete) {
 			session.removeAttribute("cartList");
+			for(CartDTO ele : cart) {
+				ProductDTO product = new ProductDTO();
+				product.setProductId(ele.getProductId());
+				product.setCartCount(ele.getCartCount());
+				productService.decreaseProductStock(product);
+			}
 			response.put("status", "ok");
 			response.put("orderNumber", orderNumber);
 			response.put("redirect", "complete");

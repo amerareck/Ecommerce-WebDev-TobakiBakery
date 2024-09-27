@@ -132,6 +132,78 @@
 			WHERE order_number = #{orderNumber}
 		]]>
 	</update>
+	
+	<select id="searchOrderCountByDeliveryStatus" parameterType="String" resultType="int" >
+		<![CDATA[
+			SELECT COUNT(*)
+			FROM "order"
+			WHERE delivery_status = #{delivery_status}
+		]]>
+	</select>
+	
+	<select id="searchOrderByOrderNumber" parameterType="int" resultType="Order">
+		<![CDATA[
+			SELECT
+			    order_number,
+			    order_date,
+			    order_memo,
+			    delivery_num,
+			    delivery_post_num,
+			    delivery_address,
+			    delivery_address_detail,
+			    receiver_name,
+			    receiver_phone_num,
+			    delivery_memo,
+			    delivery_price,
+			    delivery_status,
+			    order_total_price,
+			    member_id
+		    FROM "order"
+		    WHERE order_number = #{keyword}
+		]]>
+	</select>
+	
+	<select id="searchOrderByDeliveryStatus" parameterType="Pager" resultType="Order">
+		<![CDATA[
+			SELECT
+			    order_number,
+			    order_date,
+			    order_memo,
+			    delivery_num,
+			    delivery_post_num,
+			    delivery_address,
+			    delivery_address_detail,
+			    receiver_name,
+			    receiver_phone_num,
+			    delivery_memo,
+			    delivery_price,
+			    delivery_status,
+			    order_total_price,
+			    member_id
+			FROM (
+			    SELECT
+				    order_number,
+				    order_date,
+				    order_memo,
+				    delivery_num,
+				    delivery_post_num,
+				    delivery_address,
+				    delivery_address_detail,
+				    receiver_name,
+				    receiver_phone_num,
+				    delivery_memo,
+				    delivery_price,
+				    delivery_status,
+				    order_total_price,
+				    member_id,
+			        ROW_NUMBER() OVER (ORDER BY order_number DESC) AS rnum
+			    FROM "order"
+			    WHERE delivery_status = #{keyword}
+			    ORDER BY order_number DESC
+			)
+			WHERE rnum BETWEEN #{startRowNo} AND #{endRowNo}
+		]]>
+	</select>
 
 	<select id="selectOrderDelivery" parameterType="Order" resultType="Order">
 		<![CDATA[

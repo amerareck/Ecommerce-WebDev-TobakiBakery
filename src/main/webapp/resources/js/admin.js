@@ -71,7 +71,7 @@ $('#searchProductSelect').change(function(event){
         );
     }
 });
-
+/*
 $('#orderSearchForm').submit(function(event){
     event.preventDefault();
     const selector = $('select#searchOrderSelect option:selected');
@@ -109,6 +109,7 @@ $('#orderSearchForm').submit(function(event){
 
     alert(str);
 });
+*/
 
 $('#searchOrderSelect').change(function(event){
     const selected = $('#searchOrderSelect option:selected').val();
@@ -128,7 +129,7 @@ $('#searchOrderSelect').change(function(event){
                 <option selected>배송상태</option>
                 <option value="DELIVERY_STAY">배송대기</option>
                 <option value="DELIVERY_ING">배송중</option>
-                <option value="DELIVERY_COMPLITE">배송완료</option>
+                <option value="DELIVERY_COMPLETE">배송완료</option>
                 <option value="DELIVERY_CANCEL">주문취소</option>
             </select>
         `);
