@@ -27,7 +27,7 @@ public interface MemberDAO {
 
 	public MemberDTO selectMemberForDeleteMember(String memberId);
 
-	public String searchMemberForPw(MemberDTO member);
+	public MemberDTO searchMemberForPw(MemberDTO member);
 	
 	/*public boolean hasPurchasedProduct(String memberId, int productId) {
 	    

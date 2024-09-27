@@ -376,7 +376,7 @@
 		]]>
 	</select>
 
-	<select id="selectSmartRecom" parameterType="string" resultType="Product">
+	 <select id="selectSmartRecomPlus" parameterType="Product" resultType="Product">
 		<![CDATA[
 			SELECT 
 				product_id,
@@ -386,11 +386,54 @@
 				PRODUCT
 			WHERE
 				category_name = #{categoryName}
+			AND
+				product_id NOT IN #{productId}	
 			ORDER BY
 				DBMS_RANDOM.VALUE
 			FETCH FIRST 4 ROWS ONLY
 		]]>
 	</select>
+	
+	<select id="selectSmartRecom" parameterType="int" resultType="Product">
+		<![CDATA[
+		    SELECT 
+		        product_id, 
+		        product_name, 
+		        product_price, 
+		        product_count
+		    FROM (
+		        SELECT 
+		            p.product_id AS product_id, 
+		            p.product_name AS product_name, 
+		            p.product_price AS product_price, 
+		            COUNT(p.product_id) AS product_count
+		        FROM 
+		            ORDER_PRODUCT op
+		        LEFT OUTER JOIN 
+		            PRODUCT p 
+		        ON 
+		            op.product_id = p.product_id
+		        WHERE 
+		            order_number IN (
+		                SELECT 
+		                    order_number 
+		                FROM 
+		                    ORDER_PRODUCT 
+		                WHERE 
+		                    product_id = #{product_id}
+		            )
+		        GROUP BY 
+		            p.product_id, p.product_name, p.product_price
+		        ORDER BY 
+		            COUNT(p.product_id) DESC
+		    ) 
+		    WHERE 
+		    		ROWNUM <= 4
+		    	AND 
+		    		product_id NOT IN #{productId}
+			]]>		
+	</select>
+	
 	
 	<select id="selectProductCategory" parameterType="int" resultType="string">
 		<![CDATA[

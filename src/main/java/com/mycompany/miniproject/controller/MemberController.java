@@ -1,37 +1,30 @@
 package com.mycompany.miniproject.controller;
 
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
 
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mycompany.miniproject.dto.MemberDTO;
 import com.mycompany.miniproject.service.MemberService;
 import com.mycompany.miniproject.type.JoinResult;
-import com.mycompany.miniproject.type.LoginResult;
 import com.mycompany.miniproject.validator.LoginFormValidator;
 
 import lombok.extern.slf4j.Slf4j;
@@ -44,9 +37,9 @@ public class MemberController {
 	@Autowired
 	private MemberService memberService;
 	
-	
-	
-	
+	@Autowired
+	private JavaMailSender javaMailSender;
+		
 	
 	@GetMapping("memberInfo")
 	public String getMember() {
@@ -183,7 +176,7 @@ public class MemberController {
 	}
 
 	@PostMapping("/memberPwSearch")
-	public String memberPwSearch(MemberDTO member, Model model) {
+	public String memberPwSearch(MemberDTO member, Model model) throws Exception{
 		log.info("실행");
 		
 		
@@ -195,13 +188,32 @@ public class MemberController {
 		}
 
 		
-		String resultSearch = memberService.searchMemberForPwSearch(member);
+		MemberDTO resultSearch = memberService.searchMemberForPwSearch(member);
 		if(resultSearch == null || resultSearch.equals("")) {
 	        model.addAttribute("resultSearch", "NO");
 	    } else {
+	    		
+	    		MimeMessage msg = javaMailSender.createMimeMessage();
+	    		MimeMessageHelper msgHelper = new MimeMessageHelper(msg, true, "UTF-8");
+	    		
+	    		msgHelper.setFrom("gunn0128@naver.com", "Tobaki 주인장 백");
+	    		msgHelper.setSubject("[Tobaki] 임시 비밀번호를 발급해드렸습니다.");
+	    		String memberEmail = memberService.searchMemberForPwSearch(member).getMemberEmail();
+			log.info("memberEamil: " + memberEmail);
 			String memberToken = memberService.memberTokne();
+			String emailContent = "<p>안녕하세요,</p>"
+                    + "<p>회원님의 임시 비밀번호는 다음과 같습니다:</p>"
+                    + "<h3>" + memberToken + "</h3>"
+                    + "<p>로그인 후 비밀번호를 변경해 주세요.</p>"
+                    + "<p>감사합니다.</p>";
+			
+			
 			memberService.getMemberPwSearch(member, memberToken);
-	    		model.addAttribute("pwToken", memberToken);
+
+			msgHelper.setText(emailContent, true);
+			msgHelper.setTo(memberEmail);
+			javaMailSender.send(msg);
+	    		model.addAttribute("pwToken", "이메일로 발송되었습니다.");
 	    }
 		
 		

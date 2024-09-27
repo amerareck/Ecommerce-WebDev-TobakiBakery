@@ -1,13 +1,35 @@
-$('#headerSearch').on(function(event){
-    event.preventDefault();
-    const searchText = $('#headerSearch').find('.headerSearchInput');
+$('#headerSearch').on('submit', function(event) { 
+    event.preventDefault(); 
+    const searchText = $(this).find('.headerSearchInput'); 
 
-    if(searchText.val().trim() === '') {
-        alert('검색하실 상품을 입력해 주세요.');
-    } else {
-        // ajax를 통해 서버에서 데이터를 요청하고 받아온 데이터를 근거로 리스트 페이지를 상품 검색 페이지로 바꾸고 출력한다.
-        alert('검색을 시도한 상품은 ' + searchText.val() + '입니다.');
+    if (searchText.val().trim() === '') {
+        // 검색어가 비어 있을 경우 모달 표시
+        var modal = new tingle.modal({
+            footer: true,
+            closeMethods: ['button', 'overlay'],
+            closeLabel: "Close",
+            cssClass: ['tingle-modal'],
+            onOpen: function() {
+                console.log('모달이 열렸습니다.');
+            },
+            onClose: function() {
+                console.log('모달이 닫혔습니다.');
+            },
+            beforeClose: function() {
+                return true;
+            }
+        });
+
+        modal.setContent('<h2>검색 상품을 입력해 주세요.</h2>');
+        modal.addFooterBtn('닫기', 'tingle-btn tingle-btn--default', function() {
+            modal.close();
+        });
+        modal.open();
+    }  else {
+        // 검색어가 있는 경우 폼을 정상적으로 제출
+        this.submit(); // 폼 제출
     }
+    
 });
 
 $('.cartInsert2').on('click', function(event){

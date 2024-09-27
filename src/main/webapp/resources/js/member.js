@@ -36,26 +36,73 @@ function setEmailDomain() {
 }
 
 
-
+let userEmail = "";
 $(document).ready(function() {
+	
+	function showModal(title, message) {
+	    var modal = new tingle.modal({
+	        footer: true,
+	        closeMethods: ['button', 'overlay'],
+	        closeLabel: "Close",
+	        cssClass: ['tingle-modal'],
+	        onOpen: function() {
+	            console.log('모달이 열렸습니다.');
+	        },
+	        onClose: function() {
+	            console.log('모달이 닫혔습니다.');
+	        },
+	        beforeClose: function() {
+	            return true;
+	        }
+	    });
 
+	    // 모달 내용 설정
+	    modal.setContent('<h2>' + title + '</h2><h5>' + message + '</h5>');
+
+	    // 모달 하단에 버튼 추가
+	    modal.addFooterBtn('닫기', 'tingle-btn tingle-btn--default', function() {
+	        modal.close();
+	    });
+
+	    // 모달 열기
+	    modal.open();
+	}
+	
+	
+	
 	// 회원가입 폼 유효성 검사 함수
 	function validateForm() {
 	    // 비밀번호 유효성 검사
 	    var password = document.getElementById("password").value;
 	    var passwordConfirm = document.getElementById("password_confirm").value;
 	    var passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,16}$/;
-
+	    
+	    if ($('#name').val() === '' || $('#name').val === null){
+			showModal('이름 확인!', '이름을 입력해주세요.');
+	    		return false;
+	    }
+	    
 	    if (!passwordRegex.test(password)) {
-	        alert("비밀번호는 영문자와 숫자 포함 8-16자를 입력해주세요.");
+	    		showModal('비밀번호 확인!', '비밀번호는 영문자와 숫자 포함 8-16자를 입력해주세요.');
+
 	        return false;
 	    }
+	    
 
+	    
 	    if (password !== passwordConfirm) {
-	        alert("비밀번호가 일치하지 않습니다.");
+    			showModal('비밀번호 확인!', '비밀번호가 일치하지 않습니다.');
+
+
 	        return false;
 	    }
-
+	    let address = $('#postcode').val() + $('#address').val();
+	    console.log(address);
+        if(address === '' || address ===null ){
+			showModal('주소 확인!', '주소를 입력해 주세요.');
+			return false;
+        }
+	    
 	    // 핸드폰 번호 유효성 검사
         let prefix = $("#phone_prefix").val();
         let middleNumber = $("#phone_middle_number").val();
@@ -66,22 +113,24 @@ $(document).ready(function() {
         
         
         if (prefix === "선택" || middleNumber.length !== 4 || lastNumber.length !== 4) {
-            alert("유효한 핸드폰 번호를 입력해주세요.");
+    			showModal('휴대폰 번호 확인!', '다시 입력해주세요.');
             return false;
         }
 
         let PhoneNumber = prefix + middleNumber + lastNumber;
-        let phoneRegex = /^(01[016789]{1})[0-9]{4}[0-9]{4}$/;
+        let phoneRegex = /^(01[0126789]{1})[0-9]{4}[0-9]{4}$/;
 
         if (!phoneRegex.test(PhoneNumber)) {
-            alert("유효하지 않은 핸드폰 번호입니다.");
+        		showModal('휴대폰 번호 확인!', '다시 입력해주세요.');
             return false;
         }
         
         if(memberAnswer === '' || memberAnswer === null){
-        		alert("본인확인 답변을 입력해 주세요.");
+        		showModal('본인확인 답변 확인!', '본인확인 답변을 입력해 주세요.');
+        		
         		return false;
         }
+        
 
 	    // 생년월일 및 핸드폰 번호 통합 처리
 	    let birthMonth = $("#birth_month").val();
@@ -94,18 +143,28 @@ $(document).ready(function() {
 	    if (birthDay.length < 2) {
 	        birthDay = "0" + birthDay;
 	    }
+	    
 		let member_email = $("#email_local").val() + "@" + $("#email_domain").val();
 		$("#member_email").val(member_email);
 		let userEmail = $("#member_email").val();  
 		
-		if ($("#email_local").val().trim() === '') {
-		    alert("이메일을 입력하세요");
-		    return false;
-		}else if($("#email_domain").val().trim()=== ''){
-				alert("이메일 주소를 입력하세요");
-		    return false;
-		}
+        if($("#birth_year").val() === '' || $("#birth_year").val() === null || $("#birth_year").val() ==='선택'){
+    		showModal('생년월일 확인!', '생년을 입력해 주세요.');
+    		
+    		return false;
+        }
 	    
+        if(birthMonth === '' || birthMonth === null || birthMonth ==='선택'){
+    		showModal('생년월일 확인!', '생월을 입력해 주세요.');
+    		
+    		return false;
+        }
+        
+        if(birthDay === '' || birthDay === null || birthDay ==='선택'){
+    		showModal('생년월일 확인!', '생일을 입력해 주세요.');
+    		
+    		return false;
+        }
 	    
 	    let member_birthday = $("#birth_year").val() + birthMonth + birthDay;
 	    $("#member_birthday").val(member_birthday);
@@ -115,7 +174,10 @@ $(document).ready(function() {
 	}
 	
 	
-	
+    $("#email_local, #email_domain").on("input change", function() {
+        updateEmail(); // 이메일이 변경될 때마다 업데이트
+    });
+
 	
 	
 	
@@ -125,7 +187,8 @@ $(document).ready(function() {
         let username = $("#username").val();  
         
         if (username.length < 5) {
-            alert("아이디는 5글자 이상이어야 합니다.");
+			showModal('아이디 확인!', '아이디는 5글자 이상입니다.');
+
             return false;
         }
 
@@ -142,22 +205,41 @@ $(document).ready(function() {
             success: function(response) {
                 if (response.resultId === 'idCheckOK') {
                 		console.log(response.resultId);
-                    alert("사용 가능한 아이디입니다.");
+            			showModal('아이디 확인', '사용가능한 아이디 입니다.');
                     userCheck = true;
                 } else {
                 		console.log(response.resultId);
-                    alert("이미 존재하는 아이디입니다.");
+        				showModal('아이디 확인!', '이미 존재하는 아이디 입니다!');
                     userCheck = false;
                 }
             }
         });
     });	
 	
+   // 이메일 업데이트 함수 정의
+    function updateEmail() {
+        userEmail = $("#email_local").val() + "@" + $("#email_domain").val();
+        console.log("Updated Email: " + userEmail); // 업데이트된 이메일 출력
+    }
 
 	let emailCheck = false;
 	
     $("#emailCheck").click(function() {
+    		updateEmail(); // 현재 이메일 값 업데이트
 
+         if (userEmail.trim() === "@") { // 이메일이 제대로 설정되지 않았을 경우
+             showModal('이메일 확인!', '이메일을 입력하세요.');
+             return false;
+         }
+         
+ 		if ($("#email_local").val().trim() === '') {
+			showModal('이메일 확인!', '이메일을 입력하세요');
+		    return false;
+		}else if($("#email_domain").val().trim()=== ''){
+			showModal('이메일 확인!', '이메일을 입력하세요');
+		    return false;
+		}
+         
         console.log(userEmail);
         $.ajax({
             url: '../member/checkEmail',  
@@ -170,12 +252,12 @@ $(document).ready(function() {
             success: function(response) {
                 if (response.resultEmail === 'emailCheckOK') {
                 		console.log(response.resultEmail);
-                    alert("사용 가능한 이메일 입니다.");
+                		showModal('이메일 확인!', '사용 가능한 이메일 입니다.');
                 		emailCheck = true;
                 }
                 else  {
                 		console.log(response.resultEmail);
-                    alert("이미 존재하는 이메일 입니다.");
+                		showModal('이메일 확인!', '이미 존재하는 이메일 입니다.');
                 		emailCheck = false;
                 }
             }
@@ -184,30 +266,26 @@ $(document).ready(function() {
     
 
     
-    //회원가입 최종
     $("#signupForm").submit(function(e) {
-        // 아이디 중복 체크 검사
         if (!userCheck) {
-            alert("아이디 중복 체크를 해주세요.");
+    			showModal('아이디 확인!', '아이디 중복 체크를 해주세요.');
             e.preventDefault();
             return false;
         }
         
-        // 이메일 중복 체크 검사
         if (!emailCheck) {
-            alert("이메일 중복 체크를 해주세요.");
+        		showModal('이메일 확인!', '이메일 중복 체크를 해주세요.');
             e.preventDefault();
             return false;
         }
     	
-        // 추가적인 폼 검증
         if (validateForm()) {
-            alert("회원가입이 완료되었습니다!");
-            return true; // 폼 제출 진행
+    			showModal('가입 완료!', '회원가입이 완료되었습니다.');
+            return true; 
         } else {
-            alert("회원가입에 실패했습니다.");
+    			showModal('가입 실패!', '회원가입에 실패했습니다.');
             e.preventDefault();
-            return false; // 폼 제출 방지
+            return false; 
         }
     });
     
@@ -216,10 +294,10 @@ $(document).ready(function() {
 
             // 추가적인 폼 검증
             if (validateForm()) {
-                alert("회원수정이 완료되었습니다!");
+    				showModal('수정 완료!', '회원수정에 성공했습니다..');
                 return true; // 폼 제출 진행
             } else {
-                alert("회원수정에 실패했습니다.");
+				showModal('수정 실패!', '회원수정에 실패했습니다..');
                 e.preventDefault();
                 return false; // 폼 제출 방지
             }
@@ -241,10 +319,12 @@ $(document).ready(function() {
                 success: function(response) {
                     if (response.success) {
                     		console.log(response.success);
-                        alert(response.message);
+                			showModal('탈퇴 성공!', response.message);
+                        
                         location.href = '../'; 
                     } else {
-                        alert(response.message); 
+                    		showModal('탈퇴 실패!', response.message);
+                        
                     }
                 }
             });
@@ -258,9 +338,33 @@ $(document).ready(function() {
     const params = new URLSearchParams(location.search);
 
     if (params.has('error')) {
-        alert('로그인에 실패했습니다. 아이디 또는 비밀번호를 확인해주세요.');
-        
-        history.back();
+        // 1. Tingle 모달 인스턴스 생성
+        var modal = new tingle.modal({
+            footer: true, // 하단에 버튼 추가
+            closeMethods: ['button', 'overlay'], // 모달 닫기 방법 설정
+            closeLabel: "Close", // 닫기 버튼의 텍스트
+            cssClass: ['tingle-modal'], // 커스텀 CSS 클래스 추가
+            onOpen: function() {
+                console.log('모달이 열렸습니다.');
+            },
+            onClose: function() {
+                console.log('모달이 닫혔습니다.');
+            },
+            beforeClose: function() {
+                return true; // `true`를 반환해야 모달이 닫힘
+            }
+        });
+        // 2. 모달 내용 설정
+        modal.setContent('<h2>로그인 실패</h2><p>로그인에 실패했습니다. 아이디 또는 비밀번호를 확인해주세요.</p>');
+        // 3. 모달 하단에 버튼 추가
+        modal.addFooterBtn('닫기', 'tingle-btn tingle-btn--default', function() {
+            // 버튼 클릭 시 모달 닫기
+            modal.close();
+            // 뒤로 가기
+            history.back();
+        });
+        // 4. 모달 열기
+        modal.open();
     }
     
     //로그 아웃
@@ -275,7 +379,7 @@ $(document).ready(function() {
         // 이름 필드 검사
         let memberName = $("#memberName").val().trim();
         if (memberName === "") {
-            alert("이름을 입력해 주세요.");
+        		showModal('이름 확인!', '이름을 입력해주세요');
             e.preventDefault(); 
             return false;
         }
@@ -283,7 +387,7 @@ $(document).ready(function() {
         // 답변 필드 검사
         let memberAnswer = $("#memberA").val().trim();
         if (memberAnswer === "") {
-            alert("답변을 입력해 주세요.");
+        		showModal('본인확인 답변 확인!', '본인확인 답변을 입력해 주세요');
             e.preventDefault(); 
             return false;
         }
@@ -293,24 +397,24 @@ $(document).ready(function() {
     
     //비밀번호 찾기 폼 제출 시
     $('#pwSearchForm').submit(function(e) {
-        // 아이디 필드 검사
+        
         let memberId = $("#memberId").val().trim();
         let memberName = $("#memberName").val().trim();
         let memberAnswer = $("#memberA").val().trim();
 
         if(memberId.length < 5) {
-            alert("아이디는 5글자 이상이어야 합니다.");
+        		showModal('아이디 확인!', '아이디는 5글자 이상이어야 합니다.');
             e.preventDefault(); 
             return false;
         } 
         if (memberName === "") {
-            alert("이름을 입력해 주세요.");
+        		showModal('이름 확인!', '이름을 입력해 주세요.');
             e.preventDefault(); 
             return false;
         }
         // 답변 필드 검사
         if (memberAnswer === "") {
-            alert("답변을 입력해 주세요.");
+        		showModal('본인확인 답변 확인!', '답변을 입력해 주세요.');
             e.preventDefault(); 
             return false;
         }
