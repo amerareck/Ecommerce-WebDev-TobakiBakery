@@ -25,4 +25,9 @@ public interface OrderDAO {
 
 	public int updateOrder(OrderDTO dto);
 
+	public List<OrderDTO> selectOrderDelivery(String memberId);
+
+	public List<OrderDTO> selectOrderDeliveryDate(OrderDTO order);
+	
+
 }
