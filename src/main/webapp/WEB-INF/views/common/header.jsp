@@ -41,12 +41,12 @@
 						<ul class="navbar-nav mr-auto">
 								<li class="nav-item">
 								<sec:authorize access="isAnonymous()">
-									<a class="nav-link" href="${pageContext.request.contextPath}/member/loginForm">로그인</a>
+									<a class="nav-link" href="${pageContext.request.contextPath}/member/loginForm" id="isNotLogin">로그인</a>
 								</sec:authorize>
 								</li>
 								<sec:authorize access="isAuthenticated()">
 								<li class="nav-item">								
-										<span class="nav-link"><sec:authentication property="principal.member.memberName"/>&nbsp;님</span>
+									<span class="nav-link"><sec:authentication property="principal.member.memberName"/>&nbsp;님</span>
 								</li>
 								<li class="nav-item">								 
 										<a href="#" class="nav-link d-inline-block" id="logout">로그아웃</a>

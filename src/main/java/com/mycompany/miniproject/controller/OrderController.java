@@ -145,6 +145,7 @@ public class OrderController {
 		return "order/orderPay";
 	}
 	
+	@Secured("ROLE_USER")
 	@PostMapping("/addCart")
 	public void addItemCart(CartDTO cartDto, HttpSession session, HttpServletResponse res) throws IOException{
 		
