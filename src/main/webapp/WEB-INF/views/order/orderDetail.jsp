@@ -35,19 +35,21 @@
 				</colgroup>
 
 				<tbody>
+					  <c:forEach var="order" items="${buyerList}">
 					<tr>
 						<th scope="row">
 							<div class="tb-left">주문번호</div>
 						</th>
 						<td>
-							<div class="tb-left">20240813-0001</div>
+							<div class="tb-left">${order.orderNumber}</div>
+							
 						</td>
 
 						<th scope="row">
 							<div class="tb-left">주문일자</div>
 						</th>
 						<td>
-							<div class="tb-left">2024.08.13</div>
+							<div class="tb-left">${order.orderDate}</div>
 						</td>
 
 					</tr>
@@ -57,7 +59,7 @@
 							<div class="tb-left">주문자</div>
 						</th>
 						<td>
-							<div class="tb-left">황망고</div>
+							<div class="tb-left">${order.memberName}</div>
 						</td>
 
 						<th scope="row">
@@ -74,11 +76,12 @@
 							<div class="tb-left">주문 메모</div>
 						</th>
 						<td colspan="3">
-							<div class="tb-left"></div>
+							<div class="tb-left">${order.orderMemo}</div>
 						</td>
-
+						</c:forEach>	
 					</tr>
 				</tbody>
+			
 			</table>
 
 		</div>
@@ -95,9 +98,10 @@
 					<col width="30%">
 				</colgroup>
 				<tbody>
+				<c:forEach var="deliList" items="${deliList}">
 					<tr>
 						<th scope="row"><div class="tb-left">송장번호</div></th>
-						<td colspan="3"><div class="tb-left">CJ대한통운 12345678910</div></td>
+						<td colspan="3"><div class="tb-left">${deliList.ord }</div></td>
 					</tr>
 					<tr>
 						<th scope="row"><div class="tb-left">수취인</div></th>
@@ -115,6 +119,7 @@
 						<td colspan="3"><div class="tb-left">문 앞에 놔주세요.</div></td>
 					</tr>
 				</tbody>
+				</c:forEach>
 			</table>
 
 		</div>

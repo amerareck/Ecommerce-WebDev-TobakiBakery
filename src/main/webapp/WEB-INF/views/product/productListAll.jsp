@@ -10,7 +10,7 @@
 	<div id="contentWrapper">
         <nav class="breadcrumb-container">
             <ol class="breadcrumb">
-            <c:set var="queryString" value="" />
+            		<c:set var="queryString" value="" />
 				<c:if test="${!empty pager.categoryName}">
 				    <c:set var="queryString" value="categoryName=${pager.categoryName}" />
 				</c:if>

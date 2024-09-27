@@ -191,4 +191,20 @@ public class OrderService {
 		return stock - dto.getCartCount() >= 0;
 	}
 
+	public List<OrderDTO> getBuyerInfo(OrderDTO order) {
+		List<OrderDTO> buyerInfo = orderDAO.selectBuyerInfo(order);
+		return buyerInfo;
+	}
+
+	public List<OrderDTO> getDeliveryInfo(OrderDTO order) {
+		List<OrderDTO> deliveryInfo = orderDAO.selectDeliveryInfo(order);
+
+		return deliveryInfo;
+	}
+
+	public List<OrderDTO> getProductBuyInfo(OrderDTO order) {
+		List<OrderDTO> productBuyInfo = orderDAO.selectproductBuyInfo(order);
+		return productBuyInfo;
+	}
+
 }

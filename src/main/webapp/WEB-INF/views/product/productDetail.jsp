@@ -9,13 +9,10 @@
 
 			<div id="contentWrap">
 				<nav class="breadcrumb-container">
-					<ol class="breadcrumb">
-						<li class="breadcrumb-item"><a href="../"
-							style="color: black !important;"><i class="fas fa-home"></i></a></li>
-						<li class="breadcrumb-item"><a
-							href="../product/itemDetail-static"
-							style="color: black !important;">상세페이지</a></li>
-					</ol>
+				<ol class="breadcrumb">
+	                <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}"><i class="fas fa-home"></i></a></li>
+	                <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/product/productListAll?${queryString}">${listTitle}</a></li>
+				</ol>
 				</nav>
 				<div id="productDetail" class="fixed_view">
 					<div class="page_body">

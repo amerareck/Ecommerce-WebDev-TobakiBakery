@@ -74,9 +74,7 @@
 							<c:if test="${orderDelivery.deliveryStatus =='DELIVERY_COMPLETE'}">배송 완료</c:if>
 							</td>
 							<td style="text-align: center;">
-								<a href="${pageContext.request.contextPath}/order/orderDetail">
-								<button type="button" id="order-search-button" class="btn btn-secondary">조회</button>
-								</a>
+								<a class="btn btn-secondary" href="${pageContext.request.contextPath}/order/orderDetail?orderNumber=${orderDelivery.orderNumber}">조회</a>
 							</td>
 						</tr>
 					</c:forEach>

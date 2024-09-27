@@ -110,7 +110,8 @@
 				member_id,
 				member_password,
 				member_enable,
-				member_role
+				member_role,
+				member_name
 			FROM
 				MEMBER
 			WHERE

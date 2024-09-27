@@ -396,4 +396,24 @@ public class OrderController {
         pw.close();
 	}
 	
+	@GetMapping("/orderDetail")
+	public String getOrderDetailPage(
+			@RequestParam(value="orderNumber", required=true) int orderNumber,	
+			OrderDTO order, Model model) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+	    String memberId = authentication.getName(); 
+		order.setMemberId(memberId);
+		List<OrderDTO> buyer = orderService.getBuyerInfo(order);
+		List<OrderDTO> deliveryInfo = orderService.getDeliveryInfo(order);
+		List<OrderDTO> buyProductInfo = orderService.getProductBuyInfo(order);
+		log.info("buyerList:" + buyer);
+		log.info("buyerList:" + deliveryInfo);
+		log.info("buyerList:" + buyProductInfo);
+		model.addAttribute("buyerList", buyer);
+		model.addAttribute("deliList", deliveryInfo);
+		model.addAttribute("buyProdList", buyProductInfo);
+		
+		return "/order/orderDetail";
+	}
+	
 }

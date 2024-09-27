@@ -46,15 +46,17 @@
 								</li>
 								<sec:authorize access="isAuthenticated()">
 								<li class="nav-item">								
-										<span class="nav-link"><sec:authentication property="principal.username"/></span>
+										<span class="nav-link"><sec:authentication property="principal.member.memberName"/>&nbsp;님</span>
 								</li>
 								<li class="nav-item">								 
 										<a href="#" class="nav-link d-inline-block" id="logout">로그아웃</a>
 								</li>
 								</sec:authorize>
+								<sec:authorize access="isAnonymous()">
 								<li class="nav-item">
 									<a class="nav-link" href="${pageContext.request.contextPath}/member/memberInfo">회원가입</a>
 								</li>
+								</sec:authorize>
 								<li class="nav-item">
 									<a class="nav-link" href="${pageContext.request.contextPath}/mypage/mypageMain">마이페이지</a>
 								</li>

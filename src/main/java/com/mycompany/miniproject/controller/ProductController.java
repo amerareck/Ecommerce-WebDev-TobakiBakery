@@ -163,14 +163,12 @@ public class ProductController {
 			@RequestParam(name = "type", defaultValue = "productName")String type,
 			@RequestParam(value="keyword", required=true) String keyword,
 			Model model,
-			@RequestParam(defaultValue="1") int pageNo, 
-			RedirectAttributes redi) {
+			@RequestParam(defaultValue="1") int pageNo) {
 		log.info("실햄");
 		log.info("type: " + type);
 		int searchProductCount = productService.getSearchProductCount(type, keyword);
 		if(searchProductCount < 1 || keyword.isEmpty() || keyword==null) {
-			redi.addFlashAttribute("isAlert", true);
-			redi.addFlashAttribute("alert", "검색 결과가 존재하지 않습니다.\\n다른 키워드를 검색해 해주세요.");
+
 			
 			return "redirect:/product/productListAll?";
 		}
