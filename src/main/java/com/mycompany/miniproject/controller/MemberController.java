@@ -102,11 +102,26 @@ public class MemberController {
 	}
 	
 	@PostMapping("/edit")
-	public String editMemberInfo(MemberDTO member) {
+	public void editMemberInfo(MemberDTO member, HttpServletResponse response) 
+	throws Exception{
 		log.info("실행");
-		memberService.updateMember(member);
+		int editMember = memberService.updateMember(member);
+		JSONObject jsonObject = new JSONObject();
+		if(editMember < 1 ) {
+	        jsonObject.put("success", false);
+		}else {
+	        jsonObject.put("success", true);
+		}
 		
-		return "redirect:/member/memberEdit";
+		
+		String json = jsonObject.toString();
+		response.setContentType("application/json; charset=UTF-8");
+		PrintWriter pw = response.getWriter();
+		pw.println(json);
+		pw.flush();
+		pw.close();
+		
+		
 	}
 	
 	@GetMapping("/logout")
@@ -225,7 +240,7 @@ public class MemberController {
 
 
 	
-    @PostMapping("/checkId")
+    @GetMapping("/checkId")
     public void checkMemberId(@RequestParam("memberId") String memberId, 
     		HttpServletResponse response) 
     throws Exception{
@@ -247,7 +262,7 @@ public class MemberController {
     }
 	
 	
-    @PostMapping("/checkEmail")
+    @GetMapping("/checkEmail")
     public void checkMemberEmail( 
     		@RequestParam("memberEmail") String memberEmail
     		, HttpServletResponse response) 
@@ -272,7 +287,8 @@ public class MemberController {
     
 	
 	@PostMapping("/join")
-	public String addMember(MemberDTO member,  Model model) {
+	public void addMember(MemberDTO member,  Model model, HttpServletResponse response) 
+	throws Exception{
 		log.info("실행");
 		log.info(member.toString());
 		
@@ -281,16 +297,25 @@ public class MemberController {
 		member.setMemberPassword(passwordEncoder.encode(member.getMemberPassword()));
 		
 		JoinResult joinResult = memberService.join(member);
-		if(joinResult == JoinResult.FAIL_DUPLICATED_MEMBERID) {
-			log.info("회원가입 실패");
-			String errorMsg = "존재하는 아이디 입니다.";
-			model.addAttribute("errorMsg", errorMsg);
-			return "/member/memberInfo";
-		}else {
-		log.info("회원가입 실행");
+		JSONObject jsonObject = new JSONObject();
 		
-		return "redirect:/member/loginForm";
+
+		if(joinResult != JoinResult.SUCCESS ) {
+			
+	        jsonObject.put("success", false);
+	        jsonObject.put("message", "회원 가입 실패!");
+		}else {
+	        jsonObject.put("success", true);
+	        jsonObject.put("message", "회원 가입 성공!");
 		}
+		
+		
+		String json = jsonObject.toString();
+		response.setContentType("application/json; charset=UTF-8");
+		PrintWriter pw = response.getWriter();
+		pw.println(json);
+		pw.flush();
+		pw.close();
 			
 	}
 	

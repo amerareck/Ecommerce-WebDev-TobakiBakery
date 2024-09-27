@@ -46,11 +46,11 @@ $(document).ready(function() {
 	        closeLabel: "Close",
 	        cssClass: ['tingle-modal'],
 	        onOpen: function() {
-	            console.log('모달이 열렸습니다.');
-	        },
-	        onClose: function() {
-	            console.log('모달이 닫혔습니다.');
-	        },
+                console.log('모달이 열렸습니다.');
+            },
+            onClose: function() {
+                console.log('모달이 닫혔습니다.');
+            },
 	        beforeClose: function() {
 	            return true;
 	        }
@@ -68,6 +68,36 @@ $(document).ready(function() {
 	    modal.open();
 	}
 	
+	
+	function showModalToLogin(title, message) {
+	    var modal = new tingle.modal({
+	        footer: true,
+	        closeMethods: ['button', 'overlay'],
+	        closeLabel: "Close",
+	        cssClass: ['tingle-modal'],
+	        onOpen: function() {
+                console.log('모달이 열렸습니다.');
+            },
+            onClose: function() {
+                console.log('모달이 닫혔습니다.');
+                location.href = '../member/loginForm';
+            },
+	        beforeClose: function() {
+	            return true;
+	        }
+	    });
+
+	    // 모달 내용 설정
+	    modal.setContent('<h2>' + title + '</h2><h5>' + message + '</h5>');
+
+	    // 모달 하단에 버튼 추가
+	    modal.addFooterBtn('닫기', 'tingle-btn tingle-btn--default', function() {
+	        modal.close();
+	    });
+
+	    // 모달 열기
+	    modal.open();
+	}
 	
 	
 	// 회원가입 폼 유효성 검사 함수
@@ -112,13 +142,13 @@ $(document).ready(function() {
         
         
         
-        if (prefix === "선택" || middleNumber.length !== 4 || lastNumber.length !== 4) {
+        if (prefix === "선택" || middleNumber.length  <3 || lastNumber.length !== 4) {
     			showModal('휴대폰 번호 확인!', '다시 입력해주세요.');
             return false;
         }
 
         let PhoneNumber = prefix + middleNumber + lastNumber;
-        let phoneRegex = /^(01[0126789]{1})[0-9]{4}[0-9]{4}$/;
+        let phoneRegex = /^(01[0126789])([0-9]{3,4})([0-9]{4})$/;
 
         if (!phoneRegex.test(PhoneNumber)) {
         		showModal('휴대폰 번호 확인!', '다시 입력해주세요.');
@@ -196,12 +226,8 @@ $(document).ready(function() {
         
         $.ajax({
             url: '../member/checkId',  
-            type: 'post',             
+            type: 'get',             
             data: { memberId: username },  
-/*            beforeSend: function(security) {
-                // CSRF 토큰을 요청 헤더에 추가
-                security.setRequestHeader(csrfHeader, csrfToken);
-            },*/
             success: function(response) {
                 if (response.resultId === 'idCheckOK') {
                 		console.log(response.resultId);
@@ -243,12 +269,8 @@ $(document).ready(function() {
         console.log(userEmail);
         $.ajax({
             url: '../member/checkEmail',  
-            type: 'post',             
+            type: 'get',             
             data: { memberEmail: userEmail },  
-/*            beforeSend: function(security) {
-                // CSRF 토큰을 요청 헤더에 추가
-                security.setRequestHeader(csrfHeader, csrfToken);
-            },*/
             success: function(response) {
                 if (response.resultEmail === 'emailCheckOK') {
                 		console.log(response.resultEmail);
@@ -278,29 +300,56 @@ $(document).ready(function() {
             e.preventDefault();
             return false;
         }
-    	
-        if (validateForm()) {
-    			showModal('가입 완료!', '회원가입이 완료되었습니다.');
-            return true; 
-        } else {
-    			showModal('가입 실패!', '회원가입에 실패했습니다.');
-            e.preventDefault();
-            return false; 
+    		
+        if(!validateForm()){
+        		return false;
         }
+        let formData = $(this).serialize(); 
+        
+        $.ajax({
+            url: '../member/join', 
+            type: 'POST',
+            data:formData,
+            success: function(response) {
+                if (response.success) {
+                    showModalToLogin('가입 완료!', '회원가입이 완료되었습니다.');
+                    $(document).on('click', '.tingle-modal__close', function() {
+                        location.href = '../member/loginForm'; 
+                    });
+                } else {
+                    showModalToLogin('가입 실패!', '회원가입에 실패했습니다.');
+                    
+                }
+            }
+        });
+        e.preventDefault();
     });
     
     //회원정보 수정
     $("#editForm").submit(function(e) {
 
-            // 추가적인 폼 검증
-            if (validateForm()) {
-    				showModal('수정 완료!', '회원수정에 성공했습니다..');
-                return true; // 폼 제출 진행
+    if(!validateForm()){
+    		return false;
+    }
+    let formData = $(this).serialize(); 
+    
+    $.ajax({
+        url: '../member/edit', 
+        type: 'POST',
+        data:formData,
+        success: function(response) {
+            if (response.success) {
+                showModalToLogin('수정 완료!', '회원수정이 완료되었습니다.');
+                $(document).on('click', '.tingle-modal__close', function() {
+                    location.href = '../member/loginForm'; 
+                });
             } else {
-				showModal('수정 실패!', '회원수정에 실패했습니다..');
-                e.preventDefault();
-                return false; // 폼 제출 방지
+                showModalToLogin('수정 실패!', '회원수정에 실패했습니다.');
+                
             }
+        }
+    });
+    e.preventDefault();
     });
     
   
