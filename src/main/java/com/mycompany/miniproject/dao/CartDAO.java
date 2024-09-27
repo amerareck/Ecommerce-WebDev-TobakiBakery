@@ -21,4 +21,6 @@ public interface CartDAO {
 
 	public int deleteCartItem(CartDTO cartDto);
 	public int countCartItem(String memberId);
+
+	public int insertCartItemForProducts(CartDTO dto);
 }

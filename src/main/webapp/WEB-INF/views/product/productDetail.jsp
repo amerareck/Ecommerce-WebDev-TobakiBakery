@@ -25,7 +25,7 @@
                     <!-- 상품 오른쪽 정보 -->
                     <div class="thumb-info-text">
                         <!-- 상품 정보 -->
-                        <form>
+                        <form action="" method="post" id="productDetailForm">
                             <div class="info">
                                 <div class="info_inner_outer">
                                     <div class="info_inner">
@@ -75,7 +75,7 @@
                                             <!-- 상품 수량 -->
                                             <div>
                                                 <label for="exampleSelect1" class="form-label mt-4" style="margin-right: 30px">상품 수량</label>
-                                                <select class="form-select" id="exampleSelect1">
+                                                <select class="form-select" id="exampleSelect1" name="cartCount">
                                                     <option>1</option>
                                                     <option>2</option>
                                                     <option>3</option>
@@ -88,12 +88,14 @@
                                                     <option>10</option>
                                                 </select> 개
                                             </div>
+                                            <input type="hidden" name="productId" value="${prodDetail.productId}" />
+                                            <input type="hidden" name="productCurrentPrice" value="${prodDetail.productPrice}" />
                                         </div>
 
                                         <!-- 상품 구매정보 버튼 -->
                                         <div class="prd-btn">
-                                            <button type="button" class="btn btn-light" onclick="location.href='../mypage/mypageOrder?productId=${prodDetail.productId}'">구매하기</button>
-                                            <button type="button" class="btn btn-light" onclick="location.href='../order/cart?productId=${prodDetail.productId}'">장바구니</button>
+                                            <button type="button" class="btn btn-light" id="buyButton">구매하기</button>
+                                            <button type="button" class="btn btn-light" id="cartButton">장바구니</button>
                                         </div>
                                     </div>
                                     <!-- info_inner -->

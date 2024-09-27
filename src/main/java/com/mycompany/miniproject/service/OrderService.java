@@ -46,6 +46,19 @@ public class OrderService {
 		}
 		
 	}
+	
+	public boolean addItemsToCart(CartDTO dto) {
+		if(dto.getCartCount() < 2) {
+			return addItemToCart(dto);
+		} else {
+			if(checkCart(dto) == null) {
+				return cartDAO.insertCartItemForProducts(dto) == 1;
+			} else {
+				dto.setCountHandler(dto.getCartCount());
+				return cartDAO.updateCartCount(dto) == 1;
+			}
+		}
+	}
 		
 	public CartDTO checkCart(CartDTO cartDto) {
 		return cartDAO.checkCartProduct(cartDto);
@@ -111,9 +124,8 @@ public class OrderService {
 				dto.setOrderProductCount(prodDTO.getCartCount());
 				dto.setOrderProductPrice(prodDTO.getProductPrice());
 				dto.setProductId(prodDTO.getProductId());
-				if(orderProductDAO.insertOrderProduct(dto) == 1) {
-					result = orderNumber;
-				}
+				orderProductDAO.insertOrderProduct(dto);
+				result = orderNumber;
 			}
 		}
 		return result;
@@ -205,6 +217,10 @@ public class OrderService {
 	public List<OrderDTO> getProductBuyInfo(OrderDTO order) {
 		List<OrderDTO> productBuyInfo = orderDAO.selectproductBuyInfo(order);
 		return productBuyInfo;
+	}
+
+	public boolean checkOrder(OrderDTO dto) {
+		return orderDAO.selectOrderSingleRow(dto) != null;
 	}
 
 }

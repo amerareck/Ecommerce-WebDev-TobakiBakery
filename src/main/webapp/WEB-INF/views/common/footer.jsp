@@ -25,6 +25,7 @@
     <script src="${pageContext.request.contextPath}/resources/js/mypage.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/cart.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/order.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/product.js"></script>
     <%@include file="/WEB-INF/views/common/alert.jsp" %>
 </body>
 </html>

@@ -335,4 +335,14 @@
 			]]>
 	</select>
 	
+	<select id="selectOrderSingleRow" parameterType="Order" resultType="Order" >
+		<![CDATA[
+			SELECT order_number
+			FROM "order"
+			WHERE 
+				order_number = #{orderNumber}
+			AND member_id = #{memberId}
+		]]>
+	</select>
+	
 </mapper>

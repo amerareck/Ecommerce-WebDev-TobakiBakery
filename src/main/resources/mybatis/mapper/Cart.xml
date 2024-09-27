@@ -32,6 +32,16 @@
     	]]>
 
 	</insert>
+	<insert id="insertCartItemForProducts" parameterType="Cart">
+		<![CDATA[
+			INSERT INTO CART
+			VALUES (
+				#{memberId},
+				#{productId},
+				#{cartCount}
+			)
+		]]>
+	</insert>
 	
 	<select id="checkCartProduct" resultType="Cart" parameterType="Cart">
 		<![CDATA[

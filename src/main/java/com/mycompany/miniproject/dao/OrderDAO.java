@@ -42,5 +42,7 @@ public interface OrderDAO {
 
 	public List<OrderDTO> selectproductBuyInfo(OrderDTO order);
 
+	public OrderDTO selectOrderSingleRow(OrderDTO dto);
+
 
 }
