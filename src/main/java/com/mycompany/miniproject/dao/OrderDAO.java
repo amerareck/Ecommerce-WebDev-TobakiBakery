@@ -40,5 +40,7 @@ public interface OrderDAO {
 
 
 
+	public OrderDTO selectOrderSingleRow(OrderDTO dto);
+
 
 }

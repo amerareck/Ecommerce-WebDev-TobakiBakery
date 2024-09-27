@@ -101,7 +101,7 @@ public class OrderController {
 	
 	@GetMapping("/payment")
 	@SuppressWarnings("unchecked")
-	public String getOrderDetail(HttpSession session, Model model, Authentication auth) {
+	public String getOrderDetail(HttpSession session, Model model) {
 		log.info("실행");
 		
 		List<CartDTO> cartList = (List<CartDTO>) session.getAttribute("cartList");
@@ -147,10 +147,9 @@ public class OrderController {
 	}
 	
 	@PostMapping("/addCart")
-	public void addItemCart(CartDTO cartDto, HttpSession session, HttpServletResponse res) throws IOException{
+	public void addItemCart(CartDTO cartDto, HttpSession session, HttpServletResponse res, Authentication auth) throws IOException{
 		
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-	    String memberId = authentication.getName(); 
+	    String memberId = auth.getName(); 
 	    JSONObject json = new JSONObject();
 	    if(!memberId.equals("anonymousUser")) {
 	    	log.info("productId: " + cartDto.getProductId());
@@ -173,6 +172,56 @@ public class OrderController {
 		printwriter.println(json.toString());
 		printwriter.flush();
 		printwriter.close();
+	}
+	
+	@PostMapping("/addCartForm")
+	public String addCartFromForm(CartDTO dto, HttpSession session, Authentication auth) {
+		log.info("실행");
+		log.info(dto.toString());
+		dto.setMemberId(auth.getName());
+		orderService.addItemsToCart(dto);
+		session.setAttribute("commonCartCount", orderService.getCartItemCount(auth.getName()));
+		
+		return "redirect:/order/cart";
+	}
+	
+	@PostMapping("/instantOrder")
+	public String instantOrder(CartDTO dto, Model model, HttpSession session) {
+		log.info("실행");
+		log.info(dto.toString());
+		
+		OrderDTO order = new OrderDTO();
+		MemberDTO user = memberService.getMemberInfo();
+		List<ProductDTO> productList = new ArrayList<>();
+		dto.setMemberId(user.getMemberId());
+		dto.setOrderTotalPrice(dto.getProductCurrentPrice()*dto.getCartCount());
+		
+		ProductDTO prod = productService.getProductDetail(dto.getProductId());
+		for(ProductDTO ele : productService.getImageNames(prod)) {
+			if(ele.getProductUsecase() == ProductUsecase.THUMBNAIL) {
+				prod.setImageOriginalName(ele.getImageOriginalName());
+				break;
+			}
+		}
+		prod.setCartCount(dto.getCartCount());
+		prod.setProductPrice(dto.getOrderTotalPrice());
+		productList.add(prod);
+		order.setOrderTotalPrice(dto.getOrderTotalPrice());
+		
+		order.setProductList(productList);
+		order.setMemberId(user.getMemberId());
+		order.setReceiverName(user.getMemberName());
+		order.setReceiverEmail(user.getMemberEmail());
+		order.setReceiverPhoneNum(user.getPhoneNum());
+		order.setDeliveryPostNum(user.getPostNum());
+		order.setDeliveryAddress(user.getAddress());
+		order.setDeliveryAddressDetail(user.getAddressDetail());
+		
+		log.info(dto.toString());
+		model.addAttribute("orderData", order);
+		session.setAttribute("directCart", dto);
+		
+		return "order/orderSheet";
 	}
 	
 	@GetMapping("/cart")
@@ -326,10 +375,16 @@ public class OrderController {
 		}
 		
 		List<CartDTO> cart = (List<CartDTO>) session.getAttribute("cartList");
+		boolean direct = false;
+		if(cart == null) {
+			cart = new ArrayList<>();
+			direct = cart.add((CartDTO) session.getAttribute("directCart"));
+		}
+		
 		for(CartDTO ele : cart) {
 			ele.setMemberId(dto.getMemberId());
 		}
-		if(!orderService.removeCartItems(cart)) {
+		if(!direct || !orderService.removeCartItems(cart)) {
 			log.info("상품 주문 프로세스에 오류가 발생.");
 			response.put("status", "not-remove-cart");
 			response.put("redirect", "cart");
@@ -338,6 +393,7 @@ public class OrderController {
 		
 		if(complete) {
 			session.removeAttribute("cartList");
+			session.removeAttribute("directCart");
 			session.setAttribute("commonCartCount", orderService.getCartItemCount(user.getMemberId()));
 			for(CartDTO ele : cart) {
 				ProductDTO product = new ProductDTO();
@@ -360,9 +416,18 @@ public class OrderController {
 	@GetMapping("/complete")
 	public String orderComplete(String orderNumber, Model model) {
 		log.info("실행");
-		model.addAttribute("orderNumber", orderNumber);
 		
-		return "order/orderPay";
+		String memberId = memberService.getMemberInfo().getMemberId();
+		OrderDTO dto = new OrderDTO();
+		dto.setMemberId(memberId);
+		dto.setOrderNumber(Integer.parseInt(orderNumber));
+		
+		if(orderService.checkOrder(dto)) {
+			model.addAttribute("orderNumber", orderNumber);			
+			return "order/orderPay";
+		} else {
+			return "redirect:/mypage/mypageMain";
+		}
 	}
 	
 	@PostMapping("/update")
