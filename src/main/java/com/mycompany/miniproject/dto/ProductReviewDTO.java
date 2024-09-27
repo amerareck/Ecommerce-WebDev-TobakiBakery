@@ -2,6 +2,8 @@ package com.mycompany.miniproject.dto;
 
 import java.util.Date;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import lombok.Data;
 
 @Data
@@ -18,4 +20,5 @@ public class ProductReviewDTO {
 	private String imageOriginalName;
 	private String imageType;
 	private byte[] imageData;
+	
 }

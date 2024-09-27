@@ -91,7 +91,7 @@
 				image_original_name,
 				image_type,
 				image_data,
-				helpdesk_id
+				product_review_id
 			FROM CENTER_IMAGE
 			WHERE 
 				product_review_id = #{productReviewId}
@@ -99,7 +99,7 @@
 		]]>
 	</select>
 	
-	<delete id="deleteImageFromNotice" parameterType="map" >
+	<!-- <delete id="deleteImageFromNotice" parameterType="map" >
 		<![CDATA[
 			DELETE FROM CENTER_IMAGE
 			WHERE
@@ -116,5 +116,33 @@
 			AND helpdesk_id = #{boardId}
 		]]>
 	</delete>
+	
+	<insert id="insertProductReviewImage" parameterType="CenterImage">
+		<![CDATA[
+		INSERT INTO CENTER_IMAGE(
+			
+			image_original_name,
+			image_type,
+			image_data,
+			product_review_id
+		)VALUES(
+			#{imageOriginalName},
+			#{imageType},
+			#{imageData},
+			#{productReviewId}
+			)
+		]]>
+	</insert>
+	
+	<select id="selectImagesByProductReviewId" parameterType="int" resultType="CenterImage">
+        SELECT 
+            image_original_name,
+            image_type,
+            image_data
+        FROM 
+            CENTER_IMAGE
+        WHERE 
+            product_review_id = #{productReviewId}
+    </select> -->
 
 </mapper>

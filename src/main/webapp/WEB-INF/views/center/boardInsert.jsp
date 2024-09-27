@@ -31,7 +31,7 @@
                             </div>
                             <div class="form-content" style="margin-left: 40px;">
                             	<c:if test="${empty board}">
-                            		<input class="form-control" id="memberName" type="text" name="${author}" value="admin" readonly />
+                            		<input class="form-control" id="memberName" type="text" name="${author}" value="<sec:authentication property="principal.username"/>" readonly />
                             	</c:if>
                             	<c:if test="${not empty board}">
 	                                <input class="form-control" id="memberName" type="text" name="${author}" value="${board.author}" readonly />

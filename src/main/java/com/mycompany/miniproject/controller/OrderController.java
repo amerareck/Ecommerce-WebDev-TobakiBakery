@@ -13,6 +13,7 @@ import javax.validation.Valid;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -39,9 +40,10 @@ import com.mycompany.miniproject.type.ProductUsecase;
 import com.mycompany.miniproject.validator.OrderValidator;
 
 import lombok.extern.slf4j.Slf4j;
-@Controller
 
 @Slf4j
+@Controller
+@Secured("ROLE_USER")
 @RequestMapping("/order")
 public class OrderController {
 	
@@ -144,7 +146,7 @@ public class OrderController {
 	}
 	
 	@PostMapping("/addCart")
-	public void addItemCart(CartDTO cartDto, HttpServletResponse res) throws IOException{
+	public void addItemCart(CartDTO cartDto, HttpSession session, HttpServletResponse res) throws IOException{
 		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 	    String memberId = authentication.getName(); 
@@ -156,6 +158,7 @@ public class OrderController {
 			
 			if(orderService.addItemToCart(cartDto)) {
 				json.put("status", "ok");
+				session.setAttribute("commonCartCount", orderService.getCartItemCount(memberId));
 			} else {
 				json.put("status", "fail");
 			}
@@ -194,7 +197,7 @@ public class OrderController {
 	
 	
 	@PostMapping("/updateQty")
-	public void updateQty(CartDTO dto, Authentication authentication, HttpServletResponse res) throws IOException {
+	public void updateQty(CartDTO dto, Authentication authentication, HttpSession session, HttpServletResponse res) throws IOException {
 		log.info("실행");
 		
 		JSONObject json = new JSONObject();
@@ -209,7 +212,7 @@ public class OrderController {
 	        for (ProductDTO item : cartItemList) {
 	            totalPrice += item.getProductPrice() * item.getCartCount();
 	        }
-	        
+	        session.setAttribute("commonCartCount", orderService.getCartItemCount(memberId));
 			json.put("status", "ok");
 			json.put("productPrice", productPrice);
 			json.put("totalPrice", totalPrice);
@@ -228,15 +231,16 @@ public class OrderController {
 	@PostMapping("/deleteCartItem")
 	public String removeItem(
 			@RequestParam(value="productId", required=true) int productId,
-			Authentication authentication) {
+			Authentication authentication,
+			HttpSession session) {
 		
 		log.info("productId: "+productId);
 		CartDTO cartDto = new CartDTO();
-		authentication = SecurityContextHolder.getContext().getAuthentication();
 		cartDto.setMemberId(authentication.getName());
 		cartDto.setProductId(productId);
 		
 		orderService.removeCartItem(cartDto);
+		session.setAttribute("commonCartCount", orderService.getCartItemCount(cartDto.getMemberId()));
 		
 		return "redirect:/order/cart";
 	}
@@ -244,11 +248,11 @@ public class OrderController {
 	@PostMapping("/deleteCartItems")
 	public void removeItems(
 			@RequestBody List<CartDTO> list, 
-			//@AuthenticationPrincipal UserDetails user,
+			Authentication authentication,
+			HttpSession session,
 			HttpServletResponse res) throws IOException {
 		log.info("실행");
 		JSONObject json = new JSONObject();
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		
 		String member = authentication.getName();
 		if (member != null) {
@@ -256,6 +260,8 @@ public class OrderController {
 				dto.setMemberId(member);
 			}
 			orderService.removeCartItems(list);
+			session.setAttribute("commonCartCount", orderService.getCartItemCount(member));
+			
 			json.put("status", "ok");
 		} else {
 			json.put("status", "not-found-user");
@@ -331,6 +337,7 @@ public class OrderController {
 		
 		if(complete) {
 			session.removeAttribute("cartList");
+			session.setAttribute("commonCartCount", orderService.getCartItemCount(user.getMemberId()));
 			for(CartDTO ele : cart) {
 				ProductDTO product = new ProductDTO();
 				product.setProductId(ele.getProductId());

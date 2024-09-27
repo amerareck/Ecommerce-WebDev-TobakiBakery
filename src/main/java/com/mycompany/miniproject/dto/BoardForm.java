@@ -20,4 +20,5 @@ public class BoardForm {
 	
 	private String boardType;
 	private int boardId;
+	
 }

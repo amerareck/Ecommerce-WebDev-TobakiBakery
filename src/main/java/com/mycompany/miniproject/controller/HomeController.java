@@ -2,13 +2,17 @@ package com.mycompany.miniproject.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.mycompany.miniproject.dto.Pager;
 import com.mycompany.miniproject.dto.ProductDTO;
+import com.mycompany.miniproject.service.OrderService;
 import com.mycompany.miniproject.service.ProductService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -20,8 +24,11 @@ public class HomeController {
 	@Autowired
 	private ProductService productService;
 	
+	@Autowired
+	private OrderService orderService;
+	
 	@GetMapping("")
-	public String getIndex(Model model) {
+	public String getIndex(Model model, HttpSession session, Authentication auth) {
 		log.info("실행");
 		getNewProductList(model);
 		getBestProductList(model);
@@ -47,4 +54,5 @@ public class HomeController {
 		
 		model.addAttribute("bestProductList", bestProductList);
 	}
+	
 }

@@ -21,6 +21,7 @@ public class LogoutSuccessHandler
 		
 		log.info("실행");
 		setDefaultTargetUrl("/member/loginForm");
+		request.getSession().invalidate();
 		super.onLogoutSuccess(request, response, authentication);
 	}
 }

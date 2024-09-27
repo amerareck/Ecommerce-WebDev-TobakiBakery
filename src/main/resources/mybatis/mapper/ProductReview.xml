@@ -2,77 +2,158 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.mycompany.miniproject.dao.ProductReviewDAO">
 
-<!-- 특정 회원이 특정 제품에 대한 후기를 작성할 수 있는지 확인 -->
-    <select id="canWriteReview" parameterType="map" resultType="boolean">
-        <![CDATA[
-        SELECT COUNT(*) > 0
-        FROM ORDERS o
-        JOIN ORDER_DETAIL od ON o.order_id = od.order_id
-        WHERE o.member_id = #{memberId}
-          AND od.product_id = #{productId}
-        ]]>
-    </select>
 
-    <!-- 후기 저장 -->
-    <insert id="insertProductReview" parameterType="ProductReview">
+    <!-- 후기 insert -->
+    <insert id="insertReviewPost" parameterType="ProductReview">
         <![CDATA[
         INSERT INTO PRODUCT_REVIEW (
+        	product_review_id,
             review_title,
             review_content,
             review_point,
             review_views,
             review_date,
             member_id,
-            product_id,
-            image_original_name,
-            image_type,
-            image_data
+            product_id
+          
+            
         ) VALUES (
+        	seq_product_review_id.nextval,
             #{reviewTitle},
             #{reviewContent},
             #{reviewPoint},
             0,
-            NOW(),
+            sysdate,
             #{memberId},
-            #{productId},
-            #{imageOriginalName},
-            #{imageType},
-            #{imageData}
+            #{productId}
+          
         )
         ]]>
     </insert>
+    
+    <!-- 각 상품의 최신 후기글 가져오기 -->
+   <select id="getRecentReviewId" parameterType="int" resultType="int">
+		<![CDATA[
+			SELECT product_review_id
+			FROM PRODUCT_REVIEW
+			WHERE product_id = #{productId}
+			ORDER BY review_date DESC
+			FETCH FIRST 1 ROWS ONLY
+		]]>
+	</select>
+    
+    <select id="selectReviewSingleRow" parameterType="int" resultType="ProductReview">
+		<![CDATA[
+			SELECT 
+				product_review_id,
+				review_title,
+				review_date,
+				review_content,
+				review_views,
+				member_id
+			FROM PRODUCT_REVIEW
+			WHERE product_review_id = #{boardNum}
+		]]>
+	</select>
+	
+	<select id="selectReviewAllCount" resultType="int" >
+		<![CDATA[
+			SELECT COUNT(*)
+			FROM PRODUCT_REVIEW
+		]]>
+	</select>
+	
+	<select id="selectReviewList" parameterType="Pager" resultType="ProductReview">
+		<![CDATA[
+			SELECT
+				product_review_id,
+				review_title,
+				review_date,
+				review_content,
+				review_point,
+				review_views,
+				member_id,
+				product_id
+			FROM
+				(SELECT
+					rownum as rnum,
+					product_review_id,
+					review_title,
+					review_date,
+					review_content,
+					review_views,
+					member_id
+					product_id
+				FROM 
+					(SELECT
+						 product_review_id,
+						 review_title,
+						 review_date,
+						 review_content,
+						 review_views,
+						 member_id
+						 product_id
+					 FROM PRODUCT_REVIEW
+					 ORDER BY product_review_id DESC)
+				WHERE rownum <= #{endRowNo})
+			WHERE rnum >= #{startRowNo}
+		]]>
+	</select>
 
-    <!-- 특정 상품의 리뷰리스트 조회 -->
-    <select id="getReviewsByProductId" parameterType="int" resultType="ProductReview">
+   <!-- 특정 상품의 리뷰리스트 조회-->
+   <!--  <select id="getReviewsByProductId" parameterType="int" resultType="ProductReview">
     	<![CDATA[
         SELECT 
-	        PR.PRODUCT_REVIEW_ID, 
-	        PR.REVIEW_TITLE, 
-	        PR.REVIEW_CONTENT, 
-	        PR.REVIEW_POINT, 
-	        PR.REVIEW_VIEWS, 
-	        PR.REVIEW_DATE, 
-	        PR.MEMBER_ID,
-            CI.IMAGE_ORIGINAL_NAME, 
-            CI.IMAGE_TYPE, 
-            CI.IMAGE_DATA
+	        PRODUCT_REVIEW_ID, 
+	        REVIEW_TITLE, 
+	        REVIEW_CONTENT, 
+	        REVIEW_POINT, 
+	        REVIEW_VIEWS, 
+	        REVIEW_DATE, 
+	        MEMBER_ID,
+            product_id
         FROM 
-        	PRODUCT_REVIEW PR
-        LEFT 
-        	JOIN CENTER_IMAGE CI 
-       	ON 
-       		PR.PRODUCT_REVIEW_ID = CI.PRODUCT_REVIEW_ID
+        	PRODUCT_REVIEW
+        
         WHERE 
-        	PR.PRODUCT_ID = #{productId}
+        	PRODUCT_ID = #{productId}
+       	ORDER BY
+       		review_date desc
        	]]>
     </select>
    
     <select id="selectReviewsByMemberId" resultType="ProductReview">
+    	
     SELECT * 
     FROM product_review 
     WHERE member_id = #{memberId}
 	</select>
-    
-    
- 
+	-->
+	<update id="updateReview" parameterType="ProductReview">
+		<![CDATA[
+			UPDATE Product_Review
+			SET
+				review_title = #{reviewTitle},
+				review_content = #{reviewContent},
+				review_date = #{reviewDate}
+				
+			WHERE product_review_id = #{productReviewId}
+		]]>
+	</update>
+      
+    <update id="updateReviewViews" parameterType="int">
+		<![CDATA[
+			UPDATE Product_Review
+			SET review_views = review_views+1
+			WHERE product_review_id = #{productReviewId}
+		]]>
+	</update>
+	<!--  
+	<delete id="deleteProductReview" parameterType="int">
+		<![CDATA[
+			DELETE FROM PRODUCT_REVIEW
+			WHERE product_review_id = #{productReviewId}
+		]]>
+	</delete> -->
+
 </mapper>

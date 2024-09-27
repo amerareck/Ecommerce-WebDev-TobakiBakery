@@ -207,6 +207,8 @@ public class MemberService {
         }
 	
 	}
+
+	
 	
 
 }

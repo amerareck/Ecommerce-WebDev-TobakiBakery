@@ -8,8 +8,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+
+import java.util.Map;
+
 import java.util.Set;
+
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,6 +24,12 @@ import javax.validation.Valid;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+
+import org.springframework.security.access.annotation.Secured;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -33,16 +44,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.mycompany.miniproject.dto.BoardForm;
 import com.mycompany.miniproject.dto.Pager;
 import com.mycompany.miniproject.dto.ProductDTO;
 import com.mycompany.miniproject.dto.ProductForm;
 import com.mycompany.miniproject.dto.ProductReviewDTO;
+import com.mycompany.miniproject.dto.ProductReviewForm;
+import com.mycompany.miniproject.service.MemberService;
 import com.mycompany.miniproject.service.ProductReviewService;
 import com.mycompany.miniproject.service.ProductService;
 import com.mycompany.miniproject.type.Category;
 import com.mycompany.miniproject.type.ProductState;
 import com.mycompany.miniproject.type.ProductUsecase;
+import com.mycompany.miniproject.validator.BoardValidator;
 import com.mycompany.miniproject.validator.ProductValidator;
+import com.mycompany.miniproject.validator.ReviewValidator;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -200,9 +216,7 @@ public class ProductController {
 		
 		log.info("상품상세 실행");
 		
-		List<ProductReviewDTO> reviews = productReviewService.getReviewsByProductId(productId);
-		model.addAttribute("reviews", reviews);
-		log.info(""+reviews.toString());
+		
 		return "/product/productDetail";
 	}
 	
@@ -246,6 +260,9 @@ public class ProductController {
 		out.write(prodImage.getImageData());
 		out.flush();
 		out.close();
+		
+		
+		
 
 	}
 	
@@ -255,6 +272,7 @@ public class ProductController {
 		binder.setValidator(new ProductValidator());
 	}
 	
+	@Secured("ROLE_ADMIN")
 	@PostMapping("/addProduct")
 	public String submitProduct(@Valid ProductForm form, Errors error, Model model, RedirectAttributes redi) throws IOException {
 		log.info("실행");
@@ -359,6 +377,7 @@ public class ProductController {
 		pw.close();
 	}
 	
+	@Secured("ROLE_ADMIN")
 	@PostMapping("/deleteImage")
 	public void removeImage(ProductDTO dto, HttpServletResponse res) throws IOException {
 		log.info("실행");
@@ -377,6 +396,7 @@ public class ProductController {
 		pw.close();
 	}
 	
+	@Secured("ROLE_ADMIN")
 	@PostMapping("/update")
 	public String updateProduct(@Valid ProductForm form, Errors error, Model model) throws IOException {
 		log.info("실행");
@@ -444,6 +464,7 @@ public class ProductController {
 		return "common/alert";
 	}
 	
+	@Secured("ROLE_ADMIN")
 	@PostMapping("/delete")
 	public void removeProduct(ProductDTO dto, HttpServletResponse res) throws IOException {
 		log.info("실행");
@@ -462,6 +483,7 @@ public class ProductController {
 		pw.close();
 	}
 	
+	@Secured("ROLE_ADMIN")
 	@PostMapping("/deleteList")
 	public void removeProductList(@RequestBody List<ProductDTO> list, HttpServletResponse res) throws IOException {
 		log.info("실행");
@@ -480,6 +502,8 @@ public class ProductController {
 		pw.flush();
 		pw.close();
 	}
+
+	
 	@GetMapping("/addReview")
 	public String addReview(String type, Model model) {
 		log.info("실행");
@@ -505,6 +529,414 @@ public class ProductController {
 		
 		return "product/reviewInsert";
 	}
+
 	
+	
+	// 리뷰 작성 폼 페이지로 이동
+		@Autowired
+		private MemberService memberService;
+		
+		@GetMapping("/list")
+		public String getReviewList(@RequestParam(value="pageNo", defaultValue="1") int pageNo,Model model) {
+		    log.info("실행");
+		    String[]elnames= {"active", "title", "breadcrumb","boardAllcount"};
+		    int boardAllCount = productReviewService.getReviewAllCount();
+		    Pager pager = new Pager(10,5,boardAllCount,pageNo);
+		    model.addAttribute("pager",pager);
+		    String[] data = {"review", "상품후기", "상품후기", Integer.toString(boardAllCount)};
+		    List<ProductReviewDTO> dto = productReviewService.getReviewList(pager);
+		    model.addAttribute("reviewList",dto);
+		    for(int i=0;i<elnames.length;i++) {
+		    	model.addAttribute(elnames[i],data[i]);
+		    }
+		return "product/reviewList";
+		}
+			
+		    
+		   /* // 상품 후기 개수 가져오기
+		    int reviewCount = productReviewService.getProductReviewAllCount();
+		    Pager pager = new Pager(10, 5, reviewCount, pageNo);
+		    model.addAttribute("pager", pager);
+		    
+		    // 상품 후기 리스트 가져오기
+		    List<ProductReviewDTO> reviewList = productReviewService.getProductReviewList(pager);
+		    model.addAttribute("reviewList", reviewList);
+		    
+		    // 기타 필요한 데이터 설정
+		    model.addAttribute("active", "productReview");
+		    model.addAttribute("title", "상품후기");
+		    model.addAttribute("breadcrumb", "상품후기");
+		    model.addAttribute("boardType", "productReview");
+		    model.addAttribute("reviewAllCount", reviewCount);*/
+		    
+		
+		
+		@GetMapping("/addBoard")
+		public String addBorad(@RequestParam int productId, Model model) {
+		    log.info("실행");
+		    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		    String memberId = authentication.getName();
+		    model.addAttribute("memberId", memberId);
+		    
+	    	ProductDTO product = productService.getProductDetail(productId);
+		    
+		    model.addAttribute("productName", product.getProductName());
+		    model.addAttribute("productPrice", product.getProductPrice());
+		    model.addAttribute("productImageUrl", "/product/productImage?productId=" + productId + "&productUsecase=THUMBNAIL");
+		    model.addAttribute("productId", productId);
+		    
+		    String[]elNames = {"active", "title", "breadcrumb","showCategory", "showReview",
+		    		"formAction", "author","postTitle","postContent","postFile","timestamp"};
+		    
+		    String[]data = {"review", "상품후기", "상품후기", "none","review",
+		    		"submitReview","memberId","reviewTitle","reviewContent","reviewAttach","reviewDate"};
+		    for(int i =0;i<elNames.length;i++) {
+		    	model.addAttribute(elNames[i],data[i]);
+		    	
+		    }
+		    return "product/reviewInsert";
+		}
+		    
+		   
+		    /*
+		    ProductDTO product = productService.getProductDetail(productId);
+		    
+		    model.addAttribute("productName", product.getProductName());
+		    model.addAttribute("productPrice", product.getProductPrice());
+		    model.addAttribute("productImageUrl", "/product/productImage?productId=" + productId + "&productUsecase=THUMBNAIL");
+		    model.addAttribute("productId", productId);
+		    
+		    log.info("로그인된 사용자 ID: " + memberId);
+		    log.info("상품명: " + product.getProductName());
+		    log.info("상품 가격: " + product.getProductPrice());*/
+
+		@GetMapping("/detail")
+		public String getReviewDetail(String boardNum, Model model) {
+		    log.info("실행");
+		    if(boardNum==null)return "redirect:/product/list";
+
+		    Map<String, Object> map = new HashMap<>();
+		    String[]elNames = {"review","title","breadcrumb"};
+		    String[]data= {"review","상품후기","상품후기"};
+		    for(int i=0;i<elNames.length;i++){
+		    	model.addAttribute(elNames[i],data[i]);
+		    }
+		    	boardNum=boardNum.replaceAll("[^0-9]","");
+		    	
+		    	ProductReviewDTO dto = productReviewService.getReviewPostByBoardNum(Integer.parseInt(boardNum));
+		    	productReviewService.increaseReviewViews(dto.getProductReviewId());
+		    	map.put("title", dto.getReviewTitle());
+				map.put("boardId", dto.getProductReviewId());
+				map.put("datetime", dto.getReviewDate());
+				map.put("memberId", dto.getMemberId());
+				map.put("views", dto.getReviewViews());
+				map.put("content", dto.getReviewContent());
+				
+				List<String> imageNames = productReviewService.getBoardImageNames(dto.getProductReviewId());
+				map.put("imageNames", imageNames);
+				model.addAttribute("board", map);
+				return "product/reviewDetail";
+		}
+		
+		    /*// 상품후기 정보를 가져옴
+		    ProductReviewDTO reviewDTO = productReviewService.getProductReviewByProductId(productReviewId);
+		    if (reviewDTO != null) {
+		        // 조회수 증가
+		        productReviewService.increaseProductReviewViews(productReviewId);
+		        
+		        // 상세 정보 map에 추가
+		        map.put("title", reviewDTO.getReviewTitle());
+		        map.put("reviewId", reviewDTO.getProductReviewId());
+		        map.put("datetime", reviewDTO.getReviewDate());
+		        map.put("memberId", reviewDTO.getMemberId());
+		        map.put("views", reviewDTO.getReviewViews() + 1);
+		        map.put("content", reviewDTO.getReviewContent());
+		        map.put("reviewPoint", reviewDTO.getReviewPoint());
+		        
+		        // 이미지 이름 리스트 가져오기
+		        List<String> imageNames = productReviewService.getProductReviewImageNames(productReviewId);
+		        map.put("imageNames", imageNames);
+
+		        // 모델에 추가
+		        model.addAttribute("review", map);
+		    } else {
+		        // 리뷰가 없는 경우 오류 페이지로 리다이렉트
+		        return "redirect:/product/review/list";
+		    }
+
+		    return "product/reviewDetail";
+		}*/
+		@PostMapping("/removeBoard")
+		public void removeProductReview(String boardIndex, HttpServletResponse res) {
+		    log.info("실행");
+		    log.info("삭제할 리뷰 인덱스: " + boardIndex);
+
+		    // 리뷰 삭제 로직 호출
+		    //boolean result = productReviewService.removeProductReview(productReviewId);
+
+		    // JSON 결과 리턴
+		    JSONObject json = new JSONObject();
+		    json.put("status", "ok");
+		   /* if(result) {
+		        json.put("status", "ok");
+		    } else {
+		        json.put("status", "fail");
+		    }*/
+
+		    try (PrintWriter pw = res.getWriter()) {
+		        res.setContentType("application/json; charset=UTF-8");
+		        pw.println(json.toString());
+		        pw.flush();
+		    } catch(IOException ioe) {
+		        ioe.printStackTrace();
+		    }
+		}
+		@InitBinder("productReviewForm")
+		public void reviewSubmitBinder(WebDataBinder binder) {
+			log.info("InitBinder 실행");
+			binder.setValidator(new ReviewValidator());
+		}
+		
+		@PostMapping("/submitReview")
+		public String submitReview(@Valid ProductReviewForm form, Errors error, RedirectAttributes redi) throws IOException {
+			log.info("실행");
+			log.info(form.toString());
+			
+			 /*Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+			 String memberId = authentication.getName();
+			    
+			    model.addAttribute("memberId", memberId);
+			    log.info(""+memberId);*/
+		    
+			if(error.hasErrors()) {
+				log.info("유효성 검사 실패");
+				log.info(error.getFieldError("reviewTitle").getDefaultMessage());
+				redi.addFlashAttribute("isAlert", true);
+				redi.addFlashAttribute("alert", error.getFieldError("reviewTitle").getDefaultMessage());
+				return "redirect:/product/addBoard";
+			}
+			
+			
+
+				/*FieldError fieldError = error.getFieldError("title");
+				if(fieldError != null) {
+					redi.addFlashAttribute("isAlert", true);
+					redi.addFlashAttribute("alert", fieldError.getDefaultMessage());
+				}
+				return "redirect:/product/addReview";
+			}
+			*/
+			// 유효성 검사 통과
+			ProductReviewDTO productReviewDTO = new ProductReviewDTO();
+			productReviewDTO.setMemberId(form.getMemberId());
+			productReviewDTO.setReviewTitle(form.getReviewTitle());
+			productReviewDTO.setReviewPoint(form.getReviewPoint());
+			productReviewDTO.setReviewContent(form.getReviewContent());
+			productReviewDTO.setProductId(form.getProductId());
+			productReviewDTO.setReviewDate(form.getReviewDate());
+			productReviewDTO.setProductReviewId(productReviewService.insertReviewPost(productReviewDTO));
+
+			List<ProductReviewDTO> imageList = new ArrayList<>();
+			if(form.getAttach()!=null) {
+				for(MultipartFile mf : form.getAttach()) {		
+				if(mf != null && !mf.isEmpty()) {
+					ProductReviewDTO image = new ProductReviewDTO();
+					image.setImageOriginalName(mf.getOriginalFilename());
+					image.setImageType(mf.getContentType());
+					image.setImageData(mf.getBytes());
+					image.setProductReviewId(productReviewDTO.getProductReviewId());
+					image.setMemberId(productReviewDTO.getMemberId());
+					imageList.add(image);
+				}
+				}
+			}
+			productReviewService.insertReviewPost(productReviewDTO);
+			if(!imageList.isEmpty()) {
+				productReviewService.insertReviewImages(imageList);
+			}
+			return "redirect:/product/detail?&boardNum="+productReviewDTO.getProductReviewId();
+		}
+		
+			//dto.setProductReviewId(productReviewService.insertProductReview(dto));
+			
+			//List<ProductReviewDTO> imageList = new ArrayList<>();
+			/*for(MultipartFile mf : form.getAttach()) {
+				if(!mf.isEmpty()) {
+					ProductReviewDTO image = new ProductReviewDTO();
+					image.setImageOriginalName(mf.getOriginalFilename());
+					image.setImageType(mf.getContentType());
+					image.setImageData(mf.getBytes());
+					image.setProductReviewId(dto.getProductReviewId());
+					image.setMemberId(dto.getMemberId());
+					imageList.add(image);
+				}*/
+			/*}
+
+			if(!imageList.isEmpty()) {productReviewService.insertProductReviewImages(imageList);
+			}
+			
+			return "redirect:/product/detail?productReviewId="+dto.getProductReviewId();*/
+		
+		@GetMapping("/image")
+		public void getImage(String imageName, String boardId, HttpServletResponse res) throws IOException {
+		    log.info("실행");
+
+		    // ProductReviewDTO 객체 생성 및 값 설정
+		    ProductReviewDTO dto = new ProductReviewDTO();
+		    dto.setProductReviewId(Integer.parseInt(boardId.replaceAll("[^0-9]", "")));
+		    dto.setImageOriginalName(imageName);
+
+		    // 이미지 데이터 조회
+		    dto = productReviewService.getImage(dto);
+		    String contentType = dto.getImageType();
+			String fileName = dto.getImageOriginalName();
+			String encodingFileName = new String(fileName.getBytes("UTF-8"), "ISO-8859-1");
+			res.setContentType(contentType);
+			res.setHeader("Content-Disposition", "attachment; filename=\""+encodingFileName+"\"");
+			OutputStream out = res.getOutputStream();
+			out.write(dto.getImageData());
+			out.flush();
+			out.close();
+		}
+
+
+		    /*// 이미지 응답 설정 및 전송
+		    if (dto != null && dto.getImageData() != null) {
+		        String contentType = dto.getImageType();
+		        String fileName = dto.getImageOriginalName();
+		        String encodingFileName = new String(fileName.getBytes("UTF-8"), "ISO-8859-1");
+		        res.setContentType(contentType);
+		        res.setHeader("Content-Disposition", "attachment; filename=\"" + encodingFileName + "\"");
+
+		        try (OutputStream out = res.getOutputStream()) {
+		            out.write(dto.getImageData());
+		            out.flush();
+		        }
+		    } else {
+		        res.sendError(HttpServletResponse.SC_NOT_FOUND, "Image not found");
+		    }*/
+		
+		@GetMapping("/update")
+		public String updateReview(String boardNum,@RequestParam int productReviewId, Model model) {
+		    log.info("실행");
+
+		    // 상품 후기 작성 페이지를 로드
+		    
+		    
+
+		    // 기존 후기 정보 가져오기
+		    //ProductReviewDTO dto = productReviewService.getProductReviewByProductId(productReviewId);
+		    Map<String, Object> map = new HashMap<>();
+		    boardNum=boardNum.replaceAll("[^0-9]", "");
+
+		    	ProductReviewDTO dto=new ProductReviewDTO();
+		    	dto=productReviewService.getReviewPostByBoardNum(Integer.parseInt(boardNum));
+		    	
+		        dto.setReviewContent(dto.getReviewContent().replaceAll("<br>", "\n"));
+		        map.put("author", dto.getMemberId());
+		        map.put("title", dto.getReviewTitle());
+		        map.put("content", dto.getReviewContent());
+		        map.put("reviewPoint", dto.getReviewPoint());
+		        
+		        map.put("reviewId", dto.getProductReviewId());
+		        map.put("savedFileNames", productReviewService.getBoardImageNames(Integer.parseInt(boardNum)));
+		    
+
+		    model.addAttribute("board", map);
+		   // model.addAttribute("formAction", "updateSubmit");
+		    model.addAttribute("updateBoard", "show");
+
+		    return "redirect:/product/addBoard";
+		}
 }
+		
+
+	/*	private String addReview(Model model) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@PostMapping("/updateSubmit")
+		public String updateReviewSubmit(
+		        @Valid BoardForm form, 
+		        Errors error, 
+		        RedirectAttributes redi) throws IOException {
+		    
+		    log.info("실행");
+		    log.info(form.toString());
+
+		    // 유효성 검사 실패 시
+		    if (error.hasErrors()) {
+		        log.info("유효성 검사 실패");
+		        FieldError fieldError = error.getFieldError("title");
+		        if (fieldError != null) {
+		            redi.addFlashAttribute("isAlert", true);
+		            redi.addFlashAttribute("alert", fieldError.getDefaultMessage());
+		        }
+		        return "redirect:/product/addReview?reviewId=";
+		    }
+
+		    // ReviewDTO로 데이터 매핑
+		    ProductReviewDTO dto = new ProductReviewDTO();
+		    dto.setMemberId(form.getMemberId());
+		    dto.setReviewTitle(form.getTitle());
+		    dto.setReviewContent(form.getContent());
+		    dto.setReviewPoint(form.getReviewPoint());
+		    dto.setProductReviewId(form.getProductReviewId());
+		    dto.setReviewDate(form.getDatetime());
+		    productReviewService.updateProductReview(dto);
+
+		    // 첨부 이미지 처리
+		    List<ProductReviewDTO> imageList = new ArrayList<>();
+		    for (MultipartFile mf : form.getAttach()) {
+		        if (!mf.isEmpty()) {
+		            ProductReviewDTO image = new ProductReviewDTO();
+		            image.setImageOriginalName(mf.getOriginalFilename());
+		            image.setImageType(mf.getContentType());
+		            image.setImageData(mf.getBytes());
+		            image.setProductReviewId(dto.getProductReviewId());
+		            image.setMemberId(dto.getMemberId());
+		            imageList.add(image);
+		        }
+		    }
+
+		    // 이미지 저장
+		    if (!imageList.isEmpty()) {
+		        productReviewService.insertProductReviewImages(imageList);
+		    }
+
+		    return "redirect:/product/reviewDetail?reviewId=" + form.getProductReviewId();
+		}
+		@PostMapping("/removeImage")
+		public void deleteProductReviewImageForAjax(
+		        @RequestParam String imageName, 
+		        @RequestParam("productReviewId") int productReviewId, 
+		        HttpServletResponse res) throws IOException {
+
+		    log.info("실행");
+		    log.info("삭제할 imageName: " + imageName);
+
+		    // 이미지 삭제를 위한 map 설정
+		    Map<String, Object> map = new HashMap<>();
+		    map.put("imageOriginalName", imageName);
+		    map.put("reviewId", productReviewId);
+
+		    JSONObject json = new JSONObject();
+
+		    // 이미지 삭제 결과 처리
+		    if (productReviewService.deleteReviewImage(map)) {
+		        json.put("result", "ok");
+		    } else {
+		        json.put("result", "notFoundImage");
+		    }
+
+		    // JSON 응답 전송
+		    res.setContentType("application/json; charset=UTF-8");
+		    try (PrintWriter pw = res.getWriter()) {
+		        pw.println(json);
+		        pw.flush();
+		    }
+		}*/
+
+
 
