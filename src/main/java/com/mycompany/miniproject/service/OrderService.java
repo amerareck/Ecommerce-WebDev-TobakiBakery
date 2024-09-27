@@ -63,7 +63,7 @@ public class OrderService {
 			throw e;
 		}		
 	}
-
+ 
 	public int getOrderAllCount() {
 		return orderDAO.selectAllCount();
 	}
@@ -191,20 +191,15 @@ public class OrderService {
 		return stock - dto.getCartCount() >= 0;
 	}
 
-	public List<OrderDTO> getBuyerInfo(OrderDTO order) {
-		List<OrderDTO> buyerInfo = orderDAO.selectBuyerInfo(order);
-		return buyerInfo;
+	public OrderDTO getBuyerInfo(int orderNum) {
+		OrderDTO dto = orderDAO.searchOrderByOrderNumber(orderNum);
+		return dto;
+	}
+	
+	public List<OrderDTO> getDeliOrderProduct(int orderNum){
+		return orderDAO.selectOrderProduct(orderNum);
 	}
 
-	public List<OrderDTO> getDeliveryInfo(OrderDTO order) {
-		List<OrderDTO> deliveryInfo = orderDAO.selectDeliveryInfo(order);
 
-		return deliveryInfo;
-	}
-
-	public List<OrderDTO> getProductBuyInfo(OrderDTO order) {
-		List<OrderDTO> productBuyInfo = orderDAO.selectproductBuyInfo(order);
-		return productBuyInfo;
-	}
 
 }

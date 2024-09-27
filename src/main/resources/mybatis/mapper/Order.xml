@@ -276,63 +276,27 @@
 		]]>
 	</select>
 	
-	<select id="selectBuyerInfo" parameterType="Order" resultType="Order" >
+		<select id="selectOrderProduct" parameterType="int" resultType="Order" >
 		<![CDATA[
 			SELECT 
-			    o.order_number, 
-			    o.order_date, 
-			    m.member_name, 
-			    o.order_memo
+				p.product_name,
+				p.product_price,
+				op.product_id,
+			    o.ORDER_TOTAL_PRICE,
+			    op.ORDER_PRODUCT_COUNT,
+			    op.ORDER_PRODUCT_PRICE,
+			    o.DELIVERY_STATUS
 			FROM 
-			    "order" o
+				"order" o 
 			LEFT OUTER JOIN 
-			    member m ON m.member_id = o.member_id
+				order_product op
+				on op.order_number = o.order_number
+			LEFT OUTER JOIN 
+				product p
+				on p.product_id =op.product_id 	
 			WHERE 
-			    o.member_id = #{memberId}
-			AND
-				o.order_number = #{orderNumber}
+				o.order_number  = #{orderNum}
 		]]>
-	</select>
-	
-	<select id="selectDeliveryInfo" parameterType="Order" resultType="Order" >
-			<![CDATA[
-				SELECT 
-				    o.ORDER_NUMBER,
-				    o.RECEIVER_NAME, 
-				    o.RECEIVER_PHONE_NUM,
-				    o.DELIVERY_POST_NUM,
-				    o.DELIVERY_ADDRESS,
-				    o.DELIVERY_ADDRESS_DETAIL,
-				    o.DELIVERY_MEMO
-				FROM 
-				    "order" o
-				LEFT OUTER JOIN 
-				    member m on o.member_id = m.member_id
-				WHERE
-					 o.member_id= #{memberId}
-				AND 
-					order_number = #{orderNumber}
-			]]>
-	</select>
-	
-	
-	<select id="selectproductBuyInfo" parameterType="Order" resultType="Order" >
-			<![CDATA[
-				select 
-				    op.PRODUCT_ID,
-				    o.ORDER_TOTAL_PRICE,
-				    op.ORDER_PRODUCT_COUNT,
-				    op.ORDER_PRODUCT_PRICE,
-				    o.DELIVERY_STATUS
-				from
-				    "order" o 
-				left outer join 
-					ORDER_PRODUCT op
-				on 
-					op.order_number = o.order_number
-				where 
-					o.order_number  = #{orderNumber}
-			]]>
 	</select>
 	
 </mapper>

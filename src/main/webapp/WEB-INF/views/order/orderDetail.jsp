@@ -6,6 +6,7 @@
 
 
 <hr>
+
 <!-- 메인 content 부분입니다. -->
 <div class="container">
 	<nav class="breadcrumb-container">
@@ -35,13 +36,12 @@
 				</colgroup>
 
 				<tbody>
-					  <c:forEach var="order" items="${buyerList}">
 					<tr>
 						<th scope="row">
 							<div class="tb-left">주문번호</div>
 						</th>
 						<td>
-							<div class="tb-left">${order.orderNumber}</div>
+							<div class="tb-left">${deliInfo.orderNumber}</div>
 							
 						</td>
 
@@ -49,7 +49,7 @@
 							<div class="tb-left">주문일자</div>
 						</th>
 						<td>
-							<div class="tb-left">${order.orderDate}</div>
+							<div class="tb-left"><fmt:formatDate value="${deliInfo.orderDate}" pattern="yyyy-MM-dd HH:mm:ss"/></div>
 						</td>
 
 					</tr>
@@ -59,7 +59,7 @@
 							<div class="tb-left">주문자</div>
 						</th>
 						<td>
-							<div class="tb-left">${order.memberName}</div>
+							<div class="tb-left">${deliInfo.memberName}</div>
 						</td>
 
 						<th scope="row">
@@ -76,9 +76,8 @@
 							<div class="tb-left">주문 메모</div>
 						</th>
 						<td colspan="3">
-							<div class="tb-left">${order.orderMemo}</div>
+							<div class="tb-left">${deliInfo.orderMemo}</div>
 						</td>
-						</c:forEach>	
 					</tr>
 				</tbody>
 			
@@ -98,28 +97,27 @@
 					<col width="30%">
 				</colgroup>
 				<tbody>
-				<c:forEach var="deliList" items="${deliList}">
+
 					<tr>
 						<th scope="row"><div class="tb-left">송장번호</div></th>
-						<td colspan="3"><div class="tb-left">${deliList.ord }</div></td>
+						<td colspan="3"><div class="tb-left">${deliInfo.deliveryNum}</div></td>
 					</tr>
 					<tr>
 						<th scope="row"><div class="tb-left">수취인</div></th>
-						<td><div class="tb-left">황망고</div></td>
+						<td><div class="tb-left">${deliInfo.receiverName}</div></td>
 						<th scope="row"><div class="tb-left">연락처</div></th>
-						<td><div class="tb-left">010-7658-3716</div></td>
+						<td><div class="tb-left">${deliInfo.receiverPhoneNum}</div></td>
 					</tr>
 					<tr>
 						<th scope="row"><div class="tb-left">주소</div></th>
-						<td colspan="3"><div class="tb-left">(03077)서울 종로구 창경궁로
-								254, 402호</div></td>
+						<td colspan="3"><div class="tb-left">(${deliInfo.deliveryPostNum})${deliInfo.deliveryAddress}, deliveryAddressDetail</div></td>
 					</tr>
 					<tr>
 						<th scope="row"><div class="tb-left">배송메세지</div></th>
-						<td colspan="3"><div class="tb-left">문 앞에 놔주세요.</div></td>
+						<td colspan="3"><div class="tb-left">${deliInfo.deliveryMemo }</div></td>
 					</tr>
 				</tbody>
-				</c:forEach>
+
 			</table>
 
 		</div>
@@ -130,12 +128,13 @@
 			<h2>주문상품정보</h2>
 			<table class=detail-table>
 
+
 				<colgroup>
 					<col width="130">
 					<col width="*">
 					<col width="150">
 					<col width="80">
-					<col width="80">
+					<col width="84">
 
 
 				</colgroup>
@@ -160,85 +159,55 @@
 					</tr>
 
 				</thead>
-
+				<c:forEach items="${orderProduct }" var="prod">
 				<tbody>
 					<tr>
 						<td>
 							<div class="tb-center">
-								<img src="../resources/image/bread/자연효모빵.jpg"
-									style="width: 100px; height: 100px">
+								<img src="../product/productImage?productId=${prod.productId}&productUsecase=THUMBNAIL" style="width: 100px; height: 100px">
 							</div>
 						</td>
 
 						<td>
-							<div class="tb-left">자연효모빵</div>
+							<div class="tb-left">${prod.productName}</div>
 						</td>
 
 						<td>
-							<div class="tb-center">2</div>
+							<div class="tb-center">${prod.orderProductCount }</div>
 						</td>
 
 						<td>
 							<div class="tb-center">
-								<strong><font color="#FF5D00">9,200원</font></strong>
+								<strong><font color="#FF5D00"><fmt:formatNumber value="${prod.orderProductPrice}" pattern="#,##0" />원</font></strong>
 							</div>
 						</td>
 
 						<td>
 							<div class="tb-center">
-								<strong><font color="blue">배송중</font></strong>
+								<strong><font color="blue">
+									<c:if test="${deliInfo.deliveryStatus =='DELIVERY_ING'}">배송중</c:if>
+									<c:if test="${deliInfo.deliveryStatus =='DELIVERY_STAY'}">배송 대기</c:if>
+									<c:if test="${deliInfo.deliveryStatus =='DELIVERY_CANCEL'}">배송 취소</c:if>
+									<c:if test="${deliInfo.deliveryStatus =='DELIVERY_COMPLETE'}">배송 완료</c:if>
+							</font></strong>
 							</div>
 						</td>
 					</tr>
-
-
-
-
-					<tr>
-						<td>
-							<div class="tb-center">
-								<img src="../resources/image/bread/오렌지케익.jpg"
-									style="width: 100px; height: 100px">
-							</div>
-						</td>
-
-						<td>
-							<div class="tb-left">오렌지케잌</div>
-						</td>
-
-						<td>
-							<div class="tb-center">1</div>
-						</td>
-
-						<td>
-							<div class="tb-center">
-								<strong><font color="#FF5D00">22,000원</font></strong>
-							</div>
-						</td>
-
-						<td>
-							<div class="tb-center">
-								<strong><font color="blue">배송중</font></strong>
-							</div>
-						</td>
-
-
-					</tr>
-
-
-
 				</tbody>
+				</c:forEach>
 				<tfoot>
 					<tr>
-						<td colspan="6" style="text-align: right;">31,200원(상품구매금액) +
-							0원(배송료)= 31,200원</td>
+						<td colspan="6" style="text-align: right;"><fmt:formatNumber value="${deliInfo.orderTotalPrice}" pattern="#,##0" />원 +
+							0원(배송료)= 
+						<fmt:formatNumber value="${deliInfo.orderTotalPrice}" pattern="#,##0" />원</td>
+
 					</tr>
 				</tfoot>
 
 
 			</table>
 
-
+		
 		</div>
 
 	</div>

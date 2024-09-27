@@ -31,6 +31,7 @@ import com.mycompany.miniproject.dto.CartDTO;
 import com.mycompany.miniproject.dto.MemberDTO;
 import com.mycompany.miniproject.dto.OrderDTO;
 import com.mycompany.miniproject.dto.OrderForm;
+import com.mycompany.miniproject.dto.Pager;
 import com.mycompany.miniproject.dto.ProductDTO;
 import com.mycompany.miniproject.service.MemberService;
 import com.mycompany.miniproject.service.OrderService;
@@ -410,16 +411,20 @@ public class OrderController {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 	    String memberId = authentication.getName(); 
 		order.setMemberId(memberId);
-		List<OrderDTO> buyer = orderService.getBuyerInfo(order);
-		List<OrderDTO> deliveryInfo = orderService.getDeliveryInfo(order);
-		List<OrderDTO> buyProductInfo = orderService.getProductBuyInfo(order);
-		log.info("buyerList:" + buyer);
-		log.info("buyerList:" + deliveryInfo);
-		log.info("buyerList:" + buyProductInfo);
-		model.addAttribute("buyerList", buyer);
-		model.addAttribute("deliList", deliveryInfo);
-		model.addAttribute("buyProdList", buyProductInfo);
 		
+		
+		OrderDTO deliveryInfo = orderService.getBuyerInfo(orderNumber);
+		deliveryInfo.setMemberName(memberService.getMember(deliveryInfo.getMemberId()).getMemberName());
+		log.info(deliveryInfo.toString());
+		List<OrderDTO> orderProduct = orderService.getDeliOrderProduct(orderNumber);
+
+		log.info(orderProduct.toString());
+		
+		
+		
+		model.addAttribute("deliInfo" , deliveryInfo);
+		model.addAttribute("orderProduct" , orderProduct);
+
 		return "/order/orderDetail";
 	}
 	

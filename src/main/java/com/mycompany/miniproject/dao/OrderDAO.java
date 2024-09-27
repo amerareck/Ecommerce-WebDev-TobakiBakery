@@ -36,11 +36,9 @@ public interface OrderDAO {
 
 	public List<OrderDTO> searchOrderByDeliveryStatus(Pager pager);
 
-	public List<OrderDTO> selectBuyerInfo(OrderDTO order);
+	public List<OrderDTO> selectOrderProduct(int orderNum);
 
-	public List<OrderDTO> selectDeliveryInfo(OrderDTO order);
 
-	public List<OrderDTO> selectproductBuyInfo(OrderDTO order);
 
 
 }
