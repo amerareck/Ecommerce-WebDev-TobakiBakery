@@ -21,9 +21,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.mycompany.miniproject.dto.OrderDTO;
 import com.mycompany.miniproject.dto.Pager;
 import com.mycompany.miniproject.dto.ProductDTO;
+import com.mycompany.miniproject.dto.SearchForm;
 import com.mycompany.miniproject.service.MemberService;
 import com.mycompany.miniproject.service.OrderService;
 import com.mycompany.miniproject.service.ProductService;
+import com.mycompany.miniproject.type.DeliveryStatus;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -195,5 +197,73 @@ public class AdminController {
 		
 		
 		return "admin/adminProductList";
+	}
+	
+	@GetMapping("/searchOrder")
+	public String searchOrder(SearchForm form, Model model) {
+		log.info("실행");
+		log.info(form.toString());
+		model.addAttribute("orderList", "active");
+		model.addAttribute("listType", "order");
+		int searchOrderCount = 0;
+		if(form.getKeyword() == null || form.getKeyword().isEmpty()) {
+			if(form.getType().equals("productName")) {
+				form.setKeyword(form.getProductName());
+			} else if(form.getType().equals("orderNumber")) {
+				form.setKeyword(Integer.toString(form.getOrderNumber()));
+			} else if(form.getType().equals("deliveryStatus")) {
+				form.setKeyword(form.getDeliveryStatus());
+			} else {
+				model.addAttribute("isAlert", true);
+				model.addAttribute("alert", "검색 타입에 대한 에러가 발생하였습니다.\n다시 검색을 시도해 주세요.");
+				
+				return getElementList("order", 1, model);
+			}
+		}
+		
+		if(form.getType().equals("orderNumber")) {
+			searchOrderCount = 1;
+		} else if(form.getType().equals("productName")){
+			searchOrderCount = orderService.getSearchOrderCount(form.getKeyword());
+		} else if(form.getType().equals("deliveryStatus")){
+			searchOrderCount = orderService.getSearchOrderCount(DeliveryStatus.fromValue(form.getKeyword()));
+		} 
+		log.info("searchOrderCount: "+searchOrderCount);
+		model.addAttribute("searchCount", searchOrderCount);
+		
+		Pager pager = new Pager(10, 5, searchOrderCount, form.getPageNo() == 0 ? 1 : form.getPageNo());
+		pager.setSearchType(form.getType());
+		pager.setKeyword(form.getKeyword());
+		
+		List<OrderDTO> searchList = orderService.getSearchOrderList(pager);
+		log.info(searchList.toString());
+		if(searchList.isEmpty()) {
+			model.addAttribute("isAlert", true);
+			model.addAttribute("alert", "검색 결과가 존재하지 않습니다.");
+			
+			return getElementList("order", 1, model);
+		}
+		
+		for(OrderDTO dto : searchList) {
+			List<OrderDTO> orderProduct = orderService.getOrderProduct(dto);
+			log.info("orderProduct size: "+orderProduct.size());
+			List<ProductDTO> productList = new ArrayList<>();
+			for(OrderDTO ele : orderProduct) {
+				ProductDTO prod = productService.getProductDetail(ele.getProductId());
+				prod.setCartCount(ele.getOrderProductCount());
+				productList.add(prod);
+			}
+			log.info("productList size: "+productList.size());
+			dto.setMemberName(memberService.getMember(dto.getMemberId()).getMemberName());
+			dto.setProductList(productList);
+			dto.setProductListSize(dto.getProductList().size());
+			dto.setProductName(productService.getProductDetail(productList.get(0).getProductId()).getProductName());
+		}
+		
+		model.addAttribute("orderList", searchList);
+		model.addAttribute("pager", pager);
+		model.addAttribute("isSearchPage", true);
+		
+		return "admin/adminOrderList";
 	}
 }

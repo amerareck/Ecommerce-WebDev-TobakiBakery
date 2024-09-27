@@ -58,8 +58,8 @@
 		                    </tr>
 		                </thead>
 		                <tbody>
-							<c:forEach items="${cartItemList}" var="cartItem">
-								<tr class="text-center">
+							<c:forEach items="${cartItemList}" var="cartItem" >
+								<tr class="text-center" id="cartRow-${cartItem.productId}">
 									<td class="align-middle">
 										<div class="custom-control custom-checkbox">
 			                                <input type="checkbox" class="custom-control-input item-select" id="select-box-${cartItem.productId}">

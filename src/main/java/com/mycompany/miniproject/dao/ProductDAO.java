@@ -66,12 +66,18 @@ public interface ProductDAO {
 	public int selectSearchCountByProductState(String keyword);
 
 	public int selectTotalPrice(CartDTO dto);
-	
 	public int updateNewProduct();
-
 	public int resetProductNew();
-
 	public int updateBestProduct();
-
 	public void resetProductBest();
+	
+	public Integer selectProductIdByProductName(String productName);
+
+	public Integer selectProductStock(int productId);
+
+	public int updateProductStock(ProductDTO dto);
+
+	public int updateProductState(ProductDTO dto);
+
+	public ProductDTO selectProductSingleRow(int productId);
 }

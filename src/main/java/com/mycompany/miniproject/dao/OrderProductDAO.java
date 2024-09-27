@@ -13,5 +13,10 @@ public interface OrderProductDAO {
 	public int insertOrderProduct(OrderDTO dto);
 
 	public List<OrderDTO> getProductInfo(int orderNumber);
-	
+
+	public int searchOrderByProductId(int productId);
+
+	public List<Integer> searchOrderNumberByProductId(int productId);
+
+	public int searchOrderCountByProductId(int productId);
 }

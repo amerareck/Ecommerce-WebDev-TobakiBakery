@@ -13,6 +13,7 @@
 			)
 		]]>
 	</insert>
+	
 	<select id="getProductInfo" parameterType="int" resultType="Order" >
 		<![CDATA[
 			SELECT
@@ -21,6 +22,22 @@
 				order_product_price
 			FROM ORDER_PRODUCT
 			WHERE order_number = #{orderNumber}
+		]]>
+	</select>
+	
+	<select id="searchOrderNumberByProductId" parameterType="int" resultType="int" >
+		<![CDATA[
+			SELECT order_number
+			FROM ORDER_PRODUCT
+			WHERE product_id = #{productId}
+		]]>
+	</select>
+	
+	<select id="searchOrderCountByProductId" parameterType="int" resultType="int" >
+		<![CDATA[
+			SELECT COUNT(*)
+			FROM ORDER_PRODUCT
+			WHERE product_id = #{productId}
 		]]>
 	</select>
 </mapper>

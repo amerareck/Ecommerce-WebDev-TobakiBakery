@@ -25,4 +25,10 @@ public interface OrderDAO {
 
 	public int updateOrder(OrderDTO dto);
 
+	public int searchOrderCountByDeliveryStatus(String string);
+
+	public OrderDTO searchOrderByOrderNumber(int orderNumber);
+
+	public List<OrderDTO> searchOrderByDeliveryStatus(Pager pager);
+
 }

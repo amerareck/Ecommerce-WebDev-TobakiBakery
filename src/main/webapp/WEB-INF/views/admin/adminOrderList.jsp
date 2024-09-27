@@ -6,7 +6,7 @@
 			<div class="d-flex justify-content-between mb-2 align-items-center">
 				<h3>주문 목록 리스트</h3>
 				<%-- 주문 검색 start --%>
-				<form class="form-inline my-2 my-lg-0" id="orderSearchForm">
+				<form class="form-inline my-2 my-lg-0" id="orderSearchForm" action="../admin/searchOrder">
 					<div class="input-group">
 						<select class="form-control mr-sm-1" id="searchOrderSelect">
 							<option selected>검색조건</option>
