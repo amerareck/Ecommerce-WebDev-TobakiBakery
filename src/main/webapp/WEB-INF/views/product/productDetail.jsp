@@ -115,7 +115,7 @@
                         <c:forEach items="${prodSmart}" var="prodSmart">
                             <div class="col-md-3">
                                 <div class="card">
-                                    <a href="../product/itemDetail-static">
+                                    <a href="${pageContext.request.contextPath}/product/productDetail?productId=${prodSmart.productId}">
                                         <img src="productImage?productId=${prodSmart.productId}&productUsecase=THUMBNAIL" class="card-img-top">
                                     </a>
                                     <div class="card-body">
@@ -132,16 +132,10 @@
                 <div class="tab_cont for_shopdetail">
                     <div class="list-navigator">
                         <ul class="nav nav-tabs w-100" role="tablist">
-                            <li class="nav-item w-25 text-center" role="presentation">
+                            <li class="nav-item w-50 text-center" role="presentation">
                                 <a class="nav-link active" id="tab-detail-info" data-toggle="tab" href="#detail-info" aria-selected="true" role="tab">상품상세정보</a>
                             </li>
-                            <li class="nav-item w-25 text-center" role="presentation">
-                                <a class="nav-link" id="tab-shipping-info" data-toggle="tab" href="#shipping-info" aria-selected="true" role="tab">배송/교환/환불</a>
-                            </li>
-                            <li class="nav-item w-25 text-center" role="presentation">
-                                <a class="nav-link" id="tab-product-inquiry" data-toggle="tab" href="#product-inquiry" aria-selected="true" role="tab">상품문의</a>
-                            </li>
-                            <li class="nav-item w-25 text-center" role="presentation">
+                            <li class="nav-item w-50 text-center" role="presentation">
                                 <a class="nav-link" id="tab-product-reviews" data-toggle="tab" href="#product-reviews" aria-selected="true" role="tab">상품후기</a>
                             </li>
                         </ul>
@@ -151,12 +145,6 @@
                             <p>
                                 <img src="productImage?productId=${prodDetail.productId}&productUsecase=DETAIL" class="img-fluid" alt="상품 상세 이미지">
                             </p>
-                        </div>
-                        <div class="tab-pane fade" id="shipping-info" role="tabpanel">
-                            <p>배송/교환/환불 정보 내용</p>
-                        </div>
-                        <div class="tab-pane fade" id="product-inquiry" role="tabpanel">
-                            <p>상품문의 내용</p>
                         </div>
                         <div class="tab-pane fade" id="product-reviews" role="tabpanel">
                             <!-- 상품후기 목록 및 내용을 볼 수 있는 부분입니다. -->
