@@ -9,14 +9,11 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -35,7 +32,6 @@ import com.mycompany.miniproject.dto.CommentDTO;
 import com.mycompany.miniproject.dto.HelpdeskDTO;
 import com.mycompany.miniproject.dto.NoticeDTO;
 import com.mycompany.miniproject.dto.Pager;
-import com.mycompany.miniproject.dto.ProductReviewDTO;
 import com.mycompany.miniproject.service.CenterService;
 import com.mycompany.miniproject.validator.BoardValidator;
 
@@ -410,24 +406,6 @@ public class CenterController {
 			out.write(dto.getImageData());
 			out.flush();
 			out.close();
-		} else if (type.equals("productReview")) {
-			ProductReviewDTO dto = new ProductReviewDTO();
-			dto.setProductReviewId(Integer.parseInt(boardId.replaceAll("[^0-9]", "")));
-			dto.setImageOriginalName(imageName);
-			
-			dto = centerService.getImage(dto);
-			
-			String contentType = dto.getImageType();
-			String fileName = dto.getImageOriginalName();
-			String encodingFileName = new String(fileName.getBytes("UTF-8"), "ISO-8859-1");
-			res.setContentType(contentType);
-			res.setHeader("Content-Disposition", "attachment; filename=\""+encodingFileName+"\"");
-
-			OutputStream out = res.getOutputStream();
-			out.write(dto.getImageData());
-			out.flush();
-			out.close();
-			
 		} else {
 			NoticeDTO dto = new NoticeDTO();
 			dto.setNoticeId(Integer.parseInt(boardId.replaceAll("[^0-9]", "")));
