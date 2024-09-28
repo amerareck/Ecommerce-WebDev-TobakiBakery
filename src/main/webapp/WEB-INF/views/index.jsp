@@ -12,15 +12,15 @@
 			data-ride="carousel">
 			<div class="carousel-inner">
 				<div class="carousel-item active">
-					<img src="resources/image/banner-img1.jpg" class="d-block w-100"
+					<img src="${pageContext.request.contextPath}/resources/image/banner-img1.jpg" class="d-block w-100"
 						onclick="location.href='./product/itemList-best'">
 				</div>
 				<div class="carousel-item">
-					<img src="resources/image/banner-img2.jpg" class="d-block w-100"
+					<img src="${pageContext.request.contextPath}/resources/image/banner-img2.jpg" class="d-block w-100"
 						onclick="location.href='./product/itemList-best'">
 				</div>
 				<div class="carousel-item">
-					<img src="resources/image/banner-img3.jpg" class="d-block w-100"
+					<img src="${pageContext.request.contextPath}/resources/image/banner-img3.jpg" class="d-block w-100"
 						onclick="location.href='./product/itemList-best'">
 				</div>
 			</div>
