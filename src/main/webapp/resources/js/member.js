@@ -99,6 +99,36 @@ $(document).ready(function() {
 	    modal.open();
 	}
 	
+	function showModalToMyPage(title, message) {
+	    var modal = new tingle.modal({
+	        footer: true,
+	        closeMethods: ['button', 'overlay'],
+	        closeLabel: "Close",
+	        cssClass: ['tingle-modal'],
+	        onOpen: function() {
+                console.log('모달이 열렸습니다.');
+            },
+            onClose: function() {
+                console.log('모달이 닫혔습니다.');
+                location.href = '../mypage/myPageMain';
+            },
+	        beforeClose: function() {
+	            return true;
+	        }
+	    });
+
+	    // 모달 내용 설정
+	    modal.setContent('<h2>' + title + '</h2><h5>' + message + '</h5>');
+
+	    // 모달 하단에 버튼 추가
+	    modal.addFooterBtn('닫기', 'tingle-btn tingle-btn--default', function() {
+	        modal.close();
+	    });
+
+	    // 모달 열기
+	    modal.open();
+	}
+	
 	
 	// 회원가입 폼 유효성 검사 함수
 	function validateForm() {
@@ -339,9 +369,9 @@ $(document).ready(function() {
         data:formData,
         success: function(response) {
             if (response.success) {
-                showModalToLogin('수정 완료!', '회원수정이 완료되었습니다.');
+                showModalToMyPage('수정 완료!', '회원수정이 완료되었습니다.');
                 $(document).on('click', '.tingle-modal__close', function() {
-                    location.href = '../member/loginForm'; 
+                    location.href = '../mypage/mypageMain'; 
                 });
             } else {
                 showModalToLogin('수정 실패!', '회원수정에 실패했습니다.');
@@ -387,33 +417,8 @@ $(document).ready(function() {
     const params = new URLSearchParams(location.search);
 
     if (params.has('error')) {
-        // 1. Tingle 모달 인스턴스 생성
-        var modal = new tingle.modal({
-            footer: true, // 하단에 버튼 추가
-            closeMethods: ['button', 'overlay'], // 모달 닫기 방법 설정
-            closeLabel: "Close", // 닫기 버튼의 텍스트
-            cssClass: ['tingle-modal'], // 커스텀 CSS 클래스 추가
-            onOpen: function() {
-                console.log('모달이 열렸습니다.');
-            },
-            onClose: function() {
-                console.log('모달이 닫혔습니다.');
-            },
-            beforeClose: function() {
-                return true; // `true`를 반환해야 모달이 닫힘
-            }
-        });
-        // 2. 모달 내용 설정
-        modal.setContent('<h2>로그인 실패</h2><p>로그인에 실패했습니다. 아이디 또는 비밀번호를 확인해주세요.</p>');
-        // 3. 모달 하단에 버튼 추가
-        modal.addFooterBtn('닫기', 'tingle-btn tingle-btn--default', function() {
-            // 버튼 클릭 시 모달 닫기
-            modal.close();
-            // 뒤로 가기
-            history.back();
-        });
-        // 4. 모달 열기
-        modal.open();
+    		showModal('로그인 실패!','로그인에 실패했습니다. 아이디 또는 비밀번호를 확인해주세요.')
+      
     }
     
     //로그 아웃
@@ -472,9 +477,5 @@ $(document).ready(function() {
 	});
     
 });
-function showJoinAlert() {
-    if (validateForm == true) {
-        window.location.href = '../index.html';
-    }
-}
+
 
