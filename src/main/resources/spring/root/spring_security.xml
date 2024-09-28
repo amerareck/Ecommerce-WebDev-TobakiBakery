@@ -26,7 +26,13 @@
 
 		<security:csrf disabled="true"/>
 		<security:intercept-url pattern="/**" access="permitAll" />
-
+		
+		<!-- 권한이 불충분할 경우 이동할 경로 -->
+		<!-- 로그인이 안되어 있을 경우 : 
+			로그인이 안되어 있을 경우 : 로그인 폼으로 이동 
+			현재 로그인된 사용자가 권한 불충분일 경우 이동할 경로-->
+		<security:access-denied-handler error-page="/"/>
+		
 	</security:http>
 	
 	
