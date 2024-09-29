@@ -118,7 +118,7 @@
 				<!-- 주문 버튼 -->
 				<div class="btns_order">
 					<button type="button" class="btn btn-outline-secondary" id="selectRemover" >선택삭제</button>
-					<button type="button" class="btn btn-outline-secondary">계속 쇼핑하기</button>
+					<button type="button" class="btn btn-outline-secondary" id="continueShoping">계속 쇼핑하기</button>
 					<button type="button" class="btn btn-outline-secondary" id="emptyCart">장바구니 비우기</button>
 					<button type="button" class="btn btn-outline-danger" id="orderProcess">선택상품 주문하기</button>
 				</div>

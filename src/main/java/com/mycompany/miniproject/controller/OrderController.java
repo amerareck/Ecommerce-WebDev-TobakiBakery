@@ -67,9 +67,7 @@ public class OrderController {
 			if(productService.isSoldOut(ele.getProductId())) {
 				soldOut = true;
 				soldOutProductId.put(ele.getProductId());
-				continue;
-			}
-			if(!orderService.checkProductStock(ele)) {
+			} else if(!orderService.checkProductStock(ele)) {
 				notSale = true;
 				notSaleProductId.put(ele.getProductId());
 			}
@@ -77,11 +75,11 @@ public class OrderController {
 		
 		JSONObject json = new JSONObject();
 		if(soldOut || notSale) {
-			if(soldOut) {
-				json.put("status", "sold_out");
+			json.put("status", "not_sale");
+			if(!soldOutProductId.isEmpty()) {
 				json.put("soldOutProductId", soldOutProductId);
-			} else {
-				json.put("status", "out_of_stock");
+			}
+			if(!notSaleProductId.isEmpty()) {
 				json.put("notSaleProductId", notSaleProductId);
 			}
 		} else {
