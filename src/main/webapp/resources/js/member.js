@@ -39,35 +39,7 @@ function setEmailDomain() {
 let userEmail = "";
 $(document).ready(function() {
 	
-	function showModal(title, message) {
-	    var modal = new tingle.modal({
-	        footer: true,
-	        closeMethods: ['button', 'overlay'],
-	        closeLabel: "Close",
-	        cssClass: ['tingle-modal'],
-	        onOpen: function() {
-                console.log('모달이 열렸습니다.');
-            },
-            onClose: function() {
-                console.log('모달이 닫혔습니다.');
-            },
-	        beforeClose: function() {
-	            return true;
-	        }
-	    });
 
-	    // 모달 내용 설정
-	    modal.setContent('<h2>' + title + '</h2><h5>' + message + '</h5>');
-
-	    // 모달 하단에 버튼 추가
-	    modal.addFooterBtn('닫기', 'tingle-btn tingle-btn--default', function() {
-	        modal.close();
-	    });
-
-	    // 모달 열기
-	    modal.open();
-	}
-	
 	
 	function showModalToLogin(title, message) {
 	    var modal = new tingle.modal({
@@ -374,7 +346,7 @@ $(document).ready(function() {
                     location.href = '../mypage/mypageMain'; 
                 });
             } else {
-                showModalToLogin('수정 실패!', '회원수정에 실패했습니다.');
+                showModal('수정 실패!', '회원수정에 실패했습니다.');
                 
             }
         }
@@ -417,7 +389,7 @@ $(document).ready(function() {
     const params = new URLSearchParams(location.search);
 
     if (params.has('error')) {
-    		showModal('로그인 실패!','로그인에 실패했습니다. 아이디 또는 비밀번호를 확인해주세요.')
+    		showModalToLogin('로그인 실패!','로그인에 실패했습니다.<br><br>아이디 또는 비밀번호를 확인해주세요!')
       
     }
     
