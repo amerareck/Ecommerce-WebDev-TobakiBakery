@@ -36,16 +36,6 @@ public class OrderValidator implements Validator{
 			errors.rejectValue("deliveryAddress", "errors.deliveryAddress.required", "주소는 생략할 수 없습니다.");
 		}
 		
-		//상세 주소
-		String deliveryAddressDetail = form.getDeliveryAddressDetail();
-		if (deliveryAddressDetail == null || deliveryAddressDetail.isEmpty()) {
-			log.info("오류 검출");
-			errors.rejectValue("deliveryAddressDetail", "errors.deliveryAddressDetail.required", "상세 주소는 생략할 수 없습니다.");
-		} else if(deliveryAddressDetail.length() < 4) {
-			log.info("오류 검출");
-			errors.rejectValue("deliveryAddressDetail", "errors.deliveryAddressDetail.length", "상세 주소는 4자 이상이어야 합니다.");
-		}
-		
 		//인수자 명
 		String receiverName = form.getReceiverName();
 		if(receiverName == null || receiverName.isEmpty()) {

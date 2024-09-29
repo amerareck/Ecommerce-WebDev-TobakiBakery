@@ -116,19 +116,18 @@ public class OrderService {
 
 	public int addOrder(OrderDTO dto) {
 		//트랜잭션 요망
-		int result = 0;
+		int orderNumber = 0;
 		if(orderDAO.insertOrder(dto) == 1) {
-			int orderNumber = orderDAO.selectRecentOrderNumber(dto);
+			orderNumber = orderDAO.selectRecentOrderNumber(dto);
 			for(ProductDTO prodDTO : dto.getProductList()) {
 				dto.setOrderNumber(orderNumber);
 				dto.setOrderProductCount(prodDTO.getCartCount());
 				dto.setOrderProductPrice(prodDTO.getProductPrice());
 				dto.setProductId(prodDTO.getProductId());
 				orderProductDAO.insertOrderProduct(dto);
-				result = orderNumber;
 			}
 		}
-		return result;
+		return orderNumber;
 	}
 
 	public boolean updateOrder(OrderDTO dto) {
