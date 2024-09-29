@@ -3,6 +3,7 @@ package com.mycompany.miniproject.controller;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,10 +15,8 @@ import javax.validation.Valid;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -28,6 +27,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -593,5 +593,57 @@ public class CenterController {
 		pw.close();
 	}
 	 
+	@GetMapping("/boardSearch")
+	public String getBoardSearch(
+			@RequestParam(value = "type", defaultValue = "notice")String type,
+			@RequestParam(value = "searchType", defaultValue = "")String searchType,
+			@RequestParam(value="boardKeyword", defaultValue="") String boardKeyword,
+			Model model,
+			@RequestParam(defaultValue="1") int pageNo
+			) throws Exception{
+		    
+			Pager pager = new Pager(10, 5, 0, pageNo); 
+		    pager.setSearchType(searchType);
+		    pager.setBoardKeyword(boardKeyword);
+		    int totalRows = centerService.getBoardSearchCount(type, pager);
+	
+		    
+		    pager = new Pager(10, 5, totalRows, pageNo);
+		    pager.setSearchType(searchType);
+		    pager.setBoardKeyword(boardKeyword);
+		    pager.setTotalRows(totalRows);
+
+
+
+	    String[] elNames = {"active", "title", "breadcrumb", "boardType", "boardAllCount"};
+
+	    if (type != null && type.equals("helpdesk")) {
+	        String[] data = {"helpdesk", "문의사항", "문의사항", "helpdesk", Integer.toString(totalRows)};
+	        List<HelpdeskDTO> dto = centerService.getHelpdeskSearch(pager);
+	        model.addAttribute("boardList", dto);
+	        for (int i = 0; i < elNames.length; i++) {
+	            model.addAttribute(elNames[i], data[i]);
+	        }
+	    } else {
+	        String[] data = {"notice", "공지사항", "공지사항", "notice", Integer.toString(totalRows)};
+	        List<NoticeDTO> dto = centerService.getNoticeSearch(pager);
+	        model.addAttribute("boardList", dto);
+	        for (int i = 0; i < elNames.length; i++) {
+	            model.addAttribute(elNames[i], data[i]);
+	        }
+	    }
+
+	    model.addAttribute("boardType", type);
+	    model.addAttribute("pager", pager);
+	    model.addAttribute("boardAllCount", totalRows);
+
+	    log.info("totalRows: " + totalRows);
+
+	    return "center/boardList";
+		
+		
+
+		}
+	
 	 
 }

@@ -1,16 +1,17 @@
-$('#boardSearchForm').submit(function(event){
+$('#boardSearchForm').on('submit', function(event){
     event.preventDefault();
-    
-    const formCategory = $('#searchCategory');
-    const boardSearch = $('#boardSearch');
-    if(!boardSearch.val()) {
-        alert('검색하실 내용을 입력해 주세요.');
+    const searchText = $(this).find('#boardKeyword');    
+    const formCategory = $('#searchCategory').val();
+   
+    if(searchText.val().trim() === '') {
+    		showModal('검색 확인!','검색내용을 입력해주세요.');
         return;
+    }else{
+    		this.submit();
     }
-
-    let str = '검색하신 키워드입니다. \n';
-    str += '['+formCategory.val()+': '+ boardSearch.val().trim() + ']\n';
-    alert(str);
+    let str = '검색하신 키워드입니다. <br>';
+    str += '['+formCategory+': '+ searchText + ']\n';
+   
 });
 
 /*

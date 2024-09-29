@@ -15,6 +15,7 @@ import com.mycompany.miniproject.dto.CommentDTO;
 import com.mycompany.miniproject.dto.HelpdeskDTO;
 import com.mycompany.miniproject.dto.NoticeDTO;
 import com.mycompany.miniproject.dto.Pager;
+import com.mycompany.miniproject.dto.ProductDTO;
 import com.mycompany.miniproject.dto.ProductReviewDTO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -178,5 +179,27 @@ public class CenterService {
 		 	log.info("이거 서비스인데 실행되나?");
 	        return helpdeskDAO.selectInquiriesByMemberId(memberId);
 	    }
-	
+
+	public List<NoticeDTO> getNoticeSearch(Pager pager) {
+		log.info("실행");
+		log.info(pager.getBoardKeyword());
+		List<NoticeDTO> noticeSearchList = noticeDAO.selectNoticeSearchList(pager);
+		return noticeSearchList;
+	}
+
+	public List<HelpdeskDTO> getHelpdeskSearch(Pager pager) {
+		log.info("실행");
+		log.info(pager.getBoardKeyword());
+		List<HelpdeskDTO> helpdeskSearch = helpdeskDAO.selectHelpDeskSearchList(pager);
+		return helpdeskSearch;
+	}
+	public int getBoardSearchCount(String type, Pager pager) {
+		
+		if(type.equals("notice")) {
+			return noticeDAO.selectBoardSearchCount(pager);
+		} else if(type.equals("helpdesk")) {
+			return helpdeskDAO.selectBoardSearchCount(pager);
+		}
+		return 0;
+	}
 }
