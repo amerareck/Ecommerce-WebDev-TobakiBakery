@@ -146,9 +146,14 @@ $('#searchOrderSelect').change(function(event){
     }
 });
 
-function getPostcodeAndAddress() {
-    new daum.Postcode({
-        oncomplete: function(data) {
+$('.callPostcodeAPI').on('click', function(event){
+	const orderNumber = $(this).attr('id').split('-')[1];
+	const zoneCode = $('#deliveryPostNum-'+orderNumber);
+	const address = $('#deliveryAddress-'+orderNumber);
+	const focusTarget = $('#deliveryAddressDetail-'+orderNumber);
+	
+	new daum.Postcode({
+		oncomplete: function(data) {
             var addr = '';
             var extraAddr = '';
 
@@ -160,13 +165,12 @@ function getPostcodeAndAddress() {
             }
             
             // 주소 필드에 값 설정
-            document.getElementById('recevierPostNo').value = data.zonecode;
-            document.getElementById('recevierAddr').value = addr;
-            document.getElementById('recevierDetailsAddr').focus();
+            zoneCode.val(data.zonecode);
+            address.val(addr);
+            focusTarget.focus();
         }
-    }).open();
-}
-
+	}).open();
+});
 
 
 $('#orderUpdateSubmit').submit(function(event){
