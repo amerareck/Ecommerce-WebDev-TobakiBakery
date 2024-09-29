@@ -42,5 +42,7 @@ public interface OrderDAO {
 
 	public OrderDTO selectOrderSingleRow(OrderDTO dto);
 
+	public int selectTodayOrderCount();
+
 
 }

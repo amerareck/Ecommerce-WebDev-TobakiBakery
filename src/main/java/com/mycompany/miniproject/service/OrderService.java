@@ -217,4 +217,8 @@ public class OrderService {
 		return orderDAO.selectOrderSingleRow(dto) != null;
 	}
 
+	public int getTodayOrderCount() {
+		return orderDAO.selectTodayOrderCount();
+	}
+
 }

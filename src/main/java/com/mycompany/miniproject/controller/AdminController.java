@@ -81,6 +81,9 @@ public class AdminController {
 		model.addAttribute("productAllCount", productAllCount);
 		model.addAttribute("orderAllCount", orderAllCount);
 		
+		int todayOrderCount = orderService.getTodayOrderCount();
+		model.addAttribute("todayOrderCount", todayOrderCount);
+		
 		if(type.equals("product")) {
 			pager = new Pager(10, 5, productAllCount, pageNo);
 			model.addAttribute("pager", pager);

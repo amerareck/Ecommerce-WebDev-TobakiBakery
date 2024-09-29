@@ -14,7 +14,7 @@
                 <div class="d-flex profile-info mt-3">
                     <div>
                         <p>관리자님 환영합니다.</p>
-                        <p>마지막 로그인: YYYY-MM-DD hh:mi:ss</p>
+                        <p>오늘의 주문 판매 수 :: <strong>${todayOrderCount}</strong> 개</p>
                     </div>
                     <c:if test="${isSearchPage}" >
                     	<div class="flex-fill text-center">

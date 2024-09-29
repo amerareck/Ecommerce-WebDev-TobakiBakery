@@ -28,7 +28,7 @@ public interface MemberDAO {
 	public MemberDTO selectMemberForDeleteMember(String memberId);
 
 	public MemberDTO searchMemberForPw(MemberDTO member);
-	
+
 	/*public boolean hasPurchasedProduct(String memberId, int productId) {
 	    
 	    return sqlSession.selectOne("myPage.hasPurchasedProduct", Map.of("memberId", memberId, "productId", productId));
