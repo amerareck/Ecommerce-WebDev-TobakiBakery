@@ -110,7 +110,7 @@
 					</tr>
 					<tr>
 						<th scope="row"><div class="tb-left">주소</div></th>
-						<td colspan="3"><div class="tb-left">(${deliInfo.deliveryPostNum})${deliInfo.deliveryAddress}, deliveryAddressDetail</div></td>
+						<td colspan="3"><div class="tb-left">(${deliInfo.deliveryPostNum})${deliInfo.deliveryAddress} <c:if test="${deliInfo.deliveryAddressDetail !=null}">,${deliInfo.deliveryAddressDetail}</c:if></div></td>
 					</tr>
 					<tr>
 						<th scope="row"><div class="tb-left">배송메세지</div></th>
