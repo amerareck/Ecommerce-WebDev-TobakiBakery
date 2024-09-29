@@ -1,6 +1,6 @@
 $('#orderSubmitButton').on('click', function(event){
 	if($('#disagree').is(':checked')) {
-		alert('약관에 동의하지 않으시면 물품을 구매하실 수 없습니다.');
+		showModal('주의','약관에 동의하지 않으시면 물품을 구매하실 수 없습니다.');
 		return;
 	}
 	
@@ -42,11 +42,11 @@ $('#orderSubmitButton').on('click', function(event){
 				location.href = response.redirect+'?orderNumber='+response.orderNumber;
 				
 			} else if (response.status === 'not-add-order') {
-				alert('서버에서 알 수 없는 오류로 주문 처리를 진행하지 못하였습니다.\n잠시 후 다시 시도해 보세요.');
+				showModal('서버에서 알 수 없는 오류로 주문 처리를 진행하지 못하였습니다.\n잠시 후 다시 시도해 보세요.');
 				location.href = response.redirect;
 			
 			} else if (response.status === 'not-remove-cart') {
-				alert('서버에서 장바구니를 삭제하지 못하였습니다.');
+				showModal('서버에서 장바구니를 삭제하지 못하였습니다.');
 				location.href = response.redirect;
 				
 			} else if (response.status === 'fail') {
@@ -77,5 +77,23 @@ $('#orderSubmitButton').on('click', function(event){
 	        console.log('에러 발생:', error);
 	    }
 	});
-	
+});
+
+$('#orderSearchPostCode').on('click', function(event){
+	new daum.Postcode({
+		oncomplete: function(data) {
+			let addr = '';
+			let extraAddr = '';
+			
+			if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                addr = data.roadAddress;
+            } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                addr = data.jibunAddress;
+            }
+			
+			$('#deliveryPostNum').val(data.zonecode);
+			$('#deliveryAddress').val(addr);
+			$('#deliveryAddressDetail').focus();
+		}
+	}).open();
 });

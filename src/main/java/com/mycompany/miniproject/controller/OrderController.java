@@ -31,7 +31,6 @@ import com.mycompany.miniproject.dto.CartDTO;
 import com.mycompany.miniproject.dto.MemberDTO;
 import com.mycompany.miniproject.dto.OrderDTO;
 import com.mycompany.miniproject.dto.OrderForm;
-import com.mycompany.miniproject.dto.Pager;
 import com.mycompany.miniproject.dto.ProductDTO;
 import com.mycompany.miniproject.service.MemberService;
 import com.mycompany.miniproject.service.OrderService;
@@ -68,9 +67,7 @@ public class OrderController {
 			if(productService.isSoldOut(ele.getProductId())) {
 				soldOut = true;
 				soldOutProductId.put(ele.getProductId());
-				continue;
-			}
-			if(!orderService.checkProductStock(ele)) {
+			} else if(!orderService.checkProductStock(ele)) {
 				notSale = true;
 				notSaleProductId.put(ele.getProductId());
 			}
@@ -78,11 +75,11 @@ public class OrderController {
 		
 		JSONObject json = new JSONObject();
 		if(soldOut || notSale) {
-			if(soldOut) {
-				json.put("status", "sold_out");
+			json.put("status", "not_sale");
+			if(!soldOutProductId.isEmpty()) {
 				json.put("soldOutProductId", soldOutProductId);
-			} else {
-				json.put("status", "out_of_stock");
+			}
+			if(!notSaleProductId.isEmpty()) {
 				json.put("notSaleProductId", notSaleProductId);
 			}
 		} else {
@@ -186,7 +183,7 @@ public class OrderController {
 	}
 	
 	@PostMapping("/instantOrder")
-	public String instantOrder(CartDTO dto, Model model, HttpSession session) {
+	public String instantOrder(CartDTO dto, Model model) {
 		log.info("실행");
 		log.info(dto.toString());
 		
@@ -219,7 +216,6 @@ public class OrderController {
 		
 		log.info(dto.toString());
 		model.addAttribute("orderData", order);
-		session.setAttribute("directCart", dto);
 		
 		return "order/orderSheet";
 	}
@@ -353,6 +349,7 @@ public class OrderController {
 		
 		OrderDTO dto = new OrderDTO();
 		MemberDTO user = memberService.getMemberInfo();
+		
 		dto.setMemberId(user.getMemberId());
 		dto.setDeliveryPostNum(orderForm.getDeliveryPostNum());
 		dto.setDeliveryAddress(orderForm.getDeliveryAddress());
@@ -364,47 +361,31 @@ public class OrderController {
 		dto.setDeliveryStatus(DeliveryStatus.DELIVERY_STAY);
 		dto.setOrderTotalPrice(orderForm.getOrderTotalPrice());
 		dto.setProductList(orderForm.getProductList());
-		
-		boolean complete = true;
+
 		int orderNumber = orderService.addOrder(dto);
-		if(orderNumber == 0 ) {
+		if(orderNumber == 0) {
 			log.info("상품 주문 프로세스에 오류가 발생.");
 			response.put("status", "not-add-order");
 			response.put("redirect", "payment");
-			complete = false;
 		}
 		
 		List<CartDTO> cart = (List<CartDTO>) session.getAttribute("cartList");
-		boolean direct = false;
-		if(cart == null) {
-			cart = new ArrayList<>();
-			direct = cart.add((CartDTO) session.getAttribute("directCart"));
-		}
-		
-		for(CartDTO ele : cart) {
-			ele.setMemberId(dto.getMemberId());
-		}
-		if(!direct || !orderService.removeCartItems(cart)) {
-			log.info("상품 주문 프로세스에 오류가 발생.");
-			response.put("status", "not-remove-cart");
-			response.put("redirect", "cart");
-			complete = false;
-		}
-		
-		if(complete) {
-			session.removeAttribute("cartList");
-			session.removeAttribute("directCart");
-			session.setAttribute("commonCartCount", orderService.getCartItemCount(user.getMemberId()));
+		if(cart != null) {
 			for(CartDTO ele : cart) {
-				ProductDTO product = new ProductDTO();
-				product.setProductId(ele.getProductId());
-				product.setCartCount(ele.getCartCount());
-				productService.decreaseProductStock(product);
+				ele.setMemberId(dto.getMemberId());
 			}
-			response.put("status", "ok");
-			response.put("orderNumber", orderNumber);
-			response.put("redirect", "complete");
+			
+			orderService.removeCartItems(cart);
+			session.removeAttribute("cartList");
+			session.setAttribute("commonCartCount", orderService.getCartItemCount(user.getMemberId()));
 		}
+		for(ProductDTO product : dto.getProductList()) {
+			productService.decreaseProductStock(product);
+		}
+		
+		response.put("status", "ok");
+		response.put("orderNumber", orderNumber);
+		response.put("redirect", "complete");
 		
 		res.setContentType("application/json; charset=UTF-8");
         PrintWriter pw = res.getWriter();

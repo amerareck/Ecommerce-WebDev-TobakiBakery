@@ -1,6 +1,6 @@
 // 계속 쇼핑하기 버튼 기능
-$('.btns_order .btn-outline-secondary:nth-child(2)').on('click', function () {
-    window.location.href = '../product/productListAll';
+$('#continueShoping').on('click', function (event) {
+    location.href = '../product/productListAll';
 });
 
 $('#selectAll').on('change', function(event){
@@ -28,10 +28,10 @@ $('#selectRemover').on('click', function(event){
 		data: JSON.stringify(list),
 		success: function(data){
 			if (data.status === 'ok') {
-				alert('선택한 장바구니 상품이 삭제되었습니다.');
+				showModal('장바구니 삭제','선택한 장바구니 상품이 삭제되었습니다.');
 				location.href='cart';
 			} else if (data.status === 'not-found-user') {
-				alert('로그인 후 다시 시도해주십시오.');
+				showModal('로그인 요청','로그인 후 다시 시도해주십시오.');
 				location.href='../login';
 			}
 		},
@@ -118,10 +118,10 @@ $('#emptyCart').on('click', function(){
 		data: JSON.stringify(list),
 		success: function(data){
 			if (data.status === 'ok') {
-				alert('모든 장바구니 상품을 삭제하였습니다.');
+				showModal('장바구니 삭제','모든 장바구니 상품을 삭제하였습니다.');
 				location.href='cart';
 			} else if (data.status === 'not-found-user') {
-				alert('로그인 후 다시 시도해주십시오.');
+				showModal('로그인 요청','로그인 후 다시 시도해주십시오.');
 				location.href='../login';
 			}
 		},
@@ -146,7 +146,7 @@ $('#orderProcess').on('click', function(){
 	`);
 	const soldOut = $(`
 		<tr id="sold-out-row">
-			<td colspan="6">
+			<td colspan="6" class="pl-4">
 				<div id="sold-out-message" class="text-danger" style="font-size: 0.7rem">
 					<strong>죄송합니다. 현재 상품은 품절되었습니다. 빠르게 준비하도록 하겠습니다.</strong>
 				</div>
@@ -166,7 +166,7 @@ $('#orderProcess').on('click', function(){
 	});
 	console.log(list);
 	if(list.length < 1) {
-		alert('선택하신 상품이 존재하지 않습니다.');
+		showModal('선택하신 상품이 존재하지 않습니다.');
 		return;
 	}
 	
@@ -178,17 +178,22 @@ $('#orderProcess').on('click', function(){
 		success: function(data) {
 			if(data.status === 'ok') {
 				location.href=data.redirect;
-			} else if(data.status === 'out_of_stock') {
-				console.log('재고부족: '+data.notSaleProductId);
-				$.each(data.notSaleProductId, function(index, value){
-					$('#cartRow-'+value).after(outOfStock);
-				});
-			} else if(data.status === 'sold_out') {
-				console.log('상품매진: '+data.notSaleProductId);
-				$.each(data.soldOutProductId, function(index, value){
-					$('#cartRow-'+value).after(soldOut);
-				});
+			} else if(data.status === 'not_sale') {
+				console.log(data.notSaleProductId);
 				console.log(data.soldOutProductId);
+				if(data.notSaleProductId.length) {
+					console.log('재고부족: '+data.notSaleProductId);
+					$.each(data.notSaleProductId, function(index, value){
+						$('#cartRow-'+value).after(outOfStock);
+					});
+				}
+				if(data.notSaleProductId.length) {
+					console.log('상품매진: '+data.soldOutProductId);
+					$.each(data.soldOutProductId, function(index, value){
+						$('#cartRow-'+value).after(soldOut);
+					});
+					console.log(data.soldOutProductId);
+				}
 			}
 		},
 		error: function(xhr, status, error) {

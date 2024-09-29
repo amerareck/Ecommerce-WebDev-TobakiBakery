@@ -71,26 +71,18 @@
                 <!-- 댓글 리스트 -->
                 <div id="commentList">
                     <ul class="list-group mb-4">
-                        <li class="list-group-item">
-                            <div class="reply-author">
-                                <p><strong>글 작성자</strong> <small class="text-muted">2024-08-04 13:12:34</small> 
-                                    <button class="btn btn-light btn-sm disabled commentDelete" ><i class="fas fa-times"></i></button>
-                                </p>
-                            </div>
-                            <div class="reply-content">
-                                <p>저도 같은 문제를 겪고 있습니다. 해결 방법이 궁금하네요.</p>
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <div class="reply-author">
-                                <p><strong>관리자</strong> <small class="text-muted">2024-08-04 13:15:22</small>
-                                    <button class="btn btn-light btn-sm disabled commentDelete"><i class="fas fa-times"></i></button>
-                                </p>
-                            </div>
-                            <div class="reply-content">
-                                <p>안녕하세요, 고객님. 불편을 드려 죄송합니다. 현재 해당 문제를 확인 중에 있습니다. 빠른 시일 내에 해결하도록 하겠습니다.</p>
-                            </div>
-                        </li>
+                    	<c:forEach items="${board.commentList}" var="comment" >
+	                        <li class="list-group-item">
+	                            <div class="reply-author">
+	                                <p><strong id="memberId-${comment.commentId}">${comment.memberId}</strong> <small class="text-muted"><fmt:formatDate value="${comment.commentDatetime}" pattern="YYYY-MM-dd HH-mm-ss" /> </small> 
+	                                    <button class="btn btn-light btn-sm disabled commentDelete" id="commentId-${comment.commentId}" ><i class="fas fa-times"></i></button>
+	                                </p>
+	                            </div>
+	                            <div class="reply-content">
+	                                <p>${comment.commentContent}</p>
+	                            </div>
+	                        </li>
+                    	</c:forEach>
                     </ul>
                 </div>
                 <!-- 댓글 리스트 종료 -->

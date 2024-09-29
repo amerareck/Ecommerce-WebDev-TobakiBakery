@@ -234,6 +234,7 @@ public class ProductService {
 	}
 	
 	public boolean decreaseProductStock(ProductDTO dto) {
+		log.info(dto.toString());
 		boolean result = productDAO.updateProductStock(dto) == 1;
 		if(result) {
 			if(productDAO.selectProductStock(dto.getProductId()) == 0) {

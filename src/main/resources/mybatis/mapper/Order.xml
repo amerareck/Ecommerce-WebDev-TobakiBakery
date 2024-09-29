@@ -351,4 +351,12 @@
 		]]>
 	</select>
 	
+	<select id="selectTodayOrderCount" resultType="int">
+		<![CDATA[
+			SELECT COUNT(*)
+			FROM "order"
+			WHERE trunc(order_date) = trunc(sysdate)
+		]]>
+	</select>
+	
 </mapper>

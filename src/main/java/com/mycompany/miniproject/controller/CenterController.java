@@ -12,7 +12,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
@@ -68,6 +67,7 @@ public class CenterController {
 		if(type!=null && type.equals("helpdesk")) {
 			String[] data = {"helpdesk", "문의사항", "문의사항", "helpdesk", Integer.toString(boardAllCount)};
 			List<HelpdeskDTO> dto = centerService.getHelpdeskList(pager);
+			log.info(dto.toString());
 			model.addAttribute("boardList", dto);
 			for(int i=0; i<elNames.length; i++) {
 				model.addAttribute(elNames[i], data[i]);
@@ -157,12 +157,15 @@ public class CenterController {
 					return "redirect:/center/list?type=helpdesk&pageNo="+pageNo;
 				}
 				centerService.increaseBoardViews("helpdesk", dto.getHelpdeskId());
+				dto.setCommentList(centerService.getCommentList(dto));
 				map.put("title", dto.getHelpdeskTitle());
 				map.put("boardId", dto.getHelpdeskId());
 				map.put("datetime", dto.getHelpdeskDatetime());
 				map.put("memberId", dto.getMemberId());
 				map.put("views", dto.getHelpdeskViews()+1);
 				map.put("content", dto.getHelpdeskContent());
+				log.info(dto.getCommentList().toString());
+				map.put("commentList", dto.getCommentList());
 				
 				List<String> imageNames = centerService.getBoardImageNames("helpdesk", dto.getHelpdeskId());
 				map.put("imageNames", imageNames);
@@ -177,6 +180,10 @@ public class CenterController {
 					subListDto.put("boardId", element.getHelpdeskId());
 					subListDto.put("datetime", element.getHelpdeskDatetime());
 					subListDto.put("views", element.getHelpdeskViews());
+					subListDto.put("lockState", element.isLockState());
+					subListDto.put("commentCount", element.getCommentCount());
+					subListDto.put("newBadge", element.isNewBadge());
+					subListDto.put("adminReply", element.isAdminReply());
 					box.add(subListDto);
 				}
 				
@@ -196,12 +203,14 @@ public class CenterController {
 			NoticeDTO dto = centerService.getNoticePostByBoardNum(Integer.parseInt(boardNum));
 			if(dto != null) {
 				centerService.increaseBoardViews("notice", dto.getNoticeId());
+				dto.setCommentList(centerService.getCommentList(dto));
 				map.put("title", dto.getNoticeTitle());
 				map.put("boardId", dto.getNoticeId());
 				map.put("datetime", dto.getNoticeDatetime());
 				map.put("memberId", dto.getMemberId());
 				map.put("views", dto.getNoticeViews()+1);
 				map.put("content", dto.getNoticeContent());
+				map.put("commentList", dto.getCommentList());
 				
 				List<String> imageNames = centerService.getBoardImageNames("notice", dto.getNoticeId());
 				map.put("imageNames", imageNames);
@@ -216,6 +225,8 @@ public class CenterController {
 					subListDto.put("boardId", element.getNoticeId());
 					subListDto.put("datetime", element.getNoticeDatetime());
 					subListDto.put("views", element.getNoticeViews());
+					subListDto.put("commentCount", element.getCommentCount());
+					subListDto.put("newBadge", element.isNewBadge());
 					box.add(subListDto);
 				}
 				
@@ -253,46 +264,29 @@ public class CenterController {
 		}
 	}
 	
-	@GetMapping("/comment")
-	public void getCommentList(String type, @RequestParam(value="boardId", required=true) int boardId, HttpServletResponse res) {
+	@Secured("ROLE_USER")
+	@PostMapping("/addComment")
+	public void addComment(CommentDTO comment, HttpServletResponse res) {
 		log.info("실행");
-		if(type == null) {
-			log.info("댓글 생성 실패 - type=null");
-			return;
-		}
-		
-		List<CommentDTO> commentList;
-		if(type.equals("notice")) {
-			commentList = centerService.getCommentList(type, boardId);
-			
-		} else if(type.equals("helpdesk")) {
-			commentList = centerService.getCommentList(type, boardId);
-			
-		} else {
-			log.info("댓글 생성 실패 - type="+type);
-			return;
-		}
-		
+		log.info(comment.toString());
 		JSONObject json = new JSONObject();
-		JSONArray arr = new JSONArray();
-		if(commentList != null) {
-			for(CommentDTO dto : commentList) {
-				JSONObject dtoJSON = new JSONObject();
-				dtoJSON.put("content", dto.getCommentContent());
-				dtoJSON.put("commnetDatetime", dto.getCommnetDatetime());
-				dtoJSON.put("memberId", dto.getMemberId());
-				arr.put(json);
-			}
-		}
 		
-		JSONObject status = new JSONObject();
-		if(!arr.isEmpty()) {
-			status.put("status", "ok");
+		int commentId = centerService.addComment(comment);
+		if(commentId != 0) {
+			comment.setCommentId(commentId);
+			CommentDTO result = centerService.getCommentSingleData(comment);
+			JSONObject obj = new JSONObject();
+			obj.put("commentId", result.getCommentId());
+			obj.put("commentContent", result.getCommentContent());
+			obj.put("commentDatetime", result.getCommentDatetime());
+			obj.put("memberId", result.getMemberId());
+			obj.put("boardId", result.getBoardId());
+			
+			json.put("status", "ok");
+			json.put("commentData", obj);
 		} else {
-			status.put("status", "empty");
+			json.put("status", "fail");
 		}
-		json.put("status", status);
-		json.put("list", arr);
 		
 		try(PrintWriter pw = res.getWriter()) {
 			res.setContentType("application/json, charset=UTF-8");
@@ -304,13 +298,22 @@ public class CenterController {
 	}
 	
 	@Secured("ROLE_USER")
-	@PostMapping("/addComment")
-	public void addComment(CommentDTO comment, HttpServletResponse res) {
+	@PostMapping("/deleteComment")
+	public void deleteComment(CommentDTO comment, Authentication auth,HttpServletResponse res) {
 		log.info("실행");
 		log.info(comment.toString());
-		
 		JSONObject json = new JSONObject();
-		json.put("status", "ok");
+		
+		boolean hasAdminRole = auth.getAuthorities().stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"));
+		if(centerService.checkAuthorOfComment(comment, auth.getName()) || hasAdminRole) {
+			if(centerService.removeComment(comment)) {
+				json.put("status", "ok");
+			} else {
+				json.put("statis", "fail");
+			}
+		} else {
+			json.put("status", "no-master");
+		}
 		
 		try(PrintWriter pw = res.getWriter()) {
 			res.setContentType("application/json, charset=UTF-8");

@@ -98,7 +98,7 @@
 				<div class="input-group">
 					<input type="text" id="deliveryPostNum" name="deliveryPostNum" placeholder="우편번호" value="${orderData.deliveryPostNum}" readonly required style="width: 300px;" />
 					<div class="input-group-append">
-						<button class="btn btn-secondary" type="button" onclick="execDaumPostcode()">우편번호검색</button>
+						<button class="btn btn-secondary" type="button" id="orderSearchPostCode">우편번호검색</button>
 					</div>
 				</div>
 				<input type="text" id="deliveryAddress" name="deliveryAddress" placeholder="주소" value="${orderData.deliveryAddress}" style="width: 400px; margin-top: 10px;" readonly />

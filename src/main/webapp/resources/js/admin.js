@@ -13,13 +13,13 @@ $('#productSearchForm').on('submit', function(event) {
     console.log(selector);
 
     if (selector.val() == '검색조건') {
-        alert('검색 조건을 선택하세요.');
+    	showModal('검색 조건을 선택하세요.');
         event.preventDefault();
         return;
     } else if(selector.val() == 'productName') {
         const productName = $('#productSearchKeyword');
         if(!productName.val()) {
-            alert('검색하실 상품명을 입력하세요.');
+        	showModal('검색하실 상품명을 입력하세요.');
             event.preventDefault();
             return;
         }
@@ -27,7 +27,7 @@ $('#productSearchForm').on('submit', function(event) {
     } else if(selector.val() == 'category') {
         const category = $('#productSearchCategory option:selected');
         if(category.val() == '카테고리') {
-            alert('카테고리를 선택하세요.');
+        	showModal('카테고리를 선택하세요.');
             event.preventDefault();
             return;
         }
@@ -35,7 +35,7 @@ $('#productSearchForm').on('submit', function(event) {
     } else {
         const productState = $('#productSearchStatus option:selected');
         if(productState.val() == '상품상태') {
-            alert('상품상태를 선택하세요.');
+        	showModal('상품상태를 선택하세요.');
             event.preventDefault();
             return;
         }
@@ -146,9 +146,14 @@ $('#searchOrderSelect').change(function(event){
     }
 });
 
-function getPostcodeAndAddress() {
-    new daum.Postcode({
-        oncomplete: function(data) {
+$('.callPostcodeAPI').on('click', function(event){
+	const orderNumber = $(this).attr('id').split('-')[1];
+	const zoneCode = $('#deliveryPostNum-'+orderNumber);
+	const address = $('#deliveryAddress-'+orderNumber);
+	const focusTarget = $('#deliveryAddressDetail-'+orderNumber);
+	
+	new daum.Postcode({
+		oncomplete: function(data) {
             var addr = '';
             var extraAddr = '';
 
@@ -160,13 +165,12 @@ function getPostcodeAndAddress() {
             }
             
             // 주소 필드에 값 설정
-            document.getElementById('recevierPostNo').value = data.zonecode;
-            document.getElementById('recevierAddr').value = addr;
-            document.getElementById('recevierDetailsAddr').focus();
+            zoneCode.val(data.zonecode);
+            address.val(addr);
+            focusTarget.focus();
         }
-    }).open();
-}
-
+	}).open();
+});
 
 
 $('#orderUpdateSubmit').submit(function(event){
@@ -201,10 +205,10 @@ $('#orderUpdateSubmit').submit(function(event){
         data: JSON.stringify(updateData),
         success: function(data) {
             if (data.status === 'ok') {
-                alert("주문 정보가 성공적으로 수정되었습니다.");
+            	showModal("주문 정보가 성공적으로 수정되었습니다.");
                 // 여기서 페이지 새로 고침이나 필요한 작업을 수행할 수 있습니다.
             } else {
-                alert("주문 정보 수정에 실패했습니다.");
+            	showModal("주문 정보 수정에 실패했습니다.");
             }
         }
     });
@@ -221,7 +225,7 @@ $('.product-delete-selector').on('click', function(event){
 		data: {productId},
 		success: function(data) {
 			if (data.status == 'ok') {
-				alert('상품이 삭제되었습니다.');
+				showModal('상품 삭제','상품이 삭제되었습니다.');
 				const target = clickedElement.closest('tr');
 				console.log(target);
 				target.remove();
@@ -231,7 +235,7 @@ $('.product-delete-selector').on('click', function(event){
 					location.href = 'main?pageNo='+(pageNo-1);
 				}
 			} else {
-				alert('서버에 문제가 발생하였습니다.')
+				showModal('서버에 문제가 발생하였습니다.')
 			}
 		},
 		error: function (xhr, status, error) {
@@ -322,11 +326,11 @@ $('.productUpdateModal').on('show.bs.modal', function (event) {
     		data: {productId, productUsecase, imageOriginalName},
     		success: function(data) {
     			if(data.status === 'ok') {
-    				alert('상품 상세 이미지를 정상적으로 삭제하였습니다.');
+    				showModal('삭제 완료','상품 상세 이미지를 정상적으로 삭제하였습니다.');
     				parent.empty();
     				parent.append('<span>현재 첨부된 파일이 존재하지 않습니다.<span>');
     			} else {
-    				alert('서버에서 상품 삭제를 처리함에 있어 문제가 발생하였습니다.');
+    				showModal('서버에서 상품 삭제를 처리함에 있어 문제가 발생하였습니다.');
     			}
     		},
     		error: function (xhr, status, error) {
@@ -347,7 +351,7 @@ $('.productUpdateModal').on('show.bs.modal', function (event) {
     		data: {productId, productUsecase, imageOriginalName},
     		success: function(data) {
     			if(data.status === 'ok') {
-    				alert('상품 상세 이미지를 정상적으로 삭제하였습니다.');
+    				showModal('상품 상세 이미지를 정상적으로 삭제하였습니다.');
     				const grand = parent.parent();
     				parent.remove();
     				if (grand.find('span').length === 0) {
@@ -356,7 +360,7 @@ $('.productUpdateModal').on('show.bs.modal', function (event) {
     					imageTarget.attr('src', '../resources/image/no-thumbnail.png');
     				}
     			} else {
-    				alert('서버에서 상품 삭제를 처리함에 있어 문제가 발생하였습니다.');
+    				showModal('서버에서 상품 삭제를 처리함에 있어 문제가 발생하였습니다.');
     			}
     		},
     		error: function (xhr, status, error) {
@@ -402,7 +406,7 @@ $('#productDelete').on('click', function(event){
 	});
 	console.log(list);
 	if(list.length == 0) {
-		alert('삭제할 상품을 선택하여 주십시오.');
+		showModal('삭제할 상품을 선택하여 주십시오.');
 		return;
 	}
 	
@@ -414,12 +418,12 @@ $('#productDelete').on('click', function(event){
 			data: JSON.stringify(list),
 			success: function(data) {
 				if(data.status === 'ok') {
-					alert('선택한 상품을 삭제처리 하였습니다.');
+					showModal('선택한 상품을 삭제처리 하였습니다.');
 					$.each(removeTarget, function(index, target){
 						target.remove();
 					});
 				} else {
-					alert('서버로부터 문제가 발생하여 삭제 처리를 수행하지 못하였습니다.');
+					showModal('서버로부터 문제가 발생하여 삭제 처리를 수행하지 못하였습니다.');
 				}
 			},
 			error: function(xhr, status, error) {

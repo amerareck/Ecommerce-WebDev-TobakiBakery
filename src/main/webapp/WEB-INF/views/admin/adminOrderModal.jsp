@@ -320,7 +320,7 @@
 												<input id="deliveryAddress-${order.orderNumber}" class="form-control input-group-append" value="${order.deliveryAddress}" style="width: 50%;" disabled/>
 												<input id="deliveryAddressDetail-${order.orderNumber}" class="form-control input-group-append" value="${order.deliveryAddressDetail}" style="width: 20%;" required />
 												<div class="input-group-append">
-													<button class="btn btn-secondary " type="button" onclick="getPostcodeAndAddress()">주소검색</button>
+													<button class="btn btn-secondary callPostcodeAPI" type="button" id="postcodeButton-${order.orderNumber}" >주소검색</button>
 												</div>
 											</div>
 											<div id="error-message-${order.orderNumber}" class="text-danger" style="font-size: 0.7rem"></div>
