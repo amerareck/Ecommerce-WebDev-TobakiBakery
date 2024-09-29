@@ -281,13 +281,11 @@ public class ProductController {
 		//유효성 검사 시작
 		if(error.hasErrors()) {
 			log.info("유효성 검사 실패");
-			
 			for(FieldError e : error.getFieldErrors()) {
-				redi.addFlashAttribute("isAlert", true);
-				redi.addFlashAttribute("alert", e.getDefaultMessage());
-				redi.addFlashAttribute("reform", form);
-				return "redirect:/admin/addProduct";
+				redi.addFlashAttribute(e.getField()+"Error", e.getDefaultMessage());
 			}
+			redi.addFlashAttribute("reform", form);
+			return "redirect:/admin/addProduct";
 		}
 		
 		//유효성 검사 통과

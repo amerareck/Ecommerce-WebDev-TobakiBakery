@@ -21,6 +21,7 @@
                                     <label for="product-name"><b>상품명</b></label>
                                     <input type="text" class="form-control" id="product-name" name="productName" aria-describedby="productName" placeholder="상품 이름 입력" 
                                     	value="${not empty reform ? reform.productName : ''}" />
+                                	<c:if test="${not empty productNameError}"><div class="text-danger" style="font-size: 0.7rem">${productNameError}</div></c:if>
                                 </div>
                                 <!-- 상품 상세 -->
                                 <div class="form-group">
@@ -37,6 +38,7 @@
                                       <option value="CAKE" ${reform.categoryName == 'CAKE' ? 'selected' : ''}>Cake</option>
                                       <option value="DESSERT" ${reform.categoryName == 'DESSERT' ? 'selected' : ''}>Dessert</option>
                                     </select>
+	                                <c:if test="${not empty categoryNameError}"><div class="text-danger" style="font-size: 0.7rem">${categoryNameError}</div></c:if>
                                 </div>
                                 <!-- 상품가격 / 상품 수량-->
                                 <div class="d-flex justify-content-between" style="width: 95%;">
@@ -44,11 +46,13 @@
                                         <label for="product-price"><b>상품가격</b></label>
                                         <input type="number" class="form-control" id="product-price" name="productPrice" 
                                         	placeholder="상품 가격" value="${not empty reform ? reform.productPrice : ''}" required>
+		                                <c:if test="${not empty productPriceError}"><div class="text-danger" style="font-size: 0.7rem">${productPriceError}</div></c:if>
                                     </div>
                                     <div class="form-group">
                                         <label for="product-amount"><b>상품수량</b></label>
                                         <input type="number" class="form-control" id="product-amount" name="productCount" 
                                         	placeholder="수량 설정" value="${not empty reform ? reform.productCount : ''}" required>
+		                                <c:if test="${not empty productCountError}"><div class="text-danger" style="font-size: 0.7rem">${productCountError}</div></c:if>
                                     </div>
                                 </div>
                                 <!-- 상품 상태 및 추천 설정 -->
@@ -61,10 +65,11 @@
                                           <option value="NOT_SALE" ${reform.productState == 'NOT_SALE' ? 'selected' : '' } >상품품절</option>
                                           <option value="SOLD_OUT" ${reform.productState == 'SOLD_OUT' ? 'selected' : '' } >판매중단</option>
                                         </select>
+		                                <c:if test="${not empty productStateError}"><div class="text-danger" style="font-size: 0.7rem">${productStateError}</div></c:if>
                                     </div>
                                     <div class="flex-sort d-flex justify-content-center align-items-center checkbox-area">
                                         <div class="custom-control custom-switch">
-                                            <input type="checkbox" class="custom-control-input" id="recommendedProduct" name="productRecom" value="recommendedProd">
+                                            <input type="checkbox" class="custom-control-input" id="recommendedProduct" name="productRecom" <c:if test="${reform.productRecom}">checked</c:if>>
                                             <label class="custom-control-label" for="recommendedProduct"><b>추천상품 설정</b></label>
                                         </div>
                                     </div>
