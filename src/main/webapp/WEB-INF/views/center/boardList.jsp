@@ -62,8 +62,10 @@
 	                		<tr>
 		                        <th scope="row">${element.noticeId}</th>
 		                        <td>
-		                        	<a href="${pageContext.request.contextPath}/center/detail?type=${boardType}&boardNum=${element.noticeId}" class="d-inline">${element.noticeTitle}&ensp;</a>
-		                       		<span class="badge badge-info">NEW</span>
+		                        	<a href="${pageContext.request.contextPath}/center/detail?type=${boardType}&boardNum=${element.noticeId}" class="d-inline">${element.noticeTitle}</a>
+		                       		<c:if test="${element.commentCount > 0}"><small>(${element.commentCount})</small></c:if>
+		                       		&ensp;
+		                       		<c:if test="${element.newBadge}"><span class="badge badge-info">NEW</span></c:if>
 		                        </td>
 		                        <td>${element.memberId}</td>
 		                        <td><fmt:formatDate value="${element.noticeDatetime}" pattern="yyyy-MM-dd"/></td>
@@ -80,9 +82,11 @@
 			                        	<c:if test="${element.lockState}">
 				                        	<i class="fas fa-lock fa-xs"></i>
 			                        	</c:if>
-			                        	${element.helpdeskTitle}&ensp; 
+			                        	${element.helpdeskTitle}
 		                        	</a>
-			                        <span class="badge badge-info">NEW</span>
+		                        	<c:if test="${element.commentCount > 0}"><small>(${element.commentCount})</small></c:if>&nbsp;
+									<c:if test="${element.newBadge}"><span class="badge badge-info">NEW</span>&nbsp;</c:if>
+									<c:if test="${element.adminReply}"><span class="badge badge-primary">답변완료</span></c:if>
 		                        </td>
 		                        <td>${element.memberId}</td>
 		                        <td><fmt:formatDate value="${element.helpdeskDatetime}" pattern="yyyy-MM-dd"/></td>

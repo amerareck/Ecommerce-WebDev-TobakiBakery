@@ -31,7 +31,6 @@ import com.mycompany.miniproject.dto.CartDTO;
 import com.mycompany.miniproject.dto.MemberDTO;
 import com.mycompany.miniproject.dto.OrderDTO;
 import com.mycompany.miniproject.dto.OrderForm;
-import com.mycompany.miniproject.dto.Pager;
 import com.mycompany.miniproject.dto.ProductDTO;
 import com.mycompany.miniproject.service.MemberService;
 import com.mycompany.miniproject.service.OrderService;

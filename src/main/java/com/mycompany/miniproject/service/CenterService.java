@@ -1,5 +1,6 @@
 package com.mycompany.miniproject.service;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,7 +16,6 @@ import com.mycompany.miniproject.dto.CommentDTO;
 import com.mycompany.miniproject.dto.HelpdeskDTO;
 import com.mycompany.miniproject.dto.NoticeDTO;
 import com.mycompany.miniproject.dto.Pager;
-import com.mycompany.miniproject.dto.ProductReviewDTO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -103,11 +103,26 @@ public class CenterService {
 	}
 
 	public List<NoticeDTO> getNoticeList(Pager pager) {
-		return noticeDAO.selectNoticeList(pager);
+		List<NoticeDTO> result = noticeDAO.selectNoticeList(pager);
+		long threeDaysInMillis = 3L * 24 * 60 * 60 * 1000;
+		for(NoticeDTO ele : result) {
+			ele.setCommentCount(commentDAO.getCommentCountByNotice(ele));
+			long differenceInMillis = Math.abs(new Date().getTime() - ele.getNoticeDatetime().getTime());
+			ele.setNewBadge(differenceInMillis < threeDaysInMillis);
+		}
+		return result;
 	}
 	
 	public List<HelpdeskDTO> getHelpdeskList(Pager pager) {
-		return helpdeskDAO.selectHelpdeskList(pager);
+		List<HelpdeskDTO> result = helpdeskDAO.selectHelpdeskList(pager);
+		long threeDaysInMillis = 3L * 24 * 60 * 60 * 1000;
+		for(HelpdeskDTO ele : result) {
+			ele.setCommentCount(commentDAO.getCommentCountByHelpdesk(ele));
+			long differenceInMillis = Math.abs(new Date().getTime() - ele.getHelpdeskDatetime().getTime());
+			ele.setNewBadge(differenceInMillis < threeDaysInMillis);
+			ele.setAdminReply(commentDAO.selectAdminCommentCountByHelpdesk(ele) > 0);
+		}
+		return result;
 	}
 
 	public boolean deleteImage(Map<String, Object> map) {
@@ -157,26 +172,76 @@ public class CenterService {
 	}
 
 	public List<HelpdeskDTO> getHelpdeskSubList(int helpdeskId) {
-		return helpdeskDAO.selectHelpdeskSubList(helpdeskId);
+		List<HelpdeskDTO> list = helpdeskDAO.selectHelpdeskSubList(helpdeskId);
+		long threeDaysInMillis = 3L * 24 * 60 * 60 * 1000;
+		for(HelpdeskDTO ele : list) {
+			ele.setCommentCount(commentDAO.getCommentCountByHelpdesk(ele));
+			long differenceInMillis = Math.abs(new Date().getTime() - ele.getHelpdeskDatetime().getTime());
+			ele.setNewBadge(differenceInMillis < threeDaysInMillis);
+			ele.setAdminReply(commentDAO.selectAdminCommentCountByHelpdesk(ele) > 0);
+		}
+		log.info(list.toString());
+		return list;
 	}
 	
 	public List<NoticeDTO> getNoticeSubList(int noticeId) {
-		return noticeDAO.selectNoticeSubList(noticeId);
+		List<NoticeDTO> list = noticeDAO.selectNoticeSubList(noticeId);
+		long threeDaysInMillis = 3L * 24 * 60 * 60 * 1000;
+		for(NoticeDTO ele : list) {
+			ele.setCommentCount(commentDAO.getCommentCountByNotice(ele));
+			long differenceInMillis = Math.abs(new Date().getTime() - ele.getNoticeDatetime().getTime());
+			ele.setNewBadge(differenceInMillis < threeDaysInMillis);
+		}
+		return list;
 	}
 
-	public List<CommentDTO> getCommentList(String type, int boardId) {
-		if(type.equals("notice")) {
-			return commentDAO.selectNoticeCommentList(boardId);
-		} else if(type.equals("helpdesk")) {
-			return commentDAO.selectHelpdeskCommentList(boardId);
-		} else {
-			log.info("type 에러 : "+type);
-			return null;
-		}
+	public List<CommentDTO> getCommentList(HelpdeskDTO dto) {
+		return commentDAO.selectHelpdeskCommentList(dto);
 	}
-	 public List<HelpdeskDTO> getInquiriesByMemberId(String memberId) {
+	
+	public List<CommentDTO> getCommentList(NoticeDTO dto) {
+		return commentDAO.selectNoticeCommentList(dto);
+	}
+	
+	public List<HelpdeskDTO> getInquiriesByMemberId(String memberId) {
 		 	log.info("이거 서비스인데 실행되나?");
 	        return helpdeskDAO.selectInquiriesByMemberId(memberId);
 	    }
+
+	public int addComment(CommentDTO comment) {
+		if(comment.getBoardType().equals("notice")) {
+			if(commentDAO.insertNoticeComment(comment) == 1) {
+				return commentDAO.selectRecentCommentId(comment);
+			}
+		} else if (comment.getBoardType().equals("helpdesk")) {
+			if(commentDAO.insertHelpdeskComment(comment) == 1) {
+				return commentDAO.selectRecentCommentId(comment);
+			}
+		}
+		return 0;
+	}
+
+	public CommentDTO getCommentSingleData(CommentDTO comment) {
+		if(comment.getBoardType().equals("notice")) {
+			return commentDAO.selectNoticeCommentSingle(comment);
+		} else if (comment.getBoardType().equals("helpdesk")) {
+			return commentDAO.selectHelpdeskCommentSingle(comment);
+		}
+		return null;
+	}
+
+	public boolean removeComment(CommentDTO comment) {
+		if(comment.getBoardType().equals("notice")) {
+			return commentDAO.deleteCommentByNotice(comment) == 1;
+		} else if(comment.getBoardType().equals("helpdesk")) {
+			return commentDAO.deleteCommentByHelpdesk(comment) == 1;
+		}
+		return false;
+	}
+
+	public boolean checkAuthorOfComment(CommentDTO comment, String memberId) {
+		CommentDTO comp = getCommentSingleData(comment);
+		return comp.getMemberId().equals(memberId);
+	}
 	
 }

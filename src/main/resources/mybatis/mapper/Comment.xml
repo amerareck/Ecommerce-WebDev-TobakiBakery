@@ -2,29 +2,145 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.mycompany.miniproject.dao.CommentDAO">
 
-	<select id="selectNoticeCommentList" parameterType="int" resultType="Comment">
+	<select id="selectNoticeCommentList" parameterType="Notice" resultType="Comment">
 		<![CDATA[
 			SELECT
 				comment_id,
 				comment_content,
 				comment_datetime,
 				member_id
-			FROM COMMENT
-			WHERE notice_id = #{notice_id}
+			FROM "comment"
+			WHERE notice_id = #{noticeId}
 			ORDER BY comment_datetime
 		]]>
 	</select>
 	
-	<select id="selectHelpdeskCommentList" parameterType="int" resultType="Comment">
+	<select id="selectHelpdeskCommentList" parameterType="Helpdesk" resultType="Comment">
 		<![CDATA[
 			SELECT
 				comment_id,
 				comment_content,
 				comment_datetime,
 				member_id
-			FROM COMMENT
-			WHERE helpdesk_id = #{helpdesk_id}
+			FROM "comment"
+			WHERE helpdesk_id = #{helpdeskId}
 			ORDER BY comment_datetime
+		]]>
+	</select>
+	
+	<insert id="insertNoticeComment" parameterType="Comment" >
+		<![CDATA[
+			INSERT INTO "comment"(
+				comment_id,
+				comment_content,
+				comment_datetime,
+				member_id,
+				notice_id
+			) VALUES (
+				seq_comment_id.nextval,
+				#{commentContent},
+				sysdate,
+				#{memberId},
+				#{boardId}
+			)
+		]]>
+	</insert>
+	
+	<insert id="insertHelpdeskComment" parameterType="Comment" >
+		<![CDATA[
+			INSERT INTO "comment"(
+				comment_id,
+				comment_content,
+				comment_datetime,
+				member_id,
+				helpdesk_id
+			) VALUES (
+				seq_comment_id.nextval,
+				#{commentContent},
+				sysdate,
+				#{memberId},
+				#{boardId}
+			)
+		]]>
+	</insert>
+	
+	<select id="selectRecentCommentId" parameterType="Comment" resultType="int">
+		<![CDATA[
+			SELECT comment_id
+			FROM "comment"
+			WHERE member_id = #{memberId}
+			ORDER BY comment_datetime DESC
+			FETCH FIRST 1 ROW ONLY
+		]]>
+	</select>
+	
+	<select id="selectNoticeCommentSingle" parameterType="Comment" resultType="Comment">
+		<![CDATA[
+			SELECT
+				comment_id,
+				comment_content,
+				comment_datetime,
+				member_id,
+				notice_id
+			FROM "comment"
+			WHERE 
+				notice_id = #{boardId}
+			AND comment_id = #{commentId}
+		]]>
+	</select>
+	
+	<select id="selectHelpdeskCommentSingle" parameterType="Comment" resultType="Comment">
+		<![CDATA[
+			SELECT
+				comment_id,
+				comment_content,
+				comment_datetime,
+				member_id,
+				helpdesk_id
+			FROM "comment"
+			WHERE 
+				helpdesk_id = #{boardId}
+			AND comment_id = #{commentId}
+		]]>
+	</select>
+	
+	<select id="getCommentCountByNotice" parameterType="Notice" resultType="int">
+		<![CDATA[
+			SELECT COUNT(*) as comment_count
+			FROM "comment"
+			WHERE notice_id = #{noticeId}
+		]]>
+	</select>
+	<select id="getCommentCountByHelpdesk" parameterType="Helpdesk" resultType="int">
+		<![CDATA[
+			SELECT COUNT(*) as comment_count
+			FROM "comment"
+			WHERE helpdesk_id = #{helpdeskId}
+		]]>
+	</select>
+	
+	<delete id="deleteCommentByNotice" parameterType="Comment">
+		<![CDATA[
+			DELETE FROM "comment"
+			WHERE comment_id = #{commentId}
+			AND notice_id = #{boardId}
+		]]>
+	</delete>
+	<delete id="deleteCommentByHelpdesk" parameterType="Comment">
+		<![CDATA[
+			DELETE FROM "comment"
+			WHERE comment_id = #{commentId}
+			AND helpdesk_id = #{boardId}
+		]]>
+	</delete>
+	
+	<select id="selectAdminCommentCountByHelpdesk" parameterType="Helpdesk" resultType="int">
+		<![CDATA[
+			SELECT COUNT(*)
+			FROM "comment"
+			WHERE 
+				member_id = 'admin'
+			AND helpdesk_id = #{helpdeskId}
 		]]>
 	</select>
 

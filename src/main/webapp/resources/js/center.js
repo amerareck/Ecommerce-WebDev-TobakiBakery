@@ -109,68 +109,83 @@ $('#productListForm #category').change(function(event){
 $('#commentForm').submit(function(event){
     event.preventDefault();
 
-    const author = $('#memberName').val();
-    const content = $('#commentCentent').val().replace(/\n/g, '<br>');
-    const index = $('.text-muted.board-index').text();
+    const memberId = $('#memberName').val();
+    const commentContent = $('#commentCentent').val().replace(/\n/g, '<br>');
+    const boardId = $('.text-muted.board-index').text();
     const boardType = $('#boardType').val();
-    let formattedDate = moment().format('YYYY-MM-DD HH:mm:ss');
+    //let formattedDate = moment().format('YYYY-MM-DD HH:mm:ss');
     const requestData = {
-    	memberId: author,
-    	commentContent: content,
-    	commentDatetime: formattedDate
+    	memberId: memberId,
+    	commentContent: commentContent,
+    	boardType: boardType,
+    	boardId: boardId
+    	//commentDatetime: formattedDate
     }
-    console.log(index);
-    if(!content) {
+    if(!commentContent) {
         alert('내용을 입력해 주세요.');
         return;
     }
-    
-    if(boardType === 'notice') {
-    	requestData.noticeId = index;
-    } else if(boardType === 'product') {
-    	requestData.productId = index;
-    } else if(boardType === 'other') {
-    	requestData.etcAskId = index;
-    }
+    console.log(requestData);
 
     
     $.ajax({
-    	url: "../addComment",
+    	url: "addComment",
     	type: "post",
     	data: requestData,
     	success: function(data) {
     		if(data.status === 'ok') {
-    			alert('댓글이 등록되었습니다.');
+    			console.log(data.commentData);
+    			const date = moment(data.commentData.commentDatetime, "ddd MMM DD HH:mm:ss z YYYY").format('YYYY-MM-DD HH:mm:ss');
+    			console.log(date);
+    			const listTag = $('#commentList ul');
+    		    listTag.append(`
+    		        <li class="list-group-item">
+    		            <div class="reply-author">
+    		                <p>
+    		                    <strong>${data.commentData.memberId}</strong><small class="text-muted">&nbsp;${date}</small>
+    		                    <button class="btn btn-light btn-sm disabled commentDelete" id="commentId-${data.commentData.commentId}"><i class="fas fa-times"></i></button>
+    		                </p>
+    		            </div>
+    		            <div class="reply-content">
+    		                <p>${commentContent}</p>
+    		            </div>
+    		        </li>
+    		    `);
+    		    $('#commentCentent').val('');
     		}
-    	}
+    	},
+    	error: function (xhr, status, error) {
+            console.log('Error: ' + error);
+        }
     });
     
-    const listTag = $('#commentList ul');
-    listTag.append(`
-        <li class="list-group-item">
-            <div class="reply-author">
-                <p>
-                    <strong>${author}</strong><small class="text-muted"> ${formattedDate}</small>
-                    <button class="btn btn-light btn-sm disabled commentDelete"><i class="fas fa-times"></i></button>
-                </p>
-            </div>
-            <div class="reply-content">
-                <p>${content}</p>
-            </div>
-        </li>
-    `);
-    $('#commentCentent').val('');
+    
 });
 
 $('#commentList').on('click', 'button.commentDelete', function(event){
-    // 서버가 없어서 임시로 작성자로 매칭하지만, 서버에서 데이터 받아와서 비교 다시 해야 함.
-    const actor = $('#memberName').val();
-    const author = $(this).closest('li').find('.reply-author p>strong').text();
-    if(actor != author) {
-        alert('권한이 없습니다.');
-        return;
-    }
-    $(this).closest('li').remove();
+	const commentTag = $(this).closest('li');
+	const commentId = $(this).attr('id').split('-')[1];
+    const memberId = commentTag.find('#memberId-'+commentId).text();
+    const boardType = $('#boardType').val();
+    const boardId = $('.text-muted.board-index').text();
+    const form = {commentId, memberId, boardType, boardId};
+    console.log(form);
+    
+    $.ajax({
+    	url: 'deleteComment',
+    	method: 'post',
+    	data: form,
+    	success: function(data) {
+    		if(data.status === 'ok') {
+    			commentTag.remove();
+    		} else if(data.status === 'no-master') {
+    			alert('삭제 권한이 존재하지 않습니다.');
+    		}
+    	},
+    	error: function (xhr, status, error) {
+            console.log('Error: ' + error);
+        }
+    });
 });
 
 $('#removeBoardBotton').click(function(){

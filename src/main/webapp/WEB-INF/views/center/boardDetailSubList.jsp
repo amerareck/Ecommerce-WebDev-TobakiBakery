@@ -8,7 +8,7 @@
         <tr>
             <th>#</th>
             <th>제목</th>
-            <th>이름</th>
+            <th>작성자</th>
             <th>날짜</th>
             <th>조회수</th>
         </tr>
@@ -19,8 +19,12 @@
     		<c:if test="${element.boardId != board.boardId}"><tr></c:if>
 	            <td><b>${element.boardId}</b></td>
 	            <td>
-	            	<a href="${pageContext.request.contextPath}/center/detail?type=${boardType}&boardNum=${element.boardId}" class="d-inline" >${element.title}&ensp;</a>
-	            	<span class="badge badge-info">NEW</span>
+	            	<c:if test="${element.lockState}"><i class="fas fa-lock fa-xs"></i>&nbsp;</c:if>
+	            	<a href="${pageContext.request.contextPath}/center/detail?type=${boardType}&boardNum=${element.boardId}" class="d-inline" >${element.title}</a>
+	            	<c:if test="${element.commentCount > 0}"><small>(${element.commentCount})</small></c:if>
+	            	&ensp;
+	            	<c:if test="${element.newBadge}"><span class="badge badge-info">NEW</span>&nbsp;</c:if>
+	            	<c:if test="${element.adminReply}"><span class="badge badge-primary">답변완료</span></c:if>
 	            </td>
 	            <td>${element.memberId}</td>
 	            <td><fmt:formatDate value="${element.datetime}" pattern="yyyy-MM-dd hh:mm:ss"/> </td>

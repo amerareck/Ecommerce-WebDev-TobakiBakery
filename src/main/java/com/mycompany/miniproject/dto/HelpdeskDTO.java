@@ -1,6 +1,7 @@
 package com.mycompany.miniproject.dto;
 
 import java.util.Date;
+import java.util.List;
 
 import lombok.Data;
 
@@ -18,4 +19,10 @@ public class HelpdeskDTO {
 	private String imageOriginalName;
 	private String imageType;
 	private byte[] imageData;
+	
+	private int commentCount;
+	private List<CommentDTO> commentList;
+	
+	private boolean newBadge;
+	private boolean adminReply;
 }
