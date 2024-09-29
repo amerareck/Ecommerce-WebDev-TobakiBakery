@@ -28,10 +28,10 @@ $('#selectRemover').on('click', function(event){
 		data: JSON.stringify(list),
 		success: function(data){
 			if (data.status === 'ok') {
-				alert('선택한 장바구니 상품이 삭제되었습니다.');
+				showModal('장바구니 삭제','선택한 장바구니 상품이 삭제되었습니다.');
 				location.href='cart';
 			} else if (data.status === 'not-found-user') {
-				alert('로그인 후 다시 시도해주십시오.');
+				showModal('로그인 요청','로그인 후 다시 시도해주십시오.');
 				location.href='../login';
 			}
 		},
@@ -118,10 +118,10 @@ $('#emptyCart').on('click', function(){
 		data: JSON.stringify(list),
 		success: function(data){
 			if (data.status === 'ok') {
-				alert('모든 장바구니 상품을 삭제하였습니다.');
+				showModal('장바구니 삭제','모든 장바구니 상품을 삭제하였습니다.');
 				location.href='cart';
 			} else if (data.status === 'not-found-user') {
-				alert('로그인 후 다시 시도해주십시오.');
+				showModal('로그인 요청','로그인 후 다시 시도해주십시오.');
 				location.href='../login';
 			}
 		},
@@ -166,7 +166,7 @@ $('#orderProcess').on('click', function(){
 	});
 	console.log(list);
 	if(list.length < 1) {
-		alert('선택하신 상품이 존재하지 않습니다.');
+		showModal('선택하신 상품이 존재하지 않습니다.');
 		return;
 	}
 	

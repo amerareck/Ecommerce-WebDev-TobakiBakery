@@ -4,7 +4,7 @@
 <c:if test="${isAlert}">
 	<script>
 		window.onload = function(){
-			alert('${alert}');
+			showModal('잠깐!', '${alert}');
 			var redirect = '${redirect}';
 			if(redirect !== '') {
 				location.href='${redirect}';			

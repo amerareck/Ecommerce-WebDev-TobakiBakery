@@ -4,13 +4,13 @@ $('#boardSearchForm').submit(function(event){
     const formCategory = $('#searchCategory');
     const boardSearch = $('#boardSearch');
     if(!boardSearch.val()) {
-        alert('검색하실 내용을 입력해 주세요.');
+    	showModal('검색하실 내용을 입력해 주세요.');
         return;
     }
 
-    let str = '검색하신 키워드입니다. \n';
+    let str = '';
     str += '['+formCategory.val()+': '+ boardSearch.val().trim() + ']\n';
-    alert(str);
+    showModal('검색 키워드', str);
 });
 
 /*
@@ -122,7 +122,7 @@ $('#commentForm').submit(function(event){
     	//commentDatetime: formattedDate
     }
     if(!commentContent) {
-        alert('내용을 입력해 주세요.');
+    	showModal('내용을 입력해 주세요.');
         return;
     }
     console.log(requestData);
@@ -179,7 +179,7 @@ $('#commentList').on('click', 'button.commentDelete', function(event){
     		if(data.status === 'ok') {
     			commentTag.remove();
     		} else if(data.status === 'no-master') {
-    			alert('삭제 권한이 존재하지 않습니다.');
+    			showModal('삭제 권한이 존재하지 않습니다.');
     		}
     	},
     	error: function (xhr, status, error) {
@@ -200,13 +200,13 @@ $('#removeBoardBotton').click(function(){
 		success: function(data){
 			console.log(data);
 			if(data.status === 'ok') {
-				alert('게시글을 삭제하였습니다.');
+				showModal('게시글을 삭제하였습니다.');
 				location.href='list';
 			} else if(data.status === 'fail') {
-				alert('이미 삭제된 게시글이거나, 게시글이 존재하지 않습니다.');
+				showModal('삭제 실패','이미 삭제된 게시글이거나, 게시글이 존재하지 않습니다.');
 				location.href='list';
 			} else {
-				alert('서버와의 연결에 문제가 발생하였습니다.');
+				showModal('서버와의 연결에 문제가 발생하였습니다.');
 			}
 		}
 	});
@@ -243,10 +243,10 @@ $('.deleteImage').on('click', function(event){
 				}
 				
 			} else if(response.result === 'notFoundImage') {
-				alert('현재 이미지가 존재하지 않거나, 이미 삭제되었습니다.\n다시 확인해 주세요.');
+				showModal('삭제 실패','현재 이미지가 존재하지 않거나, 이미 삭제되었습니다.\n다시 확인해 주세요.');
 			
 			} else {
-				alert('불명확한 사유로 인해 처리가 실패하였습니다.\n고객센터에 문의해 주세요.');
+				showModal('불명확한 사유로 인해 처리가 실패하였습니다.\n고객센터에 문의해 주세요.');
 			}
 		}
 	});
