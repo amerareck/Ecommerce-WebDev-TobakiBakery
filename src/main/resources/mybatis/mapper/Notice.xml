@@ -141,5 +141,75 @@
 			WHERE notice_id = #{noticeId}
 		]]>
 	</delete>
+	
+	<select id="selectNoticeSearchList" parameterType="Pager" resultType="Notice">
+		<![CDATA[
+			SELECT
+				notice_id,
+				notice_title,
+				notice_datetime,
+				notice_content,
+				notice_views,
+				member_id
+			FROM
+				(SELECT
+					rownum as rnum,
+					notice_id,
+					notice_title,
+					notice_datetime,
+					notice_content,
+					notice_views,
+					member_id
+				FROM 
+					(SELECT
+						 notice_id,
+						 notice_title,
+						 notice_datetime,
+						 notice_content,
+						 notice_views,
+						 member_id
+					 FROM NOTICE
+
+					]]>
+			<where>
+				<choose>
+					<when test="searchType == '이름'">
+						member_id LIKE '%' || #{boardKeyword} || '%'
+					</when>
+					<when test="searchType == '제목'">
+						notice_title LIKE '%' || #{boardKeyword} || '%'
+					</when>
+					<when test="searchType == '내용'">
+						notice_content LIKE '%' || #{boardKeyword} || '%'
+					</when>
+				</choose>
+			</where>
+			<![CDATA[		 
+					 ORDER BY notice_id DESC)
+				WHERE rownum <= #{endRowNo})
+			WHERE rnum >= #{startRowNo}
+		]]>
+	</select>
+
+	<select id="selectBoardSearchCount" parameterType="Pager" resultType="int">
+		<![CDATA[		  
+		    SELECT COUNT(*)
+		    FROM NOTICE
+		]]>
+			<where>
+				<choose>
+					<when test="searchType == '이름'">
+						member_id LIKE '%' || #{boardKeyword} || '%'
+					</when>
+					<when test="searchType == '제목'">
+						notice_title LIKE '%' || #{boardKeyword} || '%'
+					</when>
+					<when test="searchType == '내용'">
+						notice_content LIKE '%' || #{boardKeyword} || '%'
+					</when>
+				</choose>
+			</where>
+		
+	</select>
 
 </mapper>
