@@ -33,7 +33,7 @@ $('#headerSearch').on('submit', function(event) {
 
     }  else {
         // 검색어가 있는 경우 폼을 정상적으로 제출
-        this.submit(); // 폼 제출
+    		this.submit(); // 폼 제출
     }
     
 });
