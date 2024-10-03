@@ -203,12 +203,11 @@ public class ProductController {
 	
 	@GetMapping("/productDetail")
 	public String getProductDetail(
-			ProductDTO product,
-			@RequestParam("productId") int productId, 
+			ProductDTO product, 
 			Model model) {
-		getProdDetail(productId, model);
+		getProdDetail(product.getProductId(), model);
 		
-		String categoryName = productService.getProductCategoryName(productId);
+		String categoryName = productService.getProductCategoryName(product.getProductId());
 		model.addAttribute("categoryName", categoryName);
 
 		
@@ -334,16 +333,18 @@ public class ProductController {
 		
 		// 상품과 첨부 이미지가 정상적으로 처리된 경우.
 		if(productInsert) {
-			model.addAttribute("isAlert", true);
-			model.addAttribute("alert", "상품이 등록되었습니다.");
-			model.addAttribute("redirect", "../admin/main");
-			return "common/alert";
-		} else {
-			model.addAttribute("isAlert", true);
-			model.addAttribute("alert", "서버로부터 상품 등록에 실패하였습니다.\n서버 상태를 확인해주세요.");
-			model.addAttribute("reform", form);
+			redi.addFlashAttribute("isAlert", true);
+			redi.addFlashAttribute("alert", "상품이 등록되었습니다.");
+			redi.addFlashAttribute("adminMain", "active");
+			redi.addFlashAttribute("listType", "product");
 			
-			return "admin/adminProductDetails";
+			return "redirect:/admin/list?type=product";
+		} else {
+			redi.addFlashAttribute("isAlert", true);
+			redi.addFlashAttribute("alert", "서버로부터 상품 등록에 실패하였습니다.\n서버 상태를 확인해주세요.");
+			redi.addFlashAttribute("reform", form);
+			
+			return "redirect:/admin/addProduct";
 		}
 
 	}
@@ -396,7 +397,7 @@ public class ProductController {
 	
 	@Secured("ROLE_ADMIN")
 	@PostMapping("/update")
-	public String updateProduct(@Valid ProductForm form, Errors error, Model model) throws IOException {
+	public String updateProduct(@Valid ProductForm form, Errors error, Model model, RedirectAttributes redi) throws IOException {
 		log.info("실행");
 		log.info("productForm: "+form.toString());
 		
@@ -451,15 +452,14 @@ public class ProductController {
 		
 		// 트랜잭션 처리 필요!
 		if(!productUpdate) {
-			model.addAttribute("isAlert", true);
-			model.addAttribute("alert", "상품 수정에 있어 오류가 발생했습니다.");
-			model.addAttribute("redirect", "../admin/main?pageNo="+form.getPageNo());
+			redi.addFlashAttribute("isAlert", true);
+			redi.addFlashAttribute("alert", "상품 수정에 있어 오류가 발생했습니다.");
+			//redi.addFlashAttribute("redirect", "../admin/main?pageNo="+form.getPageNo());
 		} else {
-			model.addAttribute("isAlert", true);
-			model.addAttribute("alert", "상품 수정이 완료되었습니다.");
-			model.addAttribute("redirect", "../admin/main?pageNo="+form.getPageNo());
+			redi.addFlashAttribute("isAlert", true);
+			redi.addFlashAttribute("alert", "상품 수정이 완료되었습니다.");
 		}
-		return "common/alert";
+		return "redirect:/admin/list?type=product&pageNo="+form.getPageNo();
 	}
 	
 	@Secured("ROLE_ADMIN")

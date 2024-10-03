@@ -24,11 +24,8 @@ public class HomeController {
 	@Autowired
 	private ProductService productService;
 	
-	@Autowired
-	private OrderService orderService;
-	
 	@GetMapping("")
-	public String getIndex(Model model, HttpSession session, Authentication auth) {
+	public String getIndex(Model model) {
 		log.info("실행");
 		getNewProductList(model);
 		getBestProductList(model);

@@ -1,12 +1,7 @@
 package com.mycompany.miniproject.controller;
 
-import java.io.PrintWriter;
 import java.util.List;
-import java.util.Map;
 
-import javax.servlet.http.HttpServletResponse;
-
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
@@ -15,17 +10,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.mycompany.miniproject.dto.HelpdeskDTO;
-import com.mycompany.miniproject.dto.MemberDTO;
 import com.mycompany.miniproject.dto.OrderDTO;
 import com.mycompany.miniproject.dto.ProductReviewDTO;
 import com.mycompany.miniproject.service.CenterService;
 import com.mycompany.miniproject.service.MemberService;
 import com.mycompany.miniproject.service.OrderService;
 import com.mycompany.miniproject.service.ProductReviewService;
-import com.mycompany.miniproject.service.ProductService;
 
 import lombok.extern.slf4j.Slf4j;
 @Controller
@@ -41,8 +33,6 @@ public class MypageController {
 	private CenterService centerService;
 	@Autowired
 	private OrderService orderService;
-	@Autowired
-	private ProductService productService;
 	@RequestMapping("/mypageMain")
 	public String mypageMain(Model model) {
 	    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -64,10 +54,7 @@ public class MypageController {
 	    return "mypage/mypageMain";
 	}
 
-	
-		
-	
-	@RequestMapping("/mypageOrderDelivery")	
+	@RequestMapping("/mypageOrderDelivery")
 		public String getmyorderdelivery() {
 		log.info("실행");
 			return "mypage/mypageOrderDelivery";
@@ -80,12 +67,12 @@ public class MypageController {
 		}
 	@Autowired
     private ProductReviewService productReviewService;
-	@RequestMapping("/mypageReview")	
+	@RequestMapping("/mypageReview")
 	public String getmypagereview(Model model) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String memberId = authentication.getName();
         if(memberId.equals("yooni01")) {
-;        	List<ProductReviewDTO> reviews = productReviewService.getReviewsByMemberId(memberId);
+        	List<ProductReviewDTO> reviews = productReviewService.getReviewsByMemberId(memberId);
 			for(ProductReviewDTO dto : reviews) {
 				List<String> imageName = centerService.getBoardImageNames("productReview", dto.getProductReviewId());
 				dto.setImageOriginalName(imageName.get(0));
@@ -146,7 +133,6 @@ public class MypageController {
 		return "mypage/mypageOrderDelivery";
 	}
 	
-	
-	}
+}
 	
 

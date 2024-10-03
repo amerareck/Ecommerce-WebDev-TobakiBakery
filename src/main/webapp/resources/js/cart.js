@@ -181,13 +181,14 @@ $('#orderProcess').on('click', function(){
 			} else if(data.status === 'not_sale') {
 				console.log(data.notSaleProductId);
 				console.log(data.soldOutProductId);
-				if(data.notSaleProductId.length) {
+				
+				if(data.notSaleProductId !== undefined && data.notSaleProductId.length) {
 					console.log('재고부족: '+data.notSaleProductId);
 					$.each(data.notSaleProductId, function(index, value){
 						$('#cartRow-'+value).after(outOfStock);
 					});
 				}
-				if(data.notSaleProductId.length) {
+				if(data.soldOutProductId !== undefined && data.soldOutProductId.length) {
 					console.log('상품매진: '+data.soldOutProductId);
 					$.each(data.soldOutProductId, function(index, value){
 						$('#cartRow-'+value).after(soldOut);

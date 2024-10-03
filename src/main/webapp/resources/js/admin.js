@@ -393,10 +393,11 @@ $('.thumbnail-image-controller').on('change', '.thumbnail-image-file', function(
     }
 });
 
+var comfirmValue = false;
 $('#productDelete').on('click', function(event){
 	const list = [];
 	const removeTarget = [];
-	let str = '** 선택된 상품명 ** \n';
+	let str = '** 선택된 상품명 ** \n\n';
 	$('.product-select:checked').each(function(index){
 		let productId = $(this).attr('id').split('-')[2];
 		let productName = $(this).closest('tr').find('#productName-'+productId).text();
@@ -410,7 +411,7 @@ $('#productDelete').on('click', function(event){
 		return;
 	}
 	
-	if (confirm('정말로 선택한 상품을 삭제하시겠습니까?\n\n'+str)) {
+	if (confirm('정말로 선택한 상품을 삭제하시겠습니까?\n\n')+str) {
 		$.ajax({
 			url: '../product/deleteList',
 			type: 'post',

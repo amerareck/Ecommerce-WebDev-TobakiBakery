@@ -29,6 +29,39 @@ function showModal(title, message){
     modal.open();
 }
 
+function confirmModal(message){
+	
+	var result = false;
+    // 검색어가 비어 있을 경우 모달 표시
+    var modal = new tingle.modal({
+        footer: true,
+        closeMethods: ['button', 'overlay'],
+        closeLabel: "Close",
+        cssClass: ['tingle-modal'],
+        onOpen: function() {
+            console.log('모달이 열렸습니다.');
+        },
+        onClose: function() {
+            console.log('모달이 닫혔습니다.');
+            comfirmValue = true;
+        },
+        beforeClose: function() {
+            return true;
+        }
+    });
+
+    modal.setContent('<h2>' + '알림' + '</h2><h5>' + message + '</h5>');
+    modal.addFooterBtn('예', 'tingle-btn tingle-btn--default', function() {
+        modal.close();
+    });
+    
+    modal.addFooterBtn('아니오', 'tingle-btn tingle-btn--danger', function() {
+    	modal.close();
+        return false;
+    });
+    modal.open();
+}
+
 $('#headerSearch').on('submit', function(event) { 
     event.preventDefault(); 
     const searchText = $(this).find('.headerSearchInput'); 
