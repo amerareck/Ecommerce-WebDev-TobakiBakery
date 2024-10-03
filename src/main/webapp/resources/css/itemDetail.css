@@ -193,5 +193,6 @@
 .breadcrumb {
 	border: hidden !important;
 	background-color: #fff;
-	margin-left: 30px
+	width: 18%;
+	font-size: 9pt;
 }

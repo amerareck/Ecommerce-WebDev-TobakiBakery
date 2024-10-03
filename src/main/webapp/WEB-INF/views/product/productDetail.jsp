@@ -9,8 +9,13 @@
     <div id="contentWrap">
         <nav class="breadcrumb-container">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="../" style="color: black !important;"><i class="fas fa-home"></i></a></li>
-                <li class="breadcrumb-item"><a href="../product/itemDetail-static" style="color: black !important;">상세페이지</a></li>
+                <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}"><i class="fas fa-home"></i></a></li>
+                <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/product/productListAll?categoryName=${categoryName }">
+                <c:if test="${categoryName=='BREAD'}">빵</c:if>
+                <c:if test="${categoryName=='CAKE'}">케이크</c:if>
+                <c:if test="${categoryName=='DESSERT'}">디저트</c:if>
+                </a>
+                </li>
             </ol>
         </nav>
         <div id="productDetail" class="fixed_view">

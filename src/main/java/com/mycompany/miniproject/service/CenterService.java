@@ -16,7 +16,6 @@ import com.mycompany.miniproject.dto.CommentDTO;
 import com.mycompany.miniproject.dto.HelpdeskDTO;
 import com.mycompany.miniproject.dto.NoticeDTO;
 import com.mycompany.miniproject.dto.Pager;
-
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -208,6 +207,28 @@ public class CenterService {
 	        return helpdeskDAO.selectInquiriesByMemberId(memberId);
 	    }
 
+	public List<NoticeDTO> getNoticeSearch(Pager pager) {
+		log.info("실행");
+		log.info(pager.getBoardKeyword());
+		List<NoticeDTO> noticeSearchList = noticeDAO.selectNoticeSearchList(pager);
+		return noticeSearchList;
+	}
+
+	public List<HelpdeskDTO> getHelpdeskSearch(Pager pager) {
+		log.info("실행");
+		log.info(pager.getBoardKeyword());
+		List<HelpdeskDTO> helpdeskSearch = helpdeskDAO.selectHelpDeskSearchList(pager);
+		return helpdeskSearch;
+	}
+	public int getBoardSearchCount(String type, Pager pager) {
+		
+		if(type.equals("notice")) {
+			return noticeDAO.selectBoardSearchCount(pager);
+		} else if(type.equals("helpdesk")) {
+			return helpdeskDAO.selectBoardSearchCount(pager);
+		}
+		return 0;
+	}
 	public int addComment(CommentDTO comment) {
 		if(comment.getBoardType().equals("notice")) {
 			if(commentDAO.insertNoticeComment(comment) == 1) {

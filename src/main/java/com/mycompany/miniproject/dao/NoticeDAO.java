@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.mycompany.miniproject.dto.CommentDTO;
+import com.mycompany.miniproject.dto.HelpdeskDTO;
 import com.mycompany.miniproject.dto.NoticeDTO;
 import com.mycompany.miniproject.dto.Pager;
 
@@ -29,5 +29,10 @@ public interface NoticeDAO {
 	public List<NoticeDTO> selectNoticeSubList(int noticeId);
 
 	public int updateNoticeViews(int boardNum);
+
+	public List<NoticeDTO> selectNoticeSearchList(Pager pager);
+
+	public int selectBoardSearchCount(Pager pager);
+	
 
 }

@@ -7,7 +7,7 @@
     <h2 class="h2 mb-5 border-bottom" style="width: 100px;">${title}</h2>
 </div>
 
-
+          
 <ul class="nav nav-tabs justify-content-center mb-3">
     <li class="nav-item">
     	

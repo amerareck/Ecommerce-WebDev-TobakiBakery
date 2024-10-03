@@ -21,7 +21,6 @@ function showModal(title, message){
             return true;
         }
     });
-
     modal.setContent('<h2>' + title + '</h2><h5>' + message + '</h5>');
     modal.addFooterBtn('닫기', 'tingle-btn tingle-btn--default', function() {
         modal.close();
@@ -65,12 +64,12 @@ function confirmModal(message){
 $('#headerSearch').on('submit', function(event) { 
     event.preventDefault(); 
     const searchText = $(this).find('.headerSearchInput'); 
-
+    
     if (searchText.val().trim() === '') {
-    	showModal('검색 확인!', '검색 상품을 입력해 주세요.');
-    } else {
-        // 검색어가 있는 경우 폼을 정상적으로 제출
-        this.submit(); // 폼 제출
+    		showModal('검색 확인!', '검색 상품을 입력해 주세요.')
+
+    }   else {
+    		this.submit(); // 폼 제출
     }
     
 });

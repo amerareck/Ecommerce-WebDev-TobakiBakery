@@ -209,7 +209,7 @@ public class ProductController {
 		
 		String categoryName = productService.getProductCategoryName(product.getProductId());
 		model.addAttribute("categoryName", categoryName);
-
+		log.info("categoryName: " + categoryName);
 		
 		getProdSmartRecom(product, model);
 		

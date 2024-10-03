@@ -321,7 +321,10 @@
 						product_new,
 						product_best
 					FROM PRODUCT
-					ORDER BY product_id DESC)
+					ORDER BY 
+						product_new DESC, 
+						product_best DESC, 
+						product_recom DESC)
 				WHERE rownum <= #{endRowNo})
 			WHERE rnum >= #{startRowNo}
 			

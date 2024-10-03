@@ -17,7 +17,12 @@
 <br>
       <!-- 컨텐츠 래퍼 시작 -->
 <div class="content-wrapper">
-    <h1><b>아이디 찾기 / 비밀번호 찾기</b></h1>
+    <h1><b>        
+    		<c:if test="${searchType == 'idSearch'}">아이디찾기</c:if>
+    		<c:if test="${searchType == 'idSearchComplete'}">아이디찾기</c:if>
+        <c:if test="${searchType == 'pwSearch'}">비밀번호 찾기</c:if>
+        <c:if test="${searchType == 'pwSearchComplete'}">비밀번호 찾기</c:if>
+    	</b></h1>
     <br>
 
     <!-- 탭 메뉴 시작 -->

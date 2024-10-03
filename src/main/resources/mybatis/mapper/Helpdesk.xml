@@ -166,4 +166,75 @@
             
            ]]>
      </select>
+     
+     	<select id="selectHelpDeskSearchList" parameterType="Pager" resultType="Helpdesk">
+		<![CDATA[
+			SELECT
+				helpdesk_id,
+				helpdesk_title,
+				helpdesk_datetime,
+				helpdesk_content,
+				helpdesk_views,
+				member_id
+			FROM
+				(SELECT
+					rownum as rnum,
+					helpdesk_id,
+					helpdesk_title,
+					helpdesk_datetime,
+					helpdesk_content,
+					helpdesk_views,
+					member_id
+				FROM 
+					(SELECT
+						 helpdesk_id,
+						 helpdesk_title,
+						 helpdesk_datetime,
+						 helpdesk_content,
+						 helpdesk_views,
+						 member_id
+					 FROM HELPDESK
+
+					]]>
+			<where>
+				<choose>
+					<when test="searchType == '이름'">
+						member_id LIKE '%' || #{boardKeyword} || '%'
+					</when>
+					<when test="searchType == '제목'">
+						helpdesk_title LIKE '%' || #{boardKeyword} || '%'
+					</when>
+					<when test="searchType == '내용'">
+						helpdesk_content LIKE '%' || #{boardKeyword} || '%'
+					</when>
+				</choose>
+			</where>
+			<![CDATA[		 
+					 ORDER BY helpdesk_id DESC)
+				WHERE rownum <= #{endRowNo})
+			WHERE rnum >= #{startRowNo}
+		]]>
+	</select>
+	
+	<select id="selectBoardSearchCount" parameterType="Pager" resultType="int">
+		<![CDATA[		 
+		    SELECT COUNT(*)
+		    FROM HELPDESK
+		]]>
+			<where>
+				<choose>
+					<when test="searchType == '이름'">
+						member_id LIKE '%' || #{boardKeyword} || '%'
+					</when>
+					<when test="searchType == '제목'">
+						helpdesk_title LIKE '%' || #{boardKeyword} || '%'
+					</when>
+					<when test="searchType == '내용'">
+						helpdesk_content LIKE '%' || #{boardKeyword} || '%'
+					</when>
+				</choose>
+			</where>
+	</select>
+	
+	
 </mapper>

@@ -18,16 +18,18 @@
         </nav>
         <!-- Breadcrumbs 영역 종료-->
         
+
         <!-- 메인 컨테이너 -->
         <div class="list-container mb-5">
 		<%@include file="/WEB-INF/views/center/boardSubNavigation.jsp" %>
-
             <!-- 게시글 검색 컴포넌트 시작 -->
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <div class="table-row-counter">총 ${boardAllCount}개의 게시물이 있습니다.</div>
-                <form class="form-inline" id="boardSearchForm">
+                <form class="form-inline" id="boardSearchForm" action="boardSearch">
+                    <input type="hidden" name="type" value="${boardType}"> <!-- 현재 게시판의 타입을 전달 -->
+                
                     <div class="form-group mr-2">
-                        <select class="form-control" id="searchCategory">
+                        <select class="form-control" id="searchCategory" name="searchType">
                             <option value="이름">이름</option>
                             <option value="제목">제목</option>
                             <option value="내용">내용</option>
@@ -35,7 +37,7 @@
                     </div>
                     <div class="input-group">
                         <label for="boardSearch" class="sr-only">검색</label>
-                        <input type="text" class="form-control" id="boardSearch" placeholder="검색어를 입력해 주세요.">
+                        <input type="text" class="form-control" name="boardKeyword" id="boardKeyword" placeholder="검색어를 입력해 주세요.">
                         <div class="input-group-append">
                             <button type="submit" class="btn btn-primary" style="border-color: transparent; padding-bottom: 5px;"><i class="fa fa-search"></i></button>
                         </div>
@@ -124,39 +126,57 @@
 
             <!-- 게시판 묶음 네비게이터 바 시작 -->
             <div class="paging-wrapper">
-                <ul class="pagination">
-                    <li class="page-item disabled">
-                    	<c:if test="${pager.groupNo>1}" >
-	                        <a class="page-link" href="${pageContext.request.contextPath}/center/list?type=${boardType}&pageNo=${pager.startPageNo-1}" >&laquo;</a>
-                    	</c:if>
-                    	<c:if test="${pager.groupNo<=1}" >
-	                        <a class="page-link" href="javascript:void(0);" >&laquo;</a>
-                    	</c:if>
-                    </li>
-                    
-                    <c:forEach begin="${pager.startPageNo}" end="${pager.endPageNo}" var="i">
-                    	<c:if test="${pager.pageNo == i}" >
-                    		<li class="page-item active">
-                        		<a class="page-link" href="${pageContext.request.contextPath}/center/list?type=${boardType}&pageNo=${i}">${i}</a>
-                    		</li>
-                    	</c:if>
-                    		
-                    	<c:if test="${pager.pageNo != i}" >
-                    		<li class="page-item">
-		                        <a class="page-link" href="${pageContext.request.contextPath}/center/list?type=${boardType}&pageNo=${i}">${i}</a>
-		                    </li>
-                    	</c:if>
-                    </c:forEach>
-
-                    <li class="page-item">
-                    	<c:if test="${pager.groupNo<pager.totalGroupNo}" >
-	                        <a class="page-link" href="${pageContext.request.contextPath}/center/list?type=${boardType}&pageNo=${pager.endPageNo+1}">&raquo;</a>
-	                    </c:if>
-                    	<c:if test="${pager.groupNo>=pager.totalGroupNo}" >
-	                        <a class="page-link" href="javascript:void(0)">&raquo;</a>
-                    	</c:if>
-                    </li>
-                </ul>
+            <c:if test="${boardAllCount > 0}">
+              <ul class="pagination">
+				    <li class="page-item">
+				        <c:if test="${pager.groupNo > 1}">
+				            <a class="page-link" href="${pageContext.request.contextPath}/center/boardSearch?type=${boardType}&searchType=${pager.searchType}&boardKeyword=${pager.boardKeyword}&pageNo=${pager.startPageNo - 1}">&laquo;</a>
+				        </c:if>
+				        <c:if test="${pager.groupNo <= 1}">
+				            <a class="page-link" href="javascript:void(0);" >&laquo;</a>
+				        </c:if>
+				    </li>
+				
+				    <c:forEach begin="${pager.startPageNo}" end="${pager.endPageNo}" var="i">
+				        <c:choose>
+				            <c:when test="${pager.pageNo == i}">
+				                <li class="page-item active">
+				                    <a class="page-link" href="javascript:void(0);">${i}</a>
+				                </li>
+				            </c:when>
+				            <c:otherwise>
+				                <c:choose>
+				                    
+				                    <c:when test="${pager.searchType != null && pager.boardKeyword != null}">
+				                        <li class="page-item">
+				                            <a class="page-link" href="${pageContext.request.contextPath}/center/boardSearch?type=${boardType}&searchType=${pager.searchType}&boardKeyword=${pager.boardKeyword}&pageNo=${i}">${i}</a>
+				                        </li>
+				                    </c:when>
+				                    <c:otherwise>
+				                        <li class="page-item">
+				                            <a class="page-link" href="${pageContext.request.contextPath}/center/list?type=${boardType}&pageNo=${i}">${i}</a>
+				                        </li>
+				                    </c:otherwise>
+				                </c:choose>
+				            </c:otherwise>
+				        </c:choose>
+				    </c:forEach>
+				
+				    <li class="page-item">
+				        <c:if test="${pager.groupNo < pager.totalGroupNo}">
+				            <a class="page-link" href="${pageContext.request.contextPath}/center/boardSearch?type=${boardType}&searchType=${pager.searchType}&boardKeyword=${pager.boardKeyword}&pageNo=${pager.endPageNo + 1}">&raquo;</a>
+				        </c:if>
+				        <c:if test="${pager.groupNo >= pager.totalGroupNo}">
+				            <a class="page-link" href="javascript:void(0);" >&raquo;</a>
+				        </c:if>
+				    </li>
+				</ul>
+				</c:if>
+				<c:if test="${boardAllCount == 0}">
+				<div class="text-center">
+				    <h1 class="text-danger ">검색 결과가 없습니다.</h1>
+				</div>    
+				</c:if>
             </div>
               <!-- 게시판 묶음 네비게이터 바 종료 -->
     		<sec:authorize access="hasRole('ROLE_ADMIN')">

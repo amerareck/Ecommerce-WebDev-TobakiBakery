@@ -22,6 +22,7 @@ public class Pager {
 	   // 검색 결과 페이징 처리
 	   private String searchType;
 	   private String keyword;
+	   private String boardKeyword;
 	   
 	   public Pager(int rowsPerPage, int pagesPerGroup, int totalRows, int pageNo) {
 	      this.rowsPerPage = rowsPerPage;
