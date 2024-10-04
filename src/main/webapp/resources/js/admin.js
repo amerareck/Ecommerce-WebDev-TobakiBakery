@@ -199,14 +199,13 @@ $('#orderUpdateSubmit').submit(function(event){
 
     // AJAX 요청 보내기
     $.ajax({
-        url: "updateOrderDetails",  // 수정할 URL을 설정합니다.
+        url: "updateOrderDetails", 
         type: "post",
         contentType: "application/json",
         data: JSON.stringify(updateData),
         success: function(data) {
             if (data.status === 'ok') {
             	showModal("주문 정보가 성공적으로 수정되었습니다.");
-                // 여기서 페이지 새로 고침이나 필요한 작업을 수행할 수 있습니다.
             } else {
             	showModal("주문 정보 수정에 실패했습니다.");
             }
@@ -393,7 +392,6 @@ $('.thumbnail-image-controller').on('change', '.thumbnail-image-file', function(
     }
 });
 
-var comfirmValue = false;
 $('#productDelete').on('click', function(event){
 	const list = [];
 	const removeTarget = [];
@@ -407,7 +405,7 @@ $('#productDelete').on('click', function(event){
 	});
 	console.log(list);
 	if(list.length == 0) {
-		showModal('삭제할 상품을 선택하여 주십시오.');
+		showModal('삭제할 상품을 선택하여 주십시오.'+str);
 		return;
 	}
 	
@@ -448,9 +446,10 @@ $('.orderUpdateSubmit').on('submit', function(event){
 	form.deliveryAddress = $('#deliveryAddress-'+orderNumber).val();
 	form.deliveryAddressDetail = $('#deliveryAddressDetail-'+orderNumber).val();
 	
-	const productId = $('.productList').eq(0).data('product-id');
+	let productId = $('.deliveryStatus').eq(0).closest('tr').data('product-id');
+	console.log(productId);
 	form.deliveryStatus = $('#deliveryStatus-'+productId).val();
-	
+	console.log('#deliveryStatus-'+productId);
 	console.log(form);
 	
 	$.ajax({

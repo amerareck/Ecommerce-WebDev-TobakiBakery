@@ -318,7 +318,7 @@
 											<div class="input-group d-flex justify-content-start w-100">
 												<input id="deliveryPostNum-${order.orderNumber}" class="form-control" value="${order.deliveryPostNum}" style="width: 10%;" disabled/>
 												<input id="deliveryAddress-${order.orderNumber}" class="form-control input-group-append" value="${order.deliveryAddress}" style="width: 50%;" disabled/>
-												<input id="deliveryAddressDetail-${order.orderNumber}" class="form-control input-group-append" value="${order.deliveryAddressDetail}" style="width: 20%;" required />
+												<input id="deliveryAddressDetail-${order.orderNumber}" class="form-control input-group-append" value="${order.deliveryAddressDetail}" style="width: 20%;" />
 												<div class="input-group-append">
 													<button class="btn btn-secondary callPostcodeAPI" type="button" id="postcodeButton-${order.orderNumber}" >주소검색</button>
 												</div>
@@ -353,7 +353,7 @@
 								</thead>
 								<tbody id="orderProductData">
 									<c:forEach items="${order.productList}" var="product" >
-										<tr class="text-center productList" data-product-id="${product.productId}" >
+										<tr class="text-center productList" data-product-id="${order.orderNumber}-${product.productId}" >
 											<td>
 												<div class="tb-center"><img src="../product/productImage?productId=${product.productId}&productUsecase=THUMBNAIL" style="width: 100px; height: 100px"></div>
 											</td>
@@ -368,7 +368,7 @@
 											</td>
 											<td>
 												<div class="d-flex justify-content-center">
-													<select class="form-control deliveryStatus" id="deliveryStatus-${product.productId}" style="width:60%;">
+													<select class="form-control deliveryStatus" id="deliveryStatus-${order.orderNumber}-${product.productId}" style="width:60%;">
 														<option value="DELIVERY_STAY" <c:if test="${order.deliveryStatus == 'DELIVERY_STAY'}">selected</c:if> >배송대기</option>
 														<option value="DELIVERY_ING" <c:if test="${order.deliveryStatus == 'DELIVERY_ING'}">selected</c:if> >배송중</option>
 														<option value="DELIVERY_COMPLETE" <c:if test="${order.deliveryStatus == 'DELIVERY_COMPLETE'}">selected</c:if> >배송완료</option>

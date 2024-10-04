@@ -155,9 +155,9 @@ public class OrderService {
 
 
 	public int getSearchOrderCount(String productName) {
-		Integer productId = productDAO.selectProductIdByProductName(productName);
-		if(productId != null) {
-			return orderProductDAO.searchOrderCountByProductId(productId);
+		List<Integer> productId = productDAO.selectProductIdByProductName(productName);
+		if(!productId.isEmpty()) {
+			return productId.size();
 		} else {
 			return 0;
 		}
@@ -173,16 +173,18 @@ public class OrderService {
 		List<OrderDTO> list = new ArrayList<>();
 		
 		if(pager.getSearchType().equals("productName")) {
-			Integer productId = productDAO.selectProductIdByProductName(pager.getKeyword());
-			if(productId != null) {
-				for(Integer orderNumber : orderProductDAO.searchOrderNumberByProductId(productId)) {
-					if(start > end || orderNumber == null) break;
-					
-					OrderDTO dto = orderDAO.searchOrderByOrderNumber(orderNumber);
-					if(dto == null) break;
-					
-					list.add(dto);
-					start++;
+			List<Integer> productId = productDAO.selectProductIdByProductName(pager.getKeyword());
+			if(!productId.isEmpty()) {
+				for(int id : productId) {
+					for(Integer orderNumber : orderProductDAO.searchOrderNumberByProductId(id)) {
+						if(start > end || orderNumber == null) break;
+						
+						OrderDTO dto = orderDAO.searchOrderByOrderNumber(orderNumber);
+						if(dto == null) break;
+						
+						list.add(dto);
+						start++;
+					}
 				}
 			}
 		} else if(pager.getSearchType().equals("orderNumber")) {

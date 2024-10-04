@@ -72,7 +72,7 @@ public interface ProductDAO {
 	public int updateBestProduct();
 	public void resetProductBest();
 	
-	public Integer selectProductIdByProductName(String productName);
+	public List<Integer> selectProductIdByProductName(String productName);
 	public Integer selectProductStock(int productId);
 
 	public int updateProductStock(ProductDTO dto);

@@ -322,6 +322,7 @@
 						product_best
 					FROM PRODUCT
 					ORDER BY 
+					    product_id DESC,
 						product_new DESC, 
 						product_best DESC, 
 						product_recom DESC)
