@@ -47,7 +47,7 @@
                         </p>
                         <c:if test="${board.imageNames != null}">
                         	<c:forEach items="${board.imageNames}" var="imageName" >
-                        		<p><img src="${pageContext.request.contextPath}/center/image?type=${boardType}&imageName=${imageName}&boardId=${board.boardId}" /></p>
+                        		<p><img src="${pageContext.request.contextPath}/center/image?type=${boardType}&imageName=${imageName}&boardId=${board.boardId}" class="my-3" style="max-width: 800px;" /></p>
                         	</c:forEach>
                         </c:if>
                     </div>

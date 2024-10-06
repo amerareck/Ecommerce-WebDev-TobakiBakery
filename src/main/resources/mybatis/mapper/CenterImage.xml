@@ -99,7 +99,7 @@
 		]]>
 	</select>
 	
-	<!-- <delete id="deleteImageFromNotice" parameterType="map" >
+	<delete id="deleteImageFromNotice" parameterType="map" >
 		<![CDATA[
 			DELETE FROM CENTER_IMAGE
 			WHERE
@@ -133,7 +133,7 @@
 			)
 		]]>
 	</insert>
-	
+	<!-- 
 	<select id="selectImagesByProductReviewId" parameterType="int" resultType="CenterImage">
         SELECT 
             image_original_name,
@@ -143,6 +143,7 @@
             CENTER_IMAGE
         WHERE 
             product_review_id = #{productReviewId}
-    </select> -->
+    </select>
+     -->
 
 </mapper>

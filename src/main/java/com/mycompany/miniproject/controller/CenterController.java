@@ -240,19 +240,26 @@ public class CenterController {
 	
 	@Secured("ROLE_USER")
 	@PostMapping("/removeBoard")
-	public void removeBoard(@RequestParam int boardIndex, String boardType, HttpServletResponse res) {
+	public void removeBoard(@RequestParam int boardIndex, String boardType, 
+			HttpServletResponse res, Authentication auth, RedirectAttributes redi) {
 		log.info("실행");
 		log.info("삭제할 게시판 인덱스: "+boardIndex);
 		// 삭제로직 호출
-		
-		boolean result = centerService.removeBoard(boardType, boardIndex);
-		
-		// json 결과 리턴
 		JSONObject json = new JSONObject();
-		if(result) {
-			json.put("status", "ok");
+		
+		HelpdeskDTO dto = centerService.getHelpdeskPostByBoardNum(boardIndex);
+		if(boardType.equals("helpdesk") && !auth.getName().equals(dto.getMemberId())) {
+			json.put("status", "no-authority");
+			json.put("message", "게시글 작성자만이 게시글 삭제가 가능합니다.");
 		} else {
-			json.put("statis", "fail");
+			boolean result = centerService.removeBoard(boardType, boardIndex);
+			
+			// json 결과 리턴
+			if(result) {
+				json.put("status", "ok");
+			} else {
+				json.put("statis", "fail");
+			}
 		}
 		
 		try(PrintWriter pw = res.getWriter()) {
@@ -343,6 +350,7 @@ public class CenterController {
 				redi.addFlashAttribute("isAlert", true);
 				redi.addFlashAttribute("alert", fieldError.getDefaultMessage());
 			}
+			return "redirect:/center/addBoard?type=notice";
 		}
 		// 유효성 검사 통과
 		NoticeDTO noticeDTO = new NoticeDTO();
@@ -383,6 +391,7 @@ public class CenterController {
 				redi.addFlashAttribute("isAlert", true);
 				redi.addFlashAttribute("alert", fieldError.getDefaultMessage());
 			}
+			return "redirect:/center/addBoard?type=helpdesk";
 		}
 		// 유효성 검사 통과
 		HelpdeskDTO dto = new HelpdeskDTO();
@@ -454,7 +463,7 @@ public class CenterController {
 	
 	@Secured("ROLE_USER")
 	@GetMapping("/update")
-	public String updateBoard(String type, String boardNum, Model model, Authentication auth) {
+	public String updateBoard(String type, String boardNum, Model model, RedirectAttributes redi,Authentication auth) {
 		log.info("실행");
 		if(type==null) return "redirect:/center/list?type=notice";
 		
@@ -476,6 +485,11 @@ public class CenterController {
 		} else if(type.equals("helpdesk")) {
 			HelpdeskDTO dto = new HelpdeskDTO();
 			dto = centerService.getHelpdeskPostByBoardNum(Integer.parseInt(boardNum));
+			if(!auth.getName().equals(dto.getMemberId())) {
+				redi.addFlashAttribute("isAlert", true);
+				redi.addFlashAttribute("alert", "게시글 작성자가 아니라면 수정할 수 없습니다.");
+				return "redirect:/center/detail?type=helpdesk&boardNum="+boardNum;
+			}
 			map.put("author", dto.getMemberId());
 			map.put("title", dto.getHelpdeskTitle());
 			map.put("content", dto.getHelpdeskContent());

@@ -209,6 +209,8 @@ $('#removeBoardBotton').click(function(){
 			} else if(data.status === 'fail') {
 				showModal('삭제 실패','이미 삭제된 게시글이거나, 게시글이 존재하지 않습니다.');
 				location.href='list';
+			} else if(data.status === 'no-authority') {
+				showModal('권한 없음', '게시글 작성자만이 게시글 삭제가 가능합니다.');
 			} else {
 				showModal('서버와의 연결에 문제가 발생하였습니다.');
 			}
