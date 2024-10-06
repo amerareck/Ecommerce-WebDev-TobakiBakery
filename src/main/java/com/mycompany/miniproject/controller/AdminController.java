@@ -268,6 +268,9 @@ public class AdminController {
 		model.addAttribute("orderList", searchList);
 		model.addAttribute("pager", pager);
 		model.addAttribute("isSearchPage", true);
+		model.addAttribute("postListTitle", "검색 목록 리스트");
+		model.addAttribute("searchProductCount", searchOrderCount);
+		model.addAttribute("listType", "order");
 		
 		return "admin/adminOrderList";
 	}
